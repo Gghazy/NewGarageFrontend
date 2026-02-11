@@ -1,0 +1,10 @@
+<div class="d-flex align-items-center">
+  <select
+    id="pageSize"
+    class="form-select form-select-sm text-center w-auto"
+    [(ngModel)]="pageSize"
+    (ngModelChange)="onPageSizeChange($event)"
+  >
+    <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+  </select>
+</div>

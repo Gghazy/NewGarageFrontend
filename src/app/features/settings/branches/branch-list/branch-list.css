@@ -1,0 +1,9 @@
+table {
+  th, td {
+    vertical-align: middle;
+  }
+}
+
+.badge {
+  font-weight: 500;
+}

@@ -1,0 +1,13 @@
+<nav aria-label="breadcrumb" class="small">
+  <ol class="breadcrumb mb-0">
+    <li class="breadcrumb-item">
+      <a routerLink="/">{{ 'BREADCRUMB.HOME' | translate }}</a>
+    </li>
+    <li *ngFor="let c of crumbs; let last = last"
+        class="breadcrumb-item"
+        [class.active]="last">
+      <a *ngIf="!last" [routerLink]="c.url">{{ c.label |translate}}</a>
+      <span *ngIf="last">{{ c.label |translate}}</span>
+    </li>
+  </ol>
+</nav>

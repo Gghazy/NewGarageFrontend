@@ -1,0 +1,39 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ title }}</h5>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body" [formGroup]="form">
+  <div class="mb-3">
+    <label class="form-label">{{ 'MECH_ISSUES.TABLE.NAME_AR' | translate }}</label>
+    <input class="form-control" formControlName="nameAr" />
+    <div class="text-danger small" *ngIf="form.get('nameAr')?.touched && form.get('nameAr')?.invalid">
+      {{ 'COMMON.REQUIRED' | translate }}
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">{{ 'MECH_ISSUES.TABLE.NAME_EN' | translate }}</label>
+    <input class="form-control" formControlName="nameEn" />
+    <div class="text-danger small" *ngIf="form.get('nameEn')?.touched && form.get('nameEn')?.invalid">
+      {{ 'COMMON.REQUIRED' | translate }}
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">{{ 'MECH_TYPE_ISSUES.TITLE' | translate }}</label>
+    <ng-select [items]="mechIssueTypes" [bindLabel]="'nameAr'" bindValue="id" formControlName="mechIssueTypeId" [searchable]="true"
+      [clearable]="true" [placeholder]="'COMMON.SELECT' | translate">
+    </ng-select>
+    <div class="text-danger small" *ngIf="form.get('mechIssueTypeId')?.touched && form.get('mechIssueTypeId')?.invalid">
+      {{ 'COMMON.REQUIRED' | translate }}
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-light" [disabled]="loading" (click)="activeModal.dismiss()">Cancel</button>
+  <button class="btn btn-primary" [disabled]="loading" (click)="submit()">
+    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+    {{ 'COMMON.SAVE' | translate }}
+  </button>
+</div>

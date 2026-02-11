@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ title }}</h5>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body" [formGroup]="form">
+
+  <div class="mb-3">
+    <label class="form-label">{{ 'SENSOR_ISSUES.FORM.CODE' | translate }}</label>
+    <input class="form-control" formControlName="code" />
+    <div class="text-danger small" *ngIf="isInvalid('code')">
+      {{ 'COMMON.REQUIRED' | translate }}
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">{{ 'SENSOR_ISSUES.FORM.NAME_AR' | translate }}</label>
+    <input class="form-control" formControlName="nameAr" />
+    <div class="text-danger small" *ngIf="isInvalid('nameAr')">
+      {{ 'COMMON.REQUIRED' | translate }}
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">{{ 'SENSOR_ISSUES.FORM.NAME_EN' | translate }}</label>
+    <input class="form-control" formControlName="nameEn" />
+    <div class="text-danger small" *ngIf="isInvalid('nameEn')">
+      {{ 'COMMON.REQUIRED' | translate }}
+    </div>
+  </div>
+
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-light" [disabled]="loading" (click)="activeModal.dismiss()">
+    {{ 'COMMON.CANCEL' | translate }}
+  </button>
+
+  <button class="btn btn-primary" [disabled]="loading || form.invalid" (click)="submit()">
+    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+    {{ 'COMMON.SAVE' | translate }}
+  </button>
+</div>

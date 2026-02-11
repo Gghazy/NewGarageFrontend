@@ -1,0 +1,81 @@
+<nav class="navbar navbar-expand-lg topbar px-3"
+     [attr.dir]="lang === 'ar' ? 'rtl' : 'ltr'">
+
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#garageNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="garageNavbar">
+
+    <ul class="navbar-nav mb-2 mb-lg-0">
+
+      <!-- Settings -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+          <i class="bi bi-gear me-1"></i> {{ 'MENU.SETTINGS' | translate }}
+        </a>
+
+        <ul class="dropdown-menu" [class.dropdown-menu-end]="lang !== 'ar'">
+          <li>
+            <a class="dropdown-item" routerLink="/features/settings/branches">
+              {{ 'MENU.BRANCHES' | translate }}
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Examination -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+          <i class="bi bi-clipboard-check me-1"></i> {{ 'MENU.EXAMINATION_MANAGEMENT' | translate }}
+        </a>
+
+        <ul class="dropdown-menu" [class.dropdown-menu-end]="lang !== 'ar'">
+          <li><a class="dropdown-item" routerLink="/features/examination-management/sensor-issues">
+            {{ 'MENU.SENSOR_ISSUES' | translate }}</a></li>
+          <li><a class="dropdown-item" routerLink="/features/examination-management/mech-issues">
+            {{ 'MENU.MECH_ISSUES' | translate }}</a></li>
+          <li><a class="dropdown-item" routerLink="/features/examination-management/mech-type-issues">
+            {{ 'MENU.MECH_TYPE_ISSUES' | translate }}</a></li>
+          <li><a class="dropdown-item" routerLink="/features/examination-management/interior-issues">
+            {{ 'MENU.INTERIOR_ISSUES' | translate }}</a></li>
+          <li><a class="dropdown-item" routerLink="/features/examination-management/interior-body-issues">
+            {{ 'MENU.INTERIOR_BODY_ISSUES' | translate }}</a></li>
+          <li><a class="dropdown-item" routerLink="/features/examination-management/exterior-body-issues">
+            {{ 'MENU.EXTERIOR_BODY_ISSUES' | translate }}</a></li>
+          <li><a class="dropdown-item" routerLink="/features/examination-management/accessory-issues">
+            {{ 'MENU.ACCESSORY_ISSUES' | translate }}</a></li>
+          <li><a class="dropdown-item" routerLink="/features/examination-management/road-test-issues">
+            {{ 'MENU.ROAD_TEST_ISSUES' | translate }}</a></li>
+        </ul>
+      </li>
+
+    </ul>
+
+    <!-- RIGHT/LEFT SIDE (User + Lang) -->
+    <div class="d-flex align-items-center gap-2"
+         [class.me-auto]="lang === 'ar'"
+         [class.ms-auto]="lang !== 'ar'">
+
+      <button type="button" class="btn btn-outline-light btn-sm" (click)="toggleLang()">
+        {{ lang === 'ar' ? 'EN' : 'AR' }}
+      </button>
+
+      <div class="dropdown">
+        <button class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown">
+          <i class="bi bi-person-circle me-1"></i> Ahmed
+        </button>
+
+        <ul class="dropdown-menu"
+            [class.dropdown-menu-start]="lang === 'ar'"
+            [class.dropdown-menu-end]="lang !== 'ar'">
+          <li><a class="dropdown-item" routerLink="/profile">{{ 'MENU.PROFILE' | translate }}</a></li>
+          <li><hr class="dropdown-divider" /></li>
+          <li><button class="dropdown-item text-danger" (click)="logout()">{{ 'MENU.LOGOUT' | translate }}</button></li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+</nav>

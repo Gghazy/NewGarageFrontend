@@ -1,0 +1,24 @@
+.topbar{
+  background:#1f7a8c;
+  min-height:56px;
+}
+
+.navbar-nav{
+  gap: 6px;
+}
+
+.dropdown-menu{
+  border-radius:10px;
+}
+.navbar-nav {
+  gap: 0 !important;
+}
+
+.nav-item {
+  margin: 0 6px !important;
+}
+
+.nav-link {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}

@@ -1,0 +1,83 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h5 class="mb-0">{{ 'SENSOR_ISSUES.TITLE' | translate }}</h5>
+
+  <button
+    class="btn btn-primary btn-sm"
+    *ngIf="authService.hasPermission('sensorIssue.create')"
+    (click)="openAdd()">
+    <i class="bi bi-plus-lg"></i>
+    {{ 'SENSOR_ISSUES.ADD' | translate }}
+  </button>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <app-page-size [(pageSize)]="pagingConfig.itemsPerPage" (search)="search()"></app-page-size>
+
+  <div class="input-group" style="max-width: 340px;">
+    <input
+      class="form-control"
+      [(ngModel)]="searchTerm"
+      (keyup.enter)="search()"
+      [placeholder]="'SENSOR_ISSUES.SEARCH_PLACEHOLDER' | translate" />
+    <button class="btn btn-outline-secondary" (click)="search()">
+      {{ 'COMMON.SEARCH' | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="card-body p-0">
+
+    <table class="table table-hover mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>{{ 'SENSOR_ISSUES.TABLE.NO' | translate }}</th>
+          <th>{{ 'SENSOR_ISSUES.TABLE.NAME_AR' | translate }}</th>
+          <th>{{ 'SENSOR_ISSUES.TABLE.NAME_EN' | translate }}</th>
+          <th>{{ 'SENSOR_ISSUES.TABLE.CODE' | translate }}</th>
+          <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of items | paginate: pagingConfig; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.nameAr }}</td>
+          <td>{{ item.nameEn }}</td>
+          <td>{{ item.code }}</td>
+
+          <td class="text-end">
+            <button
+              class="btn btn-sm btn-outline-primary me-1"
+              *ngIf="authService.hasPermission('sensorIssue.update')"
+              (click)="openEdit(item)">
+              {{ 'COMMON.EDIT' | translate }}
+            </button>
+
+            <button
+              class="btn btn-sm btn-outline-danger"
+              *ngIf="authService.hasPermission('sensorIssue.delete')"
+              (click)="confirmDelete(item)">
+              {{ 'COMMON.DELETE' | translate }}
+            </button>
+          </td>
+        </tr>
+
+        <tr *ngIf="items.length === 0">
+          <td colspan="5" class="text-center text-muted py-4">
+            {{ 'SENSOR_ISSUES.EMPTY' | translate }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-end p-3">
+      <pagination-controls
+        (pageChange)="pagingConfig.currentPage = $event; load();"
+        [previousLabel]="'PAGINATION.PREVIOUS' | translate"
+        [nextLabel]="'PAGINATION.NEXT' | translate"
+        >
+      </pagination-controls>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<app-shared-list
+  [titleKey]="'BRANCH.TITLE'"
+  [addLabelKey]="'BRANCH.ADD'"
+  [canAdd]="authService.hasPermission('branches.create')"
+  (addClicked)="openAddBranch()"
+  [pagingConfig]="pagingConfig"
+  (pageSizeSearch)="search()"
+  [items]="branches"
+  [emptyText]="'No branches found'"
+  (pageChanged)="pagingConfig.currentPage = $event; loadBranches();"
+>
+  <!-- header -->
+  <ng-container table-header>
+    <th>{{ 'BRANCH.TABLE.NO' | translate }}</th>
+    <th>{{ 'BRANCH.TABLE.NAME_AR' | translate }}</th>
+    <th>{{ 'BRANCH.TABLE.NAME_EN' | translate }}</th>
+    <th>{{ 'COMMON.STATUS' | translate }}</th>
+    <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
+  </ng-container>
+
+  <!-- body -->
+  <ng-container table-body>
+    <tr *ngFor="let branch of branches | paginate: pagingConfig; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ branch.nameAr }}</td>
+      <td>{{ branch.nameEn }}</td>
+      <td>
+        <span class="badge" [ngClass]="branch.isActive ? 'bg-success' : 'bg-secondary'">
+          {{ branch.isActive ? ('COMMON.ACTIVE' | translate) : ('COMMON.INACTIVE' | translate) }}
+        </span>
+      </td>
+      <td class="text-end">
+        <button
+          class="btn btn-sm btn-outline-primary me-1"
+          *ngIf="authService.hasPermission('branches.update')"
+          (click)="openEditBranch(branch)">
+          {{ 'COMMON.EDIT' | translate }}
+        </button>
+      </td>
+    </tr>
+  </ng-container>
+</app-shared-list>

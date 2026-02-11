@@ -1,0 +1,301 @@
+{
+  "APP": {
+    "TITLE": "Garage",
+    "NAV": {
+      "LOGIN": "Login",
+      "FEATURES": "Features"
+    }
+  },
+  "LOGIN": {
+    "TITLE": "Login",
+    "USERNAME": "Username",
+    "PASSWORD": "Password",
+    "SUBMIT": "Login (Mock)"
+  },
+  "FEATURES": {
+    "TITLE": "Features",
+    "WELCOME": "Welcome! You are logged in."
+  },
+  "MENU": {
+    "GARAGE": "Garage",
+    "SETTINGS": "Settings",
+    "BRANCHES": "Branches",
+    "EXAMINATION_MANAGEMENT": "Examination Management",
+    "USERS": "Users",
+    "ROLES": "Roles",
+    "PERMISSIONS": "Permissions",
+    "LOGS": "Logs",
+    "PROFILE": "Profile",
+    "LOGOUT": "Logout",
+    "MECH_ISSUES": "Mechanical Issues",
+    "MECH_TYPE_ISSUES": "Mechanical Issue Types",
+    "SENSOR_ISSUES": "Sensor Issues",
+    "INTERIOR_ISSUES": "Interior Issues",
+    "INTERIOR_BODY_ISSUES": "Interior Body Issues",
+    "EXTERIOR_BODY_ISSUES": "Exterior Body Issues",
+    "ACCESSORY_ISSUES": "Accessory Issues"
+  },
+  "BREADCRUMB": {
+    "HOME": "Home",
+    "BRANCHES": "Branches",
+    "SENSOR_ISSUES": "Sensor Issues",
+    "MECH_ISSUES": "Mechanical Issues",
+    "MECH_TYPE_ISSUES": "Mechanical Issue Types",
+    "INTERIOR_ISSUES": "Interior Issues",
+    "INTERIOR_BODY_ISSUES": "Interior Body Issues",
+    "EXTERIOR_BODY_ISSUES": "Exterior Body Issues",
+    "ACCESSORY_ISSUES": "Accessory Issues"
+  },
+  "COMMON": {
+    "ACTIONS": "Actions",
+    "STATUS": "Status",
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "ADD": "Add",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "CLOSE": "Close",
+    "SEARCH": "Search",
+    "LOADING": "Loading...",
+    "NO_DATA": "No data to display",
+    "REQUIRED": "Required"
+  },
+  "PAGINATION": {
+    "PREVIOUS": "Previous",
+    "NEXT": "Next"
+  },
+  "CONFIRM": {
+    "DELETE_TITLE": "Confirm Delete",
+    "DELETE_MESSAGE": "Are you sure you want to delete?",
+    "YES": "Yes",
+    "NO": "No"
+  },
+  "BRANCH": {
+    "TITLE": "Branches",
+    "ADD": "Add Branch",
+    "EDIT": "Edit Branch",
+    "TABLE": {
+      "NO": "#",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)"
+    },
+    "TOAST": {
+      "CREATED": "Branch created successfully.",
+      "UPDATED": "Branch updated successfully.",
+      "DELETED": "Branch deleted successfully.",
+      "EXISTS": "Branch code already exists."
+    }
+  },
+  "SENSOR_ISSUES": {
+    "TITLE": "Trouble Codes List",
+    "NAME": "Sensor Issues",
+    "ADD": "Add Trouble Code",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "CODE": "Trouble Code",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Code already exists."
+    },
+    "FORM": {
+      "TITLE_ADD": "Add Trouble Code",
+      "TITLE_EDIT": "Edit Trouble Code",
+      "CODE": "Trouble Code",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)"
+    }
+  },
+  "MECH_ISSUES": {
+    "TITLE": "Mechanical Issues Types",
+    "NAME": "Mechanical Issues Types",
+    "ADD": "Add New Issue",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "FORM": {
+      "TITLE_ADD": "Add Mechanical Issue",
+      "TITLE_EDIT": "Edit Mechanical Issue",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)"
+    },
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Name already exists."
+    }
+  },
+  "MECH_TYPE_ISSUES": {
+    "TITLE": "Mechanical Issue Types",
+    "NAME": "Mechanical Issue Types",
+    "ADD": "Add New Issue Type",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "FORM": {
+      "TITLE_ADD": "Add Mechanical Issue Type",
+      "TITLE_EDIT": "Edit Mechanical Issue Type",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)"
+    },
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Name already exists."
+    }
+  },
+  "INTERIOR_ISSUES": {
+    "TITLE": "Interior Issues Types",
+    "NAME": "Interior Issues Types",
+    "ADD": "Add New Issue",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "FORM": {
+      "TITLE_ADD": "Add Interior Issue",
+      "TITLE_EDIT": "Edit Interior Issue",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)"
+    },
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Name already exists."
+    }
+  },
+  "INTERIOR_BODY_ISSUES": {
+    "TITLE": "Interior Body Issues Types",
+    "NAME": "Interior Body Issues Types",
+    "ADD": "Add New Issue",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "FORM": {
+      "TITLE_ADD": "Add Interior Body Issue",
+      "TITLE_EDIT": "Edit Interior Body Issue",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)"
+    },
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Name already exists."
+    }
+  },
+  "EXTERIOR_BODY_ISSUES": {
+    "TITLE": "Exterior Body Issues Types",
+    "NAME": "Exterior Body Issues Types",
+    "ADD": "Add New Issue",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "FORM": {
+      "TITLE_ADD": "Add Exterior Body Issue",
+      "TITLE_EDIT": "Edit Exterior Body Issue",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)"
+    },
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Name already exists."
+    }
+  },
+  "ACCESSORY_ISSUES": {
+    "TITLE": "Accessory Issues Types",
+    "NAME": "Accessory Issues Types",
+    "ADD": "Add New Issue",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "FORM": {
+      "TITLE_ADD": "Add Accessory Issue",
+      "TITLE_EDIT": "Edit Accessory Issue",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)"
+    },
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Name already exists."
+    }
+  },
+  "ROAD_TEST_ISSUES": {
+    "TITLE": "Road Test Issues Types",
+    "NAME": "Road Test Issues Types",
+    "ADD": "Add New Issue",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "FORM": {
+      "TITLE_ADD": "Add Road Test Issue",
+      "TITLE_EDIT": "Edit Road Test Issue",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)"
+    },
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Name already exists."
+    }
+  }
+}

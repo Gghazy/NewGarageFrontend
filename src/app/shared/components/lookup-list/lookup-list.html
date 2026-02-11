@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h5 class="mb-0">{{ config.titleKey | translate }}</h5>
+
+  <button class="btn btn-primary btn-sm"
+          *ngIf="authService.hasPermission(config.permCreate)"
+          (click)="openAdd()">
+    <i class="bi bi-plus-lg"></i>
+    {{ 'COMMON.ADD' | translate }}
+  </button>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <app-page-size [(pageSize)]="pagingConfig.itemsPerPage" (search)="search()"></app-page-size>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>{{ config.nameArKey | translate }}</th>
+          <th>{{ config.nameEnKey | translate }}</th>
+          <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let row of items | paginate: pagingConfig; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ row.nameAr }}</td>
+          <td>{{ row.nameEn }}</td>
+          <td class="text-end">
+            <button class="btn btn-sm btn-outline-primary me-1"
+                    *ngIf="authService.hasPermission(config.permUpdate)"
+                    (click)="openEdit(row)">
+              {{ 'COMMON.EDIT' | translate }}
+            </button>
+          </td>
+        </tr>
+
+        <tr *ngIf="items.length === 0">
+          <td colspan="5" class="text-center text-muted py-4">No data found</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-end p-3">
+      <pagination-controls
+        (pageChange)="pagingConfig.currentPage = $event; load()"
+        [previousLabel]="'PAGINATION.PREVIOUS' | translate"
+        [nextLabel]="'PAGINATION.NEXT' | translate"
+        [maxSize]="5"></pagination-controls>
+    </div>
+  </div>
+</div>

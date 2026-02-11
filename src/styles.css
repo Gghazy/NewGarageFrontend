@@ -1,0 +1,47 @@
+/* Global styles */
+@import "@ng-select/ng-select/themes/default.theme.css";
+@import 'ngx-toastr/toastr';
+:root {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #f6f7fb;
+}
+.toast-container {
+  z-index: 999999 !important;
+}
+
+body.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+body.ltr {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Breadcrumb RTL fix */
+[dir="rtl"] .breadcrumb {
+  direction: rtl;
+}
+
+[dir="rtl"] .breadcrumb-item + .breadcrumb-item::before {
+  float: right;
+  padding-right: 0;
+  padding-left: .5rem;
+  content: "/";
+}
+
+/* optional: لو عايز المسافة تبقى مظبوطة */
+[dir="rtl"] .breadcrumb-item {
+  text-align: right;
+}
+
+

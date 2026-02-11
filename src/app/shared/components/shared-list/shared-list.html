@@ -1,0 +1,53 @@
+<!-- Title + Add -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h5 class="mb-0">{{ titleKey | translate }}</h5>
+
+  <button
+    class="btn btn-primary btn-sm"
+    *ngIf="canAdd && addLabelKey"
+    (click)="addClicked.emit()">
+    <i class="bi bi-plus-lg me-1"></i>
+    {{ addLabelKey | translate }}
+  </button>
+</div>
+
+<!-- Page Size -->
+<div class="d-flex justify-content-between align-items-center mb-3" *ngIf="showPageSize">
+  <app-page-size
+    [(pageSize)]="pagingConfig.itemsPerPage"
+    (search)="pageSizeSearch.emit()">
+  </app-page-size>
+</div>
+
+<!-- Card + Table -->
+<div class="card border-0 shadow-sm">
+  <div class="card-body p-0">
+
+    <table class="table table-hover mb-0">
+      <thead class="table-light">
+        <tr>
+          <ng-content select="[table-header]"></ng-content>
+        </tr>
+      </thead>
+
+      <tbody>
+        <ng-content select="[table-body]"></ng-content>
+
+        <tr *ngIf="(items?.length ?? 0) === 0">
+          <td [attr.colspan]="99" class="text-center text-muted py-4">
+            {{ emptyText }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-end p-3">
+      <pagination-controls
+        (pageChange)="pageChanged.emit($event)"
+        [previousLabel]="prevKey | translate"
+        [nextLabel]="nextKey | translate"
+        [maxSize]="maxSize">
+      </pagination-controls>
+    </div>
+  </div>
+</div>
