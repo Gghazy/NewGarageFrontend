@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ExteriorBodyIssueList } from './exterior-body-issue-list/exterior-body-issue-list';
+import { ServicePriceList } from './service-price-list/service-price-list';
 import { permissionGuard } from 'src/app/core/guards/permission.guard';
 
 const routes: Routes = [
   {
     path: '',
-    component: ExteriorBodyIssueList,
+    component: ServicePriceList,
     canActivate: [permissionGuard],
     data: {
-      breadcrumb: 'BREADCRUMB.EXTERIOR_BODY_ISSUES',
-      permissions: ['exteriorBodyIssue.read'],
+      breadcrumb: 'BREADCRUMB.SERVICE_PRICE',
+      permissions: ['servicePrice.read'],
       permissionMode: 'any'
     }
 
@@ -21,4 +21,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ExteriorBodyIssueRoutingModule { }
+export class ServicePriceRoutingModule { }

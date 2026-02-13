@@ -1,24 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ExteriorBodyIssueList } from './exterior-body-issue-list/exterior-body-issue-list';
 import { permissionGuard } from 'src/app/core/guards/permission.guard';
+import { ManufacturerList } from './manufacturer-list/manufacturer-list';
 
 const routes: Routes = [
   {
     path: '',
-    component: ExteriorBodyIssueList,
+    component: ManufacturerList,
     canActivate: [permissionGuard],
     data: {
-      breadcrumb: 'BREADCRUMB.EXTERIOR_BODY_ISSUES',
-      permissions: ['exteriorBodyIssue.read'],
+      breadcrumb: 'BREADCRUMB.MANUFACTURERS',
+      permissions: ['manufacturer.read'],
       permissionMode: 'any'
     }
 
-  },
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ExteriorBodyIssueRoutingModule { }
+export class ManufacturerRoutingModule { }

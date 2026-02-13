@@ -1,0 +1,36 @@
+<app-shared-list
+  [titleKey]="'SERVICE.TITLE'"
+  [addLabelKey]="'SERVICE.ADD'"
+  [canAdd]="authService.hasPermission('service.create')"
+  (addClicked)="openAddService()"
+  [pagingConfig]="pagingConfig"
+  (pageSizeSearch)="search()"
+  [items]="services"
+  [emptyText]="'No services found'"
+  (pageChanged)="pagingConfig.currentPage = $event; loadServices();"
+>
+  <!-- header -->
+  <ng-container table-header>
+    <th>{{ 'SERVICE.TABLE.NO' | translate }}</th>
+    <th>{{ 'SERVICE.TABLE.NAME_AR' | translate }}</th>
+    <th>{{ 'SERVICE.TABLE.NAME_EN' | translate }}</th>
+    <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
+  </ng-container>
+
+  <!-- body -->
+  <ng-container table-body>
+    <tr *ngFor="let service of services | paginate: pagingConfig; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ service.nameAr }}</td>
+      <td>{{ service.nameEn }}</td>
+      <td class="text-end">
+        <button
+          class="btn btn-sm btn-outline-primary me-1"
+          *ngIf="authService.hasPermission('service.update')"
+          (click)="openEditService(service)">
+          {{ 'COMMON.EDIT' | translate }}
+        </button>
+      </td>
+    </tr>
+  </ng-container>
+</app-shared-list>

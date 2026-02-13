@@ -1,0 +1,97 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+
+          <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+
+            <!-- Row 1 -->
+            <div class="row">
+              <div class="form-group col-6">
+                <label for="termsAndCondtionsAr">{{ 'TERMS.FORM.TERMS_AND_CONDITIONS_AR' | translate }}</label>
+
+                <textarea
+                  id="termsAndCondtionsAr"
+                  class="form-control w-100"
+                  formControlName="termsAndCondtionsAr"
+                  [class.is-invalid]="isInvalid('termsAndCondtionsAr')"
+                  style="height: 100vh; resize: none;"
+                ></textarea>
+
+                <div *ngIf="isInvalid('termsAndCondtionsAr')" class="text-danger">
+                  <span *ngIf="form.controls.termsAndCondtionsAr.errors?.['required']">
+                    {{ 'BASE.IS_REQUIRED' | translate }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group col-6">
+                <label for="termsAndCondtionsEn">{{ 'TERMS.FORM.TERMS_AND_CONDITIONS_EN' | translate }}</label>
+
+                <textarea
+                  id="termsAndCondtionsEn"
+                  class="form-control w-100"
+                  formControlName="termsAndCondtionsEn"
+                  [class.is-invalid]="isInvalid('termsAndCondtionsEn')"
+                  style="height: 100vh; resize: none;"
+                ></textarea>
+
+                <div *ngIf="isInvalid('termsAndCondtionsEn')" class="text-danger">
+                  <span *ngIf="form.controls.termsAndCondtionsEn.errors?.['required']">
+                    {{ 'BASE.IS_REQUIRED' | translate }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="row mt-5">
+              <div class="form-group col-6">
+                <label for="cancelWarrantyDocumentAr">{{ 'TERMS.FORM.CANCEL_WARRANT_DOCUMENT_AR' | translate }}</label>
+
+                <textarea
+                  id="cancelWarrantyDocumentAr"
+                  class="form-control w-100"
+                  formControlName="cancelWarrantyDocumentAr"
+                  [class.is-invalid]="isInvalid('cancelWarrantyDocumentAr')"
+                  style="height: 100vh; resize: none;"
+                ></textarea>
+
+                <div *ngIf="isInvalid('cancelWarrantyDocumentAr')" class="text-danger">
+                  <span *ngIf="form.controls.cancelWarrantyDocumentAr.errors?.['required']">
+                    {{ 'BASE.IS_REQUIRED' | translate }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group col-6">
+                <label for="cancelWarrantyDocumentEn">{{ 'TERMS.FORM.CANCEL_WARRANT_DOCUMENT_EN' | translate }}</label>
+
+                <textarea
+                  id="cancelWarrantyDocumentEn"
+                  class="form-control w-100"
+                  formControlName="cancelWarrantyDocumentEn"
+                  [class.is-invalid]="isInvalid('cancelWarrantyDocumentEn')"
+                  style="height: 100vh; resize: none;"
+                ></textarea>
+
+                <div *ngIf="isInvalid('cancelWarrantyDocumentEn')" class="text-danger">
+                  <span *ngIf="form.controls.cancelWarrantyDocumentEn.errors?.['required']">
+                    {{ 'BASE.IS_REQUIRED' | translate }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-5" [disabled]="form.invalid">
+              {{ 'COMMON.SAVE' | translate }}
+            </button>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

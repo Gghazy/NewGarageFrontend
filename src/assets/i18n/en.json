@@ -33,7 +33,15 @@
     "INTERIOR_ISSUES": "Interior Issues",
     "INTERIOR_BODY_ISSUES": "Interior Body Issues",
     "EXTERIOR_BODY_ISSUES": "Exterior Body Issues",
-    "ACCESSORY_ISSUES": "Accessory Issues"
+    "ACCESSORY_ISSUES": "Accessory Issues",
+    "ROAD_TEST_ISSUES": "Road Test Issues",
+    "INSIDE_AND_DECOR_PART": "Inside and Decor Part",
+    "CAR_MARKS": "Car Marks",
+    "MANUFACTURERS": "Manufacturers",
+    "SERVICES": "Services",
+    "CRANES": "Cranes",
+    "SERVICE_PRICES": "Service Prices",
+    "TERMS": "Terms and Conditions"
   },
   "BREADCRUMB": {
     "HOME": "Home",
@@ -44,7 +52,15 @@
     "INTERIOR_ISSUES": "Interior Issues",
     "INTERIOR_BODY_ISSUES": "Interior Body Issues",
     "EXTERIOR_BODY_ISSUES": "Exterior Body Issues",
-    "ACCESSORY_ISSUES": "Accessory Issues"
+    "ACCESSORY_ISSUES": "Accessory Issues",
+    "ROAD_TEST_ISSUES": "Road Test Issues",
+    "INSIDE_AND_DECOR_PART": "Inside and Decor Part",
+    "CAR_MARKS": "Car Marks",
+    "MANUFACTURERS": "Manufacturers",
+    "SERVICE": "Services",
+    "CRANES": "Cranes",
+    "SERVICE_PRICES": "Service Prices",
+    "TERMS": "Terms and Conditions"
   },
   "COMMON": {
     "ACTIONS": "Actions",
@@ -60,7 +76,9 @@
     "SEARCH": "Search",
     "LOADING": "Loading...",
     "NO_DATA": "No data to display",
-    "REQUIRED": "Required"
+    "REQUIRED": "Required",
+    "ERROR": "An error occurred. Please try again.",
+    "SELECT_PLACEHOLDER": "Please select"
   },
   "PAGINATION": {
     "PREVIOUS": "Previous",
@@ -296,6 +314,212 @@
       "UPDATED": "Updated successfully.",
       "DELETED": "Deleted successfully.",
       "EXISTS": "Name already exists."
+    }
+  },
+  "INSIDE_AND_DECOR_PART": {
+    "TITLE": "Inside and Decor Part Issues Types",
+    "NAME": "Inside and Decor Part Issues Types",
+    "ADD": "Add New Issue",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "FORM": {
+      "TITLE_ADD": "Add Inside and Decor Part Issue",
+      "TITLE_EDIT": "Edit Inside and Decor Part Issue",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)"
+    },
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Name already exists."
+    }
+  },
+  "CAR_MARKS": {
+    "TITLE": "Car Marks",
+    "NAME": "Car Marks",
+    "ADD": "Add New Car Mark",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "FORM": {
+      "TITLE_ADD": "Add Car Mark",
+      "TITLE_EDIT": "Edit Car Mark",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)"
+    },
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Name already exists."
+    }
+  },
+  "MANUFACTURERS": {
+    "TITLE": "Manufacturers",
+    "NAME": "Manufacturers",
+    "ADD": "Add New Manufacturer",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "FORM": {
+      "TITLE_ADD": "Add Manufacturer",
+      "TITLE_EDIT": "Edit Manufacturer",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)"
+    },
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Name already exists."
+    }
+  },
+  "SERVICE": {
+    "TITLE": "Services",
+    "NAME": "Services",
+    "ADD": "Add New Service",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "STAGES": "Stages",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "FORM": {
+      "TITLE_ADD": "Add Service",
+      "TITLE_EDIT": "Edit Service",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "STAGES": {
+        "LABEL": "Stages",
+        "PLACEHOLDER": "Enter stages separated by commas"
+      }
+    },
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Name already exists."
+    }
+  },
+  "CRANES": {
+    "TITLE": "Cranes",
+    "NAME": "Cranes",
+    "ADD": "Add New Crane",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "FORM": {
+      "TITLE_ADD": "Add Crane",
+      "TITLE_EDIT": "Edit Crane",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)"
+    },
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Name already exists."
+    }
+  },
+  "SERVICE_PRICES": {
+    "TITLE": "Service Prices",
+    "NAME": "Service Prices",
+    "ADD": "Add New Service Price",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "SERVICE_NAME": "Service Name",
+      "PRICE": "Price",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "FORM": {
+      "TITLE_ADD": "Add Service Price",
+      "TITLE_EDIT": "Edit Service Price",
+      "SERVICE_ID": {
+        "LABEL": "Service",
+        "PLACEHOLDER": "Select a service"
+      },
+      "PRICE": {
+        "LABEL": "Price",
+        "PLACEHOLDER": "Enter price"
+      }
+    },
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Price for this service already exists."
+    }
+  },
+  "TERMS": {
+    "TITLE": "Terms and Conditions",
+    "NAME": "Terms and Conditions",
+    "ADD": "Add New Term",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "DESCRIPTION_AR": "Description (AR)",
+      "DESCRIPTION_EN": "Description (EN)",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "FORM": {
+      "TITLE_ADD": "Add Term",
+      "TITLE_EDIT": "Edit Term",
+      "CANCEL_WARRANT_DOCUMENT_EN":"Cancel Warranty Document (EN)",
+      "CANCEL_WARRANT_DOCUMENT_AR":"Cancel Warranty Document (AR)",
+      "TERMS_AND_CONDITIONS_AR":"Terms and Conditions (AR)",
+      "TERMS_AND_CONDITIONS_EN":"Terms and Conditions (EN)",
+
+      "DESCRIPTION_AR": {
+        "LABEL": "Description (AR)",
+        "PLACEHOLDER": "Enter description in Arabic"
+      },
+      "DESCRIPTION_EN": {
+        "LABEL": "Description (EN)",
+        "PLACEHOLDER": "Enter description in English"
+      }
+    },
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Term name already exists."
     }
   }
 }

@@ -47,6 +47,11 @@ const routes: Routes = [
         path: 'mech-type-issues',
         loadChildren: () =>
           import('./mech-type-issue/mech-type-issue-module').then(m => m.MechTypeIssueModule),
+      },
+      {
+        path: 'inside-and-decor-parts',
+        loadChildren: () =>
+          import('./inside-and-decor-part/inside-and-decor-part-module').then(m => m.InsideAndDecorPartModule),
       }
 
     ]

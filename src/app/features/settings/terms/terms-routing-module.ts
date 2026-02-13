@@ -1,23 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { permissionGuard } from 'src/app/core/guards/permission.guard';
-import { RoadTestIssueList } from './road-test-issue-list/road-test-issue-list';
+import { TemrForm } from './temr-form/temr-form';
 
 const routes: Routes = [
-     {
+    {
       path: '',
-      component: RoadTestIssueList,
+      component: TemrForm,
       canActivate: [permissionGuard],
       data: {
-        breadcrumb: 'BREADCRUMB.ROAD_TEST_ISSUES', 
-        permissions: ['roadTestIssue.read'],
+        breadcrumb: 'BREADCRUMB.TERMS',
+        permissions: ['term.create'],
         permissionMode: 'any'
       }
-    }
+  
+    },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class RoadTestIssueRoutingModule { }
+export class TermsRoutingModule { }

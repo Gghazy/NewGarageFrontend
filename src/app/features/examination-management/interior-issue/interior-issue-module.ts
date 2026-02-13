@@ -9,7 +9,7 @@ import { SharedModule } from 'src/app/shared/shared-module';
   declarations: [InteriorIssueList],
   imports: [
     CommonModule,
-    InteriorIssueRoutingModule,
+    InteriorIssueRoutingModule, 
     SharedModule
   ]
 })
