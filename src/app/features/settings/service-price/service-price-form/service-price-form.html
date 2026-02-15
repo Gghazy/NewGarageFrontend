@@ -1,1 +1,65 @@
-<p>service-price-form works!</p>
+<div class="modal-header">
+  <h5 class="modal-title">{{ title }}</h5>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body" [formGroup]="form">
+  <div class="mb-3">
+    <label class="form-label">{{ 'SERVICE_PRICE.FORM.SERVICE' | translate }}</label>
+    <ng-select [items]="services" [bindLabel]="'nameAr'" bindValue="id" formControlName="serviceId" [searchable]="true"
+      [multiple]="false" [clearable]="true" [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate">
+    </ng-select>
+    <div class="text-danger small" *ngIf="form.get('serviceId')?.touched && form.get('serviceId')?.invalid">
+      {{ 'COMMON.REQUIRED' | translate }}
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">{{ 'SERVICE_PRICE.FORM.MARK' | translate }}</label>
+    <ng-select [items]="marks" [bindLabel]="'nameAr'" bindValue="id" formControlName="markId" [searchable]="true"
+      [multiple]="false" [clearable]="true" [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate">
+    </ng-select>
+    <div class="text-danger small" *ngIf="form.get('markId')?.touched && form.get('markId')?.invalid">
+      {{ 'COMMON.REQUIRED' | translate }}
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <div class="row">
+      <div class="col-md-6">
+        <label class="form-label">{{ 'SERVICE_PRICE.FORM.FROM_YEAR' | translate }}</label>
+
+        <input type="number" class="form-control" formControlName="fromYear"
+          placeholder="{{ 'SERVICE_PRICE.FORM.FROM_YEAR_PLACEHOLDER' | translate }}" />
+        <div class="text-danger small" *ngIf="form.get('fromYear')?.touched && form.get('fromYear')?.invalid">
+          {{ 'COMMON.REQUIRED' | translate }}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{{ 'SERVICE_PRICE.FORM.TO_YEAR' | translate }}</label>
+
+        <input type="number" class="form-control" formControlName="toYear"
+          placeholder="{{ 'SERVICE_PRICE.FORM.TO_YEAR_PLACEHOLDER' | translate }}" />
+        <div class="text-danger small" *ngIf="form.get('toYear')?.touched && form.get('toYear')?.invalid">
+          {{ 'COMMON.REQUIRED' | translate }}
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="mb-3">
+    <label class="form-label">{{ 'SERVICE_PRICE.FORM.PRICE' | translate }}</label>
+    <input type="number" class="form-control" formControlName="price"
+      placeholder="{{ 'SERVICE_PRICE.FORM.PRICE_PLACEHOLDER' | translate }}" />
+    <div class="text-danger small" *ngIf="form.get('price')?.touched && form.get('price')?.invalid">
+      {{ 'COMMON.REQUIRED' | translate }}
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-light" [disabled]="loading" (click)="activeModal.dismiss()">Cancel</button>
+    <button class="btn btn-primary" [disabled]="loading" (click)="submit()">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+      {{ 'COMMON.SAVE' | translate }}
+    </button>
+  </div>
+</div>

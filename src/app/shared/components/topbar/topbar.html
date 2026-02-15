@@ -73,6 +73,18 @@
         </ul>
       </li>
 
+           <!-- Users -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+          <i class="bi bi-clipboard-check me-1"></i> {{ 'MENU.USERS' | translate }}
+        </a>
+
+        <ul class="dropdown-menu" [class.dropdown-menu-end]="lang !== 'ar'">
+          <li><a class="dropdown-item" routerLink="/features/users/roles">
+              {{ 'MENU.ROLES' | translate }}</a></li>
+        </ul>
+      </li>
+
     </ul>
 
     <!-- RIGHT/LEFT SIDE (User + Lang) -->

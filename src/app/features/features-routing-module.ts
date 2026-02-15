@@ -22,6 +22,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./examination-management/examination-management-module').then(m => m.ExaminationManagementModule),
       },
+      {
+        path: 'users',
+        loadChildren: () =>
+          import('./users/users-module').then(m => m.UsersModule),
+      },
 
     ]
   }

@@ -59,7 +59,7 @@
     "MANUFACTURERS": "Manufacturers",
     "SERVICE": "Services",
     "CRANES": "Cranes",
-    "SERVICE_PRICES": "Service Prices",
+    "SERVICE_PRICE": "Service Prices",
     "TERMS": "Terms and Conditions"
   },
   "COMMON": {
@@ -78,7 +78,8 @@
     "NO_DATA": "No data to display",
     "REQUIRED": "Required",
     "ERROR": "An error occurred. Please try again.",
-    "SELECT_PLACEHOLDER": "Please select"
+    "SELECT_PLACEHOLDER": "Please select",
+    "ALL": "All"
   },
   "PAGINATION": {
     "PREVIOUS": "Previous",
@@ -451,7 +452,7 @@
       "EXISTS": "Name already exists."
     }
   },
-  "SERVICE_PRICES": {
+  "SERVICE_PRICE": {
     "TITLE": "Service Prices",
     "NAME": "Service Prices",
     "ADD": "Add New Service Price",
@@ -460,6 +461,9 @@
     "TABLE": {
       "NO": "#",
       "SERVICE_NAME": "Service Name",
+      "MARK": "Car Mark",
+      "FROM_YEAR": "From Year",
+      "TO_YEAR": "To Year",
       "PRICE": "Price",
       "ACTIONS": "Actions"
     },
@@ -467,14 +471,11 @@
     "FORM": {
       "TITLE_ADD": "Add Service Price",
       "TITLE_EDIT": "Edit Service Price",
-      "SERVICE_ID": {
-        "LABEL": "Service",
-        "PLACEHOLDER": "Select a service"
-      },
-      "PRICE": {
-        "LABEL": "Price",
-        "PLACEHOLDER": "Enter price"
-      }
+      "SERVICE": "Service",
+      "MARK": "Car Mark",
+      "FROM_YEAR": "From Year",
+      "TO_YEAR": "To Year",
+      "PRICE": "Price"
     },
     "TOAST": {
       "CREATED": "Added successfully.",
@@ -501,11 +502,10 @@
     "FORM": {
       "TITLE_ADD": "Add Term",
       "TITLE_EDIT": "Edit Term",
-      "CANCEL_WARRANT_DOCUMENT_EN":"Cancel Warranty Document (EN)",
-      "CANCEL_WARRANT_DOCUMENT_AR":"Cancel Warranty Document (AR)",
-      "TERMS_AND_CONDITIONS_AR":"Terms and Conditions (AR)",
-      "TERMS_AND_CONDITIONS_EN":"Terms and Conditions (EN)",
-
+      "CANCEL_WARRANT_DOCUMENT_EN": "Cancel Warranty Document (EN)",
+      "CANCEL_WARRANT_DOCUMENT_AR": "Cancel Warranty Document (AR)",
+      "TERMS_AND_CONDITIONS_AR": "Terms and Conditions (AR)",
+      "TERMS_AND_CONDITIONS_EN": "Terms and Conditions (EN)",
       "DESCRIPTION_AR": {
         "LABEL": "Description (AR)",
         "PLACEHOLDER": "Enter description in Arabic"
@@ -520,6 +520,67 @@
       "UPDATED": "Updated successfully.",
       "DELETED": "Deleted successfully.",
       "EXISTS": "Term name already exists."
+    }
+  },
+  "PERMISSIONS": {
+    "TITLE": "Permissions",
+    "BACKEND_KEYS": "Backend Keys",
+    "MODULES": {
+      "CarMark": "Car Marks",
+      "Branches": "Branches",
+      "AccessoryIssue": "Accessory Issues",
+      "Employees": "Employees",
+      "Dashboard": "Dashboard",
+      "Crane": "Crane",
+      "InteriorBodyIssue": "Interior Body Issues",
+      "InsideAndDecorPart": "Interior & Decor Parts",
+      "ExteriorBodyIssue": "Exterior Body Issues",
+      "MechIssue": "Mechanical Issues",
+      "Manufacturer": "Manufacturers",
+      "InteriorIssue": "Interior Issues",
+      "RoadTestIssue": "Road Test Issues",
+      "Permissions": "Permissions",
+      "MechIssueType": "Mechanical Issue Types",
+      "SensorIssue": "Sensor Issues",
+      "Roles": "Roles",
+      "Role": "Role",
+      "ServiceType": "Service Types",
+      "ServicePrice": "Service Prices",
+      "Service": "Services",
+      "Users": "Users",
+      "Term": "Terms & Conditions"
+    },
+    "ACTIONS": {
+      "Read": "Read",
+      "Create": "Create",
+      "Update": "Update",
+      "Delete": "Delete"
+    }
+  },
+  "ROLES": {
+    "TITLE": "Roles",
+    "NAME": "Roles",
+    "ADD": "Add New Role",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "FORM": {
+      "TITLE_ADD": "Add Role",
+      "TITLE_EDIT": "Edit Role",
+      "NAME": "Name",
+      "DESCRIPTION": "Description"
+    },
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Role name already exists."
     }
   }
 }

@@ -3,26 +3,30 @@
   [addLabelKey]="'SERVICE_PRICE.ADD'"
   [canAdd]="authService.hasPermission('servicePrice.create')"
   (addClicked)="openAddServicePrice()"
-  [pagingConfig]="pagingConfig"
+  [pagingConfig]="pagingConfig.search"
   (pageSizeSearch)="search()"
   [items]="servicePrices"
   [emptyText]="'No service prices found'"
-  (pageChanged)="pagingConfig.currentPage = $event; loadServices();"
+  (pageChanged)="pagingConfig.search.currentPage = $event; loadServices();"
 >
   <!-- header -->
   <ng-container table-header>
-    <th>{{ 'SERVICE.TABLE.NO' | translate }}</th>
-    <th>{{ 'SERVICE.TABLE.NAME_AR' | translate }}</th>
-    <th>{{ 'SERVICE.TABLE.NAME_EN' | translate }}</th>
+    <th>{{ 'SERVICE_PRICE.TABLE.NO' | translate }}</th>
+    <th>{{ 'SERVICE_PRICE.TABLE.SERVICE_NAME' | translate }}</th>
+    <th>{{ 'SERVICE_PRICE.TABLE.MARK' | translate }}</th>
+    <th>{{ 'SERVICE_PRICE.TABLE.FROM_YEAR' | translate }}</th>
+    <th>{{ 'SERVICE_PRICE.TABLE.TO_YEAR' | translate }}</th>
     <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
   </ng-container>
 
   <!-- body -->
   <ng-container table-body>
-    <tr *ngFor="let servicePrice of servicePrices | paginate: pagingConfig; let i = index">
+    <tr *ngFor="let servicePrice of servicePrices | paginate: pagingConfig.search; let i = index">
       <td>{{ i + 1 }}</td>
-      <td>{{ servicePrice.nameAr }}</td>
-      <td>{{ servicePrice.nameEn }}</td>
+      <td>{{ isAr() ? servicePrice.serviceNameAr : servicePrice.serviceNameEn }}</td>
+      <td>{{ isAr() ? servicePrice.brandNameAr : servicePrice.brandNameEn }}</td>
+      <td>{{ servicePrice.fromYear }}</td>
+      <td>{{ servicePrice.toYear }}</td>
       <td class="text-end">
         <button
           class="btn btn-sm btn-outline-primary me-1"

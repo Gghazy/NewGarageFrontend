@@ -1,0 +1,60 @@
+<div class="card border-0 shadow-sm">
+
+  <div class="card-header bg-white d-flex justify-content-between align-items-center mb-3">
+    <h6 class="mb-0">{{ 'PERMISSIONS.TITLE' | translate }}</h6>
+
+    <input type="text" style="width: 500px;" class="form-control" [(ngModel)]="roleName" name="roleName"
+      placeholder="{{ 'ROLES.ROLE_NAME' | translate }}" />
+
+    <button class="btn btn-outline-primary btn-sm" type="button" (click)="save()">
+      {{ 'COMMON.SAVE' | translate }}
+    </button>
+  </div>
+
+  <div class="card-body">
+
+    <div *ngIf="loading" class="text-muted">
+      {{ 'COMMON.LOADING' | translate }}
+    </div>
+
+    <div class="row g-3" *ngIf="!loading">
+
+      <div class="col-12 col-md-6 col-lg-4" *ngFor="let m of modules">
+        <div class="border rounded-3 p-3 h-100">
+
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="fw-semibold">
+              {{ ('PERMISSIONS.MODULES.' + m.name) | translate }}
+            </div>
+
+            <div class="form-check m-0">
+              <input class="form-check-input" type="checkbox" [checked]="isAllSelected(m.name, m.actions)"
+                (change)="toggleAllInModule(m.name, m.actions, $any($event.target).checked)">
+              <label class="form-check-label small">
+                {{ 'COMMON.ALL' | translate }}
+              </label>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column gap-1">
+            <div class="form-check" *ngFor="let a of m.actions">
+              <input class="form-check-input" type="checkbox" [checked]="isSelected(m.name, a)"
+                (change)="toggle(m.name, a, $any($event.target).checked)">
+
+              <label class="form-check-label">
+                {{ ('PERMISSIONS.ACTIONS.' + a) | translate }}
+              </label>
+            </div>
+          </div>
+
+          <div class="mt-2 small text-muted">
+            <!-- {{ 'PERMISSIONS.BACKEND_KEYS' | translate }}:
+            <code>{{ m.key }}</code> -->
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
