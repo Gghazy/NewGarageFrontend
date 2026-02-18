@@ -1,0 +1,14 @@
+.employee-modal .modal-dialog {
+  max-width: 95vw;
+  height: 90vh;
+}
+
+.employee-modal .modal-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.employee-modal .modal-body {
+  overflow-y: auto;
+}

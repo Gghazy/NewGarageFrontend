@@ -37,11 +37,11 @@ export class ServiceForm {
   ) { }
 
   ngOnInit(): void {
-      debugger
+      
     if (this.serviceId) {
       this.apiService.get<ServiceDto>(`Services/${this.serviceId}`).subscribe({
         next: (data) => {
-          debugger
+          
           this.form.patchValue({
             id: data.id ?? '',
             nameAr: data.nameAr ?? '',

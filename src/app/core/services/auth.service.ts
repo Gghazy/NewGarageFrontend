@@ -20,21 +20,23 @@ export class AuthService {
   private readonly isBrowser: boolean;
   private readonly storageKey = 'token';
 
-  // Signal: تتحدّث تلقائيًا لما تغيّر التوكن
   readonly isAuthenticated = signal<boolean>(false);
 
+  private payload: any | null = null;
+  employeeName = signal<string>('');
+  userName = signal<string>('');
+  email = signal<string>('');
+
   constructor(@Inject(PLATFORM_ID) platformId: object) {
+
     this.isBrowser = isPlatformBrowser(platformId);
-    // init
     this.isAuthenticated.set(this.hasValidToken());
   }
 
-  // ---------- Storage helpers (browser-only) ----------
   private get storage(): Storage | null {
     return this.isBrowser ? localStorage : null;
   }
 
-  // ---------- Token ----------
   getToken(): string | null {
     return this.storage?.getItem(this.storageKey) ?? null;
   }
@@ -55,7 +57,6 @@ export class AuthService {
     this.isAuthenticated.set(false);
   }
 
-  // ---------- JWT decode ----------
   decode<T = JwtPayload>(token?: string | null): T | null {
     try {
       const t = token ?? this.getToken();
@@ -72,10 +73,9 @@ export class AuthService {
     }
   }
 
-  // ---------- Claims helpers ----------
   getPermissions(): string[] {
     const p = this.decode<JwtPayload>();
-    const claims = p?.permissions ?? p?.permission; // ✅ FIX
+    const claims = p?.permissions ?? p?.permission; 
     return this.toStringArray(claims);
   }
 
@@ -86,13 +86,14 @@ export class AuthService {
   }
 
   hasPermission(permission: string): boolean {
+
     if (!permission) return false;
     const perms = this.getPermissions();
     return perms.includes(permission);
   }
 
   hasAnyPermission(permissions: string[]): boolean {
-    
+
     if (!permissions?.length) return false;
     const perms = this.getPermissions();
     return permissions.some((p) => perms.includes(p));
@@ -104,7 +105,6 @@ export class AuthService {
     return roles.includes(role);
   }
 
-  // ---------- Expiry ----------
   isTokenExpired(token?: string | null): boolean {
     const p = this.decode<JwtPayload>(token);
     if (!p?.exp) return true;
@@ -116,12 +116,10 @@ export class AuthService {
   hasValidToken(): boolean {
     const t = this.getToken();
     if (!t) return false;
-
-    // لو مش JWT (مش فيه exp) اعتبره غير صالح
+    this.loadFromToken();
     return !this.isTokenExpired(t);
   }
 
-  // ---------- Language ----------
   setLang(lang: 'ar' | 'en'): void {
     if (!this.isBrowser) return;
 
@@ -141,7 +139,6 @@ export class AuthService {
     return v === 'en' ? 'en' : 'ar';
   }
 
-  // ---------- Private helpers ----------
   private toStringArray(value?: string[] | string): string[] {
     if (!value) return [];
     if (Array.isArray(value)) return value.map((s) => String(s).trim()).filter(Boolean);
@@ -176,5 +173,19 @@ export class AuthService {
 
     // Fallback
     return '';
+  }
+
+  private loadFromToken() {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    this.payload = payload;
+
+    this.userName.set(payload.unique_name || payload.name || '');
+    this.email.set(payload.email || '');
+    this.employeeName.set(
+      payload.employee_name_ar || payload.employee_name_en || payload.name || ''
+    );
   }
 }

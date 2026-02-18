@@ -1,35 +1,40 @@
-<div class="card border-0 shadow-sm">
+<div class="card border-0 shadow-sm" *ngIf="!loading">
+  <div class="card-header bg-white d-flex justify-content-between align-items-center">
+    <h5 class="mb-0">
+      {{ roleId ? ('ROLES.EDIT' | translate) : ('ROLES.ADD' | translate) }}
+    </h5>
 
-  <div class="card-header bg-white d-flex justify-content-between align-items-center mb-3">
-    <h6 class="mb-0">{{ 'PERMISSIONS.TITLE' | translate }}</h6>
-
-    <input type="text" style="width: 500px;" class="form-control" [(ngModel)]="roleName" name="roleName"
-      placeholder="{{ 'ROLES.ROLE_NAME' | translate }}" />
-
-    <button class="btn btn-outline-primary btn-sm" type="button" (click)="save()">
-      {{ 'COMMON.SAVE' | translate }}
+    <button class="btn btn-primary btn-sm"
+            [disabled]="saving || !roleName.trim()"
+            (click)="save()">
+      <span *ngIf="!saving">{{ 'COMMON.SAVE' | translate }}</span>
+      <span *ngIf="saving">{{ 'COMMON.SAVING' | translate }}</span>
     </button>
   </div>
 
   <div class="card-body">
-
-    <div *ngIf="loading" class="text-muted">
-      {{ 'COMMON.LOADING' | translate }}
+    <div class="mb-3">
+      <label class="form-label">{{ 'ROLES.FORM.ROLE_NAME' | translate }}</label>
+      <input class="form-control"
+             [(ngModel)]="roleName"
+             name="roleName"
+             placeholder="{{ 'ROLES.FORM.ROLE_NAME' | translate }}">
     </div>
 
-    <div class="row g-3" *ngIf="!loading">
+    <hr class="my-3">
 
+    <div class="row g-3">
       <div class="col-12 col-md-6 col-lg-4" *ngFor="let m of modules">
         <div class="border rounded-3 p-3 h-100">
-
           <div class="d-flex justify-content-between align-items-center mb-2">
             <div class="fw-semibold">
               {{ ('PERMISSIONS.MODULES.' + m.name) | translate }}
             </div>
 
             <div class="form-check m-0">
-              <input class="form-check-input" type="checkbox" [checked]="isAllSelected(m.name, m.actions)"
-                (change)="toggleAllInModule(m.name, m.actions, $any($event.target).checked)">
+              <input class="form-check-input" type="checkbox"
+                     [checked]="isAllSelected(m.name, m.actions)"
+                     (change)="toggleAllInModule(m.name, m.actions, $any($event.target).checked)">
               <label class="form-check-label small">
                 {{ 'COMMON.ALL' | translate }}
               </label>
@@ -38,23 +43,22 @@
 
           <div class="d-flex flex-column gap-1">
             <div class="form-check" *ngFor="let a of m.actions">
-              <input class="form-check-input" type="checkbox" [checked]="isSelected(m.name, a)"
-                (change)="toggle(m.name, a, $any($event.target).checked)">
-
+              <input class="form-check-input" type="checkbox"
+                     [checked]="isSelected(m.name, a)"
+                     (change)="toggle(m.name, a, $any($event.target).checked)">
               <label class="form-check-label">
                 {{ ('PERMISSIONS.ACTIONS.' + a) | translate }}
               </label>
             </div>
           </div>
 
-          <div class="mt-2 small text-muted">
-            <!-- {{ 'PERMISSIONS.BACKEND_KEYS' | translate }}:
-            <code>{{ m.key }}</code> -->
-          </div>
-
         </div>
       </div>
-
     </div>
+
   </div>
+</div>
+
+<div *ngIf="loading" class="text-muted p-3">
+  {{ 'COMMON.LOADING' | translate }}
 </div>

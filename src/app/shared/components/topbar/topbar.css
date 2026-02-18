@@ -22,3 +22,10 @@
   padding-left: 8px !important;
   padding-right: 8px !important;
 }
+
+
+.nav-link{
+  background-color: #1f7a8c;
+  color: white !important;
+  border-radius: 5px;
+}

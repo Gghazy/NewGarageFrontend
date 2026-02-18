@@ -5,10 +5,11 @@ import { RoleRoutingModule } from './role-routing-module';
 import { RoleForm } from './role-form/role-form';
 import { SharedModule } from 'src/app/shared/shared-module';
 import { RoleList } from './role-list/role-list';
+import { RolesLayout } from './roles-layout';
 
 
 @NgModule({
-  declarations: [RoleForm,RoleList],
+  declarations: [RoleForm,RoleList,RolesLayout],
   imports: [
     CommonModule,
     RoleRoutingModule,

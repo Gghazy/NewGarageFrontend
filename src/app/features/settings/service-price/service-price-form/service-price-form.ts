@@ -77,7 +77,7 @@ export class ServicePriceForm {
 
 
   submit() {
-    debugger
+    
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;

@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { LanguageService } from 'src/app/core/services/language.service';
+import { APP_MENU, AppMenuItem } from './APP_MENU';
 
 @Component({
   selector: 'app-topbar',
@@ -10,11 +11,43 @@ import { LanguageService } from 'src/app/core/services/language.service';
   styleUrl: './topbar.css',
 })
 export class Topbar {
-   constructor(
+  constructor(
     private auth: AuthService,
     private router: Router,
-  public langService: LanguageService
-  ) {}
+    public langService: LanguageService,
+
+  ) { }
+
+  readonly menu = computed(() => this.filterMenu(APP_MENU));
+  employeeName = computed(() =>
+    this.auth.employeeName() || this.auth.userName() || this.auth.email() || 'User'
+  );
+
+  private filterMenu(items: AppMenuItem[]): AppMenuItem[] {
+    return items
+      .map(item => {
+        const children = item.children ? this.filterMenu(item.children) : undefined;
+
+        const canSeeSelf = this.canSee(item.permissions);
+        const hasVisibleChildren = !!children?.length;
+
+        const visible =
+          item.route ? (canSeeSelf || hasVisibleChildren) : hasVisibleChildren;
+
+        if (!visible) return null;
+
+        return {
+          ...item,
+          children,
+        } as AppMenuItem;
+      })
+      .filter((x): x is AppMenuItem => x !== null);
+  }
+
+  private canSee(perms?: string[]): boolean {
+    if (!perms || perms.length === 0) return true;
+    return this.auth.hasAnyPermission(perms); // هنضيفها تحت
+  }
 
   logout(): void {
     this.auth.clear();

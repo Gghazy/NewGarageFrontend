@@ -34,7 +34,7 @@ export class MechIssueForm {
   ) { }
 
   ngOnInit(): void {
-   debugger
+   
     if (this.initial) {
       this.form.patchValue({
         id: this.initial.id ?? '',

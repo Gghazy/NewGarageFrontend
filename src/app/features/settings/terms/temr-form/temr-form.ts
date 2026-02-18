@@ -33,7 +33,7 @@ export class TemrForm {
   }
   getTerm() {
     this.apiService.get<TermDto>(`terms`).subscribe(res => {
-      debugger
+      
       this.data = res;
       this.form.patchValue(res);
     });

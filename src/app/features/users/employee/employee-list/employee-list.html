@@ -1,0 +1,40 @@
+<app-shared-list
+  [titleKey]="'EMPLOYEES.TITLE'"
+  [addLabelKey]="'EMPLOYEES.ADD'"
+  [canAdd]="authService.hasPermission('employees.create')"
+  (addClicked)="openAddEmployee()"
+  [pagingConfig]="pagingConfig"
+  (pageSizeSearch)="search()"
+  [items]="employees"
+  [emptyText]="'No employees found'"
+  (pageChanged)="pagingConfig.currentPage = $event; loadServices();"
+>
+  <!-- header -->
+  <ng-container table-header>
+    <th>{{ 'EMPLOYEES.TABLE.NO' | translate }}</th>
+    <th>{{ 'EMPLOYEES.TABLE.NAME' | translate }}</th>
+    <th>{{ 'EMPLOYEES.TABLE.PHONE' | translate }}</th>
+    <th>{{ 'EMPLOYEES.TABLE.EMAIL' | translate }}</th>
+    <th>{{ 'EMPLOYEES.TABLE.BRANCH' | translate }}</th>
+    <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
+  </ng-container>
+
+  <!-- body -->
+  <ng-container table-body>
+    <tr *ngFor="let employee of employees | paginate: pagingConfig; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ isAr() ? employee.nameAr : employee.nameEn }}</td>
+      <td>{{ employee.phoneNumber }}</td>
+      <td>{{ employee.email }}</td>
+      <td>{{ isAr() ? employee.branchNameAr : employee.branchNameEn }}</td>
+      <td class="text-end">
+        <button
+          class="btn btn-sm btn-outline-primary me-1"
+          *ngIf="authService.hasPermission('employees.update')"
+          (click)="openEditEmployee(employee)">
+          {{ 'COMMON.EDIT' | translate }}
+        </button>
+      </td>
+    </tr>
+  </ng-container>
+</app-shared-list>

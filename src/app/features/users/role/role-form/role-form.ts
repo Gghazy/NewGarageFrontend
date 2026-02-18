@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/custom.service';
 
 export type PermissionMap = Record<string, string[]>;
@@ -19,24 +20,59 @@ type ViewModule = {
 
 export class RoleForm {
   loading = true;
+  saving = false;
+  isEdit = false;
+  // edit mode
+  roleId?: string;
   roleName = '';
+
   modules: ViewModule[] = [];
   selected = new Map<string, Set<string>>();
+
   private readonly actionOrder = ['Read', 'Create', 'Update', 'Delete'];
 
-  constructor(private apiService: ApiService) { }
+  constructor(
+    private api: ApiService,
+    private apiService: ApiService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    this.apiService.get<PermissionMap>('Permissions/grouped').subscribe({
+    this.route.paramMap.subscribe(p => {
+
+      this.roleId = p.get('id') ?? undefined;
+      this.isEdit = !!this.roleId;
+
+      if (this.isEdit)
+        this.loadRole(this.roleId!);
+    });
+
+    this.api.get<PermissionMap>('Permissions/grouped').subscribe({
       next: (map) => {
         this.modules = this.toView(map);
-        // init empty selections
         this.modules.forEach(m => this.selected.set(m.name, new Set<string>()));
+        if (this.roleId) {
+          this.loadRole(this.roleId);
+        } else {
+          this.loading = false;
+        }
+      },
+      error: () => (this.loading = false)
+    });
+  }
+
+  private loadRole(id: string) {
+    this.apiService.get<any>(`Roles/${id}`).subscribe({
+      next: (role) => {
+        this.roleName = role.name ?? '';
+        this.applyFlatPermissions(role.permissions ?? []);
         this.loading = false;
       },
       error: () => (this.loading = false)
     });
   }
+
 
   toggle(moduleName: string, action: string, checked: boolean): void {
     const set = this.selected.get(moduleName) ?? new Set<string>();
@@ -46,10 +82,7 @@ export class RoleForm {
       if (action !== 'Read') set.add('Read');
     } else {
       set.delete(action);
-
-      if (action === 'Read') {
-        ['Create', 'Update', 'Delete'].forEach(a => set.delete(a));
-      }
+      if (action === 'Read') ['Create', 'Update', 'Delete'].forEach(a => set.delete(a));
     }
 
     this.selected.set(moduleName, set);
@@ -57,15 +90,13 @@ export class RoleForm {
 
   toggleAllInModule(moduleName: string, actions: string[], checked: boolean): void {
     const set = new Set<string>();
-
     if (checked) {
       actions.forEach(a => set.add(a));
       if (actions.some(a => a !== 'Read')) set.add('Read');
-    } else {
     }
-
     this.selected.set(moduleName, set);
   }
+
   isAllSelected(moduleName: string, actions: string[]): boolean {
     const set = this.selected.get(moduleName);
     return !!set && actions.length > 0 && actions.every(a => set.has(a));
@@ -73,6 +104,30 @@ export class RoleForm {
 
   isSelected(moduleName: string, action: string): boolean {
     return this.selected.get(moduleName)?.has(action) ?? false;
+  }
+
+
+  save(): void {
+    
+    const roleName = (this.roleName || '').trim();
+    if (!roleName) return;
+
+    const permissions = this.buildFlatPermissions();
+
+    this.saving = true;
+
+    const body = { roleName, permissions };
+
+
+      
+
+    this.apiService.post('Roles', body).subscribe({
+      next: () => {
+        this.saving = false;
+        this.router.navigate(['/features/users/roles']); 
+      },
+      error: () => (this.saving = false)
+    });
   }
 
   buildFlatPermissions(): string[] {
@@ -89,6 +144,31 @@ export class RoleForm {
 
     return Array.from(new Set(flat)).sort((a, b) => a.localeCompare(b));
   }
+
+  private applyFlatPermissions(flat: string[]): void {
+    for (const p of flat) {
+      const [modKey, act] = p.split('.');
+      if (!modKey || !act) continue;
+
+      const module = this.modules.find(m => m.key === modKey);
+      if (!module) continue;
+
+      const action = this.toActionLabel(act);
+      const set = this.selected.get(module.name) ?? new Set<string>();
+      set.add(action);
+      this.selected.set(module.name, set);
+    }
+  }
+
+  private toActionLabel(a: string): string {
+    const x = (a || '').toLowerCase();
+    if (x === 'read') return 'Read';
+    if (x === 'create') return 'Create';
+    if (x === 'update') return 'Update';
+    if (x === 'delete') return 'Delete';
+    return x ? x[0].toUpperCase() + x.slice(1) : a;
+  }
+
 
   private toView(map: PermissionMap): ViewModule[] {
     return Object.entries(map)
@@ -114,16 +194,5 @@ export class RoleForm {
   private toCamel(value: string): string {
     if (!value) return value;
     return value[0].toLowerCase() + value.slice(1);
-  }
-
-  save(): void {
-    const permissions = this.buildFlatPermissions();
-    this.apiService.post('Roles', {
-      roleName: this.roleName,
-      permissions
-    }).subscribe({
-      next: () => alert('Role saved successfully!'),
-      error: () => alert('Failed to save role. Please try again.')
-    });
   }
 }

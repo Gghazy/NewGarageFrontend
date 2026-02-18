@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { RoleDto } from 'src/app/shared/Models/roles/role-dto';
 
@@ -15,7 +15,8 @@ export class RoleList {
 
   constructor(
     private apiService: ApiService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -34,11 +35,11 @@ export class RoleList {
     });
   }
 
-  open(roleId: string) {
-    this.router.navigate(['/roles/create', roleId]);
+  create() {
+    this.router.navigate(['form'], { relativeTo: this.route });
   }
 
-  create() {
-    this.router.navigate(['/roles/create']);
+  edit(id: string) {
+    this.router.navigate(['form', id], { relativeTo: this.route });
   }
 }

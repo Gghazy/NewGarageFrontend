@@ -44,7 +44,7 @@ export class MechIssueList {
     this.apiService.post<any>('MechIssues/pagination', this.pagingConfig).subscribe({
       next: (data) => {
         this.mechIssues = data.items;
-        debugger
+        
         this.pagingConfig.totalItems = data.totalCount;
         this.loading = false;
       },

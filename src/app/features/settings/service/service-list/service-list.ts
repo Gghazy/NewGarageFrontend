@@ -44,7 +44,7 @@ export class ServiceList {
     this.apiService.post<any>('Services/pagination', this.pagingConfig).subscribe({
       next: (data) => {
         this.services = data.items;
-        debugger
+        
         this.pagingConfig.totalItems = data.totalCount;
         this.loading = false;
       },

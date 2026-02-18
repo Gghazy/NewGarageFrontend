@@ -1,0 +1,127 @@
+
+
+
+<div class="modal-header">
+    <h5 class="modal-title">{{ title }}</h5>
+    <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body" [formGroup]="form">
+    <div class="row g-3">
+
+        <!-- Name AR -->
+        <div class="col-12 col-md-6">
+            <label class="form-label">{{ 'EMPLOYEES.FORM.NAME_AR' | translate }}</label>
+            <input type="text" class="form-control" formControlName="nameAr"
+                [placeholder]="'EMPLOYEES.FORM.NAME_AR' | translate" [class.is-invalid]="isInvalid('nameAr')">
+            <div class="invalid-feedback" *ngIf="isInvalid('nameAr')">
+                <span *ngIf="form.get('nameAr')?.errors?.['required']">
+                    {{ 'VALIDATION.REQUIRED' | translate }}
+                </span>
+                <span *ngIf="form.get('nameAr')?.errors?.['minlength']">
+                    {{ 'VALIDATION.MIN_LENGTH' | translate:{min:
+                    form.get('nameAr')?.errors?.['minlength']?.requiredLength} }}
+                </span>
+                <span *ngIf="form.get('nameAr')?.errors?.['maxlength']">
+                    {{ 'VALIDATION.MAX_LENGTH' | translate:{max:
+                    form.get('nameAr')?.errors?.['maxlength']?.requiredLength} }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Name EN -->
+        <div class="col-12 col-md-6">
+            <label class="form-label">{{ 'EMPLOYEES.FORM.NAME_EN' | translate }}</label>
+            <input type="text" class="form-control" formControlName="nameEn"
+                [placeholder]="'EMPLOYEES.FORM.NAME_EN' | translate" [class.is-invalid]="isInvalid('nameEn')">
+            <div class="invalid-feedback" *ngIf="isInvalid('nameEn')">
+                <span *ngIf="form.get('nameEn')?.errors?.['required']">
+                    {{ 'VALIDATION.REQUIRED' | translate }}
+                </span>
+                <span *ngIf="form.get('nameEn')?.errors?.['pattern']">
+                    {{ 'VALIDATION.ENGLISH_ONLY' | translate }}
+                </span>
+                <span *ngIf="form.get('nameEn')?.errors?.['minlength']">
+                    {{ 'VALIDATION.MIN_LENGTH' | translate:{min:
+                    form.get('nameEn')?.errors?.['minlength']?.requiredLength} }}
+                </span>
+                <span *ngIf="form.get('nameEn')?.errors?.['maxlength']">
+                    {{ 'VALIDATION.MAX_LENGTH' | translate:{max:
+                    form.get('nameEn')?.errors?.['maxlength']?.requiredLength} }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="col-12 col-md-6">
+            <label class="form-label">{{ 'EMPLOYEES.FORM.PHONE' | translate }}</label>
+            <input type="text" class="form-control" formControlName="phoneNumber"
+                [placeholder]="'EMPLOYEES.FORM.PHONE' | translate" [class.is-invalid]="isInvalid('phoneNumber')">
+            <div class="invalid-feedback" *ngIf="isInvalid('phoneNumber')">
+                <span *ngIf="form.get('phoneNumber')?.errors?.['required']">
+                    {{ 'VALIDATION.REQUIRED' | translate }}
+                </span>
+                <span *ngIf="form.get('phoneNumber')?.errors?.['pattern']">
+                    {{ 'VALIDATION.PHONE_INVALID' | translate }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="col-12 col-md-6">
+            <label class="form-label">{{ 'EMPLOYEES.FORM.EMAIL' | translate }}</label>
+            <input type="email" class="form-control" formControlName="email"
+                [placeholder]="'EMPLOYEES.FORM.EMAIL' | translate" [class.is-invalid]="isInvalid('email')">
+            <div class="invalid-feedback" *ngIf="isInvalid('email')">
+                <span *ngIf="form.get('email')?.errors?.['required']">
+                    {{ 'VALIDATION.REQUIRED' | translate }}
+                </span>
+                <span *ngIf="form.get('email')?.errors?.['email']">
+                    {{ 'VALIDATION.EMAIL_INVALID' | translate }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Branch -->
+        <div class="col-12 col-md-6">
+            <label class="form-label">{{ 'EMPLOYEES.FORM.BRANCH' | translate }}</label>
+            <select class="form-select" formControlName="branchId" [class.is-invalid]="isInvalid('branchId')">
+                <option value="" disabled selected>
+                    {{ 'EMPLOYEES.FORM.BRANCH' | translate }}
+                </option>
+                <option *ngFor="let b of branches" [value]="b.id">
+                    {{ (isAr() ? b.nameAr : b.nameEn) }}
+                </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="isInvalid('branchId')">
+                {{ 'VALIDATION.REQUIRED' | translate }}
+            </div>
+        </div>
+
+        <!-- Role -->
+        <div class="col-12 col-md-6">
+            <label class="form-label">{{ 'EMPLOYEES.FORM.ROLE' | translate }}</label>
+            <select class="form-select" formControlName="roleId" [class.is-invalid]="isInvalid('roleId')">
+                <option value="" disabled selected>
+                    {{ 'EMPLOYEES.FORM.ROLE' | translate }}
+                </option>
+                <option *ngFor="let r of roles" [value]="r.id">
+                    {{ r.name }}
+                </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="isInvalid('roleId')">
+                {{ 'VALIDATION.REQUIRED' | translate }}
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-light" [disabled]="loading" (click)="activeModal.dismiss()">Cancel</button>
+    <button class="btn btn-primary" [disabled]="loading" (click)="submit()">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+        {{ 'COMMON.SAVE' | translate }}
+    </button>
+</div>

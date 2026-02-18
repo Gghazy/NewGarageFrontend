@@ -8,86 +8,24 @@
 
     <ul class="navbar-nav mb-2 mb-lg-0">
 
-      <!-- Settings -->
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown" *ngFor="let parent of menu()">
         <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
-          <i class="bi bi-gear me-1"></i> {{ 'MENU.SETTINGS' | translate }}
+          <i [class]="(parent.icon || '') + ' me-1'"></i>
+          {{ parent.labelKey | translate }}
         </a>
 
         <ul class="dropdown-menu" [class.dropdown-menu-end]="lang !== 'ar'">
-          <li><a class="dropdown-item" routerLink="/features/settings/car-marks">
-              {{ 'MENU.CAR_MARKS' | translate }}</a></li>
-          <li><a class="dropdown-item" routerLink="/features/settings/manufacturers">
-              {{ 'MENU.MANUFACTURERS' | translate }}</a></li>
-          <li><a class="dropdown-item" routerLink="/features/settings/services">
-              {{ 'MENU.SERVICES' | translate }}</a></li>
-          <li><a class="dropdown-item" routerLink="/features/settings/service-prices">
-              {{ 'MENU.SERVICE_PRICES' | translate }}</a></li>
-          <li><a class="dropdown-item" routerLink="/features/settings/cranes">
-              {{ 'MENU.CRANES' | translate }}</a></li>
-          <li><a class="dropdown-item" routerLink="/features/settings/terms">
-              {{ 'MENU.TERMS' | translate }}</a></li>
-
-
-
-
-
-
-
-
-          <li>
-            <a class="dropdown-item" routerLink="/features/settings/branches">
-              {{ 'MENU.BRANCHES' | translate }}
+          <li *ngFor="let child of parent.children">
+            <a class="dropdown-item d-flex align-items-center gap-2" [routerLink]="child.route">
+              <i *ngIf="child.icon" [class]="child.icon"></i>
+              {{ child.labelKey | translate }}
             </a>
           </li>
-
-        </ul>
-      </li>
-
-      <!-- Examination -->
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
-          <i class="bi bi-clipboard-check me-1"></i> {{ 'MENU.EXAMINATION_MANAGEMENT' | translate }}
-        </a>
-
-        <ul class="dropdown-menu" [class.dropdown-menu-end]="lang !== 'ar'">
-          <li><a class="dropdown-item" routerLink="/features/examination-management/sensor-issues">
-              {{ 'MENU.SENSOR_ISSUES' | translate }}</a></li>
-          <li><a class="dropdown-item" routerLink="/features/examination-management/mech-issues">
-              {{ 'MENU.MECH_ISSUES' | translate }}</a></li>
-          <li><a class="dropdown-item" routerLink="/features/examination-management/mech-type-issues">
-              {{ 'MENU.MECH_TYPE_ISSUES' | translate }}</a></li>
-          <li><a class="dropdown-item" routerLink="/features/examination-management/interior-issues">
-              {{ 'MENU.INTERIOR_ISSUES' | translate }}</a></li>
-          <li><a class="dropdown-item" routerLink="/features/examination-management/interior-body-issues">
-              {{ 'MENU.INTERIOR_BODY_ISSUES' | translate }}</a></li>
-          <li><a class="dropdown-item" routerLink="/features/examination-management/exterior-body-issues">
-              {{ 'MENU.EXTERIOR_BODY_ISSUES' | translate }}</a></li>
-          <li><a class="dropdown-item" routerLink="/features/examination-management/accessory-issues">
-              {{ 'MENU.ACCESSORY_ISSUES' | translate }}</a></li>
-          <li><a class="dropdown-item" routerLink="/features/examination-management/road-test-issues">
-              {{ 'MENU.ROAD_TEST_ISSUES' | translate }}</a></li>
-          <li><a class="dropdown-item" routerLink="/features/examination-management/inside-and-decor-parts">
-              {{ 'MENU.INSIDE_AND_DECOR_PART' | translate }}</a></li>
-
-        </ul>
-      </li>
-
-           <!-- Users -->
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
-          <i class="bi bi-clipboard-check me-1"></i> {{ 'MENU.USERS' | translate }}
-        </a>
-
-        <ul class="dropdown-menu" [class.dropdown-menu-end]="lang !== 'ar'">
-          <li><a class="dropdown-item" routerLink="/features/users/roles">
-              {{ 'MENU.ROLES' | translate }}</a></li>
         </ul>
       </li>
 
     </ul>
 
-    <!-- RIGHT/LEFT SIDE (User + Lang) -->
     <div class="d-flex align-items-center gap-2" [class.me-auto]="lang === 'ar'" [class.ms-auto]="lang !== 'ar'">
 
       <button type="button" class="btn btn-outline-light btn-sm" (click)="toggleLang()">
@@ -96,7 +34,7 @@
 
       <div class="dropdown">
         <button class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown">
-          <i class="bi bi-person-circle me-1"></i> Ahmed
+          <i class="bi bi-person-circle me-1"></i> {{ employeeName() }}
         </button>
 
         <ul class="dropdown-menu" [class.dropdown-menu-start]="lang === 'ar'" [class.dropdown-menu-end]="lang !== 'ar'">

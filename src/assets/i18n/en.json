@@ -41,7 +41,9 @@
     "SERVICES": "Services",
     "CRANES": "Cranes",
     "SERVICE_PRICES": "Service Prices",
-    "TERMS": "Terms and Conditions"
+    "TERMS": "Terms and Conditions",
+    "DASHBOARD": "Dashboard",
+    "EMPLOYEES": "Employees"
   },
   "BREADCRUMB": {
     "HOME": "Home",
@@ -60,7 +62,11 @@
     "SERVICE": "Services",
     "CRANES": "Cranes",
     "SERVICE_PRICE": "Service Prices",
-    "TERMS": "Terms and Conditions"
+    "TERMS": "Terms and Conditions",
+    "ROLES": "Roles",
+    "ADD_ROLE": "Add Role",
+    "EDIT_ROLE": "Edit Role",
+    "EMPLOYEES": "Employees"
   },
   "COMMON": {
     "ACTIONS": "Actions",
@@ -573,7 +579,7 @@
     "FORM": {
       "TITLE_ADD": "Add Role",
       "TITLE_EDIT": "Edit Role",
-      "NAME": "Name",
+      "ROLE_NAME": "Role Name",
       "DESCRIPTION": "Description"
     },
     "TOAST": {
@@ -581,6 +587,39 @@
       "UPDATED": "Updated successfully.",
       "DELETED": "Deleted successfully.",
       "EXISTS": "Role name already exists."
+    }
+  },
+  "EMPLOYEES": {
+    "TITLE": "Employees",
+    "NAME": "Employees",
+    "ADD": "Add New Employee",
+    "SEARCH_PLACEHOLDER": "Search",
+    "PAGE_SIZE_LABEL": "Items per page",
+    "TABLE": {
+      "NO": "#",
+      "NAME": "Name",
+      "EMAIL": "Email",
+      "BRANCH": "Branch",
+      "PHONE": "Phone",
+      "ROLE": "Role",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No data to display",
+    "FORM": {
+      "TITLE_ADD": "Add Employee",
+      "TITLE_EDIT": "Edit Employee",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "EMAIL": "Email",
+      "BRANCH": "Branch",
+      "PHONE": "Phone",
+      "ROLE": "Role"
+    },
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Employee email already exists."
     }
   }
 }
