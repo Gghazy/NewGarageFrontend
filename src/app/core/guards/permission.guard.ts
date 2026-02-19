@@ -25,6 +25,6 @@ export const permissionGuard: CanActivateFn = (route) => {
 
   if (ok) return true;
 
-  router.navigate(['/unauthorized']); 
+  router.navigate(['/features/unauthorized']); 
   return false;
 };

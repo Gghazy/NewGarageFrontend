@@ -42,10 +42,10 @@ export class MechIssueList {
     this.loading = true;
 
     this.apiService.post<any>('MechIssues/pagination', this.pagingConfig).subscribe({
-      next: (data) => {
-        this.mechIssues = data.items;
+      next: (res) => {
+        this.mechIssues = res.data.items;
         
-        this.pagingConfig.totalItems = data.totalCount;
+        this.pagingConfig.totalItems = res.data.totalCount;
         this.loading = false;
       },
       error: (err) => {

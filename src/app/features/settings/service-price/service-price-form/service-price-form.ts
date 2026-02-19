@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -7,6 +7,8 @@ import { LookupDto } from 'src/app/shared/Models/lookup-dto';
 import { ServiceDto } from 'src/app/shared/Models/service/service-dto';
 import { ServicePriceDto } from 'src/app/shared/Models/servicePrice/service-price-dto';
 import { ServicePriceRequest } from 'src/app/shared/Models/servicePrice/service-price-request';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-service-price-form',
@@ -14,14 +16,16 @@ import { ServicePriceRequest } from 'src/app/shared/Models/servicePrice/service-
   templateUrl: './service-price-form.html',
   styleUrl: './service-price-form.css',
 })
-export class ServicePriceForm {
+export class ServicePriceForm implements OnInit, OnDestroy {
   @Input() title = 'Add Service';
   @Input() service?: ServicePriceDto;
+  @Input() serviceId?: string; // Track ID separately
 
   services: ServiceDto[] = [];
   marks: LookupDto[] = [];
 
   loading = false;
+  private destroy$ = new Subject<void>();
 
   form = this.fb.group({
     markId: ['', [Validators.required]],
@@ -55,29 +59,40 @@ export class ServicePriceForm {
     this.getMarks();
   }
   getServices() {
-    this.apiService.get<ServiceDto[]>('services').subscribe({
-      next: (data) => {
-        this.services = data;
-      },
-      error: (err) => {
-        console.error('Error loading services', err);
-      }
-    });
+    this.apiService.get<ServiceDto[]>('services')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.services = data;
+        },
+        error: (err) => {
+          console.error('[ServicePriceForm] Failed to load services:', err);
+          this.toastr.error('Failed to load services', 'Error');
+        }
+      });
   }
+
   getMarks() {
-    this.apiService.get<LookupDto[]>('CarMarkes').subscribe({
-      next: (data) => {
-        this.marks = data;
-      },
-      error: (err) => {
-        console.error('Error loading marks', err);
-      }
-    });
+    this.apiService.get<LookupDto[]>('CarMarkes')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.marks = data;
+        },
+        error: (err) => {
+          console.error('[ServicePriceForm] Failed to load marks:', err);
+          this.toastr.error('Failed to load marks', 'Error');
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 
   submit() {
-    
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -86,30 +101,50 @@ export class ServicePriceForm {
     this.loading = true;
 
     const value: ServicePriceRequest = {
+      id: this.serviceId,
       markId: this.form.value.markId!,
       serviceId: this.form.value.serviceId!,
       fromYear: this.form.value.fromYear!,
       toYear: this.form.value.toYear!,
       price: this.form.value.price!,
     };
-       if (value.id) {
+
+    if (value.id) {
       this.update(value);
     } else {
       this.add(value);
     }
-
   }
 
   add(request: ServicePriceRequest) {
-    this.apiService.post('ServicePrices', request).subscribe(() => {
-      this.activeModal.close(request);
-    });
+    this.apiService.post('ServicePrices', request)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.toastr.success('Service price created successfully', 'Success');
+          this.activeModal.close(request);
+        },
+        error: (err) => {
+          console.error('[ServicePriceForm] Failed to create:', err);
+          this.toastr.error(err?.error?.message ?? 'Failed to create service price', 'Error');
+          this.loading = false;
+        }
+      });
   }
-  update(request: ServicePriceRequest) {
-    this.apiService.put(`ServicePrices/${request.id}`, request).subscribe((res: any) => {
 
-      this.toastr.success(res.message as string, 'Success');
-      this.activeModal.close(request);
-    });
+  update(request: ServicePriceRequest) {
+    this.apiService.put(`ServicePrices/${request.id}`, request)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          this.toastr.success(res.message ?? 'Service price updated successfully', 'Success');
+          this.activeModal.close(request);
+        },
+        error: (err) => {
+          console.error('[ServicePriceForm] Failed to update:', err);
+          this.toastr.error(err?.error?.message ?? 'Failed to update service price', 'Error');
+          this.loading = false;
+        }
+      });
   }
 }

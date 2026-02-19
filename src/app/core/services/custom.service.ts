@@ -9,7 +9,6 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AppConfig } from '../config/config';
-import { TranslateService } from '@ngx-translate/core';
 
 type ResponseType = 'json' | 'blob' | 'text';
 

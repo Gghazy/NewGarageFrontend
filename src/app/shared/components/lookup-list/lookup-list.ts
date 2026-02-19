@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { LookupDto } from '../../Models/lookup-dto';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +7,8 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { SearchCriteria } from '../../Models/search-criteria';
 import { LookupConfig } from '../../Models/lookup-config';
 import { LookupForm } from '../lookup-form/lookup-form';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lookup-list',
@@ -14,11 +16,12 @@ import { LookupForm } from '../lookup-form/lookup-form';
   templateUrl: './lookup-list.html',
   styleUrl: './lookup-list.css',
 })
-export class LookupList {
+export class LookupList implements OnInit, OnDestroy {
   @Input({ required: true }) config!: LookupConfig;
 
   items: LookupDto[] = [];
   loading = false;
+  private destroy$ = new Subject<void>();
 
   pagingConfig: SearchCriteria = {
     itemsPerPage: 10,
@@ -43,17 +46,24 @@ export class LookupList {
   load() {
     this.loading = true;
 
-    this.apiService.post<any>(`${this.config.apiBase}/pagination`, this.pagingConfig).subscribe({
-      next: (data) => {
-        this.items = data.items;
-        this.pagingConfig.totalItems = data.totalCount;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Error loading lookups', err);
-        this.loading = false;
-      }
-    });
+    this.apiService.post<any>(`${this.config.apiBase}/pagination`, this.pagingConfig)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.items = res.data.items;
+          this.pagingConfig.totalItems = res.data.totalCount;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('[LookupList] Failed to load items:', err);
+          this.loading = false;
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   openAdd() {

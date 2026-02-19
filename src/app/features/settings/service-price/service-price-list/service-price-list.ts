@@ -51,13 +51,13 @@ pagingConfig: ServicePriceSearch = {
     this.loading = true;
 
     this.apiService.post<any>('ServicePrices/pagination', this.pagingConfig).subscribe({
-      next: (data) => {
-        this.servicePrices = data.items;
-        this.pagingConfig.search.totalItems = data.totalCount;
+      next: (res) => {
+        this.servicePrices = res.data.items;
+        this.pagingConfig.search.totalItems = res.data.totalCount;
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error loading mech issues', err);
+        console.error('Error loading service prices', err);
         this.loading = false;
       }
     });

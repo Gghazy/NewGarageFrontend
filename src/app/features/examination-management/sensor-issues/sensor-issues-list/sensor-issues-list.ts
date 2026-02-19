@@ -76,7 +76,7 @@ export class SensorIssuesList {
 
     ref.result.then((saved) => {
       if (saved) {
-        this.toastr.success(this.translate.instant('SENSOR_ISSUES.TOAST.CREATED'));
+        this.toastr.success(this.translate.instant('COMMON.TOAST.CREATED'));
         this.load();
       }
     }).catch(() => {});
@@ -89,7 +89,7 @@ export class SensorIssuesList {
 
     ref.result.then((saved) => {
       if (saved) {
-        this.toastr.success(this.translate.instant('SENSOR_ISSUES.TOAST.UPDATED'));
+        this.toastr.success(this.translate.instant('COMMON.TOAST.UPDATED'));
         this.load();
       }
     }).catch(() => {});
@@ -101,7 +101,7 @@ export class SensorIssuesList {
 
     this.api.delete(`SensorIssues/${item.id}`).subscribe({
       next: () => {
-        this.toastr.success(this.translate.instant('SENSOR_ISSUES.TOAST.DELETED'));
+        this.toastr.success(this.translate.instant('COMMON.TOAST.DELETED'));
         this.load();
       },
       error: (e: any) => {

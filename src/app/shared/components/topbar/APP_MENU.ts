@@ -45,5 +45,13 @@ export const APP_MENU: AppMenuItem[] = [
       { labelKey: 'MENU.EMPLOYEES', route: '/features/users/employees', icon: 'bi bi-person-badge', permissions: ['employees.read'] },
     ],
   },
+  {
+    labelKey: 'MENU.CLIENTS',
+    icon: 'bi bi-person',
+    permissions: ['clients.read'],
+    children: [
+      { labelKey: 'MENU.CLIENTS', route: '/features/management-clients/clients', icon: 'bi bi-person-check', permissions: ['clients.read'] },
+    ],
+  },
 ];
 

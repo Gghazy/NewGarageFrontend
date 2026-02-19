@@ -1,0 +1,62 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ title }}</h4>
+  <button aria-label="Close" (click)="activeModal.dismiss()" class="btn-close" type="button"></button>
+</div>
+
+<div class="modal-body">
+  <div *ngIf="!loading">
+    <!-- Type Selector -->
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label class="form-label">{{ 'CLIENTS.FORM.TYPE' | translate }} <span class="text-danger">*</span></label>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            id="typeIndividual"
+            type="radio"
+            [checked]="clientType === 'individual'"
+            (change)="onTypeChange('individual')" />
+          <label class="form-check-label" for="typeIndividual">
+            {{ 'CLIENTS.FORM.INDIVIDUAL' | translate }}
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            id="typeCompany"
+            type="radio"
+            [checked]="clientType === 'company'"
+            (change)="onTypeChange('company')" />
+          <label class="form-check-label" for="typeCompany">
+            {{ 'CLIENTS.FORM.COMPANY' | translate }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Individual Form Component -->
+    <div *ngIf="clientType === 'individual'">
+      <app-client-individual-form></app-client-individual-form>
+    </div>
+
+    <!-- Company Form Component -->
+    <div *ngIf="clientType === 'company'">
+      <app-client-company-form></app-client-company-form>
+    </div>
+
+    <div class="modal-footer">
+      <button (click)="activeModal.dismiss()" class="btn btn-secondary" type="button">
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button (click)="submit()" class="btn btn-primary" type="submit">
+        {{ 'COMMON.SAVE' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>

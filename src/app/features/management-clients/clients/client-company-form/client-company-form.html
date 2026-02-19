@@ -1,0 +1,212 @@
+<form [formGroup]="formGroup" class="bg-light p-3 rounded">
+  <!-- Row 1: Company Names, Phone -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="companyNameEn" class="form-label">{{ 'CLIENTS.FORM.COMPANY_NAME_EN' | translate }}</label>
+      <input 
+        type="text" 
+        id="companyNameEn" 
+        class="form-control" 
+        formControlName="companyNameEn"
+        [class.is-invalid]="isFieldInvalid('companyNameEn')">
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('companyNameEn')">
+        {{ getFieldError('companyNameEn') }}
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <label for="companyNameAr" class="form-label">{{ 'CLIENTS.FORM.COMPANY_NAME_AR' | translate }}</label>
+      <input 
+        type="text" 
+        id="companyNameAr" 
+        class="form-control" 
+        formControlName="companyNameAr"
+        [class.is-invalid]="isFieldInvalid('companyNameAr')">
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('companyNameAr')">
+        {{ getFieldError('companyNameAr') }}
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <label for="mobileNumber" class="form-label">{{ 'CLIENTS.FORM.MOBILE' | translate }}</label>
+      <input 
+        type="text" 
+        id="mobileNumber" 
+        class="form-control" 
+        formControlName="mobileNumber"
+        [class.is-invalid]="isFieldInvalid('mobileNumber')">
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('mobileNumber')">
+        {{ getFieldError('mobileNumber') }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 2: Registration Numbers -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="commercialRegistrationNumber" class="form-label">{{ 'CLIENTS.FORM.COMMERCIAL_REG' | translate }}</label>
+      <input 
+        type="text" 
+        id="commercialRegistrationNumber" 
+        class="form-control" 
+        formControlName="commercialRegistrationNumber"
+        [class.is-invalid]="isFieldInvalid('commercialRegistrationNumber')">
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('commercialRegistrationNumber')">
+        {{ getFieldError('commercialRegistrationNumber') }}
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <label for="taxNumber" class="form-label">{{ 'CLIENTS.FORM.TAX_NUMBER' | translate }}</label>
+      <input 
+        type="text" 
+        id="taxNumber" 
+        class="form-control" 
+        formControlName="taxNumber"
+        [class.is-invalid]="isFieldInvalid('taxNumber')">
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('taxNumber')">
+        {{ getFieldError('taxNumber') }}
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <label for="mobileNumber2" class="form-label">{{ 'CLIENTS.FORM.MOBILE2' | translate }}</label>
+      <input 
+        type="text" 
+        id="mobileNumber2" 
+        class="form-control" 
+        formControlName="mobileNumber2">
+    </div>
+  </div>
+
+  <!-- Row 3: Email, Phone, Source -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="email" class="form-label">{{ 'CLIENTS.FORM.EMAIL' | translate }}</label>
+      <input 
+        type="email" 
+        id="email" 
+        class="form-control" 
+        formControlName="email"
+        [class.is-invalid]="isFieldInvalid('email')">
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
+        {{ getFieldError('email') }}
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <label for="phone" class="form-label">{{ 'CLIENTS.FORM.PHONE' | translate }}</label>
+      <input 
+        type="text" 
+        id="phone" 
+        class="form-control" 
+        formControlName="phone"
+        [class.is-invalid]="isFieldInvalid('phone')">
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('phone')">
+        {{ getFieldError('phone') }}
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <label for="source" class="form-label">{{ 'CLIENTS.FORM.SOURCE' | translate }}</label>
+      <ng-select
+        id="source"
+        formControlName="source"
+        [items]="[]"
+        placeholder="{{ 'CLIENTS.FORM.SELECT_SOURCE' | translate }}">
+      </ng-select>
+    </div>
+  </div>
+
+  <!-- Row 4: Address -->
+  <div class="row mb-3">
+    <div class="col-md-12">
+      <label for="address" class="form-label">{{ 'CLIENTS.FORM.ADDRESS' | translate }}</label>
+      <input 
+        type="text" 
+        id="address" 
+        class="form-control" 
+        formControlName="address"
+        [class.is-invalid]="isFieldInvalid('address')">
+      <div class="invalid-feedback" *ngIf="isFieldInvalid('address')">
+        {{ getFieldError('address') }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 5: Street Details -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="street" class="form-label">{{ 'CLIENTS.FORM.STREET' | translate }}</label>
+      <input 
+        type="text" 
+        id="street" 
+        class="form-control" 
+        formControlName="street">
+    </div>
+
+    <div class="col-md-4">
+      <label for="buildingNo" class="form-label">{{ 'CLIENTS.FORM.BUILDING_NO' | translate }}</label>
+      <input 
+        type="text" 
+        id="buildingNo" 
+        class="form-control" 
+        formControlName="buildingNo">
+    </div>
+
+    <div class="col-md-4">
+      <label for="floorNo" class="form-label">{{ 'CLIENTS.FORM.FLOOR_NO' | translate }}</label>
+      <input 
+        type="text" 
+        id="floorNo" 
+        class="form-control" 
+        formControlName="floorNo">
+    </div>
+  </div>
+
+  <!-- Row 6: District Info -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="district" class="form-label">{{ 'CLIENTS.FORM.DISTRICT' | translate }}</label>
+      <input 
+        type="text" 
+        id="district" 
+        class="form-control" 
+        formControlName="district">
+    </div>
+
+    <div class="col-md-4">
+      <label for="city" class="form-label">{{ 'CLIENTS.FORM.CITY' | translate }}</label>
+      <input 
+        type="text" 
+        id="city" 
+        class="form-control" 
+        formControlName="city">
+    </div>
+
+    <div class="col-md-4">
+      <label for="countryCode" class="form-label">{{ 'CLIENTS.FORM.COUNTRY_CODE' | translate }}</label>
+      <input 
+        type="text" 
+        id="countryCode" 
+        class="form-control" 
+        formControlName="countryCode">
+    </div>
+  </div>
+
+  <!-- Row 7: Status -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <div class="form-check">
+        <input 
+          type="checkbox" 
+          id="isActive" 
+          class="form-check-input" 
+          formControlName="isActive">
+        <label for="isActive" class="form-check-label">
+          {{ 'CLIENTS.FORM.IS_ACTIVE' | translate }}
+        </label>
+      </div>
+    </div>
+  </div>
+</form>

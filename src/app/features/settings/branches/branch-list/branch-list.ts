@@ -49,9 +49,10 @@ export class BranchList implements OnInit {
     this.loading = true;
 
     this.apiService.post<any>('branches/pagination', this.pagingConfig).subscribe({
-      next: (data) => {
-        this.branches = data.items;
-        this.pagingConfig.totalItems = data.totalCount;
+      next: (res) => {
+        debugger
+        this.branches = res.data.items;
+        this.pagingConfig.totalItems = res.data.totalCount;
         this.loading = false;
       },
       error: (err) => {

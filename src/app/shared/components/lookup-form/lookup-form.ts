@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { LookupDto } from '../../Models/lookup-dto';
 import { FormBuilder, Validators } from '@angular/forms';
 import { LookupConfig } from '../../Models/lookup-config';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lookup-form',
@@ -12,12 +14,13 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './lookup-form.html',
   styleUrl: './lookup-form.css',
 })
-export class LookupForm {
+export class LookupForm implements OnInit, OnDestroy {
   @Input() title = 'Add';
   @Input({ required: true }) config!: LookupConfig;
   @Input() initial?: Partial<LookupDto>;
 
   loading = false;
+  private destroy$ = new Subject<void>();
 
   form = this.fb.group({
     id: [''],
@@ -42,6 +45,11 @@ export class LookupForm {
     }
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   submit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -61,15 +69,34 @@ export class LookupForm {
   }
 
   add(request: LookupDto) {
-    this.apiService.post(`${this.config.apiBase}`, request).subscribe(() => {
-      this.activeModal.close(request);
-    });
+    this.apiService.post(`${this.config.apiBase}`, request)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.toastr.success('Created successfully', 'Success');
+          this.activeModal.close(request);
+        },
+        error: (err) => {
+          console.error('[LookupForm] Failed to create:', err);
+          this.toastr.error(err?.error?.message ?? 'Failed to create', 'Error');
+          this.loading = false;
+        }
+      });
   }
 
   update(request: LookupDto) {
-    this.apiService.put(`${this.config.apiBase}/${request.id}`, request).subscribe((res: any) => {
-      this.toastr.success(res?.message ?? 'Updated', 'Success');
-      this.activeModal.close(request);
-    });
+    this.apiService.put(`${this.config.apiBase}/${request.id}`, request)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          this.toastr.success(res?.message ?? 'Updated successfully', 'Success');
+          this.activeModal.close(request);
+        },
+        error: (err) => {
+          console.error('[LookupForm] Failed to update:', err);
+          this.toastr.error(err?.error?.message ?? 'Failed to update', 'Error');
+          this.loading = false;
+        }
+      });
   }
 }

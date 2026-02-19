@@ -42,6 +42,7 @@ export class AuthService {
   }
 
   setToken(token: string | null): void {
+    debugger
     if (!this.isBrowser) return;
 
     if (token) this.storage!.setItem(this.storageKey, token);
@@ -179,13 +180,29 @@ export class AuthService {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    this.payload = payload;
+    try {
+      const parts = token.split('.');
+      if (parts.length !== 3) {
+        console.warn('[AuthService] Invalid token format');
+        return;
+      }
 
-    this.userName.set(payload.unique_name || payload.name || '');
-    this.email.set(payload.email || '');
-    this.employeeName.set(
-      payload.employee_name_ar || payload.employee_name_en || payload.name || ''
-    );
+      const payload = JSON.parse(atob(parts[1]));
+      if (!payload || typeof payload !== 'object') {
+        console.warn('[AuthService] Invalid token payload');
+        return;
+      }
+
+      this.payload = payload;
+
+      this.userName.set(payload.unique_name || payload.name || '');
+      this.email.set(payload.email || '');
+      this.employeeName.set(
+        payload.employee_name_ar || payload.employee_name_en || payload.name || ''
+      );
+    } catch (error) {
+      console.error('[AuthService] Failed to load token payload:', error);
+      this.payload = null;
+    }
   }
 }

@@ -47,9 +47,9 @@ export class EmployeeList {
     this.loading = true;
 
     this.apiService.post<any>('Employees/pagination', this.pagingConfig).subscribe({
-      next: (data) => {
-        this.employees = data.items;
-        this.pagingConfig.totalItems = data.totalCount;
+      next: (res) => {
+        this.employees = res.data.items;
+        this.pagingConfig.totalItems = res.data.totalCount;
         this.loading = false;
       },
       error: (err) => {

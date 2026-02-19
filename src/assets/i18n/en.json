@@ -43,7 +43,8 @@
     "SERVICE_PRICES": "Service Prices",
     "TERMS": "Terms and Conditions",
     "DASHBOARD": "Dashboard",
-    "EMPLOYEES": "Employees"
+    "EMPLOYEES": "Employees",
+    "CLIENTS": "Clients"
   },
   "BREADCRUMB": {
     "HOME": "Home",
@@ -77,6 +78,7 @@
     "EDIT": "Edit",
     "DELETE": "Delete",
     "SAVE": "Save",
+    "SAVING": "Saving...",
     "CANCEL": "Cancel",
     "CLOSE": "Close",
     "SEARCH": "Search",
@@ -85,7 +87,25 @@
     "REQUIRED": "Required",
     "ERROR": "An error occurred. Please try again.",
     "SELECT_PLACEHOLDER": "Please select",
-    "ALL": "All"
+    "ALL": "All",
+    "UNAUTHORIZED": "Access Denied",
+    "ACCESS_DENIED": "You do not have permission to access this resource.",
+    "GO_BACK": "Go Back",
+    "GO_HOME": "Go Home",
+    "TOAST": {
+      "CREATED": "Added successfully.",
+      "UPDATED": "Updated successfully.",
+      "DELETED": "Deleted successfully.",
+      "EXISTS": "Already exists.",
+      "CODE_EXISTS": "Code already exists.",
+      "PRICE_EXISTS": "Price for this service already exists.",
+      "CLIENT_CREATED": "Client added successfully.",
+      "CLIENT_UPDATED": "Client updated successfully.",
+      "CLIENT_DELETED": "Client deleted successfully.",
+      "BRANCH_CREATED": "Branch created successfully.",
+      "BRANCH_UPDATED": "Branch updated successfully.",
+      "BRANCH_DELETED": "Branch deleted successfully."
+    }
   },
   "PAGINATION": {
     "PREVIOUS": "Previous",
@@ -105,12 +125,6 @@
       "NO": "#",
       "NAME_AR": "Name (AR)",
       "NAME_EN": "Name (EN)"
-    },
-    "TOAST": {
-      "CREATED": "Branch created successfully.",
-      "UPDATED": "Branch updated successfully.",
-      "DELETED": "Branch deleted successfully.",
-      "EXISTS": "Branch code already exists."
     }
   },
   "SENSOR_ISSUES": {
@@ -127,12 +141,7 @@
       "ACTIONS": "Actions"
     },
     "EMPTY": "No data to display",
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Code already exists."
-    },
+    
     "FORM": {
       "TITLE_ADD": "Add Trouble Code",
       "TITLE_EDIT": "Edit Trouble Code",
@@ -159,12 +168,6 @@
       "TITLE_EDIT": "Edit Mechanical Issue",
       "NAME_AR": "Name (AR)",
       "NAME_EN": "Name (EN)"
-    },
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Name already exists."
     }
   },
   "MECH_TYPE_ISSUES": {
@@ -185,12 +188,6 @@
       "TITLE_EDIT": "Edit Mechanical Issue Type",
       "NAME_AR": "Name (AR)",
       "NAME_EN": "Name (EN)"
-    },
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Name already exists."
     }
   },
   "INTERIOR_ISSUES": {
@@ -211,12 +208,6 @@
       "TITLE_EDIT": "Edit Interior Issue",
       "NAME_AR": "Name (AR)",
       "NAME_EN": "Name (EN)"
-    },
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Name already exists."
     }
   },
   "INTERIOR_BODY_ISSUES": {
@@ -237,12 +228,6 @@
       "TITLE_EDIT": "Edit Interior Body Issue",
       "NAME_AR": "Name (AR)",
       "NAME_EN": "Name (EN)"
-    },
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Name already exists."
     }
   },
   "EXTERIOR_BODY_ISSUES": {
@@ -263,12 +248,6 @@
       "TITLE_EDIT": "Edit Exterior Body Issue",
       "NAME_AR": "Name (AR)",
       "NAME_EN": "Name (EN)"
-    },
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Name already exists."
     }
   },
   "ACCESSORY_ISSUES": {
@@ -289,12 +268,6 @@
       "TITLE_EDIT": "Edit Accessory Issue",
       "NAME_AR": "Name (AR)",
       "NAME_EN": "Name (EN)"
-    },
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Name already exists."
     }
   },
   "ROAD_TEST_ISSUES": {
@@ -315,12 +288,6 @@
       "TITLE_EDIT": "Edit Road Test Issue",
       "NAME_AR": "Name (AR)",
       "NAME_EN": "Name (EN)"
-    },
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Name already exists."
     }
   },
   "INSIDE_AND_DECOR_PART": {
@@ -341,12 +308,6 @@
       "TITLE_EDIT": "Edit Inside and Decor Part Issue",
       "NAME_AR": "Name (AR)",
       "NAME_EN": "Name (EN)"
-    },
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Name already exists."
     }
   },
   "CAR_MARKS": {
@@ -367,12 +328,6 @@
       "TITLE_EDIT": "Edit Car Mark",
       "NAME_AR": "Name (AR)",
       "NAME_EN": "Name (EN)"
-    },
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Name already exists."
     }
   },
   "MANUFACTURERS": {
@@ -393,12 +348,6 @@
       "TITLE_EDIT": "Edit Manufacturer",
       "NAME_AR": "Name (AR)",
       "NAME_EN": "Name (EN)"
-    },
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Name already exists."
     }
   },
   "SERVICE": {
@@ -424,12 +373,6 @@
         "LABEL": "Stages",
         "PLACEHOLDER": "Enter stages separated by commas"
       }
-    },
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Name already exists."
     }
   },
   "CRANES": {
@@ -450,12 +393,6 @@
       "TITLE_EDIT": "Edit Crane",
       "NAME_AR": "Name (AR)",
       "NAME_EN": "Name (EN)"
-    },
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Name already exists."
     }
   },
   "SERVICE_PRICE": {
@@ -482,12 +419,6 @@
       "FROM_YEAR": "From Year",
       "TO_YEAR": "To Year",
       "PRICE": "Price"
-    },
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Price for this service already exists."
     }
   },
   "TERMS": {
@@ -508,24 +439,18 @@
     "FORM": {
       "TITLE_ADD": "Add Term",
       "TITLE_EDIT": "Edit Term",
+      "TERMS_AND_CONDITIONS_EN": "Terms and Conditions (EN)",
+      "TERMS_AND_CONDITIONS_AR": "Terms and Conditions (AR)",
       "CANCEL_WARRANT_DOCUMENT_EN": "Cancel Warranty Document (EN)",
       "CANCEL_WARRANT_DOCUMENT_AR": "Cancel Warranty Document (AR)",
-      "TERMS_AND_CONDITIONS_AR": "Terms and Conditions (AR)",
-      "TERMS_AND_CONDITIONS_EN": "Terms and Conditions (EN)",
-      "DESCRIPTION_AR": {
-        "LABEL": "Description (AR)",
-        "PLACEHOLDER": "Enter description in Arabic"
-      },
       "DESCRIPTION_EN": {
         "LABEL": "Description (EN)",
         "PLACEHOLDER": "Enter description in English"
+      },
+      "DESCRIPTION_AR": {
+        "LABEL": "Description (AR)",
+        "PLACEHOLDER": "Enter description in Arabic"
       }
-    },
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Term name already exists."
     }
   },
   "PERMISSIONS": {
@@ -572,7 +497,6 @@
     "TABLE": {
       "NO": "#",
       "NAME": "Name",
-      "DESCRIPTION": "Description",
       "ACTIONS": "Actions"
     },
     "EMPTY": "No data to display",
@@ -581,12 +505,6 @@
       "TITLE_EDIT": "Edit Role",
       "ROLE_NAME": "Role Name",
       "DESCRIPTION": "Description"
-    },
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Role name already exists."
     }
   },
   "EMPLOYEES": {
@@ -614,12 +532,31 @@
       "BRANCH": "Branch",
       "PHONE": "Phone",
       "ROLE": "Role"
+    }
+  },
+  "CLIENTS": {
+    "TITLE": "Clients",
+    "ADD": "Add New Client",
+    "TABLE": {
+      "NAME": "Name",
+      "EMAIL": "Email",
+      "PHONE": "Phone",
+      "ADDRESS": "Address",
+      "STATUS": "Status"
     },
-    "TOAST": {
-      "CREATED": "Added successfully.",
-      "UPDATED": "Updated successfully.",
-      "DELETED": "Deleted successfully.",
-      "EXISTS": "Employee email already exists."
+    "EMPTY": "No clients found",
+    "FORM": {
+      "TITLE_ADD": "Add Client",
+      "TITLE_EDIT": "Edit Client",
+      "TYPE": "Client Type",
+      "INDIVIDUAL": "Individual",
+      "COMPANY": "Company",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "EMAIL": "Email",
+      "PHONE": "Phone",
+      "ADDRESS": "Address",
+      "IS_ACTIVE": "Is Active"
     }
   }
 }

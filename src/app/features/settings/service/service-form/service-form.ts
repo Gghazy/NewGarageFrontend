@@ -1,7 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { LookupDto } from 'src/app/shared/Models/lookup-dto';
 import { MechIssueDto } from 'src/app/shared/Models/mech-issues/mech-issue-dto';
@@ -14,13 +16,13 @@ import { StageDto } from 'src/app/shared/Models/service/stage-dto';
   templateUrl: './service-form.html',
   styleUrl: './service-form.css',
 })
-export class ServiceForm {
+export class ServiceForm implements OnInit, OnDestroy {
   @Input() title = 'Add Service';
   @Input() serviceId?: string;
 
   stages: StageDto[] = [];
-
   loading = false;
+  private destroy$ = new Subject<void>();
 
   form = this.fb.group({
     id: [''],
@@ -39,32 +41,42 @@ export class ServiceForm {
   ngOnInit(): void {
       
     if (this.serviceId) {
-      this.apiService.get<ServiceDto>(`Services/${this.serviceId}`).subscribe({
-        next: (data) => {
-          
-          this.form.patchValue({
-            id: data.id ?? '',
-            nameAr: data.nameAr ?? '',
-            nameEn: data.nameEn ?? '',
-            stages: data.stages.map((s: any) => s.id) ?? [],
-          });
-        },
-        error: (err) => {
-          console.error('Error loading service', err);
-        }
-      });
+      this.apiService.get<ServiceDto>(`Services/${this.serviceId}`)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (data) => {
+            this.form.patchValue({
+              id: data.id ?? '',
+              nameAr: data.nameAr ?? '',
+              nameEn: data.nameEn ?? '',
+              stages: data.stages.map((s: any) => s.id) ?? [],
+            });
+          },
+          error: (err) => {
+            console.error('[ServiceForm] Failed to load service:', err);
+            this.toastr.error('Failed to load service', 'Error');
+          }
+        });
     }
     this.getStages();
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
   getStages() {
-    this.apiService.get<StageDto[]>('services/stages').subscribe({
-      next: (data) => {
-        this.stages = data;
-      },
-      error: (err) => {
-        console.error('Error loading mech issue types', err);
-      }
-    });
+    this.apiService.get<StageDto[]>('services/stages')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.stages = data;
+        },
+        error: (err) => {
+          console.error('[ServiceForm] Failed to load stages:', err);
+          this.toastr.error('Failed to load stages', 'Error');
+        }
+      });
   }
   submit() {
     if (this.form.invalid) {
@@ -88,15 +100,34 @@ export class ServiceForm {
     }
   }
   add(request: ServiceDto) {
-    this.apiService.post('Services', request).subscribe(() => {
-      this.activeModal.close(request);
-    });
+    this.apiService.post('Services', request)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.toastr.success('Service created successfully', 'Success');
+          this.activeModal.close(request);
+        },
+        error: (err) => {
+          console.error('[ServiceForm] Failed to create service:', err);
+          this.toastr.error(err?.error?.message ?? 'Failed to create service', 'Error');
+          this.loading = false;
+        }
+      });
   }
-  update(request: ServiceDto) {
-    this.apiService.put(`Services/${request.id}`, request).subscribe((res: any) => {
 
-      this.toastr.success(res.message as string, 'Success');
-      this.activeModal.close(request);
-    });
+  update(request: ServiceDto) {
+    this.apiService.put(`Services/${request.id}`, request)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          this.toastr.success(res.message ?? 'Service updated successfully', 'Success');
+          this.activeModal.close(request);
+        },
+        error: (err) => {
+          console.error('[ServiceForm] Failed to update service:', err);
+          this.toastr.error(err?.error?.message ?? 'Failed to update service', 'Error');
+          this.loading = false;
+        }
+      });
   }
 }

@@ -37,7 +37,8 @@ export class Login {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (res: any) => {
-          this.authService.setToken(res.accessToken);
+          debugger
+          this.authService.setToken(res.data.accessToken);
           const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') ?? '/features';
           
           this.router.navigateByUrl(returnUrl);

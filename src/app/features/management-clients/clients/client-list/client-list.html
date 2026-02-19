@@ -1,0 +1,51 @@
+<app-shared-list
+  [titleKey]="'CLIENTS.TITLE'"
+  [addLabelKey]="'CLIENTS.ADD'"
+  [canAdd]="authService.hasPermission('clients.create')"
+  (addClicked)="openAddClient()"
+  [pagingConfig]="pagingConfig"
+  (pageSizeSearch)="search()"
+  [items]="clients"
+  [emptyText]="'CLIENTS.EMPTY' | translate"
+  (pageChanged)="pagingConfig.currentPage = $event; loadClients();"
+>
+  <!-- header -->
+  <ng-container table-header>
+    <th>#</th>
+    <th>{{ 'CLIENTS.TABLE.NAME' | translate }}</th>
+    <th>{{ 'CLIENTS.TABLE.EMAIL' | translate }}</th>
+    <th>{{ 'CLIENTS.TABLE.PHONE' | translate }}</th>
+    <th>{{ 'CLIENTS.TABLE.STATUS' | translate }}</th>
+    <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
+  </ng-container>
+
+  <!-- body -->
+  <ng-container table-body>
+    <tr *ngFor="let client of clients; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ client.nameEn }}</td>
+      <td>{{ client.email ?? '-' }}</td>
+      <td>{{ client.phone ?? '-' }}</td>
+      <td>
+        <span *ngIf="client.isActive" class="badge bg-success">{{ 'COMMON.ACTIVE' | translate }}</span>
+        <span *ngIf="!client.isActive" class="badge bg-danger">{{ 'COMMON.INACTIVE' | translate }}</span>
+      </td>
+      <td class="text-end">
+        <button
+          *ngIf="authService.hasPermission('clients_edit')"
+          (click)="openEditClient(client)"
+          class="btn btn-sm btn-outline-primary me-1"
+          type="button">
+          {{ 'COMMON.EDIT' | translate }}
+        </button>
+        <button
+          *ngIf="authService.hasPermission('clients_delete')"
+          (click)="deleteClient(client)"
+          class="btn btn-sm btn-outline-danger"
+          type="button">
+          {{ 'COMMON.DELETE' | translate }}
+        </button>
+      </td>
+    </tr>
+  </ng-container>
+</app-shared-list>

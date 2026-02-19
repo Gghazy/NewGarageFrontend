@@ -27,6 +27,16 @@ const routes: Routes = [
         loadChildren: () =>
           import('./users/users-module').then(m => m.UsersModule),
       },
+      {
+        path: 'management-clients',
+        loadChildren: () =>
+          import('./management-clients/management-clients-module').then(m => m.ManagementClientsModule),
+      },
+      {
+        path: 'unauthorized',
+        loadChildren: () =>
+          import('./unauthorized/unauthorized-module').then(m => m.UnauthorizedModule),
+      },
 
     ]
   }

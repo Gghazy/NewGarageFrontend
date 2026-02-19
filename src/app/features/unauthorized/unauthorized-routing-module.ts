@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ClientList } from './client-list/client-list';
+import { UnauthorizedComponent } from './unauthorized';
 
 const routes: Routes = [
   {
     path: '',
-    component: ClientList
-  }
+    component: UnauthorizedComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ClientsRoutingModule { }
+export class UnauthorizedRoutingModule {}
