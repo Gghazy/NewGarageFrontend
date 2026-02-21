@@ -2,6 +2,7 @@ import { inject, PLATFORM_ID } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from '../services/auth.service';
+import { APP_ROUTES } from '../constants/app.constants';
 
 export const authGuard: CanActivateFn = (_route, state) => {
   const platformId = inject(PLATFORM_ID);
@@ -11,6 +12,6 @@ export const authGuard: CanActivateFn = (_route, state) => {
   if (auth.hasValidToken()) return true;
 
   const router = inject(Router);
-  const returnUrl = state?.url ?? '/features';
-  return router.createUrlTree(['/auth/login'], { queryParams: { returnUrl } });
+  const returnUrl = state?.url ?? APP_ROUTES.FEATURES;
+  return router.createUrlTree([APP_ROUTES.AUTH_LOGIN], { queryParams: { returnUrl } });
 };

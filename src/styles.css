@@ -1,17 +1,28 @@
 /* Global styles */
 @import "@ng-select/ng-select/themes/default.theme.css";
 @import 'ngx-toastr/toastr';
+@import 'app/shared/shared-styles.css';
 :root {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  
+  /* Login Color Palette */
+  --primary-dark: #1e3a5f;
+  --primary-darker: #0f4c75;
+  --primary-gradient: linear-gradient(135deg, #1e3a5f, #0f4c75);
+  --light-bg: #f8fafc;
+  --light-border: #e2e8f0;
+  --light-text: #94a3b8;
+  --text-gray: #64748b;
+  --text-dark: #1e293b;
+  --text-label: #374151;
+  --white-text: #fff;
+  --error-bg: #fef2f2;
+  --error-text: #b91c1c;
 }
 
 html, body {
   height: 100%;
-}
-
-body {
-  margin: 0;
-  background: #f6f7fb;
+  background: var(--light-bg);
 }
 .toast-container {
   z-index: 999999 !important;
@@ -26,6 +37,45 @@ body.ltr {
   direction: ltr;
   text-align: left;
 }
+
+/* Global Button Styling */
+.btn-primary {
+  background: var(--primary-gradient);
+  border: none;
+  color: var(--white-text);
+}
+
+.btn-primary:hover {
+  background: var(--primary-darker);
+  color: var(--white-text);
+}
+
+/* Global Link Styling */
+a {
+  color: var(--primary-dark);
+}
+
+a:hover {
+  color: var(--primary-darker);
+}
+
+/* Global Input Styling */
+.form-control,
+.form-select {
+  border-color: var(--light-border);
+  color: var(--text-dark);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 0 0.2rem rgba(30, 58, 95, 0.12);
+}
+
+.form-label {
+  color: var(--text-label);
+}
+
 
 /* Breadcrumb RTL fix */
 [dir="rtl"] .breadcrumb {

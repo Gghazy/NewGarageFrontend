@@ -2,13 +2,15 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ApiService } from 'src/app/core/services/custom.service';
+import { FormService } from 'src/app/core/services/form.service';
+import { ApiResponse } from 'src/app/shared/Models/api-response';
 import { LookupDto } from 'src/app/shared/Models/lookup-dto';
 import { ServiceDto } from 'src/app/shared/Models/service/service-dto';
 import { ServicePriceDto } from 'src/app/shared/Models/servicePrice/service-price-dto';
 import { ServicePriceRequest } from 'src/app/shared/Models/servicePrice/service-price-request';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-service-price-form',
@@ -17,13 +19,12 @@ import { takeUntil } from 'rxjs/operators';
   styleUrl: './service-price-form.css',
 })
 export class ServicePriceForm implements OnInit, OnDestroy {
-  @Input() title = 'Add Service';
+  @Input() title = 'Add Service Price';
   @Input() service?: ServicePriceDto;
-  @Input() serviceId?: string; // Track ID separately
+  @Input() serviceId?: string;
 
   services: ServiceDto[] = [];
   marks: LookupDto[] = [];
-
   loading = false;
   private destroy$ = new Subject<void>();
 
@@ -33,18 +34,17 @@ export class ServicePriceForm implements OnInit, OnDestroy {
     fromYear: this.fb.control<number | null>(null, [Validators.required, Validators.min(1900)]),
     toYear: this.fb.control<number | null>(null, [Validators.required, Validators.min(1900)]),
     price: this.fb.control<number | null>(null, [Validators.required, Validators.min(0)]),
-
   });
 
   constructor(
     private fb: FormBuilder,
-    public apiService: ApiService,
+    private apiService: ApiService,
     public activeModal: NgbActiveModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private formService: FormService
   ) { }
 
   ngOnInit(): void {
-
     if (this.service) {
       this.form.patchValue({
         markId: this.service.markId,
@@ -54,36 +54,8 @@ export class ServicePriceForm implements OnInit, OnDestroy {
         price: this.service.price
       });
     }
-
     this.getServices();
     this.getMarks();
-  }
-  getServices() {
-    this.apiService.get<ServiceDto[]>('services')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (data) => {
-          this.services = data;
-        },
-        error: (err) => {
-          console.error('[ServicePriceForm] Failed to load services:', err);
-          this.toastr.error('Failed to load services', 'Error');
-        }
-      });
-  }
-
-  getMarks() {
-    this.apiService.get<LookupDto[]>('CarMarkes')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (data) => {
-          this.marks = data;
-        },
-        error: (err) => {
-          console.error('[ServicePriceForm] Failed to load marks:', err);
-          this.toastr.error('Failed to load marks', 'Error');
-        }
-      });
   }
 
   ngOnDestroy(): void {
@@ -91,14 +63,36 @@ export class ServicePriceForm implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  isInvalid(controlName: string): boolean {
+    const c = this.form.get(controlName);
+    return !!c && c.invalid && (c.touched || c.dirty);
+  }
+
+  getServices() {
+    // ServicesController GetAll uses Success() -> { data: [...] }
+    this.apiService.get<ApiResponse<ServiceDto[]>>('services')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => { this.services = res.data; },
+        error: (err) => { this.toastr.error(this.formService.extractError(err, 'Failed to load services'), 'Error'); }
+      });
+  }
+
+  getMarks() {
+    // CarMarkesController GetAll uses Success() -> { data: [...] }
+    this.apiService.get<ApiResponse<LookupDto[]>>('CarMarkes')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => { this.marks = res.data; },
+        error: (err) => { this.toastr.error(this.formService.extractError(err, 'Failed to load marks'), 'Error'); }
+      });
+  }
 
   submit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
-
-    this.loading = true;
 
     const value: ServicePriceRequest = {
       id: this.serviceId,
@@ -109,42 +103,18 @@ export class ServicePriceForm implements OnInit, OnDestroy {
       price: this.form.value.price!,
     };
 
-    if (value.id) {
-      this.update(value);
-    } else {
-      this.add(value);
-    }
-  }
+    const isEdit = !!value.id;
+    const apiCall = isEdit
+      ? this.apiService.put(`ServicePrices/${value.id}`, value)
+      : this.apiService.post('ServicePrices', value);
 
-  add(request: ServicePriceRequest) {
-    this.apiService.post('ServicePrices', request)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: () => {
-          this.toastr.success('Service price created successfully', 'Success');
-          this.activeModal.close(request);
-        },
-        error: (err) => {
-          console.error('[ServicePriceForm] Failed to create:', err);
-          this.toastr.error(err?.error?.message ?? 'Failed to create service price', 'Error');
-          this.loading = false;
-        }
-      });
-  }
-
-  update(request: ServicePriceRequest) {
-    this.apiService.put(`ServicePrices/${request.id}`, request)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res: any) => {
-          this.toastr.success(res.message ?? 'Service price updated successfully', 'Success');
-          this.activeModal.close(request);
-        },
-        error: (err) => {
-          console.error('[ServicePriceForm] Failed to update:', err);
-          this.toastr.error(err?.error?.message ?? 'Failed to update service price', 'Error');
-          this.loading = false;
-        }
-      });
+    this.formService.handleSubmit(apiCall.pipe(takeUntil(this.destroy$)) as any, {
+      activeModal: this.activeModal,
+      toastr: this.toastr,
+      successMsg: isEdit ? 'Service price updated successfully' : 'Service price created successfully',
+      errorFallback: isEdit ? 'Failed to update service price' : 'Failed to create service price',
+      setLoading: (v) => (this.loading = v),
+      closeValue: value,
+    });
   }
 }

@@ -1,14 +1,15 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, OnInit, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ApiService } from 'src/app/core/services/custom.service';
-import { SearchCriteria } from 'src/app/shared/Models/search-criteria';
-import { ServicePriceForm } from '../service-price-form/service-price-form';
+import { LanguageService } from 'src/app/core/services/language.service';
 import { ServicePriceDto } from 'src/app/shared/Models/servicePrice/service-price-dto';
 import { ServicePriceSearch } from 'src/app/shared/Models/service-price-search';
-import { LanguageService } from 'src/app/core/services/language.service';
+import { ServicePriceForm } from '../service-price-form/service-price-form';
 
 @Component({
   selector: 'app-service-price-list',
@@ -16,23 +17,24 @@ import { LanguageService } from 'src/app/core/services/language.service';
   templateUrl: './service-price-list.html',
   styleUrl: './service-price-list.css',
 })
-export class ServicePriceList {
+export class ServicePriceList implements OnInit, OnDestroy {
   readonly isAr = computed(() => this.lang.lang() === 'ar');
   servicePrices: ServicePriceDto[] = [];
   loading = false;
+  private destroy$ = new Subject<void>();
 
-pagingConfig: ServicePriceSearch = {
-  search: {
-    itemsPerPage: 10,
-    currentPage: 1,
-    textSearch: '',
-    sort: 'nameAr',
-    desc: false,
-    totalItems: 0
-  },
-  markId: undefined,
-  serviceId: undefined
-}
+  pagingConfig: ServicePriceSearch = {
+    search: {
+      itemsPerPage: 10,
+      currentPage: 1,
+      textSearch: '',
+      sort: 'nameAr',
+      desc: false,
+      totalItems: 0
+    },
+    markId: undefined,
+    serviceId: undefined
+  };
 
   constructor(
     public apiService: ApiService,
@@ -47,39 +49,43 @@ pagingConfig: ServicePriceSearch = {
     this.loadServices();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   loadServices() {
     this.loading = true;
-
-    this.apiService.post<any>('ServicePrices/pagination', this.pagingConfig).subscribe({
-      next: (res) => {
-        this.servicePrices = res.data.items;
-        this.pagingConfig.search.totalItems = res.data.totalCount;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Error loading service prices', err);
-        this.loading = false;
-      }
-    });
+    this.apiService.post<any>('ServicePrices/pagination', this.pagingConfig)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.servicePrices = res.data.items;
+          this.pagingConfig.search.totalItems = res.data.totalCount;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Error loading service prices', err);
+          this.toastr.error('Failed to load service prices', 'Error');
+          this.loading = false;
+        }
+      });
   }
+
   openAddServicePrice() {
     const ref = this.modal.open(ServicePriceForm, { centered: true, backdrop: 'static' });
     ref.componentInstance.title = this.translate.instant('SERVICE_PRICE.ADD');
-
-    ref.result.then((value: ServicePriceDto) => {
-      this.loadServices();
-    }).catch(() => { });
-
+    ref.result.then(() => this.loadServices()).catch(() => { });
   }
-  openEditServicePrice(service: any) {
+
+  openEditServicePrice(service: ServicePriceDto) {
     const ref = this.modal.open(ServicePriceForm, { centered: true, backdrop: 'static' });
     ref.componentInstance.title = this.translate.instant('COMMON.EDIT');
     ref.componentInstance.service = service;
-
-    ref.result.then((value: ServicePriceDto) => {
-      this.loadServices();
-    }).catch(() => { });
+    ref.componentInstance.serviceId = (service as any).id;
+    ref.result.then(() => this.loadServices()).catch(() => { });
   }
+
   search() {
     this.pagingConfig.search.currentPage = 1;
     this.loadServices();

@@ -9,6 +9,7 @@ import { LookupConfig } from '../../Models/lookup-config';
 import { LookupForm } from '../lookup-form/lookup-form';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { PaginatedResponse } from '../../Models/api-response';
 
 @Component({
   selector: 'app-lookup-list',
@@ -33,7 +34,7 @@ export class LookupList implements OnInit, OnDestroy {
   };
 
   constructor(
-    public apiService: ApiService,
+    private apiService: ApiService,
     private modal: NgbModal,
     private translate: TranslateService,
     public authService: AuthService,
@@ -46,7 +47,7 @@ export class LookupList implements OnInit, OnDestroy {
   load() {
     this.loading = true;
 
-    this.apiService.post<any>(`${this.config.apiBase}/pagination`, this.pagingConfig)
+    this.apiService.post<PaginatedResponse<LookupDto>>(`${this.config.apiBase}/pagination`, this.pagingConfig)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {

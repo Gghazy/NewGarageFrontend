@@ -5,8 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ApiService } from 'src/app/core/services/custom.service';
-import { LookupDto } from 'src/app/shared/Models/lookup-dto';
-import { MechIssueDto } from 'src/app/shared/Models/mech-issues/mech-issue-dto';
+import { FormService } from 'src/app/core/services/form.service';
+import { ApiResponse } from 'src/app/shared/Models/api-response';
 import { ServiceDto } from 'src/app/shared/Models/service/service-dto';
 import { StageDto } from 'src/app/shared/Models/service/stage-dto';
 
@@ -33,28 +33,29 @@ export class ServiceForm implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    public apiService: ApiService,
+    private apiService: ApiService,
     public activeModal: NgbActiveModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private formService: FormService
   ) { }
 
   ngOnInit(): void {
-      
     if (this.serviceId) {
-      this.apiService.get<ServiceDto>(`Services/${this.serviceId}`)
+      // GET /{id} returns ApiResponse<ServiceDto> -> { data: {...}, message: null }
+      this.apiService.get<ApiResponse<ServiceDto>>(`Services/${this.serviceId}`)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (data) => {
+          next: (res) => {
+            const data = res.data;
             this.form.patchValue({
               id: data.id ?? '',
               nameAr: data.nameAr ?? '',
               nameEn: data.nameEn ?? '',
-              stages: data.stages.map((s: any) => s.id) ?? [],
+              stages: data.stages?.map((s: any) => s.id) ?? [],
             });
           },
           error: (err) => {
-            console.error('[ServiceForm] Failed to load service:', err);
-            this.toastr.error('Failed to load service', 'Error');
+            this.toastr.error(this.formService.extractError(err, 'Failed to load service'), 'Error');
           }
         });
     }
@@ -65,26 +66,27 @@ export class ServiceForm implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+  isInvalid(controlName: string): boolean {
+    const c = this.form.get(controlName);
+    return !!c && c.invalid && (c.touched || c.dirty);
+  }
+
   getStages() {
-    this.apiService.get<StageDto[]>('services/stages')
+    // GET /stages returns ApiResponse<Stage[]> -> { data: [...] }
+    this.apiService.get<ApiResponse<StageDto[]>>('services/stages')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (data) => {
-          this.stages = data;
-        },
-        error: (err) => {
-          console.error('[ServiceForm] Failed to load stages:', err);
-          this.toastr.error('Failed to load stages', 'Error');
-        }
+        next: (res) => { this.stages = res.data; },
+        error: (err) => { this.toastr.error(this.formService.extractError(err, 'Failed to load stages'), 'Error'); }
       });
   }
+
   submit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
-
-    this.loading = true;
 
     const value: ServiceDto = {
       nameAr: this.form.value.nameAr!,
@@ -93,41 +95,18 @@ export class ServiceForm implements OnInit, OnDestroy {
       stages: this.form.value.stages!,
     };
 
-    if (value.id) {
-      this.update(value);
-    } else {
-      this.add(value);
-    }
-  }
-  add(request: ServiceDto) {
-    this.apiService.post('Services', request)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: () => {
-          this.toastr.success('Service created successfully', 'Success');
-          this.activeModal.close(request);
-        },
-        error: (err) => {
-          console.error('[ServiceForm] Failed to create service:', err);
-          this.toastr.error(err?.error?.message ?? 'Failed to create service', 'Error');
-          this.loading = false;
-        }
-      });
-  }
+    const isEdit = !!value.id;
+    const apiCall = isEdit
+      ? this.apiService.put(`Services/${value.id}`, value)
+      : this.apiService.post('Services', value);
 
-  update(request: ServiceDto) {
-    this.apiService.put(`Services/${request.id}`, request)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res: any) => {
-          this.toastr.success(res.message ?? 'Service updated successfully', 'Success');
-          this.activeModal.close(request);
-        },
-        error: (err) => {
-          console.error('[ServiceForm] Failed to update service:', err);
-          this.toastr.error(err?.error?.message ?? 'Failed to update service', 'Error');
-          this.loading = false;
-        }
-      });
+    this.formService.handleSubmit(apiCall.pipe(takeUntil(this.destroy$)) as any, {
+      activeModal: this.activeModal,
+      toastr: this.toastr,
+      successMsg: isEdit ? 'Service updated successfully' : 'Service created successfully',
+      errorFallback: isEdit ? 'Failed to update service' : 'Failed to create service',
+      setLoading: (v) => (this.loading = v),
+      closeValue: value,
+    });
   }
 }

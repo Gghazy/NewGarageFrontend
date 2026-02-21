@@ -1,28 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ApiService } from 'src/app/core/services/custom.service';
+import { FormService } from 'src/app/core/services/form.service';
 
 export type PermissionMap = Record<string, string[]>;
+export type PermissionSelection = Record<string, Set<string>>;
 
-export type PermissionSelection = Record<string, Set<string>>
 type ViewModule = {
   name: string;
   key: string;
   actions: string[];
 };
+
 @Component({
   selector: 'app-role-form',
   standalone: false,
   templateUrl: './role-form.html',
   styleUrl: './role-form.css',
 })
-
-
-export class RoleForm {
+export class RoleForm implements OnInit, OnDestroy {
   loading = true;
   saving = false;
   isEdit = false;
-  // edit mode
   roleId?: string;
   roleName = '';
 
@@ -30,53 +32,66 @@ export class RoleForm {
   selected = new Map<string, Set<string>>();
 
   private readonly actionOrder = ['Read', 'Create', 'Update', 'Delete'];
+  private destroy$ = new Subject<void>();
 
   constructor(
-    private api: ApiService,
     private apiService: ApiService,
+    private formService: FormService,
+    private toastr: ToastrService,
     private route: ActivatedRoute,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(p => {
+    this.route.paramMap
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(p => {
+        this.roleId = p.get('id') ?? undefined;
+        this.isEdit = !!this.roleId;
+      });
 
-      this.roleId = p.get('id') ?? undefined;
-      this.isEdit = !!this.roleId;
-
-      if (this.isEdit)
-        this.loadRole(this.roleId!);
-    });
-
-    this.api.get<PermissionMap>('Permissions/grouped').subscribe({
-      next: (map) => {
-        this.modules = this.toView(map);
-        this.modules.forEach(m => this.selected.set(m.name, new Set<string>()));
-        if (this.roleId) {
-          this.loadRole(this.roleId);
-        } else {
+    this.apiService.get<PermissionMap>('Permissions/grouped')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (map) => {
+          this.modules = this.toView(map);
+          this.modules.forEach(m => this.selected.set(m.name, new Set<string>()));
+          if (this.roleId) {
+            this.loadRole(this.roleId);
+          } else {
+            this.loading = false;
+          }
+        },
+        error: (err) => {
+          this.toastr.error(this.formService.extractError(err, 'Failed to load permissions'), 'Error');
           this.loading = false;
         }
-      },
-      error: () => (this.loading = false)
-    });
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private loadRole(id: string) {
-    this.apiService.get<any>(`Roles/${id}`).subscribe({
-      next: (role) => {
-        this.roleName = role.name ?? '';
-        this.applyFlatPermissions(role.permissions ?? []);
-        this.loading = false;
-      },
-      error: () => (this.loading = false)
-    });
+    this.apiService.get<any>(`Roles/${id}`)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (role) => {
+          this.roleName = role.name ?? '';
+          this.applyFlatPermissions(role.permissions ?? []);
+          this.loading = false;
+        },
+        error: (err) => {
+          this.toastr.error(this.formService.extractError(err, 'Failed to load role'), 'Error');
+          this.loading = false;
+        }
+      });
   }
-
 
   toggle(moduleName: string, action: string, checked: boolean): void {
     const set = this.selected.get(moduleName) ?? new Set<string>();
-
     if (checked) {
       set.add(action);
       if (action !== 'Read') set.add('Read');
@@ -84,7 +99,6 @@ export class RoleForm {
       set.delete(action);
       if (action === 'Read') ['Create', 'Update', 'Delete'].forEach(a => set.delete(a));
     }
-
     this.selected.set(moduleName, set);
   }
 
@@ -106,42 +120,43 @@ export class RoleForm {
     return this.selected.get(moduleName)?.has(action) ?? false;
   }
 
-
   save(): void {
-    
     const roleName = (this.roleName || '').trim();
-    if (!roleName) return;
+    if (!roleName) {
+      this.toastr.warning('Role name is required', 'Validation');
+      return;
+    }
 
     const permissions = this.buildFlatPermissions();
-
     this.saving = true;
 
     const body = { roleName, permissions };
+    const apiCall = this.isEdit
+      ? this.apiService.put(`Roles/${this.roleId}`, body)
+      : this.apiService.post('Roles', body);
 
-
-      
-
-    this.apiService.post('Roles', body).subscribe({
-      next: () => {
+    apiCall.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (res: any) => {
+        this.toastr.success(res?.message ?? (this.isEdit ? 'Role updated successfully' : 'Role created successfully'), 'Success');
         this.saving = false;
-        this.router.navigate(['/features/users/roles']); 
+        this.router.navigate(['/features/users/roles']);
       },
-      error: () => (this.saving = false)
+      error: (err) => {
+        this.toastr.error(this.formService.extractError(err, 'Failed to save role'), 'Error');
+        this.saving = false;
+      }
     });
   }
 
   buildFlatPermissions(): string[] {
     const flat: string[] = [];
-
     for (const m of this.modules) {
       const set = this.selected.get(m.name);
       if (!set || set.size === 0) continue;
-
       for (const action of set.values()) {
         flat.push(`${m.key}.${action.toLowerCase()}`);
       }
     }
-
     return Array.from(new Set(flat)).sort((a, b) => a.localeCompare(b));
   }
 
@@ -149,10 +164,8 @@ export class RoleForm {
     for (const p of flat) {
       const [modKey, act] = p.split('.');
       if (!modKey || !act) continue;
-
       const module = this.modules.find(m => m.key === modKey);
       if (!module) continue;
-
       const action = this.toActionLabel(act);
       const set = this.selected.get(module.name) ?? new Set<string>();
       set.add(action);
@@ -168,7 +181,6 @@ export class RoleForm {
     if (x === 'delete') return 'Delete';
     return x ? x[0].toUpperCase() + x.slice(1) : a;
   }
-
 
   private toView(map: PermissionMap): ViewModule[] {
     return Object.entries(map)

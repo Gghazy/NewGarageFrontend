@@ -2,6 +2,7 @@ import { Component, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { LanguageService } from 'src/app/core/services/language.service';
+import { ThemeService } from 'src/app/core/services/theme.service';
 import { APP_MENU, AppMenuItem } from './APP_MENU';
 
 @Component({
@@ -15,7 +16,7 @@ export class Topbar {
     private auth: AuthService,
     private router: Router,
     public langService: LanguageService,
-
+    public themeService: ThemeService,
   ) { }
 
   readonly menu = computed(() => this.filterMenu(APP_MENU));
@@ -60,5 +61,9 @@ export class Topbar {
 
   toggleLang() {
     this.langService.toggle();
+  }
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
   }
 }

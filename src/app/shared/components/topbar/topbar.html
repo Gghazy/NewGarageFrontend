@@ -1,13 +1,40 @@
-<nav class="navbar navbar-expand-lg topbar px-3" [attr.dir]="lang === 'ar' ? 'rtl' : 'ltr'">
+<nav class="navbar-wrapper" [attr.dir]="lang === 'ar' ? 'rtl' : 'ltr'">
+  <!-- Top Navbar -->
+  <div class="navbar-top">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#garageNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#garageNavbar">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <button type="button" class="btn btn-outline-light btn-sm language-toggle" (click)="toggleLang()">
+      {{ lang === 'ar' ? 'EN' : 'AR' }}
+    </button>
 
-  <div class="collapse navbar-collapse" id="garageNavbar">
+    <button type="button" class="theme-toggle" (click)="toggleTheme()" [attr.title]="themeService.isDarkMode() ? 'Light Mode' : 'Dark Mode'">
+      <i [class]="themeService.isDarkMode() ? 'bi bi-sun-fill' : 'bi bi-moon-fill'"></i>
+    </button>
 
-    <ul class="navbar-nav mb-2 mb-lg-0">
+    <div class="user-profile">
+      <div class="dropdown">
+        <button class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown">
+          <i class="bi bi-person-circle me-1"></i> {{ employeeName() }}
+        </button>
 
+        <ul class="dropdown-menu" [class.dropdown-menu-start]="lang === 'ar'" [class.dropdown-menu-end]="lang !== 'ar'">
+          <li><a class="dropdown-item" routerLink="/profile">{{ 'MENU.PROFILE' | translate }}</a></li>
+          <li>
+            <hr class="dropdown-divider" />
+          </li>
+          <li><button class="dropdown-item text-danger" (click)="logout()">{{ 'MENU.LOGOUT' | translate }}</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Separate Secondary Menu Bar -->
+<div class="secondary-menu-bar">
+  <div class="container-fluid">
+    <ul class="secondary-nav">
       <li class="nav-item dropdown" *ngFor="let parent of menu()">
         <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
           <i [class]="(parent.icon || '') + ' me-1'"></i>
@@ -23,30 +50,6 @@
           </li>
         </ul>
       </li>
-
     </ul>
-
-    <div class="d-flex align-items-center gap-2" [class.me-auto]="lang === 'ar'" [class.ms-auto]="lang !== 'ar'">
-
-      <button type="button" class="btn btn-outline-light btn-sm" (click)="toggleLang()">
-        {{ lang === 'ar' ? 'EN' : 'AR' }}
-      </button>
-
-      <div class="dropdown">
-        <button class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown">
-          <i class="bi bi-person-circle me-1"></i> {{ employeeName() }}
-        </button>
-
-        <ul class="dropdown-menu" [class.dropdown-menu-start]="lang === 'ar'" [class.dropdown-menu-end]="lang !== 'ar'">
-          <li><a class="dropdown-item" routerLink="/profile">{{ 'MENU.PROFILE' | translate }}</a></li>
-          <li>
-            <hr class="dropdown-divider" />
-          </li>
-          <li><button class="dropdown-item text-danger" (click)="logout()">{{ 'MENU.LOGOUT' | translate }}</button></li>
-        </ul>
-      </div>
-
-    </div>
-
   </div>
-</nav>
+</div>

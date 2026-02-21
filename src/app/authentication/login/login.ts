@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { finalize } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ApiService } from 'src/app/core/services/custom.service';
@@ -7,14 +8,17 @@ import { ApiService } from 'src/app/core/services/custom.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.html',
+  styleUrl: './login.css',
   standalone: false
 })
 export class Login {
   username = '';
   password = '';
+  showPassword = false;
 
   loading = false;
   errorMsg = '';
+  readonly currentYear = new Date().getFullYear();
 
   constructor(
     private apiService: ApiService,
@@ -22,6 +26,10 @@ export class Login {
     private route: ActivatedRoute,
     private authService: AuthService,
   ) {}
+
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+  }
 
   submit(): void {
     this.errorMsg = '';
@@ -37,14 +45,12 @@ export class Login {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (res: any) => {
-          debugger
           this.authService.setToken(res.data.accessToken);
           const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') ?? '/features';
-          
           this.router.navigateByUrl(returnUrl);
         },
-        error: (err) => {
-          this.errorMsg = err?.error?.message ?? 'Login failed';
+        error: (err: HttpErrorResponse) => {
+          this.errorMsg = err?.error?.message ?? 'Login failed. Please check your credentials.';
         },
       });
   }

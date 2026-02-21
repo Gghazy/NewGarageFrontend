@@ -1,14 +1,24 @@
 #pageSize {
-    width: 80px!important;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    font-size: 14px;
-    text-align: center;
-    background-color: #fff;
-    cursor: pointer;
-  }
-  #pageSize:hover {
-    background-color: #e9ecef;
-  }
+  width: 80px !important;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--light-border);
+  font-size: 0.95rem;
+  text-align: center;
+  background-color: #fff;
+  cursor: pointer;
+  color: var(--text-dark);
+  transition: all 0.2s ease;
+}
+
+#pageSize:hover {
+  background-color: var(--light-bg);
+  border-color: var(--primary-dark);
+}
+
+#pageSize:focus {
+  outline: none;
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.12);
+}
   

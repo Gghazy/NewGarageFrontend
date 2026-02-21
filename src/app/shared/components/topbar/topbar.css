@@ -1,31 +1,200 @@
-.topbar{
-  background:#1f7a8c;
-  min-height:56px;
+/* Topbar component - using design system colors */
+
+/* Wrapper for the entire navbar structure */
+.navbar-wrapper {
+  background: var(--primary-gradient);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(30, 58, 95, 0.15);
 }
 
-.navbar-nav{
-  gap: 6px;
+/* Top navbar section with branding and user controls */
+.navbar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 60px;
+  padding: 0.75rem 1.5rem;
+  border-bottom: none;
+  gap: 1rem;
 }
 
-.dropdown-menu{
-  border-radius:10px;
-}
-.navbar-nav {
-  gap: 0 !important;
-}
-
-.nav-item {
-  margin: 0 6px !important;
-}
-
-.nav-link {
-  padding-left: 8px !important;
-  padding-right: 8px !important;
+/* SEPARATE Secondary Menu Bar - Completely Independent */
+.secondary-menu-bar {
+  background: #fff;
+  border-top: 3px solid var(--primary-dark);
+  border-bottom: 1px solid var(--light-border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.secondary-menu-bar .container-fluid {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: none;
+  width: auto;
+}
 
-.nav-link{
-  background-color: #1f7a8c;
-  color: white !important;
-  border-radius: 5px;
+/* Secondary Navigation Items */
+.secondary-nav {
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+  display: flex;
+  list-style: none;
+  justify-content: center;
+}
+
+.secondary-nav .nav-item {
+  margin: 0;
+}
+
+.secondary-nav .nav-link {
+  padding: 0.5rem 0.85rem !important;
+  color: var(--primary-dark) !important;
+  background: transparent;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  border: none;
+  cursor: pointer;
+}
+
+.secondary-nav .nav-link:hover {
+  background: var(--light-bg);
+  color: var(--primary-darker) !important;
+}
+
+.secondary-nav .nav-link.active {
+  background: var(--primary-dark);
+  color: #fff !important;
+  font-weight: 600;
+}
+
+/* Dropdown styling in secondary menu */
+.secondary-menu-bar .dropdown-menu {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+}
+
+.secondary-menu-bar .dropdown-item {
+  transition: all 0.2s ease;
+  padding: 0.65rem 1.25rem;
+  color: var(--text-dark);
+  font-size: 0.95rem;
+}
+
+.secondary-menu-bar .dropdown-item:hover,
+.secondary-menu-bar .dropdown-item.active {
+  background: var(--primary-gradient);
+  color: #fff;
+}
+
+/* Actions section (language toggle and user profile) */
+.language-toggle {
+  order: -1;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.theme-toggle {
+  order: 0;
+  flex-grow: 0;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.85);
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.user-profile {
+  order: 1;
+  margin-left: auto;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+[dir="rtl"] .user-profile {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.navbar-toggler {
+  border: none;
+  padding: 0.25rem 0.5rem;
+  order: -1;
+  display: none;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+  outline: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.85)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .navbar-top {
+    min-height: 56px;
+    padding: 0.5rem 1rem;
+  }
+
+  .secondary-menu-bar {
+    display: none;
+  }
+
+  .navbar-toggler {
+    display: block;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-top {
+    min-height: 52px;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .secondary-menu-bar {
+    display: none;
+  }
+
+  .navbar-toggler {
+    padding: 0.2rem 0.4rem;
+  }
+
+  .language-toggle {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.75rem;
+  }
+
+  .secondary-nav .nav-link {
+    padding: 0.4rem 0.6rem !important;
+    font-size: 0.85rem;
+  }
+
+  .btn-sm {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.8rem;
+  }
 }

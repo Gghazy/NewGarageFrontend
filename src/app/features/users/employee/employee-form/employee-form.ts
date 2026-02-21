@@ -1,9 +1,13 @@
-import { Component, computed, Input } from '@angular/core';
+import { Component, computed, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ApiService } from 'src/app/core/services/custom.service';
+import { FormService } from 'src/app/core/services/form.service';
 import { LanguageService } from 'src/app/core/services/language.service';
+import { ApiResponse } from 'src/app/shared/Models/api-response';
 import { EmployeeDto } from 'src/app/shared/Models/employees/employee-dto';
 import { EmployeeRequest } from 'src/app/shared/Models/employees/employee-request';
 import { LookupDto } from 'src/app/shared/Models/lookup-dto';
@@ -15,8 +19,7 @@ import { RoleDto } from 'src/app/shared/Models/roles/role-dto';
   templateUrl: './employee-form.html',
   styleUrl: './employee-form.css',
 })
-export class EmployeeForm {
-
+export class EmployeeForm implements OnInit, OnDestroy {
   readonly isAr = computed(() => this.lang.lang() === 'ar');
 
   @Input() title = 'Add Employee';
@@ -24,31 +27,29 @@ export class EmployeeForm {
 
   roles: RoleDto[] = [];
   branches: LookupDto[] = [];
-
   loading = false;
+  private destroy$ = new Subject<void>();
 
   form = this.fb.group({
     id: [''],
     nameAr: ['', Validators.required],
     nameEn: ['', Validators.required],
     phoneNumber: ['', Validators.required],
-    email: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
     branchId: ['', Validators.required],
     roleId: ['', Validators.required],
   });
 
   constructor(
     private fb: FormBuilder,
-    public apiService: ApiService,
+    private apiService: ApiService,
     public activeModal: NgbActiveModal,
     private toastr: ToastrService,
-     public lang: LanguageService
+    private formService: FormService,
+    public lang: LanguageService
   ) { }
 
   ngOnInit(): void {
-
-    debugger
-
     if (this.employee) {
       this.form.patchValue({
         id: this.employee.id,
@@ -60,32 +61,34 @@ export class EmployeeForm {
         roleId: this.employee.roleId,
       });
     }
-
     this.getRoles();
     this.getBranches();
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   getRoles() {
-    this.apiService.get<RoleDto[]>('Roles').subscribe({
-      next: (data) => {
-        this.roles = data;
-      },
-      error: (err) => {
-        console.error('Error loading roles', err);
-      }
-    });
+    // RolesController returns raw List<RoleDto> (no ApiResponse wrapper)
+    this.apiService.get<RoleDto[]>('Roles')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => { this.roles = data; },
+        error: (err) => { this.toastr.error(this.formService.extractError(err, 'Failed to load roles'), 'Error'); }
+      });
   }
+
   getBranches() {
-    this.apiService.get<LookupDto[]>('Branches').subscribe({
-      next: (data) => {
-        this.branches = data;
-      },
-      error: (err) => {
-        console.error('Error loading branches', err);
-      }
-    });
+    // BranchesController uses Success() -> { data: [...] }
+    this.apiService.get<ApiResponse<LookupDto[]>>('Branches')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => { this.branches = res.data; },
+        error: (err) => { this.toastr.error(this.formService.extractError(err, 'Failed to load branches'), 'Error'); }
+      });
   }
-
-
 
   submit() {
     if (this.form.invalid) {
@@ -93,33 +96,24 @@ export class EmployeeForm {
       return;
     }
 
-    this.loading = true;
-
     const value = this.form.value as EmployeeRequest;
-    debugger
-    if (value.id) {
-      this.update(value);
-    } else {
-      this.add(value);
-    }
+    const isEdit = !!value.id;
+    const apiCall = isEdit
+      ? this.apiService.put(`Employees/${value.id}`, value)
+      : this.apiService.post('Employees', value);
 
-  }
-
-  add(request: EmployeeRequest) {
-    this.apiService.post('Employees', request).subscribe(() => {
-      this.activeModal.close(request);
-    });
-  }
-  update(request: EmployeeRequest) {
-    this.apiService.put(`Employees/${request.id}`, request).subscribe((res: any) => {
-
-      this.toastr.success(res.message as string, 'Success');
-      this.activeModal.close(request);
+    this.formService.handleSubmit(apiCall.pipe(takeUntil(this.destroy$)) as any, {
+      activeModal: this.activeModal,
+      toastr: this.toastr,
+      successMsg: isEdit ? 'Employee updated successfully' : 'Employee created successfully',
+      errorFallback: isEdit ? 'Failed to update employee' : 'Failed to create employee',
+      setLoading: (v) => (this.loading = v),
+      closeValue: value,
     });
   }
 
   isInvalid(controlName: string): boolean {
-  const c = this.form.get(controlName);
-  return !!c && c.invalid && (c.touched || c.dirty);
-}
+    const c = this.form.get(controlName);
+    return !!c && c.invalid && (c.touched || c.dirty);
+  }
 }

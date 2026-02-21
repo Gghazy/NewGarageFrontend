@@ -1,8 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ApiService } from 'src/app/core/services/custom.service';
+import { FormService } from 'src/app/core/services/form.service';
+import { Observable } from 'rxjs';
 
 export interface BranchFormValue {
   id?: number;
@@ -16,11 +20,12 @@ export interface BranchFormValue {
   templateUrl: './branch-form.html',
   styleUrl: './branch-form.css',
 })
-export class BranchForm implements OnInit {
+export class BranchForm implements OnInit, OnDestroy {
   @Input() title = 'Add Branch';
   @Input() initial?: Partial<BranchFormValue>;
 
   loading = false;
+  private destroy$ = new Subject<void>();
 
   form = this.fb.group({
     id: [0],
@@ -30,9 +35,10 @@ export class BranchForm implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    public apiService: ApiService,
+    private apiService: ApiService,
     public activeModal: NgbActiveModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private formService: FormService
   ) { }
 
   ngOnInit(): void {
@@ -45,36 +51,40 @@ export class BranchForm implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  isInvalid(controlName: string): boolean {
+    const c = this.form.get(controlName);
+    return !!c && c.invalid && (c.touched || c.dirty);
+  }
+
   submit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    this.loading = true;
-
     const value: BranchFormValue = {
       nameAr: this.form.value.nameAr!,
       nameEn: this.form.value.nameEn!,
       id: this.form.value.id!,
     };
-    
-    if (value.id) {
-      this.update(value);
-    } else {
-      this.add(value);
-    }
-  }
-  add(request: BranchFormValue) {
-    this.apiService.post('branches', request).subscribe(() => {
-      this.activeModal.close(request);
-    });
-  }
-  update(request: BranchFormValue) {
-    this.apiService.put(`branches/${request.id}`, request).subscribe((res :any) => {
-      
-      this.toastr.success(res.message as string, 'Success');
-      this.activeModal.close(request);
+
+    const isEdit = !!value.id;
+    const apiCall: Observable<unknown> = isEdit
+      ? this.apiService.put(`branches/${value.id}`, value)
+      : this.apiService.post('branches', value);
+
+    this.formService.handleSubmit(apiCall.pipe(takeUntil(this.destroy$)), {
+      activeModal: this.activeModal,
+      toastr: this.toastr,
+      successMsg: isEdit ? 'Branch updated successfully' : 'Branch created successfully',
+      errorFallback: isEdit ? 'Failed to update branch' : 'Failed to create branch',
+      setLoading: (v) => (this.loading = v),
+      closeValue: value,
     });
   }
 }

@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { RoleDto } from 'src/app/shared/Models/roles/role-dto';
 
@@ -9,12 +12,14 @@ import { RoleDto } from 'src/app/shared/Models/roles/role-dto';
   templateUrl: './role-list.html',
   styleUrl: './role-list.css',
 })
-export class RoleList {
+export class RoleList implements OnInit, OnDestroy {
   loading = true;
   roles: RoleDto[] = [];
+  private destroy$ = new Subject<void>();
 
   constructor(
     private apiService: ApiService,
+    private toastr: ToastrService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -23,16 +28,27 @@ export class RoleList {
     this.load();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   load() {
     this.loading = true;
-
-    this.apiService.get<RoleDto[]>('Roles').subscribe({
-      next: res => {
-        this.roles = res;
-        this.loading = false;
-      },
-      error: _ => this.loading = false
-    });
+    // RolesController returns raw List<RoleDto> (no ApiResponse wrapper)
+    this.apiService.get<RoleDto[]>('Roles')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.roles = res;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Error loading roles', err);
+          this.toastr.error('Failed to load roles', 'Error');
+          this.loading = false;
+        }
+      });
   }
 
   create() {

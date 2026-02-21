@@ -9,14 +9,15 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AppConfig } from '../config/config';
+import { CONFIG_KEYS } from '../constants/app.constants';
 
-type ResponseType = 'json' | 'blob' | 'text';
+type ResponseType = 'json' | 'blob' | 'text' | 'arraybuffer';
 
 export interface RequestOptions {
   params?: HttpParams | Record<string, string | number | boolean | readonly (string | number | boolean)[]>;
   headers?: HttpHeaders | Record<string, string | string[]>;
   context?: HttpContext;
-  responseType?: ResponseType; 
+  responseType?: ResponseType;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -27,11 +28,9 @@ export class ApiService {
     private readonly http: HttpClient,
     private readonly appConfig: AppConfig,
   ) {
-    const root = String(this.appConfig.setting?.['PathAPI'] ?? '').replace(/\/+$/, '');
+    const root = String(this.appConfig.setting?.[CONFIG_KEYS.PATH_API] ?? '').replace(/\/+$/, '');
     this.baseUrl = `${root}/api/`;
   }
-
-
 
   get<T>(url: string, options?: RequestOptions): Observable<T> {
     return this.request<T>('GET', url, undefined, options);
@@ -65,8 +64,6 @@ export class ApiService {
     return this.request<Blob>('POST', url, filter, { ...options, responseType: 'blob' });
   }
 
-
-
   private request<T>(
     method: 'GET' | 'POST' | 'PUT' | 'DELETE',
     url: string,
@@ -75,12 +72,14 @@ export class ApiService {
   ): Observable<T> {
     const fullUrl = this.buildUrl(url);
 
+    // HttpClient overloads require a cast when responseType is dynamic
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const responseType = (options.responseType ?? 'json') as any;
 
     return this.http.request<T>(method, fullUrl, {
       body,
-      params: options.params as any,
-      headers: options.headers as any,
+      params: options.params as HttpParams,
+      headers: options.headers as HttpHeaders,
       context: options.context,
       responseType,
     }).pipe(
@@ -94,19 +93,7 @@ export class ApiService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    const isClient = error.error instanceof ErrorEvent;
-
-    const message = isClient
-      ? `Client error: ${error.error.message}`
-      : `Server error (${error.status}): ${this.safeStringify(error.error)}`;
-
-    console.error('[ApiService]', message);
-
-    return throwError(() => new Error(message));
-  }
-
-  private safeStringify(value: unknown): string {
-    if (typeof value === 'string') return value;
-    try { return JSON.stringify(value); } catch { return String(value); }
+    console.error('[ApiService]', error);
+    return throwError(() => error);
   }
 }

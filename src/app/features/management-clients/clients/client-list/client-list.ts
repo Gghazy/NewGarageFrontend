@@ -7,6 +7,8 @@ import { SearchCriteria } from 'src/app/shared/Models/search-criteria';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ClientForm } from '../client-form/client-form';
+import { ClientDto } from 'src/app/shared/Models/clients/client-dto';
+import { PaginatedResponse } from 'src/app/shared/Models/api-response';
 
 @Component({
   selector: 'app-client-list',
@@ -15,7 +17,7 @@ import { ClientForm } from '../client-form/client-form';
   styleUrl: './client-list.css',
 })
 export class ClientList implements OnInit, OnDestroy {
-  clients: any[] = [];
+  clients: ClientDto[] = [];
   private destroy$ = new Subject<void>();
 
   pagingConfig: SearchCriteria = {
@@ -28,7 +30,7 @@ export class ClientList implements OnInit, OnDestroy {
   };
 
   constructor(
-    public apiService: ApiService,
+    private apiService: ApiService,
     private modal: NgbModal,
     private toastr: ToastrService,
     public authService: AuthService,
@@ -44,7 +46,7 @@ export class ClientList implements OnInit, OnDestroy {
   }
 
   loadClients() {
-    this.apiService.post<any>('Clients/pagination', this.pagingConfig)
+    this.apiService.post<PaginatedResponse<ClientDto>>('Clients/pagination', this.pagingConfig)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
@@ -65,7 +67,7 @@ export class ClientList implements OnInit, OnDestroy {
     ref.result.then(() => this.loadClients()).catch(() => {});
   }
 
-  openEditClient(client: any) {
+  openEditClient(client: ClientDto) {
     const ref = this.modal.open(ClientForm, { centered: true, backdrop: 'static', size: 'lg' });
     ref.componentInstance.title = 'Edit Client';
     ref.componentInstance.clientId = client.id;
@@ -73,7 +75,7 @@ export class ClientList implements OnInit, OnDestroy {
     ref.result.then(() => this.loadClients()).catch(() => {});
   }
 
-  deleteClient(client: any) {
+  deleteClient(client: ClientDto) {
     if (confirm('Are you sure you want to delete this client?')) {
       this.apiService.delete(`Clients/${client.id}`)
         .pipe(takeUntil(this.destroy$))

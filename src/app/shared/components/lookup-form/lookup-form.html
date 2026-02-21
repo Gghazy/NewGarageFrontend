@@ -6,23 +6,27 @@
 <div class="modal-body" [formGroup]="form">
   <div class="mb-3">
     <label class="form-label">{{ config.nameArKey | translate }}</label>
-    <input class="form-control" formControlName="nameAr" />
-    <div class="text-danger small" *ngIf="form.get('nameAr')?.touched && form.get('nameAr')?.invalid">
-      Required
+    <input class="form-control" formControlName="nameAr"
+      [class.is-invalid]="form.get('nameAr')?.touched && form.get('nameAr')?.invalid" />
+    <div class="invalid-feedback" *ngIf="form.get('nameAr')?.touched && form.get('nameAr')?.invalid">
+      <span *ngIf="form.get('nameAr')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+      <span *ngIf="form.get('nameAr')?.errors?.['maxlength']">{{ 'VALIDATION.MAX_LENGTH' | translate:{max: 200} }}</span>
     </div>
   </div>
 
   <div class="mb-3">
     <label class="form-label">{{ config.nameEnKey | translate }}</label>
-    <input class="form-control" formControlName="nameEn" />
-    <div class="text-danger small" *ngIf="form.get('nameEn')?.touched && form.get('nameEn')?.invalid">
-      Required
+    <input class="form-control" formControlName="nameEn"
+      [class.is-invalid]="form.get('nameEn')?.touched && form.get('nameEn')?.invalid" />
+    <div class="invalid-feedback" *ngIf="form.get('nameEn')?.touched && form.get('nameEn')?.invalid">
+      <span *ngIf="form.get('nameEn')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+      <span *ngIf="form.get('nameEn')?.errors?.['maxlength']">{{ 'VALIDATION.MAX_LENGTH' | translate:{max: 200} }}</span>
     </div>
   </div>
 </div>
 
 <div class="modal-footer">
-  <button class="btn btn-light" [disabled]="loading" (click)="activeModal.dismiss()">Cancel</button>
+  <button class="btn btn-light" [disabled]="loading" (click)="activeModal.dismiss()">{{ 'COMMON.CANCEL' | translate }}</button>
   <button class="btn btn-primary" [disabled]="loading" (click)="submit()">
     <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
     {{ 'COMMON.SAVE' | translate }}

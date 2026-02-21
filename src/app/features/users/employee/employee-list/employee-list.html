@@ -7,7 +7,7 @@
   (pageSizeSearch)="search()"
   [items]="employees"
   [emptyText]="'No employees found'"
-  (pageChanged)="pagingConfig.currentPage = $event; loadServices();"
+  (pageChanged)="pagingConfig.currentPage = $event; loadEmployees();"
 >
   <!-- header -->
   <ng-container table-header>

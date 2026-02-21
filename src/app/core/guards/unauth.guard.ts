@@ -1,22 +1,14 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from '../services/auth.service';
+import { APP_ROUTES } from '../constants/app.constants';
 
-@Injectable({ providedIn: 'root' })
-export class UnauthGuardService implements CanActivate {
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: object,
-    private auth: AuthService,
-    private router: Router
-  ) {}
+export const unauthGuard: CanActivateFn = () => {
+  if (!isPlatformBrowser(inject(PLATFORM_ID))) return true;
 
-  canActivate(): boolean | UrlTree {
-    // SSR safe
-    if (!isPlatformBrowser(this.platformId)) return true;
+  const auth = inject(AuthService);
+  if (!auth.hasValidToken()) return true;
 
-    if (!this.auth.hasValidToken()) return true;
-
-    return this.router.createUrlTree(['/features']);
-  }
-}
+  return inject(Router).createUrlTree([APP_ROUTES.FEATURES]);
+};

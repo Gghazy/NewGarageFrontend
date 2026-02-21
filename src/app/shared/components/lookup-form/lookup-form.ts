@@ -7,6 +7,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ApiMessage } from '../../Models/api-response';
 
 @Component({
   selector: 'app-lookup-form',
@@ -30,7 +31,7 @@ export class LookupForm implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    public apiService: ApiService,
+    private apiService: ApiService,
     public activeModal: NgbActiveModal,
     private toastr: ToastrService
   ) { }
@@ -69,7 +70,7 @@ export class LookupForm implements OnInit, OnDestroy {
   }
 
   add(request: LookupDto) {
-    this.apiService.post(`${this.config.apiBase}`, request)
+    this.apiService.post<ApiMessage>(`${this.config.apiBase}`, request)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -85,10 +86,10 @@ export class LookupForm implements OnInit, OnDestroy {
   }
 
   update(request: LookupDto) {
-    this.apiService.put(`${this.config.apiBase}/${request.id}`, request)
+    this.apiService.put<ApiMessage>(`${this.config.apiBase}/${request.id}`, request)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res: any) => {
+        next: (res) => {
           this.toastr.success(res?.message ?? 'Updated successfully', 'Success');
           this.activeModal.close(request);
         },

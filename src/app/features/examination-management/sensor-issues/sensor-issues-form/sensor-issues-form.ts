@@ -1,19 +1,23 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ApiService } from 'src/app/core/services/custom.service';
+import { FormService } from 'src/app/core/services/form.service';
 
 @Component({
   selector: 'app-sensor-issue-form',
   standalone: false,
   templateUrl: './sensor-issues-form.html',
 })
-export class SensorIssuesForm {
+export class SensorIssuesForm implements OnInit, OnDestroy {
   @Input() title = '';
-  @Input() model: any | null = null; 
+  @Input() model: any | null = null;
 
   loading = false;
+  private destroy$ = new Subject<void>();
 
   form = this.fb.group({
     id: [null],
@@ -26,18 +30,24 @@ export class SensorIssuesForm {
     private readonly fb: FormBuilder,
     private readonly api: ApiService,
     public readonly activeModal: NgbActiveModal,
-    private readonly translate: TranslateService
+    private readonly toastr: ToastrService,
+    private readonly formService: FormService
   ) {}
 
   ngOnInit(): void {
     if (this.model) {
       this.form.patchValue({
-        id: this.model.id ?? 0,
+        id: this.model.id ?? null,
         code: this.model.code ?? '',
         nameAr: this.model.nameAr ?? '',
         nameEn: this.model.nameEn ?? '',
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   isInvalid(name: string): boolean {
@@ -51,22 +61,18 @@ export class SensorIssuesForm {
       return;
     }
 
-    this.loading = true;
-
     const dto = this.form.getRawValue();
-    const req$ = dto.id
+    const isEdit = !!dto.id;
+    const apiCall = isEdit
       ? this.api.put(`SensorIssues/${dto.id}`, dto)
-      : this.api.post(`SensorIssues`, dto);
+      : this.api.post('SensorIssues', dto);
 
-    req$.subscribe({
-      next: () => {
-        this.loading = false;
-        this.activeModal.close(true);
-      },
-      error: () => {
-        this.loading = false;
-        this.activeModal.dismiss();
-      }
+    this.formService.handleSubmit(apiCall.pipe(takeUntil(this.destroy$)) as any, {
+      activeModal: this.activeModal,
+      toastr: this.toastr,
+      successMsg: isEdit ? 'Sensor issue updated successfully' : 'Sensor issue created successfully',
+      errorFallback: isEdit ? 'Failed to update sensor issue' : 'Failed to create sensor issue',
+      setLoading: (v) => (this.loading = v),
     });
   }
 }

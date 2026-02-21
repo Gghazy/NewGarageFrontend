@@ -1,34 +1,35 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
+import { JWT_CLAIMS, STORAGE_KEYS } from '../constants/app.constants';
 
-export type JwtPayload = {
+export interface JwtPayload {
   sub?: string | string[];
   email?: string | string[];
   exp?: number;
-
+  unique_name?: string;
+  name?: string;
+  employee_name_ar?: string;
+  employee_name_en?: string;
   permissions?: string[] | string;
   permission?: string[] | string;
-
   roles?: string[] | string;
   role?: string[] | string;
-
-  [key: string]: any;
-};
+  [key: string]: unknown;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly isBrowser: boolean;
-  private readonly storageKey = 'token';
+  private readonly storageKey = STORAGE_KEYS.TOKEN;
 
   readonly isAuthenticated = signal<boolean>(false);
 
-  private payload: any | null = null;
+  private payload: JwtPayload | null = null;
   employeeName = signal<string>('');
   userName = signal<string>('');
   email = signal<string>('');
 
   constructor(@Inject(PLATFORM_ID) platformId: object) {
-
     this.isBrowser = isPlatformBrowser(platformId);
     this.isAuthenticated.set(this.hasValidToken());
   }
@@ -42,7 +43,6 @@ export class AuthService {
   }
 
   setToken(token: string | null): void {
-    debugger
     if (!this.isBrowser) return;
 
     if (token) this.storage!.setItem(this.storageKey, token);
@@ -75,26 +75,24 @@ export class AuthService {
   }
 
   getPermissions(): string[] {
-    const p = this.decode<JwtPayload>();
-    const claims = p?.permissions ?? p?.permission; 
-    return this.toStringArray(claims);
+    const payload = this.decode<JwtPayload>();
+    const claims = payload?.[JWT_CLAIMS.PERMISSIONS] ?? payload?.[JWT_CLAIMS.PERMISSION];
+    return this.toStringArray(claims as string | string[] | undefined);
   }
 
   getRoles(): string[] {
-    const p = this.decode<JwtPayload>();
-    const claims = p?.roles ?? p?.role;
-    return this.toStringArray(claims);
+    const payload = this.decode<JwtPayload>();
+    const claims = payload?.[JWT_CLAIMS.ROLES] ?? payload?.[JWT_CLAIMS.ROLE];
+    return this.toStringArray(claims as string | string[] | undefined);
   }
 
   hasPermission(permission: string): boolean {
-
     if (!permission) return false;
     const perms = this.getPermissions();
     return perms.includes(permission);
   }
 
   hasAnyPermission(permissions: string[]): boolean {
-
     if (!permissions?.length) return false;
     const perms = this.getPermissions();
     return permissions.some((p) => perms.includes(p));
@@ -107,11 +105,11 @@ export class AuthService {
   }
 
   isTokenExpired(token?: string | null): boolean {
-    const p = this.decode<JwtPayload>(token);
-    if (!p?.exp) return true;
+    const payload = this.decode<JwtPayload>(token);
+    if (!payload?.exp) return true;
 
     const now = Math.floor(Date.now() / 1000);
-    return p.exp <= now;
+    return payload.exp <= now;
   }
 
   hasValidToken(): boolean {
@@ -121,30 +119,10 @@ export class AuthService {
     return !this.isTokenExpired(t);
   }
 
-  setLang(lang: 'ar' | 'en'): void {
-    if (!this.isBrowser) return;
-
-    try {
-      localStorage.setItem('lang', lang);
-      document.documentElement.lang = lang;
-      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    } catch {
-      // ignore
-    }
-  }
-
-  getLang(defaultLang: 'ar' | 'en' = 'ar'): 'ar' | 'en' {
-    if (!this.isBrowser) return defaultLang;
-
-    const v = (localStorage.getItem('lang') ?? defaultLang).toLowerCase();
-    return v === 'en' ? 'en' : 'ar';
-  }
-
   private toStringArray(value?: string[] | string): string[] {
     if (!value) return [];
     if (Array.isArray(value)) return value.map((s) => String(s).trim()).filter(Boolean);
 
-    // لو جاية string "a,b,c"
     return String(value)
       .split(',')
       .map((s) => s.trim())
@@ -152,42 +130,32 @@ export class AuthService {
   }
 
   private base64UrlDecode(input: string): string {
-    // base64url -> base64
     const base64 = input
       .replace(/-/g, '+')
       .replace(/_/g, '/')
       .padEnd(Math.ceil(input.length / 4) * 4, '=');
 
-    // Browser
     if (this.isBrowser && typeof atob === 'function') {
       const binary = atob(base64);
       const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
       return new TextDecoder().decode(bytes);
     }
 
-    // Node (لو حصل تشغيل SSR لأي سبب)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const g: any = globalThis as any;
+    const g = globalThis as any;
     if (g?.Buffer) {
       return g.Buffer.from(base64, 'base64').toString('utf-8');
     }
 
-    // Fallback
     return '';
   }
 
-  private loadFromToken() {
-    const token = localStorage.getItem('token');
+  private loadFromToken(): void {
+    const token = this.getToken();
     if (!token) return;
 
     try {
-      const parts = token.split('.');
-      if (parts.length !== 3) {
-        console.warn('[AuthService] Invalid token format');
-        return;
-      }
-
-      const payload = JSON.parse(atob(parts[1]));
+      const payload = this.decode<JwtPayload>(token);
       if (!payload || typeof payload !== 'object') {
         console.warn('[AuthService] Invalid token payload');
         return;
@@ -195,10 +163,17 @@ export class AuthService {
 
       this.payload = payload;
 
-      this.userName.set(payload.unique_name || payload.name || '');
-      this.email.set(payload.email || '');
+      this.userName.set(
+        String(payload[JWT_CLAIMS.UNIQUE_NAME] ?? payload[JWT_CLAIMS.NAME] ?? '')
+      );
+      this.email.set(String(payload[JWT_CLAIMS.EMAIL] ?? ''));
       this.employeeName.set(
-        payload.employee_name_ar || payload.employee_name_en || payload.name || ''
+        String(
+          payload[JWT_CLAIMS.EMPLOYEE_NAME_AR] ??
+          payload[JWT_CLAIMS.EMPLOYEE_NAME_EN] ??
+          payload[JWT_CLAIMS.NAME] ??
+          ''
+        )
       );
     } catch (error) {
       console.error('[AuthService] Failed to load token payload:', error);

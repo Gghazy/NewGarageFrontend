@@ -1,8 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ApiService } from 'src/app/core/services/custom.service';
+import { FormService } from 'src/app/core/services/form.service';
+import { ApiResponse } from 'src/app/shared/Models/api-response';
 import { LookupDto } from 'src/app/shared/Models/lookup-dto';
 import { MechIssueDto } from 'src/app/shared/Models/mech-issues/mech-issue-dto';
 
@@ -12,29 +16,30 @@ import { MechIssueDto } from 'src/app/shared/Models/mech-issues/mech-issue-dto';
   templateUrl: './mech-issue-form.html',
   styleUrl: './mech-issue-form.css',
 })
-export class MechIssueForm {
+export class MechIssueForm implements OnInit, OnDestroy {
   @Input() title = 'Add Mech Issue';
   @Input() initial?: Partial<MechIssueDto>;
 
   mechIssueTypes: LookupDto[] = [];
   loading = false;
+  private destroy$ = new Subject<void>();
 
   form = this.fb.group({
     id: [''],
     nameAr: ['', [Validators.required, Validators.maxLength(200)]],
     nameEn: ['', [Validators.required, Validators.maxLength(200)]],
-    mechIssueTypeId: ['', [Validators.required, Validators.maxLength(200)]],
+    mechIssueTypeId: ['', [Validators.required]],
   });
 
   constructor(
     private fb: FormBuilder,
-    public apiService: ApiService,
+    private apiService: ApiService,
     public activeModal: NgbActiveModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private formService: FormService
   ) { }
 
   ngOnInit(): void {
-   
     if (this.initial) {
       this.form.patchValue({
         id: this.initial.id ?? '',
@@ -43,25 +48,34 @@ export class MechIssueForm {
         mechIssueTypeId: this.initial.mechIssueTypeId ?? '',
       });
     }
-     this.getMechIssueTypes();
+    this.getMechIssueTypes();
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  isInvalid(controlName: string): boolean {
+    const c = this.form.get(controlName);
+    return !!c && c.invalid && (c.touched || c.dirty);
+  }
+
   getMechIssueTypes() {
-    this.apiService.get<LookupDto[]>('MechIssueTypes').subscribe({
-      next: (data) => {
-        this.mechIssueTypes = data;
-      },
-      error: (err) => {
-        console.error('Error loading mech issue types', err);
-      }
-    });
+    // MechIssueTypesController uses Success() -> { data: [...] }
+    this.apiService.get<ApiResponse<LookupDto[]>>('MechIssueTypes')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => { this.mechIssueTypes = res.data; },
+        error: (err) => { this.toastr.error(this.formService.extractError(err, 'Failed to load mech issue types'), 'Error'); }
+      });
   }
+
   submit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
-
-    this.loading = true;
 
     const value: MechIssueDto = {
       nameAr: this.form.value.nameAr!,
@@ -70,22 +84,18 @@ export class MechIssueForm {
       mechIssueTypeId: this.form.value.mechIssueTypeId!,
     };
 
-    if (value.id) {
-      this.update(value);
-    } else {
-      this.add(value);
-    }
-  }
-  add(request: MechIssueDto) {
-    this.apiService.post('MechIssues', request).subscribe(() => {
-      this.activeModal.close(request);
-    });
-  }
-  update(request: MechIssueDto) {
-    this.apiService.put(`MechIssues/${request.id}`, request).subscribe((res: any) => {
+    const isEdit = !!value.id;
+    const apiCall = isEdit
+      ? this.apiService.put(`MechIssues/${value.id}`, value)
+      : this.apiService.post('MechIssues', value);
 
-      this.toastr.success(res.message as string, 'Success');
-      this.activeModal.close(request);
+    this.formService.handleSubmit(apiCall.pipe(takeUntil(this.destroy$)) as any, {
+      activeModal: this.activeModal,
+      toastr: this.toastr,
+      successMsg: isEdit ? 'Mech issue updated successfully' : 'Mech issue created successfully',
+      errorFallback: isEdit ? 'Failed to update mech issue' : 'Failed to create mech issue',
+      setLoading: (v) => (this.loading = v),
+      closeValue: value,
     });
   }
 }

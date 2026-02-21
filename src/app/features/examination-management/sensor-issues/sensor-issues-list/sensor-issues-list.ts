@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from 'src/app/core/services/custom.service';
+import { FormService } from 'src/app/core/services/form.service';
+import { SearchCriteria } from 'src/app/shared/Models/search-criteria';
 import { SensorIssuesForm } from '../sensor-issues-form/sensor-issues-form';
 
 export interface SensorIssue {
@@ -16,17 +20,21 @@ export interface SensorIssue {
 @Component({
   selector: 'app-sensor-issues-list',
   templateUrl: './sensor-issues-list.html',
-  standalone:false,
+  standalone: false,
   styleUrl: './sensor-issues-list.css',
 })
-export class SensorIssuesList {
+export class SensorIssuesList implements OnInit, OnDestroy {
   items: SensorIssue[] = [];
   searchTerm = '';
+  loading = false;
+  private destroy$ = new Subject<void>();
 
-  pagingConfig = {
-    id: 'sensorIssues',
+  pagingConfig: SearchCriteria = {
     itemsPerPage: 10,
     currentPage: 1,
+    textSearch: '',
+    sort: 'nameAr',
+    desc: false,
     totalItems: 0
   };
 
@@ -34,6 +42,7 @@ export class SensorIssuesList {
     private readonly api: ApiService,
     private readonly modal: NgbModal,
     private readonly toastr: ToastrService,
+    private readonly formService: FormService,
     public readonly authService: AuthService,
     private readonly translate: TranslateService
   ) {}
@@ -42,71 +51,60 @@ export class SensorIssuesList {
     this.load();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   load(): void {
-    this.api.post<any>('SensorIssues/pagination',this.pagingConfig).subscribe({
-      next: (res) => {
-        this.items = res.items ?? [];
-        this.pagingConfig.totalItems = res.totalItems ?? 0;
-      },
-      error: (e: any) => {
-        this.toastr.error(e?.message ?? this.translate.instant('SERVER.ERROR'));
-      }
-    });
+    this.loading = true;
+    this.api.post<any>('SensorIssues/pagination', this.pagingConfig)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          // Backend returns ApiResponse<QueryResult<T>> -> { data: { items, totalCount } }
+          this.items = res.data?.items ?? [];
+          this.pagingConfig.totalItems = res.data?.totalCount ?? 0;
+          this.loading = false;
+        },
+        error: (err) => {
+          this.toastr.error(this.formService.extractError(err, this.translate.instant('SERVER.ERROR')));
+          this.loading = false;
+        }
+      });
   }
 
   search(): void {
     this.pagingConfig.currentPage = 1;
-    if (!this.searchTerm?.trim()) {
-      this.load();
-      return;
-    }
-
-    const term = this.searchTerm.trim().toLowerCase();
-    this.items = (this.items ?? []).filter(x =>
-      String(x.code ?? '').toLowerCase().includes(term) ||
-      String(x.nameAr ?? '').toLowerCase().includes(term) ||
-      String(x.nameEn ?? '').toLowerCase().includes(term)
-    );
-    this.pagingConfig.totalItems = this.items.length;
+    this.load();
   }
 
   openAdd(): void {
     const ref = this.modal.open(SensorIssuesForm, { size: 'lg', backdrop: 'static' });
     ref.componentInstance.title = this.translate.instant('SENSOR_ISSUES.FORM.TITLE_ADD');
-
-    ref.result.then((saved) => {
-      if (saved) {
-        this.toastr.success(this.translate.instant('COMMON.TOAST.CREATED'));
-        this.load();
-      }
-    }).catch(() => {});
+    ref.result.then(() => this.load()).catch(() => {});
   }
 
   openEdit(item: SensorIssue): void {
     const ref = this.modal.open(SensorIssuesForm, { size: 'lg', backdrop: 'static' });
     ref.componentInstance.title = this.translate.instant('SENSOR_ISSUES.FORM.TITLE_EDIT');
     ref.componentInstance.model = { ...item };
-
-    ref.result.then((saved) => {
-      if (saved) {
-        this.toastr.success(this.translate.instant('COMMON.TOAST.UPDATED'));
-        this.load();
-      }
-    }).catch(() => {});
+    ref.result.then(() => this.load()).catch(() => {});
   }
 
   confirmDelete(item: SensorIssue): void {
-    const ok = confirm(this.translate.instant('CONFIRM.DELETE_MESSAGE'));
-    if (!ok) return;
+    if (!confirm(this.translate.instant('CONFIRM.DELETE_MESSAGE'))) return;
 
-    this.api.delete(`SensorIssues/${item.id}`).subscribe({
-      next: () => {
-        this.toastr.success(this.translate.instant('COMMON.TOAST.DELETED'));
-        this.load();
-      },
-      error: (e: any) => {
-        this.toastr.error(e?.message ?? this.translate.instant('SERVER.ERROR'));
-      }
-    });
+    this.api.delete(`SensorIssues/${item.id}`)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          this.toastr.success(res?.message ?? this.translate.instant('COMMON.TOAST.DELETED'), 'Success');
+          this.load();
+        },
+        error: (err) => {
+          this.toastr.error(this.formService.extractError(err, this.translate.instant('SERVER.ERROR')));
+        }
+      });
   }
 }

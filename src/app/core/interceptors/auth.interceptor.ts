@@ -9,13 +9,13 @@ import {
 import { Observable, catchError, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { APP_ROUTES, HTTP_STATUS } from '../constants/app.constants';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private auth: AuthService, private router: Router) {}
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    
     const token = this.auth.getToken();
 
     const authReq =
@@ -25,14 +25,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(authReq).pipe(
       catchError((err: HttpErrorResponse) => {
-        // Handle 401 Unauthorized - Token expired or invalid
-        if (err.status === 401) {
+        if (err.status === HTTP_STATUS.UNAUTHORIZED) {
           this.auth.clear();
-          this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.router.url } });
+          this.router.navigate([APP_ROUTES.AUTH_LOGIN], { queryParams: { returnUrl: this.router.url } });
         }
-        // Handle 403 Forbidden - User doesn't have permission
-        if (err.status === 403) {
-          this.router.navigate(['/unauthorized']);
+        if (err.status === HTTP_STATUS.FORBIDDEN) {
+          this.router.navigate([APP_ROUTES.UNAUTHORIZED_SHORT]);
         }
         return throwError(() => err);
       })
