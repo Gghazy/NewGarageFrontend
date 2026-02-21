@@ -36,11 +36,11 @@ export class RoleList implements OnInit, OnDestroy {
   load() {
     this.loading = true;
     // RolesController returns raw List<RoleDto> (no ApiResponse wrapper)
-    this.apiService.get<RoleDto[]>('Roles')
+    this.apiService.get<any>('Roles')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          this.roles = res;
+          this.roles = res.data;
           this.loading = false;
         },
         error: (err) => {

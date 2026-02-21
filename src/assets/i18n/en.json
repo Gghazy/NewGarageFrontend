@@ -44,7 +44,8 @@
     "TERMS": "Terms and Conditions",
     "DASHBOARD": "Dashboard",
     "EMPLOYEES": "Employees",
-    "CLIENTS": "Clients"
+    "CLIENTS": "Clients",
+    "CLIENT_RESOURCES": "Client Resources"
   },
   "BREADCRUMB": {
     "HOME": "Home",
@@ -67,7 +68,13 @@
     "ROLES": "Roles",
     "ADD_ROLE": "Add Role",
     "EDIT_ROLE": "Edit Role",
-    "EMPLOYEES": "Employees"
+    "EMPLOYEES": "Employees",
+    "ADD_EMPLOYEE": "Add Employee",
+    "EDIT_EMPLOYEE": "Edit Employee",
+    "CLIENTS": "Clients",
+    "ADD_CLIENT": "Add Client",
+    "EDIT_CLIENT": "Edit Client",
+    "CLIENT_RESOURCES": "Client Resources"
   },
   "COMMON": {
     "ACTIONS": "Actions",
@@ -141,7 +148,6 @@
       "ACTIONS": "Actions"
     },
     "EMPTY": "No data to display",
-    
     "FORM": {
       "TITLE_ADD": "Add Trouble Code",
       "TITLE_EDIT": "Edit Trouble Code",
@@ -537,6 +543,8 @@
   "CLIENTS": {
     "TITLE": "Clients",
     "ADD": "Add New Client",
+    "COMPANY": "Company",
+    "INDIVIDUAL": "Individual",
     "TABLE": {
       "NAME": "Name",
       "EMAIL": "Email",
@@ -556,7 +564,39 @@
       "EMAIL": "Email",
       "PHONE": "Phone",
       "ADDRESS": "Address",
-      "IS_ACTIVE": "Is Active"
+      "IS_ACTIVE": "Is Active",
+      "COMPANY_NAME_AR": "Company Name (AR)",
+      "COMPANY_NAME_EN": "Company Name (EN)",
+      "COMMERCIAL_REG": "Commercial Registration Number",
+      "TAX_NUMBER": "Tax Number",
+      "BUILDING_NO": "Building Number",
+      "STREET": "Street",
+      "AREA": "Area",
+      "CITY": "City",
+      "COUNTRY": "Country",
+      "FLOOR_NO": "Floor Number",
+      "DISTRICT": "District",
+      "COUNTRY_CODE": "Country Code",
+      "SOURCE": "Source"
+    }
+  },
+  "CLINT_RESOURCES": {
+    "TITLE": "Client Resources",
+    "ADD": "Add New Client Resource",
+    "TABLE": {
+      "NO": "#",
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "ACTIONS": "Actions"
+    },
+    "EMPTY": "No client resources found",
+    "FORM": {
+      "TITLE_ADD": "Add Client Resource",
+      "TITLE_EDIT": "Edit Client Resource",
+      "NAME_AR": "Name (AR)",
+      "NAME_EN": "Name (EN)",
+      "DESCRIPTION_AR": "Description (AR)",
+      "DESCRIPTION_EN": "Description (EN)"
     }
   }
 }

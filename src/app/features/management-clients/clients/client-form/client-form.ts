@@ -15,6 +15,7 @@ import { ClientCompanyForm } from '../client-company-form/client-company-form';
   selector: 'app-client-form',
   standalone: false,
   templateUrl: './client-form.html',
+  styleUrls: ['./client-form.css']
 })
 export class ClientForm implements OnInit, OnDestroy {
   @ViewChild(ClientIndividualForm) individualForm?: ClientIndividualForm;

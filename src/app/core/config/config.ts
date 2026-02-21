@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CONFIG_KEYS } from '../constants/app.constants';
 
 // local
-export const baseUrl = `https://localhost:5001/`;
+export const baseUrl = `https://localhost:44375/`;
 
 @Injectable({
   providedIn: 'root'

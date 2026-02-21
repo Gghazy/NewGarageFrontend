@@ -44,7 +44,8 @@
     "TERMS": "الشروط والاحكام",
     "DASHBOARD": "لوحة التحكم",
     "EMPLOYEES": "الموظفين",
-    "CLIENTS": "العملاء"
+    "CLIENTS": "العملاء",
+    "CLIENT_RESOURCES": "مصادر العملاء"
   },
   "BREADCRUMB": {
     "HOME": "الرئيسية",
@@ -67,7 +68,13 @@
     "ROLES": "الأدوار",
     "ADD_ROLE": "إضافة دور",
     "EDIT_ROLE": "تعديل دور",
-    "EMPLOYEES": "الموظفين"
+    "EMPLOYEES": "الموظفين",
+    "ADD_EMPLOYEE": "إضافة موظف",
+    "EDIT_EMPLOYEE": "تعديل موظف",
+    "CLIENTS": "العملاء",
+    "ADD_CLIENT": "إضافة عميل",
+    "EDIT_CLIENT": "تعديل عميل",
+    "CLIENT_RESOURCES": "مصادر العملاء"
   },
   "COMMON": {
     "ACTIONS": "الإجراءات",
@@ -126,7 +133,6 @@
       "NAME_AR": "الاسم (عربي)",
       "NAME_EN": "الاسم (إنجليزي)"
     }
-    
   },
   "SENSOR_ISSUES": {
     "TITLE": "قائمة رموز المشكلات",
@@ -142,7 +148,6 @@
       "ACTIONS": "إجراء"
     },
     "EMPTY": "لا توجد بيانات للعرض",
-    
     "FORM": {
       "TITLE_ADD": "إضافة رمز مشكلة",
       "TITLE_EDIT": "تعديل رمز مشكلة",
@@ -251,8 +256,6 @@
       "NAME_AR": "الاسم (عربي)",
       "NAME_EN": "الاسم (إنجليزي)"
     }
-    
-    
   },
   "ACCESSORY_ISSUES": {
     "TITLE": "مشاكل الإكسسوارات",
@@ -539,6 +542,8 @@
   "CLIENTS": {
     "TITLE": "العملاء",
     "ADD": "إضافة عميل جديد",
+    "COMPANY": "شركة",
+    "INDIVIDUAL": "فرد",
     "TABLE": {
       "NAME": "الاسم",
       "EMAIL": "البريد الإلكتروني",
@@ -558,8 +563,45 @@
       "EMAIL": "البريد الإلكتروني",
       "PHONE": "رقم الهاتف",
       "ADDRESS": "العنوان",
-      "IS_ACTIVE": "نشط"
+      "IS_ACTIVE": "نشط",
+      "COMPANY_NAME_AR": "اسم الشركة (عربي)",
+      "COMPANY_NAME_EN": "اسم الشركة (إنجليزي)",
+      "COMMERCIAL_REG": "السجل التجاري",
+      "TAX_NUMBER": "الرقم الضريبي",
+      "INDIVIDUAL_NAME_AR": "اسم الفرد (عربي)",
+      "INDIVIDUAL_NAME_EN": "اسم الفرد (إنجليزي)",
+      "STREET": "الشارع",
+      "BUILDING_NO": "رقم المبنى",
+      "AREA": "المنطقة",
+      "CITY": "المدينة",
+      "COUNTRY": "الدولة",
+      "FLOOR_NO": "رقم الطابق",
+      "DISTRICT": "الحي",
+      "COUNTRY_CODE": "رمز الدولة",
+      "SOURCE": "مصدر العميل"
     }
-    
+  },
+  "CLIENT_RESOURCES": {
+    "TITLE": "مصادر العملاء",
+    "ADD": "إضافة مصدر عميل",
+    "TABLE": {
+      "NAME_AR": "الاسم (عربي)",
+      "NAME_EN": "الاسم (إنجليزي)",
+      "ACTIONS": "الإجراءات"
+    },
+    "EMPTY": "لا توجد بيانات للعرض",
+    "FORM": {
+      "TITLE_ADD": "إضافة مصدر عميل",
+      "TITLE_EDIT": "تعديل مصدر عميل",
+      "NAME_AR": "الاسم (عربي)",
+      "NAME_EN": "الاسم (إنجليزي)"
+    }
   }
+
+
+
+
+
+
+
 }

@@ -5,32 +5,33 @@
 
 <div class="modal-body">
   <div *ngIf="!loading">
-    <!-- Type Selector -->
     <div class="row mb-3">
-      <div class="col-md-12">
-        <label class="form-label">{{ 'CLIENTS.FORM.TYPE' | translate }} <span class="text-danger">*</span></label>
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            id="typeIndividual"
-            type="radio"
-            [checked]="clientType === 'individual'"
-            (change)="onTypeChange('individual')" />
-          <label class="form-check-label" for="typeIndividual">
-            {{ 'CLIENTS.FORM.INDIVIDUAL' | translate }}
-          </label>
+      <div class="col-md-12 d-flex justify-content-start">
+
+        <div class="client-type-switch">
+          <ul class="nav nav-pills" role="tablist">
+
+            <li class="nav-item" role="presentation">
+              <button type="button" class="nav-link" [class.active]="clientType === 'individual'"
+                (click)="onTypeChange('individual')">
+
+                <i class="bi bi-person"></i>
+                {{ 'CLIENTS.INDIVIDUAL' | translate }}
+              </button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+              <button type="button" class="nav-link" [class.active]="clientType === 'company'"
+                (click)="onTypeChange('company')">
+
+                <i class="bi bi-building"></i>
+                {{ 'CLIENTS.COMPANY' | translate }}
+              </button>
+            </li>
+
+          </ul>
         </div>
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            id="typeCompany"
-            type="radio"
-            [checked]="clientType === 'company'"
-            (change)="onTypeChange('company')" />
-          <label class="form-check-label" for="typeCompany">
-            {{ 'CLIENTS.FORM.COMPANY' | translate }}
-          </label>
-        </div>
+
       </div>
     </div>
 

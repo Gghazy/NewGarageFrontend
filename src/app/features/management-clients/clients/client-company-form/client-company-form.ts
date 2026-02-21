@@ -30,18 +30,16 @@ export class ClientCompanyForm implements OnInit, OnDestroy {
       mobileNumber: ['', [Validators.required]],
       commercialRegistrationNumber: ['', [Validators.required]],
       taxNumber: ['', [Validators.required]],
-      mobileNumber2: ['', []],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', []],
+      phone: ['', [Validators.required]],
       source: ['', [Validators.required]],
-      address: ['', []],
-      street: ['', []],
-      buildingNo: ['', []],
-      floorNo: ['', []],
-      district: ['', []],
-      city: ['', []],
+      address: ['', [Validators.required]],
+      street: ['', [Validators.required]],
+      buildingNo: ['', [Validators.required]],
+      floorNo: ['', [Validators.required]],
+      district: ['', [Validators.required]],
+      city: ['', [Validators.required]],
       countryCode: ['', [Validators.required]],
-      isActive: [true, []]
     });
   }
 

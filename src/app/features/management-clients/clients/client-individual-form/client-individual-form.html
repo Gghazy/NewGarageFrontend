@@ -1,7 +1,7 @@
-<form [formGroup]="formGroup" class="bg-light p-3 rounded">
+<form [formGroup]="formGroup" class="p-3 rounded">
   <!-- Row 1: Names, Phone -->
   <div class="row mb-3">
-    <div class="col-md-4">
+    <div class="col-md-6">
       <label for="nameEn" class="form-label">{{ 'CLIENTS.FORM.NAME_EN' | translate }}</label>
       <input 
         type="text" 
@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
       <label for="nameAr" class="form-label">{{ 'CLIENTS.FORM.NAME_AR' | translate }}</label>
       <input 
         type="text" 
@@ -24,19 +24,6 @@
         [class.is-invalid]="isFieldInvalid('nameAr')">
       <div class="invalid-feedback" *ngIf="isFieldInvalid('nameAr')">
         {{ getFieldError('nameAr') }}
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      <label for="mobileNumber" class="form-label">{{ 'CLIENTS.FORM.MOBILE' | translate }}</label>
-      <input 
-        type="text" 
-        id="mobileNumber" 
-        class="form-control" 
-        formControlName="mobileNumber"
-        [class.is-invalid]="isFieldInvalid('mobileNumber')">
-      <div class="invalid-feedback" *ngIf="isFieldInvalid('mobileNumber')">
-        {{ getFieldError('mobileNumber') }}
       </div>
     </div>
   </div>
@@ -96,79 +83,4 @@
     </div>
   </div>
 
-  <!-- Row 4: Street Details -->
-  <div class="row mb-3">
-    <div class="col-md-4">
-      <label for="street" class="form-label">{{ 'CLIENTS.FORM.STREET' | translate }}</label>
-      <input 
-        type="text" 
-        id="street" 
-        class="form-control" 
-        formControlName="street">
-    </div>
-
-    <div class="col-md-4">
-      <label for="buildingNo" class="form-label">{{ 'CLIENTS.FORM.BUILDING_NO' | translate }}</label>
-      <input 
-        type="text" 
-        id="buildingNo" 
-        class="form-control" 
-        formControlName="buildingNo">
-    </div>
-
-    <div class="col-md-4">
-      <label for="floorNo" class="form-label">{{ 'CLIENTS.FORM.FLOOR_NO' | translate }}</label>
-      <input 
-        type="text" 
-        id="floorNo" 
-        class="form-control" 
-        formControlName="floorNo">
-    </div>
-  </div>
-
-  <!-- Row 5: District Info -->
-  <div class="row mb-3">
-    <div class="col-md-4">
-      <label for="district" class="form-label">{{ 'CLIENTS.FORM.DISTRICT' | translate }}</label>
-      <input 
-        type="text" 
-        id="district" 
-        class="form-control" 
-        formControlName="district">
-    </div>
-
-    <div class="col-md-4">
-      <label for="city" class="form-label">{{ 'CLIENTS.FORM.CITY' | translate }}</label>
-      <input 
-        type="text" 
-        id="city" 
-        class="form-control" 
-        formControlName="city">
-    </div>
-
-    <div class="col-md-4">
-      <label for="countryCode" class="form-label">{{ 'CLIENTS.FORM.COUNTRY_CODE' | translate }}</label>
-      <input 
-        type="text" 
-        id="countryCode" 
-        class="form-control" 
-        formControlName="countryCode">
-    </div>
-  </div>
-
-  <!-- Row 6: Status -->
-  <div class="row mb-3">
-    <div class="col-md-4">
-      <div class="form-check">
-        <input 
-          type="checkbox" 
-          id="isActive" 
-          class="form-check-input" 
-          formControlName="isActive">
-        <label for="isActive" class="form-check-label">
-          {{ 'CLIENTS.FORM.IS_ACTIVE' | translate }}
-        </label>
-      </div>
-    </div>
-  </div>
 </form>

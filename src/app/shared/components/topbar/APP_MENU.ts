@@ -16,7 +16,7 @@ export const APP_MENU: AppMenuItem[] = [
       { labelKey: 'MENU.SERVICES', route: '/features/settings/services', icon: 'bi bi-tools', permissions: ['service.read'] },
       { labelKey: 'MENU.SERVICE_PRICES', route: '/features/settings/service-prices', icon: 'bi bi-cash-stack', permissions: ['servicePrice.read'] },
       { labelKey: 'MENU.CRANES', route: '/features/settings/cranes', icon: 'bi bi-truck', permissions: ['crane.read'] },
-      { labelKey: 'MENU.TERMS', route: '/features/settings/term', icon: 'bi bi-file-text', permissions: ['term.read'] },
+      { labelKey: 'MENU.TERMS', route: '/features/settings/terms', icon: 'bi bi-file-text', permissions: ['term.read'] },
       { labelKey: 'MENU.BRANCHES', route: '/features/settings/branches', icon: 'bi bi-diagram-3', permissions: ['branches.read'] },
     ],
   },
@@ -51,6 +51,7 @@ export const APP_MENU: AppMenuItem[] = [
     permissions: ['clients.read'],
     children: [
       { labelKey: 'MENU.CLIENTS', route: '/features/management-clients/clients', icon: 'bi bi-person-check', permissions: ['clients.read'] },
+      { labelKey: 'MENU.CLIENT_RESOURCES', route: '/features/management-clients/client-resources', icon: 'bi bi-person-workspace', permissions: ['clientResource.read'] },
     ],
   },
 ];

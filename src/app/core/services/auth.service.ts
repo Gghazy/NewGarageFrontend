@@ -87,6 +87,7 @@ export class AuthService {
   }
 
   hasPermission(permission: string): boolean {
+    debugger
     if (!permission) return false;
     const perms = this.getPermissions();
     return perms.includes(permission);

@@ -1,7 +1,7 @@
-<form [formGroup]="formGroup" class="bg-light p-3 rounded">
+<form [formGroup]="formGroup" class="p-3 rounded">
   <!-- Row 1: Company Names, Phone -->
   <div class="row mb-3">
-    <div class="col-md-4">
+    <div class="col-md-6">
       <label for="companyNameEn" class="form-label">{{ 'CLIENTS.FORM.COMPANY_NAME_EN' | translate }}</label>
       <input 
         type="text" 
@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
       <label for="companyNameAr" class="form-label">{{ 'CLIENTS.FORM.COMPANY_NAME_AR' | translate }}</label>
       <input 
         type="text" 
@@ -26,24 +26,11 @@
         {{ getFieldError('companyNameAr') }}
       </div>
     </div>
-
-    <div class="col-md-4">
-      <label for="mobileNumber" class="form-label">{{ 'CLIENTS.FORM.MOBILE' | translate }}</label>
-      <input 
-        type="text" 
-        id="mobileNumber" 
-        class="form-control" 
-        formControlName="mobileNumber"
-        [class.is-invalid]="isFieldInvalid('mobileNumber')">
-      <div class="invalid-feedback" *ngIf="isFieldInvalid('mobileNumber')">
-        {{ getFieldError('mobileNumber') }}
-      </div>
-    </div>
   </div>
 
   <!-- Row 2: Registration Numbers -->
   <div class="row mb-3">
-    <div class="col-md-4">
+    <div class="col-md-6">
       <label for="commercialRegistrationNumber" class="form-label">{{ 'CLIENTS.FORM.COMMERCIAL_REG' | translate }}</label>
       <input 
         type="text" 
@@ -56,7 +43,7 @@
       </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
       <label for="taxNumber" class="form-label">{{ 'CLIENTS.FORM.TAX_NUMBER' | translate }}</label>
       <input 
         type="text" 
@@ -69,14 +56,6 @@
       </div>
     </div>
 
-    <div class="col-md-4">
-      <label for="mobileNumber2" class="form-label">{{ 'CLIENTS.FORM.MOBILE2' | translate }}</label>
-      <input 
-        type="text" 
-        id="mobileNumber2" 
-        class="form-control" 
-        formControlName="mobileNumber2">
-    </div>
   </div>
 
   <!-- Row 3: Email, Phone, Source -->
@@ -115,22 +94,6 @@
         [items]="[]"
         placeholder="{{ 'CLIENTS.FORM.SELECT_SOURCE' | translate }}">
       </ng-select>
-    </div>
-  </div>
-
-  <!-- Row 4: Address -->
-  <div class="row mb-3">
-    <div class="col-md-12">
-      <label for="address" class="form-label">{{ 'CLIENTS.FORM.ADDRESS' | translate }}</label>
-      <input 
-        type="text" 
-        id="address" 
-        class="form-control" 
-        formControlName="address"
-        [class.is-invalid]="isFieldInvalid('address')">
-      <div class="invalid-feedback" *ngIf="isFieldInvalid('address')">
-        {{ getFieldError('address') }}
-      </div>
     </div>
   </div>
 
@@ -194,19 +157,4 @@
     </div>
   </div>
 
-  <!-- Row 7: Status -->
-  <div class="row mb-3">
-    <div class="col-md-4">
-      <div class="form-check">
-        <input 
-          type="checkbox" 
-          id="isActive" 
-          class="form-check-input" 
-          formControlName="isActive">
-        <label for="isActive" class="form-check-label">
-          {{ 'CLIENTS.FORM.IS_ACTIVE' | translate }}
-        </label>
-      </div>
-    </div>
-  </div>
 </form>
