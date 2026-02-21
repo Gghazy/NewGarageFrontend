@@ -1,24 +1,25 @@
 export interface ClientDto {
-  id?: number;
-  type: 'individual' | 'company';
-  nameEn: string;
+  id?: string;
+  typeAr: string;
+  typeEn: string;
   nameAr: string;
-  companyNameAr?: string;
-  companyNameEn?: string;
-  commercialRegistrationNumber?: string;
+  nameEn: string;
+  phoneNumber: string;
   taxNumber?: string;
-  email?: string;
-  phone?: string;
-  mobileNumber?: string;
+  commercialRegister?: string;
+  email: string;
+  sourceNameEn: string;
+  sourceNameAr: string;
+  sourceId?: string;
+  // Individual address
   address?: string;
+  // Company address
   streetName?: string;
   additionalStreetName?: string;
-  regionName?: string;
-  districtAr?: string;
-  districtEn?: string;
-  buildingNumber?: string;
+  cityName?: string;
+  postalZone?: string;
+  countrySubentity?: string;
   countryCode?: string;
-  leadingNumber?: string;
-  source?: string;
-  isActive: boolean;
+  buildingNumber?: string;
+  citySubdivisionName?: string;
 }

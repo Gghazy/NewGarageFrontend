@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { filter } from 'rxjs';
 
 type Crumb = { label: string; url: string };
 
 @Component({
   selector: 'app-breadcrumb',
+  standalone: true,
+  imports: [CommonModule, RouterModule, TranslateModule],
   templateUrl: './breadcrumb.html',
   styleUrl: './breadcrumb.css',
-  standalone: false
 })
 
 export class Breadcrumb {

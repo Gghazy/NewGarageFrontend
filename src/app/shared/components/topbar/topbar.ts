@@ -1,5 +1,7 @@
 import { Component, computed } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { LanguageService } from 'src/app/core/services/language.service';
 import { ThemeService } from 'src/app/core/services/theme.service';
@@ -7,7 +9,8 @@ import { APP_MENU, AppMenuItem } from './APP_MENU';
 
 @Component({
   selector: 'app-topbar',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, RouterModule, TranslateModule],
   templateUrl: './topbar.html',
   styleUrl: './topbar.css',
 })

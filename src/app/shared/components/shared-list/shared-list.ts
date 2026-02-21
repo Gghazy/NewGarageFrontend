@@ -1,8 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { PageSizeComponent } from '../page-size/page-size.component';
 
 @Component({
   selector: 'app-shared-list',
-  standalone:false,
+  standalone: true,
+  imports: [CommonModule, TranslateModule, NgxPaginationModule, PageSizeComponent],
   templateUrl: './shared-list.html',
   styleUrl: './shared-list.css',
 })

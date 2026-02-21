@@ -1,160 +1,151 @@
-<form [formGroup]="formGroup" class="p-3 rounded">
-  <!-- Row 1: Company Names, Phone -->
-  <div class="row mb-3">
-    <div class="col-md-6">
-      <label for="companyNameEn" class="form-label">{{ 'CLIENTS.FORM.COMPANY_NAME_EN' | translate }}</label>
-      <input 
-        type="text" 
-        id="companyNameEn" 
-        class="form-control" 
-        formControlName="companyNameEn"
-        [class.is-invalid]="isFieldInvalid('companyNameEn')">
-      <div class="invalid-feedback" *ngIf="isFieldInvalid('companyNameEn')">
-        {{ getFieldError('companyNameEn') }}
+<form [formGroup]="formGroup">
+  <div class="row g-3">
+
+    <!-- Name EN -->
+    <div class="col-12 col-md-6">
+      <label class="form-label">{{ 'CLIENTS.FORM.NAME_EN' | translate }}</label>
+      <input type="text" class="form-control" formControlName="nameEn"
+        [placeholder]="'CLIENTS.FORM.NAME_EN' | translate" [class.is-invalid]="isInvalid('nameEn')">
+      <div class="invalid-feedback" *ngIf="isInvalid('nameEn')">
+        <span *ngIf="formGroup.get('nameEn')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+        <span *ngIf="formGroup.get('nameEn')?.errors?.['maxlength']">{{ 'VALIDATION.MAX_LENGTH' | translate:{max:200} }}</span>
       </div>
     </div>
 
-    <div class="col-md-6">
-      <label for="companyNameAr" class="form-label">{{ 'CLIENTS.FORM.COMPANY_NAME_AR' | translate }}</label>
-      <input 
-        type="text" 
-        id="companyNameAr" 
-        class="form-control" 
-        formControlName="companyNameAr"
-        [class.is-invalid]="isFieldInvalid('companyNameAr')">
-      <div class="invalid-feedback" *ngIf="isFieldInvalid('companyNameAr')">
-        {{ getFieldError('companyNameAr') }}
+    <!-- Name AR -->
+    <div class="col-12 col-md-6">
+      <label class="form-label">{{ 'CLIENTS.FORM.NAME_AR' | translate }}</label>
+      <input type="text" class="form-control" formControlName="nameAr"
+        [placeholder]="'CLIENTS.FORM.NAME_AR' | translate" [class.is-invalid]="isInvalid('nameAr')">
+      <div class="invalid-feedback" *ngIf="isInvalid('nameAr')">
+        <span *ngIf="formGroup.get('nameAr')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+        <span *ngIf="formGroup.get('nameAr')?.errors?.['maxlength']">{{ 'VALIDATION.MAX_LENGTH' | translate:{max:200} }}</span>
       </div>
     </div>
+        <div class="col-12 col-md-6">
+      <label class="form-label">{{ 'CLIENTS.FORM.SOURCE' | translate }}</label>
+      <select class="form-select" formControlName="resourceId" [class.is-invalid]="isInvalid('resourceId')">
+        <option value="" disabled selected>{{ 'CLIENTS.FORM.SELECT_SOURCE' | translate }}</option>
+        <option *ngFor="let r of resources" [value]="r.id">
+          {{ lang.isAr() ? r.nameAr : r.nameEn }}
+        </option>
+      </select>
+      <div class="invalid-feedback" *ngIf="isInvalid('resourceId')">
+        {{ 'VALIDATION.REQUIRED' | translate }}
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="col-12 col-md-6">
+      <label class="form-label">{{ 'CLIENTS.FORM.EMAIL' | translate }}</label>
+      <input type="email" class="form-control" formControlName="email"
+        [placeholder]="'CLIENTS.FORM.EMAIL' | translate" [class.is-invalid]="isInvalid('email')">
+      <div class="invalid-feedback" *ngIf="isInvalid('email')">
+        <span *ngIf="formGroup.get('email')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+        <span *ngIf="formGroup.get('email')?.errors?.['email']">{{ 'VALIDATION.EMAIL_INVALID' | translate }}</span>
+      </div>
+    </div>
+
+    <!-- Phone -->
+    <div class="col-12 col-md-6">
+      <label class="form-label">{{ 'CLIENTS.FORM.PHONE' | translate }}</label>
+      <input type="text" class="form-control" formControlName="phoneNumber"
+        [placeholder]="'CLIENTS.FORM.PHONE' | translate" [class.is-invalid]="isInvalid('phoneNumber')">
+      <div class="invalid-feedback" *ngIf="isInvalid('phoneNumber')">
+        <span *ngIf="formGroup.get('phoneNumber')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+      </div>
+    </div>
+
+    <!-- Commercial Register -->
+    <div class="col-12 col-md-6">
+      <label class="form-label">{{ 'CLIENTS.FORM.COMMERCIAL_REG' | translate }}</label>
+      <input type="text" class="form-control" formControlName="commercialRegister"
+        [placeholder]="'CLIENTS.FORM.COMMERCIAL_REG' | translate" [class.is-invalid]="isInvalid('commercialRegister')">
+      <div class="invalid-feedback" *ngIf="isInvalid('commercialRegister')">
+        <span *ngIf="formGroup.get('commercialRegister')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+      </div>
+    </div>
+
+    <!-- Tax Number -->
+    <div class="col-12 col-md-6">
+      <label class="form-label">{{ 'CLIENTS.FORM.TAX_NUMBER' | translate }}</label>
+      <input type="text" class="form-control" formControlName="taxNumber"
+        [placeholder]="'CLIENTS.FORM.TAX_NUMBER' | translate" [class.is-invalid]="isInvalid('taxNumber')">
+      <div class="invalid-feedback" *ngIf="isInvalid('taxNumber')">
+        <span *ngIf="formGroup.get('taxNumber')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+      </div>
+    </div>
+
+    <!-- Street Name -->
+    <div class="col-12 col-md-6">
+      <label class="form-label">{{ 'CLIENTS.FORM.STREET' | translate }}</label>
+      <input type="text" class="form-control" formControlName="streetName"
+        [placeholder]="'CLIENTS.FORM.STREET' | translate" [class.is-invalid]="isInvalid('streetName')">
+      <div class="invalid-feedback" *ngIf="isInvalid('streetName')">
+        <span *ngIf="formGroup.get('streetName')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+      </div>
+    </div>
+
+    <!-- Additional Street -->
+    <div class="col-12 col-md-6">
+      <label class="form-label">{{ 'CLIENTS.FORM.ADDITIONAL_STREET' | translate }}</label>
+      <input type="text" class="form-control" formControlName="additionalStreetName"
+        [placeholder]="'CLIENTS.FORM.ADDITIONAL_STREET' | translate">
+    </div>
+
+    <!-- Building Number -->
+    <div class="col-12 col-md-4">
+      <label class="form-label">{{ 'CLIENTS.FORM.BUILDING_NO' | translate }}</label>
+      <input type="text" class="form-control" formControlName="buildingNumber"
+        [placeholder]="'CLIENTS.FORM.BUILDING_NO' | translate" [class.is-invalid]="isInvalid('buildingNumber')">
+      <div class="invalid-feedback" *ngIf="isInvalid('buildingNumber')">
+        <span *ngIf="formGroup.get('buildingNumber')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+      </div>
+    </div>
+
+    <!-- City -->
+    <div class="col-12 col-md-4">
+      <label class="form-label">{{ 'CLIENTS.FORM.CITY' | translate }}</label>
+      <input type="text" class="form-control" formControlName="cityName"
+        [placeholder]="'CLIENTS.FORM.CITY' | translate" [class.is-invalid]="isInvalid('cityName')">
+      <div class="invalid-feedback" *ngIf="isInvalid('cityName')">
+        <span *ngIf="formGroup.get('cityName')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+      </div>
+    </div>
+
+    <!-- District -->
+    <div class="col-12 col-md-4">
+      <label class="form-label">{{ 'CLIENTS.FORM.DISTRICT' | translate }}</label>
+      <input type="text" class="form-control" formControlName="citySubdivisionName"
+        [placeholder]="'CLIENTS.FORM.DISTRICT' | translate">
+    </div>
+
+    <!-- Postal Zone -->
+    <div class="col-12 col-md-4">
+      <label class="form-label">{{ 'CLIENTS.FORM.POSTAL_ZONE' | translate }}</label>
+      <input type="text" class="form-control" formControlName="postalZone"
+        [placeholder]="'CLIENTS.FORM.POSTAL_ZONE' | translate" [class.is-invalid]="isInvalid('postalZone')">
+      <div class="invalid-feedback" *ngIf="isInvalid('postalZone')">
+        <span *ngIf="formGroup.get('postalZone')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+      </div>
+    </div>
+
+    <!-- Country Code -->
+    <div class="col-12 col-md-4">
+      <label class="form-label">{{ 'CLIENTS.FORM.COUNTRY_CODE' | translate }}</label>
+      <input type="text" class="form-control" formControlName="countryCode"
+        [placeholder]="'CLIENTS.FORM.COUNTRY_CODE' | translate" [class.is-invalid]="isInvalid('countryCode')">
+      <div class="invalid-feedback" *ngIf="isInvalid('countryCode')">
+        <span *ngIf="formGroup.get('countryCode')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+      </div>
+    </div>
+
+    <!-- Country Subentity -->
+    <div class="col-12 col-md-4">
+      <label class="form-label">{{ 'CLIENTS.FORM.COUNTRY_SUBENTITY' | translate }}</label>
+      <input type="text" class="form-control" formControlName="countrySubentity"
+        [placeholder]="'CLIENTS.FORM.COUNTRY_SUBENTITY' | translate">
+    </div>
+
   </div>
-
-  <!-- Row 2: Registration Numbers -->
-  <div class="row mb-3">
-    <div class="col-md-6">
-      <label for="commercialRegistrationNumber" class="form-label">{{ 'CLIENTS.FORM.COMMERCIAL_REG' | translate }}</label>
-      <input 
-        type="text" 
-        id="commercialRegistrationNumber" 
-        class="form-control" 
-        formControlName="commercialRegistrationNumber"
-        [class.is-invalid]="isFieldInvalid('commercialRegistrationNumber')">
-      <div class="invalid-feedback" *ngIf="isFieldInvalid('commercialRegistrationNumber')">
-        {{ getFieldError('commercialRegistrationNumber') }}
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      <label for="taxNumber" class="form-label">{{ 'CLIENTS.FORM.TAX_NUMBER' | translate }}</label>
-      <input 
-        type="text" 
-        id="taxNumber" 
-        class="form-control" 
-        formControlName="taxNumber"
-        [class.is-invalid]="isFieldInvalid('taxNumber')">
-      <div class="invalid-feedback" *ngIf="isFieldInvalid('taxNumber')">
-        {{ getFieldError('taxNumber') }}
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Row 3: Email, Phone, Source -->
-  <div class="row mb-3">
-    <div class="col-md-4">
-      <label for="email" class="form-label">{{ 'CLIENTS.FORM.EMAIL' | translate }}</label>
-      <input 
-        type="email" 
-        id="email" 
-        class="form-control" 
-        formControlName="email"
-        [class.is-invalid]="isFieldInvalid('email')">
-      <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
-        {{ getFieldError('email') }}
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      <label for="phone" class="form-label">{{ 'CLIENTS.FORM.PHONE' | translate }}</label>
-      <input 
-        type="text" 
-        id="phone" 
-        class="form-control" 
-        formControlName="phone"
-        [class.is-invalid]="isFieldInvalid('phone')">
-      <div class="invalid-feedback" *ngIf="isFieldInvalid('phone')">
-        {{ getFieldError('phone') }}
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      <label for="source" class="form-label">{{ 'CLIENTS.FORM.SOURCE' | translate }}</label>
-      <ng-select
-        id="source"
-        formControlName="source"
-        [items]="[]"
-        placeholder="{{ 'CLIENTS.FORM.SELECT_SOURCE' | translate }}">
-      </ng-select>
-    </div>
-  </div>
-
-  <!-- Row 5: Street Details -->
-  <div class="row mb-3">
-    <div class="col-md-4">
-      <label for="street" class="form-label">{{ 'CLIENTS.FORM.STREET' | translate }}</label>
-      <input 
-        type="text" 
-        id="street" 
-        class="form-control" 
-        formControlName="street">
-    </div>
-
-    <div class="col-md-4">
-      <label for="buildingNo" class="form-label">{{ 'CLIENTS.FORM.BUILDING_NO' | translate }}</label>
-      <input 
-        type="text" 
-        id="buildingNo" 
-        class="form-control" 
-        formControlName="buildingNo">
-    </div>
-
-    <div class="col-md-4">
-      <label for="floorNo" class="form-label">{{ 'CLIENTS.FORM.FLOOR_NO' | translate }}</label>
-      <input 
-        type="text" 
-        id="floorNo" 
-        class="form-control" 
-        formControlName="floorNo">
-    </div>
-  </div>
-
-  <!-- Row 6: District Info -->
-  <div class="row mb-3">
-    <div class="col-md-4">
-      <label for="district" class="form-label">{{ 'CLIENTS.FORM.DISTRICT' | translate }}</label>
-      <input 
-        type="text" 
-        id="district" 
-        class="form-control" 
-        formControlName="district">
-    </div>
-
-    <div class="col-md-4">
-      <label for="city" class="form-label">{{ 'CLIENTS.FORM.CITY' | translate }}</label>
-      <input 
-        type="text" 
-        id="city" 
-        class="form-control" 
-        formControlName="city">
-    </div>
-
-    <div class="col-md-4">
-      <label for="countryCode" class="form-label">{{ 'CLIENTS.FORM.COUNTRY_CODE' | translate }}</label>
-      <input 
-        type="text" 
-        id="countryCode" 
-        class="form-control" 
-        formControlName="countryCode">
-    </div>
-  </div>
-
 </form>

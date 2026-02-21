@@ -546,39 +546,31 @@
     "INDIVIDUAL": "فرد",
     "TABLE": {
       "NAME": "الاسم",
+      "TYPE": "النوع",
       "EMAIL": "البريد الإلكتروني",
-      "PHONE": "رقم الهاتف",
-      "ADDRESS": "العنوان",
-      "STATUS": "الحالة"
+      "PHONE": "رقم الهاتف"
     },
     "EMPTY": "لم يتم العثور على عملاء",
     "FORM": {
       "TITLE_ADD": "إضافة عميل",
       "TITLE_EDIT": "تعديل عميل",
-      "TYPE": "نوع العميل",
-      "INDIVIDUAL": "فرد",
-      "COMPANY": "شركة",
       "NAME_AR": "الاسم (عربي)",
       "NAME_EN": "الاسم (إنجليزي)",
       "EMAIL": "البريد الإلكتروني",
       "PHONE": "رقم الهاتف",
       "ADDRESS": "العنوان",
-      "IS_ACTIVE": "نشط",
-      "COMPANY_NAME_AR": "اسم الشركة (عربي)",
-      "COMPANY_NAME_EN": "اسم الشركة (إنجليزي)",
       "COMMERCIAL_REG": "السجل التجاري",
       "TAX_NUMBER": "الرقم الضريبي",
-      "INDIVIDUAL_NAME_AR": "اسم الفرد (عربي)",
-      "INDIVIDUAL_NAME_EN": "اسم الفرد (إنجليزي)",
-      "STREET": "الشارع",
       "BUILDING_NO": "رقم المبنى",
-      "AREA": "المنطقة",
+      "STREET": "اسم الشارع",
+      "ADDITIONAL_STREET": "اسم الشارع الإضافي",
       "CITY": "المدينة",
-      "COUNTRY": "الدولة",
-      "FLOOR_NO": "رقم الطابق",
       "DISTRICT": "الحي",
+      "POSTAL_ZONE": "الرمز البريدي",
       "COUNTRY_CODE": "رمز الدولة",
-      "SOURCE": "مصدر العميل"
+      "COUNTRY_SUBENTITY": "المنطقة",
+      "SOURCE": "مصدر العميل",
+      "SELECT_SOURCE": "اختر مصدر العميل..."
     }
   },
   "CLIENT_RESOURCES": {
@@ -596,6 +588,14 @@
       "NAME_AR": "الاسم (عربي)",
       "NAME_EN": "الاسم (إنجليزي)"
     }
+  },
+  "VALIDATION": {
+    "REQUIRED": "هذا الحقل مطلوب",
+    "EMAIL_INVALID": "يرجى إدخال بريد إلكتروني صحيح",
+    "PHONE_INVALID": "يرجى إدخال رقم هاتف صحيح",
+    "ENGLISH_ONLY": "يرجى إدخال أحرف إنجليزية فقط",
+    "MIN_LENGTH": "الحد الأدنى للطول {{min}} أحرف",
+    "MAX_LENGTH": "الحد الأقصى للطول {{max}} أحرف"
   }
 
 

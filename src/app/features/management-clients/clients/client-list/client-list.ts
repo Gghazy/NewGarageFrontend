@@ -70,7 +70,8 @@ export class ClientList implements OnInit, OnDestroy {
   openEditClient(client: ClientDto) {
     const ref = this.modal.open(ClientForm, { centered: true, backdrop: 'static', size: 'lg' });
     ref.componentInstance.title = 'Edit Client';
-    ref.componentInstance.clientId = client.id;
+    ref.componentInstance.client = client;
+    ref.componentInstance.clientId = client.id; // backend must return id in ClientDto
 
     ref.result.then(() => this.loadClients()).catch(() => {});
   }

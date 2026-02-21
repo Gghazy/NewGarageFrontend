@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { LookupDto } from '../../Models/lookup-dto';
-import { FormBuilder, Validators } from '@angular/forms';
 import { LookupConfig } from '../../Models/lookup-config';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -11,7 +13,8 @@ import { ApiMessage } from '../../Models/api-response';
 
 @Component({
   selector: 'app-lookup-form',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './lookup-form.html',
   styleUrl: './lookup-form.css',
 })

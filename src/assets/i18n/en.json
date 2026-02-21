@@ -547,37 +547,31 @@
     "INDIVIDUAL": "Individual",
     "TABLE": {
       "NAME": "Name",
+      "TYPE": "Type",
       "EMAIL": "Email",
-      "PHONE": "Phone",
-      "ADDRESS": "Address",
-      "STATUS": "Status"
+      "PHONE": "Phone"
     },
     "EMPTY": "No clients found",
     "FORM": {
       "TITLE_ADD": "Add Client",
       "TITLE_EDIT": "Edit Client",
-      "TYPE": "Client Type",
-      "INDIVIDUAL": "Individual",
-      "COMPANY": "Company",
       "NAME_AR": "Name (AR)",
       "NAME_EN": "Name (EN)",
       "EMAIL": "Email",
       "PHONE": "Phone",
       "ADDRESS": "Address",
-      "IS_ACTIVE": "Is Active",
-      "COMPANY_NAME_AR": "Company Name (AR)",
-      "COMPANY_NAME_EN": "Company Name (EN)",
       "COMMERCIAL_REG": "Commercial Registration Number",
       "TAX_NUMBER": "Tax Number",
       "BUILDING_NO": "Building Number",
-      "STREET": "Street",
-      "AREA": "Area",
+      "STREET": "Street Name",
+      "ADDITIONAL_STREET": "Additional Street",
       "CITY": "City",
-      "COUNTRY": "Country",
-      "FLOOR_NO": "Floor Number",
       "DISTRICT": "District",
+      "POSTAL_ZONE": "Postal Zone",
       "COUNTRY_CODE": "Country Code",
-      "SOURCE": "Source"
+      "COUNTRY_SUBENTITY": "Country Subentity",
+      "SOURCE": "Source",
+      "SELECT_SOURCE": "Select source..."
     }
   },
   "CLINT_RESOURCES": {
@@ -598,5 +592,13 @@
       "DESCRIPTION_AR": "Description (AR)",
       "DESCRIPTION_EN": "Description (EN)"
     }
+  },
+  "VALIDATION": {
+    "REQUIRED": "This field is required",
+    "EMAIL_INVALID": "Please enter a valid email address",
+    "PHONE_INVALID": "Please enter a valid phone number",
+    "ENGLISH_ONLY": "Please enter English characters only",
+    "MIN_LENGTH": "Minimum length is {{min}} characters",
+    "MAX_LENGTH": "Maximum length is {{max}} characters"
   }
 }

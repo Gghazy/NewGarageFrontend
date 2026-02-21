@@ -1,7 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
+import { ApiService } from 'src/app/core/services/custom.service';
+import { FormService } from 'src/app/core/services/form.service';
+import { LanguageService } from 'src/app/core/services/language.service';
+import { ApiResponse } from 'src/app/shared/Models/api-response';
+import { ClientDto } from 'src/app/shared/Models/clients/client-dto';
+import { LookupDto } from 'src/app/shared/Models/lookup-dto';
 
 @Component({
   selector: 'app-client-individual-form',
@@ -9,13 +15,36 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './client-individual-form.html',
 })
 export class ClientIndividualForm implements OnInit, OnDestroy {
+  @Input() initialData?: ClientDto;
+
   formGroup!: FormGroup;
   private destroy$ = new Subject<void>();
+  resources: LookupDto[] = [];
 
-  constructor(private formBuilder: FormBuilder) {}
+
+  constructor(
+    private fb: FormBuilder,
+    private apiService: ApiService,
+    private formService: FormService,
+    private toastr: ToastrService,
+    public lang: LanguageService
+  ) { }
 
   ngOnInit(): void {
+     this.loadResources();
     this.initForm();
+    debugger
+    if (this.initialData) {
+      this.formGroup.patchValue({
+        email: this.initialData.email,
+        nameEn: this.initialData.nameEn,
+        nameAr: this.initialData.nameAr,
+        phoneNumber: this.initialData.phoneNumber,
+        address: this.initialData.address,
+        resourceId: this.initialData.sourceId,
+      });
+    }
+   
   }
 
   ngOnDestroy(): void {
@@ -23,45 +52,30 @@ export class ClientIndividualForm implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+
   initForm(): void {
-    this.formGroup = this.formBuilder.group({
-      nameEn: ['', [Validators.minLength(3)]],
-      nameAr: ['', [Validators.minLength(3)]],
+    this.formGroup = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      mobileNumber: ['', [Validators.required]],
-      phone: ['', []],
-      source: ['', [Validators.required]],
-      address: ['', []],
-      street: ['', []],
-      buildingNo: ['', []],
-      floorNo: ['', []],
-      district: ['', []],
-      city: ['', []],
-      countryCode: ['', [Validators.required]],
-      isActive: [true, []]
+      nameEn: ['', [Validators.required, Validators.maxLength(200)]],
+      nameAr: ['', [Validators.required, Validators.maxLength(200)]],
+      phoneNumber: ['', [Validators.required, Validators.maxLength(20)]],
+      address: [''],
+      resourceId: ['', Validators.required],
     });
   }
-
-  isFieldInvalid(fieldName: string): boolean {
-    const field = this.formGroup.get(fieldName);
-    return !!(field && field.invalid && (field.dirty || field.touched));
+  loadResources(): void {
+    this.apiService.get<ApiResponse<LookupDto[]>>('ClientResources')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => { this.resources = res.data; },
+        error: (err) => {
+          this.toastr.error(this.formService.extractError(err, 'Failed to load client resources'), 'Error');
+        }
+      });
   }
 
-  getFieldError(fieldName: string): string {
-    const field = this.formGroup.get(fieldName);
-    if (!field || !field.errors) return '';
-
-    if (field.hasError('required')) {
-      return `${fieldName} is required`;
-    }
-    if (field.hasError('minlength')) {
-      const minLength = field.getError('minlength');
-      return `${fieldName} must be at least ${minLength.requiredLength} characters`;
-    }
-    if (field.hasError('email')) {
-      return 'Invalid email format';
-    }
-
-    return '';
+  isInvalid(field: string): boolean {
+    const c = this.formGroup.get(field);
+    return !!c && c.invalid && (c.touched || c.dirty);
   }
 }

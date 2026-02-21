@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { STORAGE_KEYS, SUPPORTED_LANGS, SupportedLang } from '../constants/app.constants';
 
@@ -10,7 +10,8 @@ export class LanguageService {
   private readonly supported: AppLang[] = [SUPPORTED_LANGS.AR, SUPPORTED_LANGS.EN];
   readonly defaultLang: AppLang = SUPPORTED_LANGS.AR;
 
-  readonly lang = signal<AppLang>(SUPPORTED_LANGS.AR);
+  readonly lang  = signal<AppLang>(SUPPORTED_LANGS.AR);
+  readonly isAr  = computed(() => this.lang() === SUPPORTED_LANGS.AR);
 
   constructor(private translate: TranslateService) {}
 

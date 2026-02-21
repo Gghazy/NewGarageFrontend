@@ -1,19 +1,23 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LookupDto } from '../../Models/lookup-dto';
 import { ApiService } from 'src/app/core/services/custom.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { SearchCriteria } from '../../Models/search-criteria';
 import { LookupConfig } from '../../Models/lookup-config';
 import { LookupForm } from '../lookup-form/lookup-form';
+import { PageSizeComponent } from '../page-size/page-size.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PaginatedResponse } from '../../Models/api-response';
 
 @Component({
   selector: 'app-lookup-list',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, TranslateModule, NgxPaginationModule, PageSizeComponent],
   templateUrl: './lookup-list.html',
   styleUrl: './lookup-list.css',
 })

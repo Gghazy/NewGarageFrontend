@@ -1,86 +1,69 @@
-<form [formGroup]="formGroup" class="p-3 rounded">
-  <!-- Row 1: Names, Phone -->
-  <div class="row mb-3">
-    <div class="col-md-6">
-      <label for="nameEn" class="form-label">{{ 'CLIENTS.FORM.NAME_EN' | translate }}</label>
-      <input 
-        type="text" 
-        id="nameEn" 
-        class="form-control" 
-        formControlName="nameEn"
-        [class.is-invalid]="isFieldInvalid('nameEn')">
-      <div class="invalid-feedback" *ngIf="isFieldInvalid('nameEn')">
-        {{ getFieldError('nameEn') }}
+<form [formGroup]="formGroup">
+  <div class="row g-3">
+
+    <!-- Name EN -->
+    <div class="col-12 col-md-6">
+      <label class="form-label">{{ 'CLIENTS.FORM.NAME_EN' | translate }}</label>
+      <input type="text" class="form-control" formControlName="nameEn"
+        [placeholder]="'CLIENTS.FORM.NAME_EN' | translate" [class.is-invalid]="isInvalid('nameEn')">
+      <div class="invalid-feedback" *ngIf="isInvalid('nameEn')">
+        <span *ngIf="formGroup.get('nameEn')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+        <span *ngIf="formGroup.get('nameEn')?.errors?.['maxlength']">{{ 'VALIDATION.MAX_LENGTH' | translate:{max:200}
+          }}</span>
       </div>
     </div>
 
-    <div class="col-md-6">
-      <label for="nameAr" class="form-label">{{ 'CLIENTS.FORM.NAME_AR' | translate }}</label>
-      <input 
-        type="text" 
-        id="nameAr" 
-        class="form-control" 
-        formControlName="nameAr"
-        [class.is-invalid]="isFieldInvalid('nameAr')">
-      <div class="invalid-feedback" *ngIf="isFieldInvalid('nameAr')">
-        {{ getFieldError('nameAr') }}
+    <!-- Name AR -->
+    <div class="col-12 col-md-6">
+      <label class="form-label">{{ 'CLIENTS.FORM.NAME_AR' | translate }}</label>
+      <input type="text" class="form-control" formControlName="nameAr"
+        [placeholder]="'CLIENTS.FORM.NAME_AR' | translate" [class.is-invalid]="isInvalid('nameAr')">
+      <div class="invalid-feedback" *ngIf="isInvalid('nameAr')">
+        <span *ngIf="formGroup.get('nameAr')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+        <span *ngIf="formGroup.get('nameAr')?.errors?.['maxlength']">{{ 'VALIDATION.MAX_LENGTH' | translate:{max:200}
+          }}</span>
       </div>
     </div>
+    <div class="col-12 col-md-6">
+      <label class="form-label">{{ 'CLIENTS.FORM.SOURCE' | translate }}</label>
+      <select class="form-select" formControlName="resourceId" [class.is-invalid]="isInvalid('resourceId')">
+        <option value="" disabled selected>{{ 'CLIENTS.FORM.SELECT_SOURCE' | translate }}</option>
+        <option *ngFor="let r of resources" [value]="r.id">
+          {{ lang.isAr() ? r.nameAr : r.nameEn }}
+        </option>
+      </select>
+      <div class="invalid-feedback" *ngIf="isInvalid('resourceId')">
+        {{ 'VALIDATION.REQUIRED' | translate }}
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="col-12 col-md-6">
+      <label class="form-label">{{ 'CLIENTS.FORM.EMAIL' | translate }}</label>
+      <input type="email" class="form-control" formControlName="email" [placeholder]="'CLIENTS.FORM.EMAIL' | translate"
+        [class.is-invalid]="isInvalid('email')">
+      <div class="invalid-feedback" *ngIf="isInvalid('email')">
+        <span *ngIf="formGroup.get('email')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+        <span *ngIf="formGroup.get('email')?.errors?.['email']">{{ 'VALIDATION.EMAIL_INVALID' | translate }}</span>
+      </div>
+    </div>
+
+    <!-- Phone -->
+    <div class="col-12 col-md-6">
+      <label class="form-label">{{ 'CLIENTS.FORM.PHONE' | translate }}</label>
+      <input type="text" class="form-control" formControlName="phoneNumber"
+        [placeholder]="'CLIENTS.FORM.PHONE' | translate" [class.is-invalid]="isInvalid('phoneNumber')">
+      <div class="invalid-feedback" *ngIf="isInvalid('phoneNumber')">
+        <span *ngIf="formGroup.get('phoneNumber')?.errors?.['required']">{{ 'VALIDATION.REQUIRED' | translate }}</span>
+      </div>
+    </div>
+
+    <!-- Address (simple string) -->
+    <div class="col-12">
+      <label class="form-label">{{ 'CLIENTS.FORM.ADDRESS' | translate }}</label>
+      <input type="text" class="form-control" formControlName="address"
+        [placeholder]="'CLIENTS.FORM.ADDRESS' | translate">
+    </div>
+
   </div>
-
-  <!-- Row 2: Email, Phone, Source -->
-  <div class="row mb-3">
-    <div class="col-md-4">
-      <label for="email" class="form-label">{{ 'CLIENTS.FORM.EMAIL' | translate }}</label>
-      <input 
-        type="email" 
-        id="email" 
-        class="form-control" 
-        formControlName="email"
-        [class.is-invalid]="isFieldInvalid('email')">
-      <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
-        {{ getFieldError('email') }}
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      <label for="phone" class="form-label">{{ 'CLIENTS.FORM.PHONE' | translate }}</label>
-      <input 
-        type="text" 
-        id="phone" 
-        class="form-control" 
-        formControlName="phone"
-        [class.is-invalid]="isFieldInvalid('phone')">
-      <div class="invalid-feedback" *ngIf="isFieldInvalid('phone')">
-        {{ getFieldError('phone') }}
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      <label for="source" class="form-label">{{ 'CLIENTS.FORM.SOURCE' | translate }}</label>
-      <ng-select
-        id="source"
-        formControlName="source"
-        [items]="[]"
-        placeholder="{{ 'CLIENTS.FORM.SELECT_SOURCE' | translate }}">
-      </ng-select>
-    </div>
-  </div>
-
-  <!-- Row 3: Address -->
-  <div class="row mb-3">
-    <div class="col-md-12">
-      <label for="address" class="form-label">{{ 'CLIENTS.FORM.ADDRESS' | translate }}</label>
-      <input 
-        type="text" 
-        id="address" 
-        class="form-control" 
-        formControlName="address"
-        [class.is-invalid]="isFieldInvalid('address')">
-      <div class="invalid-feedback" *ngIf="isFieldInvalid('address')">
-        {{ getFieldError('address') }}
-      </div>
-    </div>
-  </div>
-
 </form>

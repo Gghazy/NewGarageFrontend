@@ -13,9 +13,9 @@
   <ng-container table-header>
     <th>#</th>
     <th>{{ 'CLIENTS.TABLE.NAME' | translate }}</th>
+    <th>{{ 'CLIENTS.TABLE.TYPE' | translate }}</th>
     <th>{{ 'CLIENTS.TABLE.EMAIL' | translate }}</th>
     <th>{{ 'CLIENTS.TABLE.PHONE' | translate }}</th>
-    <th>{{ 'CLIENTS.TABLE.STATUS' | translate }}</th>
     <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
   </ng-container>
 
@@ -24,22 +24,19 @@
     <tr *ngFor="let client of clients; let i = index">
       <td>{{ i + 1 }}</td>
       <td>{{ client.nameEn }}</td>
-      <td>{{ client.email ?? '-' }}</td>
-      <td>{{ client.phone ?? '-' }}</td>
-      <td>
-        <span *ngIf="client.isActive" class="badge bg-success">{{ 'COMMON.ACTIVE' | translate }}</span>
-        <span *ngIf="!client.isActive" class="badge bg-danger">{{ 'COMMON.INACTIVE' | translate }}</span>
-      </td>
+      <td>{{ client.typeEn }}</td>
+      <td>{{ client.email }}</td>
+      <td>{{ client.phoneNumber }}</td>
       <td class="text-end">
         <button
-          *ngIf="authService.hasPermission('clients_edit')"
+          *ngIf="authService.hasPermission('clients.update')"
           (click)="openEditClient(client)"
           class="btn btn-sm btn-outline-primary me-1"
           type="button">
           {{ 'COMMON.EDIT' | translate }}
         </button>
         <button
-          *ngIf="authService.hasPermission('clients_delete')"
+          *ngIf="authService.hasPermission('clients.delete')"
           (click)="deleteClient(client)"
           class="btn btn-sm btn-outline-danger"
           type="button">
