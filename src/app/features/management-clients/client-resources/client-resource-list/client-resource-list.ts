@@ -16,6 +16,7 @@ export class ClientResourceList {
     permRead: 'clientResource.read',
     permCreate: 'clientResource.create',
     permUpdate: 'clientResource.update',
+    permDelete: 'clientResource.delete',
     nameArKey: 'CLIENT_RESOURCES.TABLE.NAME_AR',
     nameEnKey: 'CLIENT_RESOURCES.TABLE.NAME_EN',
   };

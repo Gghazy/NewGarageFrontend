@@ -16,6 +16,7 @@ export class CarMarkList {
     permRead: 'carMark.read',
     permCreate: 'carMark.create',
     permUpdate: 'carMark.update',
+    permDelete: 'carMark.delete',
     nameArKey: 'CAR_MARKS.TABLE.NAME_AR',
     nameEnKey: 'CAR_MARKS.TABLE.NAME_EN',
   };

@@ -36,6 +36,11 @@
                     (click)="openEdit(row)">
               {{ 'COMMON.EDIT' | translate }}
             </button>
+            <button class="btn btn-sm btn-outline-danger"
+                    *ngIf="config.permDelete && authService.hasPermission(config.permDelete)"
+                    (click)="openDelete(row)">
+              {{ 'COMMON.DELETE' | translate }}
+            </button>
           </td>
         </tr>
 

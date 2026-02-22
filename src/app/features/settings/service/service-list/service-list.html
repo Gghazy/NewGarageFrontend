@@ -30,6 +30,12 @@
           (click)="openEditService(service)">
           {{ 'COMMON.EDIT' | translate }}
         </button>
+        <button
+          class="btn btn-sm btn-outline-danger"
+          *ngIf="authService.hasPermission('service.delete')"
+          (click)="deleteService(service)">
+          {{ 'COMMON.DELETE' | translate }}
+        </button>
       </td>
     </tr>
   </ng-container>

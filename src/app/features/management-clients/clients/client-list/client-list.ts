@@ -7,6 +7,7 @@ import { SearchCriteria } from 'src/app/shared/Models/search-criteria';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ClientForm } from '../client-form/client-form';
+import { ConfirmDeleteModal } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal';
 import { ClientDto } from 'src/app/shared/Models/clients/client-dto';
 import { PaginatedResponse } from 'src/app/shared/Models/api-response';
 
@@ -77,7 +78,8 @@ export class ClientList implements OnInit, OnDestroy {
   }
 
   deleteClient(client: ClientDto) {
-    if (confirm('Are you sure you want to delete this client?')) {
+    const ref = this.modal.open(ConfirmDeleteModal, { centered: true, backdrop: 'static' });
+    ref.result.then(() => {
       this.apiService.delete(`Clients/${client.id}`)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
@@ -86,11 +88,10 @@ export class ClientList implements OnInit, OnDestroy {
             this.loadClients();
           },
           error: (err) => {
-            console.error('[ClientList] Failed to delete client:', err);
             this.toastr.error(err?.error?.message ?? 'Failed to delete client', 'Error');
           }
         });
-    }
+    }).catch(() => {});
   }
 
   search() {

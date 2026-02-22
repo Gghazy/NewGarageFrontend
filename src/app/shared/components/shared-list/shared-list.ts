@@ -6,8 +6,7 @@ import { PageSizeComponent } from '../page-size/page-size.component';
 
 @Component({
   selector: 'app-shared-list',
-  standalone: true,
-  imports: [CommonModule, TranslateModule, NgxPaginationModule, PageSizeComponent],
+  standalone: false,
   templateUrl: './shared-list.html',
   styleUrl: './shared-list.css',
 })

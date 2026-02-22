@@ -14,6 +14,7 @@ import { LookupList } from './components/lookup-list/lookup-list';
 import { LookupForm } from './components/lookup-form/lookup-form';
 import { SharedList } from './components/shared-list/shared-list';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ConfirmDeleteModal } from './components/confirm-delete-modal/confirm-delete-modal';
 
 
 const COMPONENTS = [
@@ -23,7 +24,8 @@ const COMPONENTS = [
   PageSizeComponent,
   LookupList,
   LookupForm,
-  SharedList
+  SharedList,
+  ConfirmDeleteModal
 ];
 
 const MODULES = [

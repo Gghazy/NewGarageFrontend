@@ -1,7 +1,4 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
 import { LookupDto } from '../../Models/lookup-dto';
 import { LookupConfig } from '../../Models/lookup-config';
 import { ApiService } from 'src/app/core/services/custom.service';
@@ -10,11 +7,11 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ApiMessage } from '../../Models/api-response';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-lookup-form',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
+  standalone: false,
   templateUrl: './lookup-form.html',
   styleUrl: './lookup-form.css',
 })

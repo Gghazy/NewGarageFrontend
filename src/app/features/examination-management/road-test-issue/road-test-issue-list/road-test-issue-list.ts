@@ -16,6 +16,7 @@ export class RoadTestIssueList {
     permRead: 'roadTestIssue.read',
     permCreate: 'roadTestIssue.create',
     permUpdate: 'roadTestIssue.update',
+    permDelete: 'roadTestIssue.delete',
     nameArKey: 'ROAD_TEST_ISSUES.TABLE.NAME_AR',
     nameEnKey: 'ROAD_TEST_ISSUES.TABLE.NAME_EN',
   };

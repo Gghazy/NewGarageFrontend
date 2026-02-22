@@ -9,6 +9,7 @@ import { ApiService } from 'src/app/core/services/custom.service';
 import { FormService } from 'src/app/core/services/form.service';
 import { SearchCriteria } from 'src/app/shared/Models/search-criteria';
 import { SensorIssuesForm } from '../sensor-issues-form/sensor-issues-form';
+import { ConfirmDeleteModal } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal';
 
 export interface SensorIssue {
   id: number;
@@ -93,18 +94,19 @@ export class SensorIssuesList implements OnInit, OnDestroy {
   }
 
   confirmDelete(item: SensorIssue): void {
-    if (!confirm(this.translate.instant('CONFIRM.DELETE_MESSAGE'))) return;
-
-    this.api.delete(`SensorIssues/${item.id}`)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res: any) => {
-          this.toastr.success(res?.message ?? this.translate.instant('COMMON.TOAST.DELETED'), 'Success');
-          this.load();
-        },
-        error: (err) => {
-          this.toastr.error(this.formService.extractError(err, this.translate.instant('SERVER.ERROR')));
-        }
-      });
+    const ref = this.modal.open(ConfirmDeleteModal, { centered: true, backdrop: 'static' });
+    ref.result.then(() => {
+      this.api.delete(`SensorIssues/${item.id}`)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res: any) => {
+            this.toastr.success(res?.message ?? this.translate.instant('COMMON.TOAST.DELETED'), 'Success');
+            this.load();
+          },
+          error: (err) => {
+            this.toastr.error(this.formService.extractError(err, this.translate.instant('SERVER.ERROR')));
+          }
+        });
+    }).catch(() => {});
   }
 }

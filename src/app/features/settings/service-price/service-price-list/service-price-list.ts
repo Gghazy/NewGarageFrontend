@@ -10,6 +10,7 @@ import { LanguageService } from 'src/app/core/services/language.service';
 import { ServicePriceDto } from 'src/app/shared/Models/servicePrice/service-price-dto';
 import { ServicePriceSearch } from 'src/app/shared/Models/service-price-search';
 import { ServicePriceForm } from '../service-price-form/service-price-form';
+import { ConfirmDeleteModal } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal';
 
 @Component({
   selector: 'app-service-price-list',
@@ -84,6 +85,23 @@ export class ServicePriceList implements OnInit, OnDestroy {
     ref.componentInstance.service = service;
     ref.componentInstance.serviceId = (service as any).id;
     ref.result.then(() => this.loadServices()).catch(() => { });
+  }
+
+  deleteServicePrice(service: ServicePriceDto) {
+    const ref = this.modal.open(ConfirmDeleteModal, { centered: true, backdrop: 'static' });
+    ref.result.then(() => {
+      this.apiService.delete(`ServicePrices/${(service as any).id}`)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.toastr.success(this.translate.instant('COMMON.DELETED_SUCCESSFULLY'), 'Success');
+            this.loadServices();
+          },
+          error: (err) => {
+            this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.DELETE_FAILED'), 'Error');
+          }
+        });
+    }).catch(() => {});
   }
 
   search() {

@@ -16,6 +16,7 @@ export class ExteriorBodyIssueList {
     permRead: 'exteriorBodyIssue.read',
     permCreate: 'exteriorBodyIssue.create',
     permUpdate: 'exteriorBodyIssue.update',
+    permDelete: 'exteriorBodyIssue.delete',
     nameArKey: 'EXTERIOR_BODY_ISSUES.TABLE.NAME_AR',
     nameEnKey: 'EXTERIOR_BODY_ISSUES.TABLE.NAME_EN',
   };

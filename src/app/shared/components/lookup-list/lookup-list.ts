@@ -9,15 +9,16 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { SearchCriteria } from '../../Models/search-criteria';
 import { LookupConfig } from '../../Models/lookup-config';
 import { LookupForm } from '../lookup-form/lookup-form';
+import { ConfirmDeleteModal } from '../confirm-delete-modal/confirm-delete-modal';
 import { PageSizeComponent } from '../page-size/page-size.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PaginatedResponse } from '../../Models/api-response';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-lookup-list',
-  standalone: true,
-  imports: [CommonModule, TranslateModule, NgxPaginationModule, PageSizeComponent],
+  standalone: false,
   templateUrl: './lookup-list.html',
   styleUrl: './lookup-list.css',
 })
@@ -41,6 +42,7 @@ export class LookupList implements OnInit, OnDestroy {
     private apiService: ApiService,
     private modal: NgbModal,
     private translate: TranslateService,
+    private toastr: ToastrService,
     public authService: AuthService,
   ) { }
 
@@ -86,6 +88,23 @@ export class LookupList implements OnInit, OnDestroy {
     ref.componentInstance.initial = { id: row.id, nameAr: row.nameAr, nameEn: row.nameEn };
 
     ref.result.then(() => this.load()).catch(() => { });
+  }
+
+  openDelete(row: LookupDto) {
+    const ref = this.modal.open(ConfirmDeleteModal, { centered: true, backdrop: 'static' });
+    ref.result.then(() => {
+      this.apiService.delete(`${this.config.apiBase}/${row.id}`)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.toastr.success(this.translate.instant('COMMON.DELETED_SUCCESSFULLY'), 'Success');
+            this.load();
+          },
+          error: (err) => {
+            this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.DELETE_FAILED'), 'Error');
+          }
+        });
+    }).catch(() => {});
   }
 
   search() {

@@ -34,6 +34,12 @@
           (click)="openEditServicePrice(servicePrice)">
           {{ 'COMMON.EDIT' | translate }}
         </button>
+        <button
+          class="btn btn-sm btn-outline-danger"
+          *ngIf="authService.hasPermission('servicePrice.delete')"
+          (click)="deleteServicePrice(servicePrice)">
+          {{ 'COMMON.DELETE' | translate }}
+        </button>
       </td>
     </tr>
   </ng-container>

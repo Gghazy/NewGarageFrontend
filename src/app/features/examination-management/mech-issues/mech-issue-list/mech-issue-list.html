@@ -30,6 +30,12 @@
           (click)="openEditMechIssue(branch)">
           {{ 'COMMON.EDIT' | translate }}
         </button>
+        <button
+          class="btn btn-sm btn-outline-danger"
+          *ngIf="authService.hasPermission('mechIssue.delete')"
+          (click)="deleteMechIssue(branch)">
+          {{ 'COMMON.DELETE' | translate }}
+        </button>
       </td>
     </tr>
   </ng-container>

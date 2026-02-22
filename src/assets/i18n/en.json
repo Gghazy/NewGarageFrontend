@@ -99,6 +99,14 @@
     "ACCESS_DENIED": "You do not have permission to access this resource.",
     "GO_BACK": "Go Back",
     "GO_HOME": "Go Home",
+    "NAME_AR": "Name (AR)",
+    "NAME_EN": "Name (EN)",
+    "DELETED_SUCCESSFULLY": "Deleted successfully.",
+    "DELETE_FAILED": "Failed to delete. Please try again.",
+    "CONFIRM_DELETE": {
+      "TITLE": "Confirm Delete",
+      "MESSAGE": "Are you sure you want to delete this item? This action cannot be undone."
+    },
     "TOAST": {
       "CREATED": "Added successfully.",
       "UPDATED": "Updated successfully.",
@@ -136,10 +144,7 @@
   },
   "SENSOR_ISSUES": {
     "TITLE": "Trouble Codes List",
-    "NAME": "Sensor Issues",
     "ADD": "Add Trouble Code",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
     "TABLE": {
       "NO": "#",
       "CODE": "Trouble Code",
@@ -147,221 +152,65 @@
       "NAME_EN": "Name (EN)",
       "ACTIONS": "Actions"
     },
-    "EMPTY": "No data to display",
     "FORM": {
       "TITLE_ADD": "Add Trouble Code",
       "TITLE_EDIT": "Edit Trouble Code",
-      "CODE": "Trouble Code",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)"
+      "CODE": "Trouble Code"
     }
   },
   "MECH_ISSUES": {
-    "TITLE": "Mechanical Issues Types",
-    "NAME": "Mechanical Issues Types",
+    "TITLE": "Mechanical Issues",
     "ADD": "Add New Issue",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
     "TABLE": {
       "NO": "#",
       "NAME_AR": "Name (AR)",
       "NAME_EN": "Name (EN)",
       "ACTIONS": "Actions"
     },
-    "EMPTY": "No data to display",
     "FORM": {
       "TITLE_ADD": "Add Mechanical Issue",
-      "TITLE_EDIT": "Edit Mechanical Issue",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)"
+      "TITLE_EDIT": "Edit Mechanical Issue"
     }
   },
   "MECH_TYPE_ISSUES": {
     "TITLE": "Mechanical Issue Types",
-    "NAME": "Mechanical Issue Types",
-    "ADD": "Add New Issue Type",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
-    "TABLE": {
-      "NO": "#",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)",
-      "ACTIONS": "Actions"
-    },
-    "EMPTY": "No data to display",
-    "FORM": {
-      "TITLE_ADD": "Add Mechanical Issue Type",
-      "TITLE_EDIT": "Edit Mechanical Issue Type",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)"
-    }
+    "ADD": "Add New Issue Type"
   },
   "INTERIOR_ISSUES": {
     "TITLE": "Interior Issues Types",
-    "NAME": "Interior Issues Types",
-    "ADD": "Add New Issue",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
-    "TABLE": {
-      "NO": "#",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)",
-      "ACTIONS": "Actions"
-    },
-    "EMPTY": "No data to display",
-    "FORM": {
-      "TITLE_ADD": "Add Interior Issue",
-      "TITLE_EDIT": "Edit Interior Issue",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)"
-    }
+    "ADD": "Add New Issue"
   },
   "INTERIOR_BODY_ISSUES": {
     "TITLE": "Interior Body Issues Types",
-    "NAME": "Interior Body Issues Types",
-    "ADD": "Add New Issue",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
-    "TABLE": {
-      "NO": "#",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)",
-      "ACTIONS": "Actions"
-    },
-    "EMPTY": "No data to display",
-    "FORM": {
-      "TITLE_ADD": "Add Interior Body Issue",
-      "TITLE_EDIT": "Edit Interior Body Issue",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)"
-    }
+    "ADD": "Add New Issue"
   },
   "EXTERIOR_BODY_ISSUES": {
     "TITLE": "Exterior Body Issues Types",
-    "NAME": "Exterior Body Issues Types",
-    "ADD": "Add New Issue",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
-    "TABLE": {
-      "NO": "#",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)",
-      "ACTIONS": "Actions"
-    },
-    "EMPTY": "No data to display",
-    "FORM": {
-      "TITLE_ADD": "Add Exterior Body Issue",
-      "TITLE_EDIT": "Edit Exterior Body Issue",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)"
-    }
+    "ADD": "Add New Issue"
   },
   "ACCESSORY_ISSUES": {
     "TITLE": "Accessory Issues Types",
-    "NAME": "Accessory Issues Types",
-    "ADD": "Add New Issue",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
-    "TABLE": {
-      "NO": "#",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)",
-      "ACTIONS": "Actions"
-    },
-    "EMPTY": "No data to display",
-    "FORM": {
-      "TITLE_ADD": "Add Accessory Issue",
-      "TITLE_EDIT": "Edit Accessory Issue",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)"
-    }
+    "ADD": "Add New Issue"
   },
   "ROAD_TEST_ISSUES": {
     "TITLE": "Road Test Issues Types",
-    "NAME": "Road Test Issues Types",
-    "ADD": "Add New Issue",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
-    "TABLE": {
-      "NO": "#",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)",
-      "ACTIONS": "Actions"
-    },
-    "EMPTY": "No data to display",
-    "FORM": {
-      "TITLE_ADD": "Add Road Test Issue",
-      "TITLE_EDIT": "Edit Road Test Issue",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)"
-    }
+    "ADD": "Add New Issue"
   },
   "INSIDE_AND_DECOR_PART": {
     "TITLE": "Inside and Decor Part Issues Types",
-    "NAME": "Inside and Decor Part Issues Types",
-    "ADD": "Add New Issue",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
-    "TABLE": {
-      "NO": "#",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)",
-      "ACTIONS": "Actions"
-    },
-    "EMPTY": "No data to display",
-    "FORM": {
-      "TITLE_ADD": "Add Inside and Decor Part Issue",
-      "TITLE_EDIT": "Edit Inside and Decor Part Issue",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)"
-    }
+    "ADD": "Add New Issue"
   },
   "CAR_MARKS": {
     "TITLE": "Car Marks",
-    "NAME": "Car Marks",
-    "ADD": "Add New Car Mark",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
-    "TABLE": {
-      "NO": "#",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)",
-      "ACTIONS": "Actions"
-    },
-    "EMPTY": "No data to display",
-    "FORM": {
-      "TITLE_ADD": "Add Car Mark",
-      "TITLE_EDIT": "Edit Car Mark",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)"
-    }
+    "ADD": "Add New Car Mark"
   },
   "MANUFACTURERS": {
     "TITLE": "Manufacturers",
-    "NAME": "Manufacturers",
-    "ADD": "Add New Manufacturer",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
-    "TABLE": {
-      "NO": "#",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)",
-      "ACTIONS": "Actions"
-    },
-    "EMPTY": "No data to display",
-    "FORM": {
-      "TITLE_ADD": "Add Manufacturer",
-      "TITLE_EDIT": "Edit Manufacturer",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)"
-    }
+    "ADD": "Add New Manufacturer"
   },
   "SERVICE": {
     "TITLE": "Services",
-    "NAME": "Services",
     "ADD": "Add New Service",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
     "TABLE": {
       "NO": "#",
       "NAME_AR": "Name (AR)",
@@ -369,12 +218,9 @@
       "STAGES": "Stages",
       "ACTIONS": "Actions"
     },
-    "EMPTY": "No data to display",
     "FORM": {
       "TITLE_ADD": "Add Service",
       "TITLE_EDIT": "Edit Service",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)",
       "STAGES": {
         "LABEL": "Stages",
         "PLACEHOLDER": "Enter stages separated by commas"
@@ -383,30 +229,11 @@
   },
   "CRANES": {
     "TITLE": "Cranes",
-    "NAME": "Cranes",
-    "ADD": "Add New Crane",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
-    "TABLE": {
-      "NO": "#",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)",
-      "ACTIONS": "Actions"
-    },
-    "EMPTY": "No data to display",
-    "FORM": {
-      "TITLE_ADD": "Add Crane",
-      "TITLE_EDIT": "Edit Crane",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)"
-    }
+    "ADD": "Add New Crane"
   },
   "SERVICE_PRICE": {
     "TITLE": "Service Prices",
-    "NAME": "Service Prices",
     "ADD": "Add New Service Price",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
     "TABLE": {
       "NO": "#",
       "SERVICE_NAME": "Service Name",
@@ -416,7 +243,6 @@
       "PRICE": "Price",
       "ACTIONS": "Actions"
     },
-    "EMPTY": "No data to display",
     "FORM": {
       "TITLE_ADD": "Add Service Price",
       "TITLE_EDIT": "Edit Service Price",
@@ -429,10 +255,7 @@
   },
   "TERMS": {
     "TITLE": "Terms and Conditions",
-    "NAME": "Terms and Conditions",
     "ADD": "Add New Term",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
     "TABLE": {
       "NO": "#",
       "NAME_AR": "Name (AR)",
@@ -441,7 +264,6 @@
       "DESCRIPTION_EN": "Description (EN)",
       "ACTIONS": "Actions"
     },
-    "EMPTY": "No data to display",
     "FORM": {
       "TITLE_ADD": "Add Term",
       "TITLE_EDIT": "Edit Term",
@@ -458,6 +280,10 @@
         "PLACEHOLDER": "Enter description in Arabic"
       }
     }
+  },
+  "CLIENT_RESOURCES": {
+    "TITLE": "Client Resources",
+    "ADD": "Add New Client Resource"
   },
   "PERMISSIONS": {
     "TITLE": "Permissions",
@@ -496,16 +322,12 @@
   },
   "ROLES": {
     "TITLE": "Roles",
-    "NAME": "Roles",
     "ADD": "Add New Role",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
     "TABLE": {
       "NO": "#",
       "NAME": "Name",
       "ACTIONS": "Actions"
     },
-    "EMPTY": "No data to display",
     "FORM": {
       "TITLE_ADD": "Add Role",
       "TITLE_EDIT": "Edit Role",
@@ -515,10 +337,7 @@
   },
   "EMPLOYEES": {
     "TITLE": "Employees",
-    "NAME": "Employees",
     "ADD": "Add New Employee",
-    "SEARCH_PLACEHOLDER": "Search",
-    "PAGE_SIZE_LABEL": "Items per page",
     "TABLE": {
       "NO": "#",
       "NAME": "Name",
@@ -528,7 +347,6 @@
       "ROLE": "Role",
       "ACTIONS": "Actions"
     },
-    "EMPTY": "No data to display",
     "FORM": {
       "TITLE_ADD": "Add Employee",
       "TITLE_EDIT": "Edit Employee",
@@ -574,24 +392,9 @@
       "SELECT_SOURCE": "Select source..."
     }
   },
-  "CLINT_RESOURCES": {
-    "TITLE": "Client Resources",
-    "ADD": "Add New Client Resource",
-    "TABLE": {
-      "NO": "#",
-      "NAME": "Name",
-      "DESCRIPTION": "Description",
-      "ACTIONS": "Actions"
-    },
-    "EMPTY": "No client resources found",
-    "FORM": {
-      "TITLE_ADD": "Add Client Resource",
-      "TITLE_EDIT": "Edit Client Resource",
-      "NAME_AR": "Name (AR)",
-      "NAME_EN": "Name (EN)",
-      "DESCRIPTION_AR": "Description (AR)",
-      "DESCRIPTION_EN": "Description (EN)"
-    }
+  "MECH_ISSUE": {
+    "ADD": "Add New Issue",
+    "EDIT": "Edit Issue"
   },
   "VALIDATION": {
     "REQUIRED": "This field is required",

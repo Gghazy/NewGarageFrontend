@@ -8,8 +8,7 @@ type Crumb = { label: string; url: string };
 
 @Component({
   selector: 'app-breadcrumb',
-  standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule],
+  standalone: false,
   templateUrl: './breadcrumb.html',
   styleUrl: './breadcrumb.css',
 })

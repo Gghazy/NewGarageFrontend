@@ -9,8 +9,7 @@ import { APP_MENU, AppMenuItem } from './APP_MENU';
 
 @Component({
   selector: 'app-topbar',
-  standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule],
+  standalone: false,
   templateUrl: './topbar.html',
   styleUrl: './topbar.css',
 })

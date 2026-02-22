@@ -16,6 +16,7 @@ export class AccessoryIssueList {
     permRead: 'accessoryIssue.read',
     permCreate: 'accessoryIssue.create',
     permUpdate: 'accessoryIssue.update',
+    permDelete: 'accessoryIssue.delete',
     nameArKey: 'ACCESSORY_ISSUES.TABLE.NAME_AR',
     nameEnKey: 'ACCESSORY_ISSUES.TABLE.NAME_EN',
   };

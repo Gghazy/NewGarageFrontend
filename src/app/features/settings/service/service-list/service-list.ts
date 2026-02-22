@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ServiceForm } from '../service-form/service-form';
+import { ConfirmDeleteModal } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -82,6 +83,23 @@ export class ServiceList implements OnInit, OnDestroy {
       this.loadServices();
     }).catch(() => { });
   }
+  deleteService(service: any) {
+    const ref = this.modal.open(ConfirmDeleteModal, { centered: true, backdrop: 'static' });
+    ref.result.then(() => {
+      this.apiService.delete(`Services/${service.id}`)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.toastr.success(this.translate.instant('SERVICE.DELETED_SUCCESSFULLY'), 'Success');
+            this.loadServices();
+          },
+          error: (err) => {
+            this.toastr.error(err?.error?.message ?? this.translate.instant('SERVICE.DELETE_FAILED'), 'Error');
+          }
+        });
+    }).catch(() => {});
+  }
+
   search() {
     this.pagingConfig.currentPage = 1;
     this.loadServices();

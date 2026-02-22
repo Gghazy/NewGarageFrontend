@@ -16,6 +16,7 @@ export class MechTypeIssueList {
     permRead: 'mechIssueType.read',
     permCreate: 'mechIssueType.create',
     permUpdate: 'mechIssueType.update',
+    permDelete: 'mechIssueType.delete',
     nameArKey: 'MECH_TYPE_ISSUES.TABLE.NAME_AR',
     nameEnKey: 'MECH_TYPE_ISSUES.TABLE.NAME_EN',
   };

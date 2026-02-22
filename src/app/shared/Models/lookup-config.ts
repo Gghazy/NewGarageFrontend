@@ -6,6 +6,7 @@ export interface LookupConfig  {
     permRead: string;
     permCreate: string;
     permUpdate: string;
+    permDelete?: string;
     nameArKey: string;
     nameEnKey: string;
 }

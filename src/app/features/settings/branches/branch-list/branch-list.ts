@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { BranchForm, BranchFormValue } from '../branch-form/branch-form';
+import { ConfirmDeleteModal } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SearchCriteria } from 'src/app/shared/Models/search-criteria';
 import { ToastrService } from 'ngx-toastr';
@@ -83,6 +84,23 @@ export class BranchList implements OnInit, OnDestroy {
     ref.componentInstance.title = this.translate.instant('BRANCH.EDIT');
     ref.componentInstance.initial = { id: branch.id, nameAr: branch.nameAr, nameEn: branch.nameEn } satisfies Partial<BranchFormValue>;
     ref.result.then(() => this.loadBranches()).catch(() => { });
+  }
+
+  deleteBranch(branch: Branch) {
+    const ref = this.modal.open(ConfirmDeleteModal, { centered: true, backdrop: 'static' });
+    ref.result.then(() => {
+      this.apiService.delete(`Branches/${branch.id}`)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.toastr.success(this.translate.instant('BRANCH.DELETED_SUCCESSFULLY'), 'Success');
+            this.loadBranches();
+          },
+          error: (err) => {
+            this.toastr.error(err?.error?.message ?? this.translate.instant('BRANCH.DELETE_FAILED'), 'Error');
+          }
+        });
+    }).catch(() => {});
   }
 
   search() {

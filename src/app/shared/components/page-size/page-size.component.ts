@@ -4,8 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-page-size',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  standalone: false,
   templateUrl: './page-size.component.html',
   styleUrls: ['./page-size.component.scss'],
 })
