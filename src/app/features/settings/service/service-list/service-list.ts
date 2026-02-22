@@ -90,11 +90,11 @@ export class ServiceList implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            this.toastr.success(this.translate.instant('SERVICE.DELETED_SUCCESSFULLY'), 'Success');
+            this.toastr.success(this.translate.instant('COMMON.DELETED_SUCCESSFULLY'), 'Success');
             this.loadServices();
           },
           error: (err) => {
-            this.toastr.error(err?.error?.message ?? this.translate.instant('SERVICE.DELETE_FAILED'), 'Error');
+            this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.DELETE_FAILED'), 'Error');
           }
         });
     }).catch(() => {});

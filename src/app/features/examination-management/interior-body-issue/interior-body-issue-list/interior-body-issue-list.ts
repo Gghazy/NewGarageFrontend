@@ -17,7 +17,7 @@ export class InteriorBodyIssueList {
     permCreate: 'interiorBodyIssue.create',
     permUpdate: 'interiorBodyIssue.update',
     permDelete: 'interiorBodyIssue.delete',
-    nameArKey: 'INTERIOR_BODY_ISSUES.TABLE.NAME_AR',
-    nameEnKey: 'INTERIOR_BODY_ISSUES.TABLE.NAME_EN',
+    nameArKey: 'COMMON.NAME_AR',
+    nameEnKey: 'COMMON.NAME_EN',
   };
 }

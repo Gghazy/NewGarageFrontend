@@ -17,7 +17,7 @@ export class CraneList {
     permCreate: 'crane.create',
     permUpdate: 'crane.update',
     permDelete: 'crane.delete',
-    nameArKey: 'CRANES.TABLE.NAME_AR',
-    nameEnKey: 'CRANES.TABLE.NAME_EN',
+    nameArKey: 'COMMON.NAME_AR',
+    nameEnKey: 'COMMON.NAME_EN',
   };
 }

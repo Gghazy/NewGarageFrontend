@@ -17,8 +17,8 @@ export class InsideAndDecorPartList {
     permCreate: 'insideAndDecorPart.create',
     permUpdate: 'insideAndDecorPart.update',
     permDelete: 'insideAndDecorPart.delete',
-    nameArKey: 'INSIDE_AND_DECOR_PART.TABLE.NAME_AR',
-    nameEnKey: 'INSIDE_AND_DECOR_PART.TABLE.NAME_EN',
+    nameArKey: 'COMMON.NAME_AR',
+    nameEnKey: 'COMMON.NAME_EN',
   };
 }
 

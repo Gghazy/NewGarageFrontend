@@ -17,7 +17,7 @@ export class ManufacturerList {
     permCreate: 'manufacturer.create',
     permUpdate: 'manufacturer.update',
     permDelete: 'manufacturer.delete',
-    nameArKey: 'MANUFACTURERS.TABLE.NAME_AR',
-    nameEnKey: 'MANUFACTURERS.TABLE.NAME_EN',
+    nameArKey: 'COMMON.NAME_AR',
+    nameEnKey: 'COMMON.NAME_EN',
   };
 }

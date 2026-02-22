@@ -17,7 +17,7 @@ export class ExteriorBodyIssueList {
     permCreate: 'exteriorBodyIssue.create',
     permUpdate: 'exteriorBodyIssue.update',
     permDelete: 'exteriorBodyIssue.delete',
-    nameArKey: 'EXTERIOR_BODY_ISSUES.TABLE.NAME_AR',
-    nameEnKey: 'EXTERIOR_BODY_ISSUES.TABLE.NAME_EN',
+    nameArKey: 'COMMON.NAME_AR',
+    nameEnKey: 'COMMON.NAME_EN',
   };
 }

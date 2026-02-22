@@ -93,11 +93,11 @@ export class BranchList implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            this.toastr.success(this.translate.instant('BRANCH.DELETED_SUCCESSFULLY'), 'Success');
+            this.toastr.success(this.translate.instant('COMMON.DELETED_SUCCESSFULLY'), 'Success');
             this.loadBranches();
           },
           error: (err) => {
-            this.toastr.error(err?.error?.message ?? this.translate.instant('BRANCH.DELETE_FAILED'), 'Error');
+            this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.DELETE_FAILED'), 'Error');
           }
         });
     }).catch(() => {});

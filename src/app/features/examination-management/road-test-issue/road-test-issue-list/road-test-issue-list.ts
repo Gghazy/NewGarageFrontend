@@ -17,7 +17,7 @@ export class RoadTestIssueList {
     permCreate: 'roadTestIssue.create',
     permUpdate: 'roadTestIssue.update',
     permDelete: 'roadTestIssue.delete',
-    nameArKey: 'ROAD_TEST_ISSUES.TABLE.NAME_AR',
-    nameEnKey: 'ROAD_TEST_ISSUES.TABLE.NAME_EN',
+    nameArKey: 'COMMON.NAME_AR',
+    nameEnKey: 'COMMON.NAME_EN',
   };
 }

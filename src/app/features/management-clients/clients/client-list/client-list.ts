@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { SearchCriteria } from 'src/app/shared/Models/search-criteria';
 import { Subject } from 'rxjs';
@@ -34,6 +35,7 @@ export class ClientList implements OnInit, OnDestroy {
     private apiService: ApiService,
     private modal: NgbModal,
     private toastr: ToastrService,
+    private translate: TranslateService,
     public authService: AuthService,
   ) {}
 
@@ -56,21 +58,21 @@ export class ClientList implements OnInit, OnDestroy {
         },
         error: (err) => {
           console.error('[ClientList] Failed to load clients:', err);
-          this.toastr.error('Failed to load clients', 'Error');
+          this.toastr.error(this.translate.instant('COMMON.ERROR'), 'Error');
         }
       });
   }
 
   openAddClient() {
     const ref = this.modal.open(ClientForm, { centered: true, backdrop: 'static', size: 'lg' });
-    ref.componentInstance.title = 'Add Client';
+    ref.componentInstance.title = this.translate.instant('CLIENTS.FORM.TITLE_ADD');
 
     ref.result.then(() => this.loadClients()).catch(() => {});
   }
 
   openEditClient(client: ClientDto) {
     const ref = this.modal.open(ClientForm, { centered: true, backdrop: 'static', size: 'lg' });
-    ref.componentInstance.title = 'Edit Client';
+    ref.componentInstance.title = this.translate.instant('CLIENTS.FORM.TITLE_EDIT');
     ref.componentInstance.client = client;
     ref.componentInstance.clientId = client.id; // backend must return id in ClientDto
 
@@ -84,11 +86,11 @@ export class ClientList implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            this.toastr.success('Client deleted successfully', 'Success');
+            this.toastr.success(this.translate.instant('COMMON.DELETED_SUCCESSFULLY'), 'Success');
             this.loadClients();
           },
           error: (err) => {
-            this.toastr.error(err?.error?.message ?? 'Failed to delete client', 'Error');
+            this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.DELETE_FAILED'), 'Error');
           }
         });
     }).catch(() => {});
