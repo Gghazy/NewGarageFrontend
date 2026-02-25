@@ -37,6 +37,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./unauthorized/unauthorized-module').then(m => m.UnauthorizedModule),
       },
+      {
+        path: 'vehicle-orders',
+        loadChildren: () =>
+          import('./vehicle-orders/vehicle-orders-module').then(m => m.VehicleOrdersModule),
+      },
 
     ]
   }

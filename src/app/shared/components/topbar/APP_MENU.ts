@@ -54,5 +54,14 @@ export const APP_MENU: AppMenuItem[] = [
       { labelKey: 'MENU.CLIENT_RESOURCES', route: '/features/management-clients/client-resources', icon: 'bi bi-person-workspace', permissions: ['clientResource.read'] },
     ],
   },
-];
 
+   {
+    labelKey: 'MENU.VEHICLE_ORDERS',
+    icon: 'bi bi-clipboard2-check',
+    permissions: ['examination.read'],
+    children: [
+      { labelKey: 'MENU.VEHICLE_ORDERS', route: '/features/vehicle-orders', icon: 'bi bi-card-checklist', permissions: ['examination.read'] },
+    ],
+  },
+];
+  

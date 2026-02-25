@@ -1,0 +1,50 @@
+<app-shared-list
+  [titleKey]="'VEHICLE_ORDERS.LIST.TITLE'"
+  [addLabelKey]="'VEHICLE_ORDERS.LIST.ADD'"
+  [canAdd]="authService.hasPermission('examination.create')"
+  (addClicked)="openNew()"
+  [pagingConfig]="pagingConfig"
+  (pageSizeSearch)="search()"
+  [items]="orders"
+  [emptyText]="'VEHICLE_ORDERS.LIST.EMPTY' | translate"
+  (pageChanged)="pagingConfig.currentPage = $event; loadOrders();">
+
+  <!-- header -->
+  <ng-container table-header>
+    <th>#</th>
+    <th>{{ 'VEHICLE_ORDERS.LIST.CLIENT' | translate }}</th>
+    <th>{{ 'VEHICLE_ORDERS.LIST.PHONE' | translate }}</th>
+    <th>{{ 'VEHICLE_ORDERS.LIST.MANUFACTURER' | translate }}</th>
+    <th>{{ 'VEHICLE_ORDERS.LIST.CAR_MARK' | translate }}</th>
+    <th>{{ 'VEHICLE_ORDERS.LIST.PLATE' | translate }}</th>
+    <th>{{ 'VEHICLE_ORDERS.LIST.BRANCH' | translate }}</th>
+    <th>{{ 'VEHICLE_ORDERS.LIST.TYPE' | translate }}</th>
+    <th>{{ 'VEHICLE_ORDERS.LIST.DATE' | translate }}</th>
+    <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
+  </ng-container>
+
+  <!-- body -->
+  <ng-container table-body>
+    <tr *ngFor="let order of orders; let i = index">
+      <td>{{ (pagingConfig.currentPage - 1) * pagingConfig.itemsPerPage + i + 1 }}</td>
+      <td>{{ order.clientNameAr || '—' }}</td>
+      <td>{{ order.clientPhone || '—' }}</td>
+      <td>{{ order.manufacturerNameAr || '—' }}</td>
+      <td>{{ order.carMarkNameAr || '—' }}</td>
+      <td>{{ getPlateDisplay(order) }}</td>
+      <td>{{ order.branchNameAr || '—' }}</td>
+      <td>{{ order.type || '—' }}</td>
+      <td>{{ order.createdAtUtc ? (order.createdAtUtc | date:'yyyy-MM-dd') : '—' }}</td>
+      <td class="text-end">
+        <button
+          *ngIf="authService.hasPermission('examination.delete')"
+          (click)="deleteOrder(order)"
+          class="btn btn-sm btn-outline-danger"
+          type="button">
+          {{ 'COMMON.DELETE' | translate }}
+        </button>
+      </td>
+    </tr>
+  </ng-container>
+
+</app-shared-list>

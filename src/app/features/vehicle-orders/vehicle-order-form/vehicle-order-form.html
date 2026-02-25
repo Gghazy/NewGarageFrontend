@@ -1,0 +1,26 @@
+<div class="container-fluid py-3">
+
+  <!-- Page header -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0 fw-bold">{{ 'VEHICLE_ORDERS.FORM.TITLE' | translate }}</h5>
+    <div class="d-flex gap-2">
+      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="cancel()">
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="save()" [disabled]="saving">
+        <span *ngIf="saving" class="spinner-border spinner-border-sm me-1"></span>
+        {{ saving ? ('COMMON.SAVING' | translate) : ('COMMON.SAVE' | translate) }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Client section -->
+  <app-client-section (clientChange)="onClientChange($event)"></app-client-section>
+
+  <!-- Vehicle section -->
+  <app-vehicle-section (vehicleChange)="onVehicleChange($event)"></app-vehicle-section>
+
+  <!-- Services section -->
+  <app-services-section (servicesChange)="onServicesChange($event)"></app-services-section>
+
+</div>

@@ -1,0 +1,172 @@
+<div class="card border-0 shadow-sm mb-3">
+  <div class="card-header bg-white py-2">
+    <h6 class="mb-0 fw-semibold">{{ 'VEHICLE_ORDERS.VEHICLE.TITLE' | translate }}</h6>
+  </div>
+
+  <div class="card-body">
+    <div [formGroup]="form">
+      <div class="row g-2">
+
+        <!-- نوع الفحص -->
+        <div class="col-md-4">
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.TYPE' | translate }}</label>
+          <ng-select formControlName="type"
+            [items]="examinationTypes"
+            bindValue="value"
+            bindLabel="labelAr"
+            [clearable]="false"
+            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate">
+          </ng-select>
+        </div>
+
+        <!-- فرع -->
+        <div class="col-md-4">
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.BRANCH' | translate }}</label>
+          <ng-select formControlName="branchId"
+            [items]="branches"
+            bindValue="id"
+            bindLabel="nameAr"
+            [clearable]="true"
+            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate">
+          </ng-select>
+        </div>
+
+        <!-- الشركة المصنعة -->
+        <div class="col-md-4">
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.MANUFACTURER' | translate }}</label>
+          <ng-select formControlName="manufacturerId"
+            [items]="manufacturers"
+            bindValue="id"
+            bindLabel="nameAr"
+            [clearable]="true"
+            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate">
+          </ng-select>
+        </div>
+
+        <!-- الماركة -->
+        <div class="col-md-4">
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.CAR_MARK' | translate }}</label>
+          <ng-select formControlName="carMarkId"
+            [items]="carMarks"
+            bindValue="id"
+            bindLabel="nameAr"
+            [clearable]="true"
+            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate">
+          </ng-select>
+        </div>
+
+        <!-- السنة -->
+        <div class="col-md-2">
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.YEAR' | translate }}</label>
+          <input class="form-control form-control-sm" type="number" formControlName="year" min="1990" max="2100" />
+        </div>
+
+        <!-- اللون -->
+        <div class="col-md-2">
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.COLOR' | translate }}</label>
+          <input class="form-control form-control-sm" formControlName="color" />
+        </div>
+
+        <!-- ناقل الحركة -->
+        <div class="col-md-4">
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.TRANSMISSION' | translate }}</label>
+          <ng-select formControlName="transmission"
+            [items]="transmissions"
+            bindValue="value"
+            bindLabel="labelAr"
+            [clearable]="true"
+            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate">
+          </ng-select>
+        </div>
+
+        <!-- أحرف اللوحة -->
+        <div class="col-md-6">
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.PLATE_LETTERS' | translate }}</label>
+          <div class="d-flex align-items-center gap-2">
+            <ng-select [items]="plateLetters" [(ngModel)]="plateL1" [ngModelOptions]="{standalone:true}"
+              (ngModelChange)="onPlateLetterChange()" [clearable]="true" style="width:90px" placeholder="حرف">
+            </ng-select>
+            <ng-select [items]="plateLetters" [(ngModel)]="plateL2" [ngModelOptions]="{standalone:true}"
+              (ngModelChange)="onPlateLetterChange()" [clearable]="true" style="width:90px" placeholder="حرف">
+            </ng-select>
+            <ng-select [items]="plateLetters" [(ngModel)]="plateL3" [ngModelOptions]="{standalone:true}"
+              (ngModelChange)="onPlateLetterChange()" [clearable]="true" style="width:90px" placeholder="حرف">
+            </ng-select>
+            <div class="form-check ms-2 mb-0">
+              <input class="form-check-input" type="checkbox" formControlName="hasPlate" id="hasPlate" />
+              <label class="form-check-label form-label-sm" for="hasPlate">
+                {{ 'VEHICLE_ORDERS.VEHICLE.HAS_PLATE' | translate }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- أرقام اللوحة -->
+        <div class="col-md-2">
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.PLATE_NUMBERS' | translate }}</label>
+          <input class="form-control form-control-sm" formControlName="plateNumbers" maxlength="4" />
+        </div>
+
+        <!-- العداد -->
+        <div class="col-md-4">
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.MILEAGE' | translate }}</label>
+          <div class="input-group input-group-sm">
+            <input class="form-control" type="number" formControlName="mileage" min="0" />
+            <ng-select formControlName="mileageUnit" [items]="mileageUnits" [clearable]="false"
+              style="width:80px; border-radius: 0 4px 4px 0;">
+            </ng-select>
+          </div>
+        </div>
+
+        <!-- VIN -->
+        <div class="col-md-4">
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.VIN' | translate }}</label>
+          <input class="form-control form-control-sm" formControlName="vin" />
+        </div>
+
+        <!-- كود المسوق -->
+        <div class="col-md-4">
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.MARKETER_CODE' | translate }}</label>
+          <input class="form-control form-control-sm" formControlName="marketerCode" />
+        </div>
+
+        <!-- ضمان -->
+        <div class="col-md-6">
+          <label class="form-label form-label-sm d-block">{{ 'VEHICLE_ORDERS.VEHICLE.WARRANTY' | translate }}</label>
+          <div class="d-flex gap-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" [value]="true" formControlName="hasWarranty" id="warrantyYes" />
+              <label class="form-check-label" for="warrantyYes">{{ 'VEHICLE_ORDERS.VEHICLE.WITH_WARRANTY' | translate }}</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" [value]="false" formControlName="hasWarranty" id="warrantyNo" />
+              <label class="form-check-label" for="warrantyNo">{{ 'VEHICLE_ORDERS.VEHICLE.NO_WARRANTY' | translate }}</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- صور -->
+        <div class="col-md-6">
+          <label class="form-label form-label-sm d-block">{{ 'VEHICLE_ORDERS.VEHICLE.PHOTOS' | translate }}</label>
+          <div class="d-flex gap-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" [value]="true" formControlName="hasPhotos" id="photosYes" />
+              <label class="form-check-label" for="photosYes">{{ 'VEHICLE_ORDERS.VEHICLE.WITH_PHOTOS' | translate }}</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" [value]="false" formControlName="hasPhotos" id="photosNo" />
+              <label class="form-check-label" for="photosNo">{{ 'VEHICLE_ORDERS.VEHICLE.NO_PHOTOS' | translate }}</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- ملاحظات -->
+        <div class="col-12">
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.NOTES' | translate }}</label>
+          <textarea class="form-control form-control-sm" formControlName="notes" rows="2"></textarea>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

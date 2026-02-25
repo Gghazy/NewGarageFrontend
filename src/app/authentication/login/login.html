@@ -1,75 +1,67 @@
-<div class="login-card card">
+<div class="container">
 
-  <!-- Header -->
-  <div class="login-header">
-    <div class="login-icon-wrap">
-      <i class="bi bi-car-front-fill"></i>
+
+  <div class="login-card card">
+
+    <!-- Header -->
+    <div class="login-header">
+      <div class="login-icon-wrap">
+        <i class="bi bi-car-front-fill"></i>
+      </div>
+      <h4 class="login-title">نظام إدارة الجراج</h4>
+      <p class="login-subtitle">Garage Management System</p>
     </div>
-    <h4 class="login-title">نظام إدارة الجراج</h4>
-    <p class="login-subtitle">Garage Management System</p>
-  </div>
 
-  <!-- Body -->
-  <div class="login-body">
+    <!-- Body -->
+    <div class="login-body">
 
-    <!-- Error -->
-    @if (errorMsg) {
+      <!-- Error -->
+      @if (errorMsg) {
       <div class="alert alert-danger d-flex align-items-center gap-2 mb-3">
         <i class="bi bi-exclamation-circle-fill"></i>
         <span>{{ errorMsg }}</span>
       </div>
-    }
-
-    <!-- Username -->
-    <div class="mb-3">
-      <label class="form-label">{{ 'LOGIN.USERNAME' | translate }}</label>
-      <div class="input-group">
-        <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-        <input
-          class="form-control"
-          type="text"
-          [(ngModel)]="username"
-          [disabled]="loading"
-          placeholder="أدخل اسم المستخدم"
-          (keyup.enter)="submit()"
-        />
-      </div>
-    </div>
-
-    <!-- Password -->
-    <div class="mb-4">
-      <label class="form-label">{{ 'LOGIN.PASSWORD' | translate }}</label>
-      <div class="input-group">
-        <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-        <input
-          class="form-control"
-          [type]="showPassword ? 'text' : 'password'"
-          [(ngModel)]="password"
-          [disabled]="loading"
-          placeholder="أدخل كلمة المرور"
-          (keyup.enter)="submit()"
-        />
-        <button class="btn btn-toggle-pass" type="button" (click)="togglePassword()" [disabled]="loading">
-          <i class="bi" [class.bi-eye-fill]="!showPassword" [class.bi-eye-slash-fill]="showPassword"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- Submit -->
-    <button class="btn btn-login btn-primary w-100 text-white" (click)="submit()" [disabled]="loading">
-      @if (loading) {
-        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-      } @else {
-        <i class="bi bi-box-arrow-in-right me-2"></i>
       }
-      {{ 'LOGIN.SUBMIT' | translate }}
-    </button>
+
+      <!-- Username -->
+      <div class="mb-3">
+        <label class="form-label">{{ 'LOGIN.USERNAME' | translate }}</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+          <input class="form-control" type="text" [(ngModel)]="username" [disabled]="loading"
+            placeholder="أدخل اسم المستخدم" (keyup.enter)="submit()" />
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-4">
+        <label class="form-label">{{ 'LOGIN.PASSWORD' | translate }}</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+          <input class="form-control" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password"
+            [disabled]="loading" placeholder="أدخل كلمة المرور" (keyup.enter)="submit()" />
+          <button class="btn btn-toggle-pass" type="button" (click)="togglePassword()" [disabled]="loading">
+            <i class="bi" [class.bi-eye-fill]="!showPassword" [class.bi-eye-slash-fill]="showPassword"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button class="btn btn-login btn-primary w-100 text-white" (click)="submit()" [disabled]="loading">
+        @if (loading) {
+        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+        } @else {
+        <i class="bi bi-box-arrow-in-right me-2"></i>
+        }
+        {{ 'LOGIN.SUBMIT' | translate }}
+      </button>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="login-footer">
+      &copy; {{ currentYear }} Garage System &mdash; جميع الحقوق محفوظة
+    </div>
 
   </div>
-
-  <!-- Footer -->
-  <div class="login-footer">
-    &copy; {{ currentYear }} Garage System &mdash; جميع الحقوق محفوظة
-  </div>
-
 </div>

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//f/projects/suidProjects/NewGarage/**)",
+      "Read(//f/projects/suidProjects/NewGarage/FrontEnd/NewGarageFrontend/**)",
+      "Bash(\"f:/projects/suidProjects/NewGarage/FrontEnd/NewGarageFrontend/src/app/features/vehicle-orders/vehicle-order-form/client-section/client-section.ts\":*)",
+      "Bash(python3:*)",
+      "Bash(\"f:/projects/suidProjects/NewGarage/FrontEnd/NewGarageFrontend/src/app/features/vehicle-orders/vehicle-order-form/services-section/services-section.ts\":*)",
+      "Bash(\"f:/projects/suidProjects/NewGarage/FrontEnd/NewGarageFrontend/src/app/features/vehicle-orders/vehicle-order-form/vehicle-order-form.ts\":*)"
+    ],
+    "additionalDirectories": [
+      "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\shared\\Models\\vehicle-orders",
+      "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\features\\vehicle-orders\\vehicle-order-form\\vehicle-section"
+    ]
+  }
+}

@@ -1,19 +1,22 @@
-<app-topbar></app-topbar>
+<div class="fulid-container">
 
-<div class="app-shell">
-  <div class="container-fluid py-3">
+  <app-topbar></app-topbar>
 
-    <div class="d-flex align-items-center justify-content-between mb-3">
-      <app-breadcrumb></app-breadcrumb>
-    </div>
+  <div class="app-shell">
+    <div class="container-fluid py-3">
 
-    <div class="card shadow-sm border-0">
-      <div class="card-body">
-        <router-outlet></router-outlet>
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <app-breadcrumb></app-breadcrumb>
       </div>
+
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+
     </div>
 
+    <app-footer></app-footer>
   </div>
-
-  <app-footer></app-footer>
 </div>

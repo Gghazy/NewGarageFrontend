@@ -45,7 +45,8 @@
     "DASHBOARD": "Dashboard",
     "EMPLOYEES": "Employees",
     "CLIENTS": "Clients",
-    "CLIENT_RESOURCES": "Client Resources"
+    "CLIENT_RESOURCES": "Client Resources",
+    "VEHICLE_ORDERS": "Inspection Orders"
   },
   "BREADCRUMB": {
     "HOME": "Home",
@@ -403,5 +404,70 @@
     "ENGLISH_ONLY": "Please enter English characters only",
     "MIN_LENGTH": "Minimum length is {{min}} characters",
     "MAX_LENGTH": "Maximum length is {{max}} characters"
+  },
+  "VEHICLE_ORDERS": {
+    "LIST": {
+      "TITLE": "Inspection Orders",
+      "ADD": "New Order",
+      "EMPTY": "No inspection orders found",
+      "CLIENT": "Client",
+      "PHONE": "Phone",
+      "MANUFACTURER": "Manufacturer",
+      "CAR_MARK": "Car Mark",
+      "PLATE": "Plate",
+      "BRANCH": "Branch",
+      "TYPE": "Type",
+      "DATE": "Date"
+    },
+    "FORM": {
+      "TITLE": "New Inspection Order",
+      "SAVED": "Order saved successfully."
+    },
+    "CLIENT": {
+      "TITLE": "Client Information",
+      "PREV_SERVICES": "Previous Service Cards",
+      "ADVANCE_CARDS": "Advance Cards",
+      "COMPANY": "Company",
+      "INDIVIDUAL": "Individual",
+      "SEARCH": "Search Client",
+      "SEARCH_PLACEHOLDER": "Type to search clients..."
+    },
+    "VEHICLE": {
+      "TITLE": "Vehicle Information",
+      "TYPE": "Examination Type",
+      "TYPE_REGULAR": "Regular",
+      "TYPE_WARRANTY": "Warranty",
+      "TYPE_PRE_PURCHASE": "Pre-Purchase",
+      "BRANCH": "Branch",
+      "MANUFACTURER": "Manufacturer",
+      "CAR_MARK": "Car Mark",
+      "YEAR": "Year",
+      "COLOR": "Color",
+      "TRANSMISSION": "Transmission",
+      "PLATE_LETTERS": "Plate Letters",
+      "HAS_PLATE": "Has Plate",
+      "PLATE_NUMBERS": "Plate Numbers",
+      "MILEAGE": "Mileage",
+      "VIN": "VIN",
+      "MARKETER_CODE": "Marketer Code",
+      "WARRANTY": "Warranty",
+      "WITH_WARRANTY": "With Warranty",
+      "NO_WARRANTY": "No Warranty",
+      "PHOTOS": "Photos",
+      "WITH_PHOTOS": "With Photos",
+      "NO_PHOTOS": "No Photos",
+      "NOTES": "Notes"
+    },
+    "SERVICES": {
+      "TITLE": "Services",
+      "ADD_LINE": "Add Service",
+      "SERVICE": "Service",
+      "OVERRIDE_PRICE": "Override Price",
+      "SELECT_SERVICE": "Select service...",
+      "PRICE_PLACEHOLDER": "0.00",
+      "NO_LINES": "No services added",
+      "TOTAL": "Estimated Total",
+      "CURRENCY": "SAR"
+    }
   }
 }

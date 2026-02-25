@@ -45,7 +45,8 @@
     "DASHBOARD": "لوحة التحكم",
     "EMPLOYEES": "الموظفين",
     "CLIENTS": "العملاء",
-    "CLIENT_RESOURCES": "مصادر العملاء"
+    "CLIENT_RESOURCES": "مصادر العملاء",
+    "VEHICLE_ORDERS": "طلبات الفحص"
   },
   "BREADCRUMB": {
     "HOME": "الرئيسية",
@@ -431,6 +432,71 @@
     "ENGLISH_ONLY": "يرجى إدخال أحرف إنجليزية فقط",
     "MIN_LENGTH": "الحد الأدنى للطول {{min}} أحرف",
     "MAX_LENGTH": "الحد الأقصى للطول {{max}} أحرف"
+  },
+  "VEHICLE_ORDERS": {
+    "LIST": {
+      "TITLE": "طلبات الفحص",
+      "ADD": "طلب جديد",
+      "EMPTY": "لا توجد طلبات فحص",
+      "CLIENT": "العميل",
+      "PHONE": "الجوال",
+      "MANUFACTURER": "الشركة المصنعة",
+      "CAR_MARK": "الماركة",
+      "PLATE": "اللوحة",
+      "BRANCH": "الفرع",
+      "TYPE": "النوع",
+      "DATE": "التاريخ"
+    },
+    "FORM": {
+      "TITLE": "طلب فحص جديد",
+      "SAVED": "تم حفظ الطلب بنجاح."
+    },
+    "CLIENT": {
+      "TITLE": "بيانات العميل",
+      "PREV_SERVICES": "كروت الخدمة السابقة",
+      "ADVANCE_CARDS": "كروت السلفة للسيارة",
+      "COMPANY": "مؤسسة",
+      "INDIVIDUAL": "أفراد",
+      "SEARCH": "بحث عن عميل",
+      "SEARCH_PLACEHOLDER": "اكتب للبحث عن العميل..."
+    },
+    "VEHICLE": {
+      "TITLE": "بيانات المركبة",
+      "TYPE": "نوع الفحص",
+      "TYPE_REGULAR": "فحص عادي",
+      "TYPE_WARRANTY": "فحص ضمان",
+      "TYPE_PRE_PURCHASE": "فحص ما قبل الشراء",
+      "BRANCH": "الفرع",
+      "MANUFACTURER": "الشركة المصنعة",
+      "CAR_MARK": "الماركة",
+      "YEAR": "السنة",
+      "COLOR": "اللون",
+      "TRANSMISSION": "ناقل الحركة",
+      "PLATE_LETTERS": "أحرف اللوحة",
+      "HAS_PLATE": "بوجد لوحة",
+      "PLATE_NUMBERS": "أرقام اللوحة",
+      "MILEAGE": "العداد",
+      "VIN": "رقم الهيكل (VIN)",
+      "MARKETER_CODE": "كود المسوق",
+      "WARRANTY": "الضمان",
+      "WITH_WARRANTY": "مع ضمان",
+      "NO_WARRANTY": "بدون ضمان",
+      "PHOTOS": "الصور",
+      "WITH_PHOTOS": "مع صور",
+      "NO_PHOTOS": "بدون صور",
+      "NOTES": "ملاحظات"
+    },
+    "SERVICES": {
+      "TITLE": "الخدمات",
+      "ADD_LINE": "إضافة خدمة",
+      "SERVICE": "الخدمة",
+      "OVERRIDE_PRICE": "سعر بديل",
+      "SELECT_SERVICE": "اختر خدمة...",
+      "PRICE_PLACEHOLDER": "0.00",
+      "NO_LINES": "لا توجد خدمات مضافة",
+      "TOTAL": "السعر التقريبي الإجمالي",
+      "CURRENCY": "ريال"
+    }
   }
 
 
