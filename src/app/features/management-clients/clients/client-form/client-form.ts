@@ -52,13 +52,11 @@ export class ClientForm implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    debugger
     const childForm = this.clientType === 'individual'
       ? this.individualForm?.formGroup
       : this.companyForm?.formGroup;
 
     childForm?.markAllAsTouched();
-    debugger
     if (!childForm || childForm.invalid) {
       this.toastr.warning('Please fill in all required fields correctly', 'Validation Error');
       return;
@@ -78,6 +76,7 @@ export class ClientForm implements OnInit, OnDestroy {
       successMsg: isEdit ? 'Client updated successfully' : 'Client added successfully',
       errorFallback: isEdit ? 'Failed to update client' : 'Failed to add client',
       setLoading: (v) => (this.loading = v),
+      closeValue: !isEdit ? { nameAr: childForm.value.nameAr } : undefined,
     });
   }
 }

@@ -75,7 +75,10 @@
     "CLIENTS": "Clients",
     "ADD_CLIENT": "Add Client",
     "EDIT_CLIENT": "Edit Client",
-    "CLIENT_RESOURCES": "Client Resources"
+    "CLIENT_RESOURCES": "Client Resources",
+    "EXAMINATIONS": "Examinations",
+    "NEW_EXAMINATION": "New Examination",
+    "EDIT_EXAMINATION": "Edit Examination"
   },
   "COMMON": {
     "ACTIONS": "Actions",
@@ -410,6 +413,7 @@
       "TITLE": "Inspection Orders",
       "ADD": "New Order",
       "EMPTY": "No inspection orders found",
+      "INVOICE_NUMBER": "Invoice #",
       "CLIENT": "Client",
       "PHONE": "Phone",
       "MANUFACTURER": "Manufacturer",
@@ -417,10 +421,19 @@
       "PLATE": "Plate",
       "BRANCH": "Branch",
       "TYPE": "Type",
-      "DATE": "Date"
+      "STATUS": "Status",
+      "DATE": "Date",
+      "STATUSES": {
+        "Draft": "Draft",
+        "InProgress": "In Progress",
+        "Completed": "Completed",
+        "Delivered": "Delivered",
+        "Cancelled": "Cancelled"
+      }
     },
     "FORM": {
       "TITLE": "New Inspection Order",
+      "TITLE_EDIT": "Edit Inspection Order",
       "SAVED": "Order saved successfully."
     },
     "CLIENT": {
@@ -462,12 +475,45 @@
       "TITLE": "Services",
       "ADD_LINE": "Add Service",
       "SERVICE": "Service",
+      "PRICE": "Price",
       "OVERRIDE_PRICE": "Override Price",
       "SELECT_SERVICE": "Select service...",
       "PRICE_PLACEHOLDER": "0.00",
       "NO_LINES": "No services added",
+      "SUB_TOTAL": "Subtotal (Before Tax)",
+      "TAX": "VAT",
+      "TOTAL_WITH_TAX": "Total (Incl. Tax)",
       "TOTAL": "Estimated Total",
       "CURRENCY": "SAR"
+    },
+    "PAYMENTS": {
+      "TITLE": "Payments",
+      "ADD_PAYMENT": "Add Payment",
+      "ADD_REFUND": "Add Refund",
+      "SUB_TOTAL": "Subtotal",
+      "TAX_AMOUNT": "VAT",
+      "TOTAL_WITH_TAX": "Total (Incl. Tax)",
+      "TOTAL_PAID": "Total Paid",
+      "TOTAL_REFUNDED": "Total Refunded",
+      "BALANCE": "Balance",
+      "DATE": "Date",
+      "TYPE": "Type",
+      "AMOUNT": "Amount",
+      "METHOD": "Payment Method",
+      "NOTES": "Notes",
+      "NO_PAYMENTS": "No payments yet",
+      "PAYMENT_ADDED": "Payment added successfully",
+      "REFUND_ADDED": "Refund added successfully",
+      "TYPES": {
+        "Payment": "Payment",
+        "Refund": "Refund"
+      },
+      "METHODS": {
+        "Cash": "Cash",
+        "Card": "Card",
+        "BankTransfer": "Bank Transfer",
+        "Cheque": "Cheque"
+      }
     }
   }
 }

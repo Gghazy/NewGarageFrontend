@@ -1,10 +1,12 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subject, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, takeUntil, catchError, tap } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { ClientDto } from 'src/app/shared/Models/clients/client-dto';
-import { LookupDto } from 'src/app/shared/Models/lookup-dto';
+import { ClientForm } from 'src/app/features/management-clients/clients/client-form/client-form';
+import { ExaminationDto } from 'src/app/shared/Models/vehicle-orders/vehicle-order-dto';
 
 @Component({
   selector: 'app-client-section',
@@ -13,30 +15,31 @@ import { LookupDto } from 'src/app/shared/Models/lookup-dto';
   styleUrl: './client-section.css',
 })
 export class ClientSection implements OnInit, OnDestroy {
+  @Input() examination?: ExaminationDto;
   @Output() clientChange = new EventEmitter<{ id?: string; type: string; data: any }>();
 
-  clientType: 'Company' | 'Individual' = 'Individual';
-  form!: FormGroup;
+  collapsed = false;
   private destroy$ = new Subject<void>();
 
   clientSearch$ = new Subject<string>();
   clients: ClientDto[] = [];
   clientsLoading = false;
-  selectedClient: ClientDto | null = null;
+  selectedClientId: string | null = null;
 
-  sources: LookupDto[] = [];
-
-  readonly DEFAULT_COUNTRY = 'SA';
+  private pendingSelectName: string | null = null;
 
   constructor(
-    private fb: FormBuilder,
     private api: ApiService,
+    private modal: NgbModal,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
-    this.buildForm();
-    this.loadSources();
     this.setupClientSearch();
+
+    if (this.examination) {
+      this.loadExistingClient();
+    }
   }
 
   ngOnDestroy(): void {
@@ -44,37 +47,24 @@ export class ClientSection implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private buildForm(): void {
-    this.form = this.fb.group({
-      clientNameAr:         [''],
-      clientNameEn:         [''],
-      clientPhone:          [''],
-      email:                ['', [Validators.email]],
-      clientResourceId:     [null],
-      // Individual
-      individualAddress:    [''],
-      // Company
-      taxNumber:            [''],
-      commercialRegister:   [''],
-      streetName:           [''],
-      additionalStreetName: [''],
-      cityName:             [''],
-      postalZone:           [''],
-      countrySubentity:     [''],
-      countryCode:          [this.DEFAULT_COUNTRY],
-      citySubdivisionName:  [''],
-      buildingNumber:       [''],
+  private loadExistingClient(): void {
+    if (!this.examination?.clientId) return;
+
+    this.api.post<any>('Clients/pagination', {
+      currentPage: 1, itemsPerPage: 20,
+      textSearch: this.examination.clientNameAr ?? '',
+      sort: 'nameAr', desc: false,
+    }).pipe(
+      takeUntil(this.destroy$),
+      catchError(() => of({ data: { items: [] } })),
+    ).subscribe(res => {
+      this.clients = res?.data?.items ?? [];
+      const found = this.clients.find(c => c.id === this.examination!.clientId);
+      if (found) {
+        this.selectedClientId = found.id!;
+        this.onClientSelected(found);
+      }
     });
-
-    this.form.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(100))
-      .subscribe(val => this.emitChange(val));
-  }
-
-  private loadSources(): void {
-    this.api.post<any>('ClientResources/pagination', { currentPage: 1, itemsPerPage: 100, textSearch: '', sort: 'nameAr', desc: false })
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({ next: (res) => (this.sources = res?.data?.items ?? []) });
   }
 
   private setupClientSearch(): void {
@@ -92,48 +82,57 @@ export class ClientSection implements OnInit, OnDestroy {
     ).subscribe(res => {
       this.clients = res?.data?.items ?? [];
       this.clientsLoading = false;
-    });
-  }
 
-  setClientType(type: 'Company' | 'Individual'): void {
-    this.clientType = type;
-    this.resetForm();
-    this.selectedClient = null;
+      // Auto-select newly added client after modal success
+      if (this.pendingSelectName && this.clients.length > 0) {
+        const name = this.pendingSelectName;
+        this.pendingSelectName = null;
+        const found = this.clients.find(c => c.nameAr === name) ?? this.clients[0];
+        this.onClientSelected(found);
+      }
+    });
   }
 
   onClientSelected(client: ClientDto | null): void {
-    this.selectedClient = client;
-    if (!client) { this.resetForm(); return; }
-    this.form.patchValue({
-      clientNameAr:         client.nameAr ?? '',
-      clientNameEn:         client.nameEn ?? '',
-      clientPhone:          client.phoneNumber ?? '',
-      email:                client.email ?? '',
-      individualAddress:    client.address ?? '',
-      clientResourceId:     client.sourceId ?? null,
-      taxNumber:            client.taxNumber ?? '',
-      commercialRegister:   client.commercialRegister ?? '',
-      streetName:           client.streetName ?? '',
-      additionalStreetName: client.additionalStreetName ?? '',
-      cityName:             client.cityName ?? '',
-      postalZone:           client.postalZone ?? '',
-      countrySubentity:     client.countrySubentity ?? '',
-      countryCode:          client.countryCode ?? this.DEFAULT_COUNTRY,
-      citySubdivisionName:  client.citySubdivisionName ?? '',
-      buildingNumber:       client.buildingNumber ?? '',
-    });
-    this.emitChange(this.form.value);
-  }
-
-  private resetForm(): void {
-    this.form.reset({ countryCode: this.DEFAULT_COUNTRY });
-  }
-
-  private emitChange(val: any): void {
+    this.selectedClientId = client?.id ?? null;
+    if (!client) {
+      this.clientChange.emit({ type: 'Individual', data: {} });
+      return;
+    }
     this.clientChange.emit({
-      id: this.selectedClient?.id,
-      type: this.clientType,
-      data: { ...val, clientType: this.clientType },
+      id: client.id,
+      type: client.typeEn ?? 'Individual',
+      data: {
+        clientNameAr:         client.nameAr,
+        clientNameEn:         client.nameEn,
+        clientPhone:          client.phoneNumber,
+        email:                client.email,
+        clientResourceId:     client.sourceId,
+        individualAddress:    client.address,
+        taxNumber:            client.taxNumber,
+        commercialRegister:   client.commercialRegister,
+        streetName:           client.streetName,
+        additionalStreetName: client.additionalStreetName,
+        cityName:             client.cityName,
+        postalZone:           client.postalZone,
+        countrySubentity:     client.countrySubentity,
+        countryCode:          client.countryCode ?? 'SA',
+        buildingNumber:       client.buildingNumber,
+        citySubdivisionName:  client.citySubdivisionName,
+        clientType:           client.typeEn ?? 'Individual',
+      },
     });
+  }
+
+  openAddClientModal(): void {
+    const ref = this.modal.open(ClientForm, { centered: true, backdrop: 'static', size: 'lg' });
+    ref.componentInstance.title = this.translate.instant('CLIENTS.FORM.TITLE_ADD');
+
+    ref.result.then((result: { nameAr: string } | undefined) => {
+      if (result?.nameAr) {
+        this.pendingSelectName = result.nameAr;
+        this.clientSearch$.next(result.nameAr);
+      }
+    }).catch(() => {});
   }
 }

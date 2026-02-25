@@ -6,11 +6,32 @@
       "Bash(\"f:/projects/suidProjects/NewGarage/FrontEnd/NewGarageFrontend/src/app/features/vehicle-orders/vehicle-order-form/client-section/client-section.ts\":*)",
       "Bash(python3:*)",
       "Bash(\"f:/projects/suidProjects/NewGarage/FrontEnd/NewGarageFrontend/src/app/features/vehicle-orders/vehicle-order-form/services-section/services-section.ts\":*)",
-      "Bash(\"f:/projects/suidProjects/NewGarage/FrontEnd/NewGarageFrontend/src/app/features/vehicle-orders/vehicle-order-form/vehicle-order-form.ts\":*)"
+      "Bash(\"f:/projects/suidProjects/NewGarage/FrontEnd/NewGarageFrontend/src/app/features/vehicle-orders/vehicle-order-form/vehicle-order-form.ts\":*)",
+      "Bash(npx ng build)",
+      "Bash(dotnet build --no-restore)",
+      "Bash(dotnet build src/Garage.Contracts/Garage.Contracts.csproj --no-restore)",
+      "Bash(dotnet build src/Garage.Application/Garage.Application.csproj --no-restore)",
+      "Bash(dotnet build src/Garage.Infrastructure/Garage.Infrastructure.csproj --no-restore)",
+      "Bash(dotnet build src/Garage.Api/Garage.Api.csproj --no-restore)",
+      "Bash(dotnet build src/Garage.Application/Garage.Application.csproj)",
+      "Bash(dotnet ef migrations add AddVatFields --project src/Garage.Infrastructure --startup-project src/Garage.Api)",
+      "Bash(dotnet build src/Garage.Api/Garage.Api.csproj)",
+      "Bash(xargs grep -l \"InvoiceNumber\")",
+      "Bash(xargs head -50)"
     ],
     "additionalDirectories": [
       "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\shared\\Models\\vehicle-orders",
-      "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\features\\vehicle-orders\\vehicle-order-form\\vehicle-section"
+      "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\features\\vehicle-orders\\vehicle-order-form\\vehicle-section",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Contracts\\Examinations",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application\\Examinations\\Queries\\GetById",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application\\Examinations\\Queries\\GetAll",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application\\Examinations\\Commands\\Create",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application\\Examinations\\Commands\\Update",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application\\ServicePrices\\Queries\\GetAllServicePriceBySearch",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application\\Examinations",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Infrastructure",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Api\\Controllers",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\ExaminationManagement\\Examinations"
     ]
   }
 }

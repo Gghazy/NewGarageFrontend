@@ -12,6 +12,7 @@
   <!-- header -->
   <ng-container table-header>
     <th>#</th>
+    <th>{{ 'VEHICLE_ORDERS.LIST.INVOICE_NUMBER' | translate }}</th>
     <th>{{ 'VEHICLE_ORDERS.LIST.CLIENT' | translate }}</th>
     <th>{{ 'VEHICLE_ORDERS.LIST.PHONE' | translate }}</th>
     <th>{{ 'VEHICLE_ORDERS.LIST.MANUFACTURER' | translate }}</th>
@@ -19,6 +20,7 @@
     <th>{{ 'VEHICLE_ORDERS.LIST.PLATE' | translate }}</th>
     <th>{{ 'VEHICLE_ORDERS.LIST.BRANCH' | translate }}</th>
     <th>{{ 'VEHICLE_ORDERS.LIST.TYPE' | translate }}</th>
+    <th>{{ 'VEHICLE_ORDERS.LIST.STATUS' | translate }}</th>
     <th>{{ 'VEHICLE_ORDERS.LIST.DATE' | translate }}</th>
     <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
   </ng-container>
@@ -27,6 +29,7 @@
   <ng-container table-body>
     <tr *ngFor="let order of orders; let i = index">
       <td>{{ (pagingConfig.currentPage - 1) * pagingConfig.itemsPerPage + i + 1 }}</td>
+      <td>{{ order.invoiceNumber || '—' }}</td>
       <td>{{ order.clientNameAr || '—' }}</td>
       <td>{{ order.clientPhone || '—' }}</td>
       <td>{{ order.manufacturerNameAr || '—' }}</td>
@@ -34,8 +37,25 @@
       <td>{{ getPlateDisplay(order) }}</td>
       <td>{{ order.branchNameAr || '—' }}</td>
       <td>{{ order.type || '—' }}</td>
+      <td>
+        <span class="badge"
+          [class.bg-secondary]="order.status === 'Draft'"
+          [class.bg-primary]="order.status === 'InProgress'"
+          [class.bg-success]="order.status === 'Completed'"
+          [class.bg-info]="order.status === 'Delivered'"
+          [class.bg-danger]="order.status === 'Cancelled'">
+          {{ 'VEHICLE_ORDERS.LIST.STATUSES.' + order.status | translate }}
+        </span>
+      </td>
       <td>{{ order.createdAtUtc ? (order.createdAtUtc | date:'yyyy-MM-dd') : '—' }}</td>
       <td class="text-end">
+        <button
+          *ngIf="authService.hasPermission('examination.update')"
+          (click)="openEdit(order)"
+          class="btn btn-sm btn-outline-primary me-1"
+          type="button">
+          {{ 'COMMON.EDIT' | translate }}
+        </button>
         <button
           *ngIf="authService.hasPermission('examination.delete')"
           (click)="deleteOrder(order)"

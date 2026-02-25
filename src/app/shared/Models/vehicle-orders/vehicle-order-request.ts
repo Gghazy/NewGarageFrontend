@@ -56,3 +56,52 @@ export interface CreateExaminationRequest {
   // Services
   items: ExaminationItemRequest[];
 }
+
+export interface UpdateExaminationRequest {
+  // Client
+  clientType: string;
+  clientNameAr: string;
+  clientNameEn: string;
+  clientPhone: string;
+  clientEmail?: string;
+  clientResourceId?: string;
+
+  // Individual address
+  individualAddress?: string;
+
+  // Company fields
+  commercialRegister?: string;
+  taxNumber?: string;
+
+  // Company structured address
+  streetName?: string;
+  additionalStreetName?: string;
+  cityName?: string;
+  postalZone?: string;
+  countrySubentity?: string;
+  countryCode?: string;
+  buildingNumber?: string;
+  citySubdivisionName?: string;
+
+  // Examination meta
+  hasWarranty: boolean;
+  hasPhotos: boolean;
+  marketerCode?: string;
+  notes?: string;
+
+  // Vehicle
+  manufacturerId: string;
+  carMarkId: string;
+  year?: number;
+  color?: string;
+  vin?: string;
+  hasPlate: boolean;
+  plateLetters?: string;
+  plateNumbers?: string;
+  mileage?: number;
+  mileageUnit: string;
+  transmission?: string;
+
+  // Services
+  items?: ExaminationItemRequest[];
+}

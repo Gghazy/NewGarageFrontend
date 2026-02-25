@@ -1,12 +1,15 @@
 <div class="card border-0 shadow-sm mb-3">
-  <div class="card-header bg-white d-flex justify-content-between align-items-center py-2">
-    <h6 class="mb-0 fw-semibold">{{ 'VEHICLE_ORDERS.SERVICES.TITLE' | translate }}</h6>
-    <button type="button" class="btn btn-sm btn-primary" (click)="addLine()">
+  <div class="card-header bg-white d-flex justify-content-between align-items-center py-2 section-toggle" (click)="collapsed = !collapsed">
+    <div class="d-flex align-items-center gap-2">
+      <i class="bi bi-chevron-down toggle-icon" [class.rotated]="collapsed"></i>
+      <h6 class="mb-0 fw-semibold">{{ 'VEHICLE_ORDERS.SERVICES.TITLE' | translate }}</h6>
+    </div>
+    <button type="button" class="btn btn-sm btn-primary" (click)="addLine(); $event.stopPropagation()">
       <i class="bi bi-plus-lg me-1"></i>{{ 'VEHICLE_ORDERS.SERVICES.ADD_LINE' | translate }}
     </button>
   </div>
 
-  <div class="card-body p-0">
+  <div class="card-body p-0" [hidden]="collapsed">
     <div [formGroup]="form">
       <div class="table-responsive">
         <table class="table table-sm table-bordered mb-0 align-middle">
@@ -14,6 +17,7 @@
             <tr>
               <th style="width:36px">#</th>
               <th>{{ 'VEHICLE_ORDERS.SERVICES.SERVICE' | translate }}</th>
+              <th style="width:120px">{{ 'VEHICLE_ORDERS.SERVICES.PRICE' | translate }}</th>
               <th style="width:130px">{{ 'VEHICLE_ORDERS.SERVICES.OVERRIDE_PRICE' | translate }}</th>
               <th style="width:50px"></th>
             </tr>
@@ -28,6 +32,10 @@
                   [clearable]="true"
                   [placeholder]="'VEHICLE_ORDERS.SERVICES.SELECT_SERVICE' | translate">
                 </ng-select>
+              </td>
+
+              <td class="text-center text-muted">
+                {{ getServicePrice(line.value.serviceId) | number:'1.2-2' }}
               </td>
 
               <td>
@@ -45,7 +53,7 @@
             </tr>
 
             <tr *ngIf="lines.length === 0">
-              <td colspan="4" class="text-center text-muted py-3">
+              <td colspan="5" class="text-center text-muted py-3">
                 {{ 'VEHICLE_ORDERS.SERVICES.NO_LINES' | translate }}
               </td>
             </tr>
@@ -53,9 +61,21 @@
 
           <tfoot class="table-light">
             <tr>
-              <td colspan="2" class="text-end fw-semibold">{{ 'VEHICLE_ORDERS.SERVICES.TOTAL' | translate }}</td>
-              <td colspan="2" class="fw-bold text-primary">
+              <td colspan="3" class="text-end">{{ 'VEHICLE_ORDERS.SERVICES.SUB_TOTAL' | translate }}</td>
+              <td colspan="2">
                 {{ totalPrice | number:'1.2-2' }} {{ 'VEHICLE_ORDERS.SERVICES.CURRENCY' | translate }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-end">{{ 'VEHICLE_ORDERS.SERVICES.TAX' | translate }} (15%)</td>
+              <td colspan="2">
+                {{ totalPrice * 0.15 | number:'1.2-2' }} {{ 'VEHICLE_ORDERS.SERVICES.CURRENCY' | translate }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-end fw-semibold">{{ 'VEHICLE_ORDERS.SERVICES.TOTAL_WITH_TAX' | translate }}</td>
+              <td colspan="2" class="fw-bold text-primary">
+                {{ totalPrice * 1.15 | number:'1.2-2' }} {{ 'VEHICLE_ORDERS.SERVICES.CURRENCY' | translate }}
               </td>
             </tr>
           </tfoot>

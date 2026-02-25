@@ -1,9 +1,10 @@
 <div class="card border-0 shadow-sm mb-3">
-  <div class="card-header bg-white py-2">
+  <div class="card-header bg-white py-2 section-toggle d-flex align-items-center gap-2" (click)="collapsed = !collapsed">
+    <i class="bi bi-chevron-down toggle-icon" [class.rotated]="collapsed"></i>
     <h6 class="mb-0 fw-semibold">{{ 'VEHICLE_ORDERS.VEHICLE.TITLE' | translate }}</h6>
   </div>
 
-  <div class="card-body">
+  <div class="card-body" [hidden]="collapsed">
     <div [formGroup]="form">
       <div class="row g-2">
 

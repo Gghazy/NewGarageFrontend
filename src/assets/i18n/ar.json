@@ -75,7 +75,10 @@
     "CLIENTS": "العملاء",
     "ADD_CLIENT": "إضافة عميل",
     "EDIT_CLIENT": "تعديل عميل",
-    "CLIENT_RESOURCES": "مصادر العملاء"
+    "CLIENT_RESOURCES": "مصادر العملاء",
+    "EXAMINATIONS": "طلبات الفحص",
+    "NEW_EXAMINATION": "فحص جديد",
+    "EDIT_EXAMINATION": "تعديل الفحص"
   },
   "COMMON": {
     "ACTIONS": "الإجراءات",
@@ -438,6 +441,7 @@
       "TITLE": "طلبات الفحص",
       "ADD": "طلب جديد",
       "EMPTY": "لا توجد طلبات فحص",
+      "INVOICE_NUMBER": "رقم الفاتورة",
       "CLIENT": "العميل",
       "PHONE": "الجوال",
       "MANUFACTURER": "الشركة المصنعة",
@@ -445,10 +449,19 @@
       "PLATE": "اللوحة",
       "BRANCH": "الفرع",
       "TYPE": "النوع",
-      "DATE": "التاريخ"
+      "STATUS": "الحالة",
+      "DATE": "التاريخ",
+      "STATUSES": {
+        "Draft": "مسودة",
+        "InProgress": "قيد التنفيذ",
+        "Completed": "مكتمل",
+        "Delivered": "تم التسليم",
+        "Cancelled": "ملغي"
+      }
     },
     "FORM": {
       "TITLE": "طلب فحص جديد",
+      "TITLE_EDIT": "تعديل طلب فحص",
       "SAVED": "تم حفظ الطلب بنجاح."
     },
     "CLIENT": {
@@ -490,12 +503,45 @@
       "TITLE": "الخدمات",
       "ADD_LINE": "إضافة خدمة",
       "SERVICE": "الخدمة",
+      "PRICE": "السعر",
       "OVERRIDE_PRICE": "سعر بديل",
       "SELECT_SERVICE": "اختر خدمة...",
       "PRICE_PLACEHOLDER": "0.00",
       "NO_LINES": "لا توجد خدمات مضافة",
+      "SUB_TOTAL": "المجموع قبل الضريبة",
+      "TAX": "ضريبة القيمة المضافة",
+      "TOTAL_WITH_TAX": "الإجمالي شامل الضريبة",
       "TOTAL": "السعر التقريبي الإجمالي",
       "CURRENCY": "ريال"
+    },
+    "PAYMENTS": {
+      "TITLE": "المدفوعات",
+      "ADD_PAYMENT": "إضافة دفعة",
+      "ADD_REFUND": "إضافة استرداد",
+      "SUB_TOTAL": "المجموع قبل الضريبة",
+      "TAX_AMOUNT": "ضريبة القيمة المضافة",
+      "TOTAL_WITH_TAX": "الإجمالي شامل الضريبة",
+      "TOTAL_PAID": "إجمالي المدفوع",
+      "TOTAL_REFUNDED": "إجمالي المسترد",
+      "BALANCE": "المتبقي",
+      "DATE": "التاريخ",
+      "TYPE": "النوع",
+      "AMOUNT": "المبلغ",
+      "METHOD": "طريقة الدفع",
+      "NOTES": "ملاحظات",
+      "NO_PAYMENTS": "لا توجد مدفوعات",
+      "PAYMENT_ADDED": "تم إضافة الدفعة بنجاح",
+      "REFUND_ADDED": "تم إضافة الاسترداد بنجاح",
+      "TYPES": {
+        "Payment": "دفع",
+        "Refund": "استرداد"
+      },
+      "METHODS": {
+        "Cash": "نقدي",
+        "Card": "بطاقة",
+        "BankTransfer": "تحويل بنكي",
+        "Cheque": "شيك"
+      }
     }
   }
 

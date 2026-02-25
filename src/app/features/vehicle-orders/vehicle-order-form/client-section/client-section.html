@@ -1,7 +1,10 @@
 <div class="card border-0 shadow-sm mb-3">
-  <div class="card-header bg-white d-flex justify-content-between align-items-center py-2">
-    <h6 class="mb-0 fw-semibold">{{ 'VEHICLE_ORDERS.CLIENT.TITLE' | translate }}</h6>
-    <div class="d-flex gap-2">
+  <div class="card-header bg-white d-flex justify-content-between align-items-center py-2 section-toggle" (click)="collapsed = !collapsed">
+    <div class="d-flex align-items-center gap-2">
+      <i class="bi bi-chevron-down toggle-icon" [class.rotated]="collapsed"></i>
+      <h6 class="mb-0 fw-semibold">{{ 'VEHICLE_ORDERS.CLIENT.TITLE' | translate }}</h6>
+    </div>
+    <div class="d-flex gap-2" (click)="$event.stopPropagation()">
       <button type="button" class="btn btn-sm btn-outline-secondary">
         {{ 'VEHICLE_ORDERS.CLIENT.PREV_SERVICES' | translate }}
       </button>
@@ -11,142 +14,34 @@
     </div>
   </div>
 
-  <div class="card-body">
-    <!-- Type tabs -->
-    <div class="d-flex gap-2 mb-3">
-      <button type="button" class="btn btn-sm"
-        [class.btn-primary]="clientType === 'Company'"
-        [class.btn-outline-secondary]="clientType !== 'Company'"
-        (click)="setClientType('Company')">
-        {{ 'VEHICLE_ORDERS.CLIENT.COMPANY' | translate }}
-      </button>
-      <button type="button" class="btn btn-sm"
-        [class.btn-primary]="clientType === 'Individual'"
-        [class.btn-outline-secondary]="clientType !== 'Individual'"
-        (click)="setClientType('Individual')">
-        {{ 'VEHICLE_ORDERS.CLIENT.INDIVIDUAL' | translate }}
-      </button>
-    </div>
-
-    <!-- Client search -->
+  <div class="card-body" [hidden]="collapsed">
+    <!-- Client search + add button -->
     <div class="mb-3">
       <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.CLIENT.SEARCH' | translate }}</label>
-      <ng-select
-        [items]="clients"
-        [typeahead]="clientSearch$"
-        [loading]="clientsLoading"
-        bindValue="id"
-        [bindLabel]="'nameAr'"
-        [placeholder]="'VEHICLE_ORDERS.CLIENT.SEARCH_PLACEHOLDER' | translate"
-        [(ngModel)]="selectedClient"
-        (change)="onClientSelected($event)"
-        [clearable]="true">
-        <ng-template ng-label-tmp let-item="item">{{ item.nameAr }}</ng-template>
-        <ng-template ng-option-tmp let-item="item">
-          <div>{{ item.nameAr }}</div>
-          <small class="text-muted">{{ item.phoneNumber }}</small>
-        </ng-template>
-      </ng-select>
-    </div>
-
-    <div [formGroup]="form">
-
-      <!-- COMPANY -->
-      <ng-container *ngIf="clientType === 'Company'">
-        <div class="row g-2">
-          <div class="col-md-4">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.NAME_AR' | translate }} <span class="text-danger">*</span></label>
-            <input class="form-control form-control-sm" formControlName="clientNameAr" />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.NAME_EN' | translate }}</label>
-            <input class="form-control form-control-sm" formControlName="clientNameEn" />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.PHONE' | translate }} <span class="text-danger">*</span></label>
-            <input class="form-control form-control-sm" formControlName="clientPhone" />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.TAX_NUMBER' | translate }}</label>
-            <input class="form-control form-control-sm" formControlName="taxNumber" placeholder="310123456700003" />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.COMMERCIAL_REG' | translate }}</label>
-            <input class="form-control form-control-sm" formControlName="commercialRegister" />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.EMAIL' | translate }}</label>
-            <input class="form-control form-control-sm" formControlName="email" type="email" />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.SOURCE' | translate }}</label>
-            <ng-select formControlName="clientResourceId" [items]="sources" bindValue="id" bindLabel="nameAr"
-              [clearable]="true" [placeholder]="'CLIENTS.FORM.SELECT_SOURCE' | translate">
-            </ng-select>
-          </div>
-          <div class="col-md-4">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.STREET' | translate }}</label>
-            <input class="form-control form-control-sm" formControlName="streetName" />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.ADDITIONAL_STREET' | translate }}</label>
-            <input class="form-control form-control-sm" formControlName="additionalStreetName" />
-          </div>
-          <div class="col-md-3">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.CITY' | translate }}</label>
-            <input class="form-control form-control-sm" formControlName="cityName" />
-          </div>
-          <div class="col-md-3">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.DISTRICT' | translate }}</label>
-            <input class="form-control form-control-sm" formControlName="citySubdivisionName" />
-          </div>
-          <div class="col-md-2">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.POSTAL_ZONE' | translate }}</label>
-            <input class="form-control form-control-sm" formControlName="postalZone" />
-          </div>
-          <div class="col-md-2">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.BUILDING_NO' | translate }}</label>
-            <input class="form-control form-control-sm" formControlName="buildingNumber" />
-          </div>
-          <div class="col-md-2">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.COUNTRY_CODE' | translate }}</label>
-            <input class="form-control form-control-sm" formControlName="countryCode" />
-          </div>
+      <div class="d-flex gap-2 align-items-center">
+        <div class="flex-grow-1">
+          <ng-select
+            [items]="clients"
+            [typeahead]="clientSearch$"
+            [loading]="clientsLoading"
+            bindValue="id"
+            [bindLabel]="'nameAr'"
+            [placeholder]="'VEHICLE_ORDERS.CLIENT.SEARCH_PLACEHOLDER' | translate"
+            [(ngModel)]="selectedClientId"
+            (change)="onClientSelected($event)"
+            [clearable]="true">
+            <ng-template ng-label-tmp let-item="item">{{ item.nameAr }}</ng-template>
+            <ng-template ng-option-tmp let-item="item">
+              <div>{{ item.nameAr }}</div>
+              <small class="text-muted">{{ item.phoneNumber }}</small>
+            </ng-template>
+          </ng-select>
         </div>
-      </ng-container>
-
-      <!-- INDIVIDUAL -->
-      <ng-container *ngIf="clientType === 'Individual'">
-        <div class="row g-2">
-          <div class="col-md-4">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.NAME_AR' | translate }} <span class="text-danger">*</span></label>
-            <input class="form-control form-control-sm" formControlName="clientNameAr" />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.NAME_EN' | translate }}</label>
-            <input class="form-control form-control-sm" formControlName="clientNameEn" />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.PHONE' | translate }} <span class="text-danger">*</span></label>
-            <input class="form-control form-control-sm" formControlName="clientPhone" />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.EMAIL' | translate }}</label>
-            <input class="form-control form-control-sm" formControlName="email" type="email" />
-          </div>
-          <div class="col-md-4">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.SOURCE' | translate }}</label>
-            <ng-select formControlName="clientResourceId" [items]="sources" bindValue="id" bindLabel="nameAr"
-              [clearable]="true" [placeholder]="'CLIENTS.FORM.SELECT_SOURCE' | translate">
-            </ng-select>
-          </div>
-          <div class="col-md-4">
-            <label class="form-label form-label-sm">{{ 'CLIENTS.FORM.ADDRESS' | translate }}</label>
-            <input class="form-control form-control-sm" formControlName="individualAddress" />
-          </div>
-        </div>
-      </ng-container>
-
+        <button type="button" class="btn btn-sm btn-outline-primary text-nowrap" (click)="openAddClientModal()">
+          <i class="bi bi-person-plus me-1"></i>
+          {{ 'CLIENTS.ADD' | translate }}
+        </button>
+      </div>
     </div>
   </div>
 </div>

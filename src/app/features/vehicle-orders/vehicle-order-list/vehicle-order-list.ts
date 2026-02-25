@@ -66,6 +66,10 @@ export class VehicleOrderList implements OnInit, OnDestroy {
     this.router.navigate(['/features/vehicle-orders/new']);
   }
 
+  openEdit(order: ExaminationDto): void {
+    this.router.navigate(['/features/vehicle-orders', order.id]);
+  }
+
   search(): void {
     this.pagingConfig.currentPage = 1;
     this.loadOrders();

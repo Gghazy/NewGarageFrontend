@@ -1,9 +1,10 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { LookupDto } from 'src/app/shared/Models/lookup-dto';
+import { ExaminationDto } from 'src/app/shared/Models/vehicle-orders/vehicle-order-dto';
 
 export const SAUDI_PLATE_LETTERS = [
   'أ','ب','ت','ث','ج','ح','خ','د','ذ','ر',
@@ -31,8 +32,10 @@ export const EXAMINATION_TYPES = [
   styleUrl: './vehicle-section.css',
 })
 export class VehicleSection implements OnInit, OnDestroy {
+  @Input() examination?: ExaminationDto;
   @Output() vehicleChange = new EventEmitter<any>();
 
+  collapsed = false;
   form!: FormGroup;
   private destroy$ = new Subject<void>();
 
@@ -60,11 +63,45 @@ export class VehicleSection implements OnInit, OnDestroy {
     this.loadBranches();
     this.loadManufacturers();
     this.loadCarMarks();
+
+    if (this.examination) {
+      this.patchFormWithExamination();
+    }
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private patchFormWithExamination(): void {
+    const e = this.examination!;
+
+    this.form.patchValue({
+      branchId:       e.branchId || null,
+      manufacturerId: e.manufacturerId || null,
+      carMarkId:      e.carMarkId || null,
+      type:           e.type || 'Regular',
+      hasPlate:       e.hasPlate,
+      plateNumbers:   e.plateNumbers || '',
+      mileage:        e.mileage ?? null,
+      mileageUnit:    e.mileageUnit || 'Km',
+      year:           e.year ?? null,
+      color:          e.color || '',
+      transmission:   e.transmission || null,
+      vin:            e.vin || '',
+      marketerCode:   e.marketerCode || '',
+      hasWarranty:    e.hasWarranty,
+      hasPhotos:      e.hasPhotos,
+      notes:          e.notes || '',
+    });
+
+    // Split plate letters into individual chars
+    const letters = e.plateLetters || '';
+    const chars = [...letters];
+    this.plateL1 = chars[0] || null;
+    this.plateL2 = chars[1] || null;
+    this.plateL3 = chars[2] || null;
   }
 
   private buildForm(): void {
