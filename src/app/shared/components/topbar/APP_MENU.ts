@@ -18,6 +18,7 @@ export const APP_MENU: AppMenuItem[] = [
       { labelKey: 'MENU.CRANES', route: '/features/settings/cranes', icon: 'bi bi-truck', permissions: ['crane.read'] },
       { labelKey: 'MENU.TERMS', route: '/features/settings/terms', icon: 'bi bi-file-text', permissions: ['term.read'] },
       { labelKey: 'MENU.BRANCHES', route: '/features/settings/branches', icon: 'bi bi-diagram-3', permissions: ['branches.read'] },
+      { labelKey: 'MENU.PAYMENT_METHODS', route: '/features/settings/payment-methods', icon: 'bi bi-credit-card', permissions: ['paymentMethod.read'] },
     ],
   },
   {

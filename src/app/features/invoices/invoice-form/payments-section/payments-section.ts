@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -6,7 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { InvoiceDto, InvoicePaymentDto } from 'src/app/shared/Models/invoices/invoice-dto';
-import { PAYMENT_METHODS } from 'src/app/shared/constants/vehicle-constants';
 
 @Component({
   selector: 'app-invoice-payments-section',
@@ -14,7 +13,7 @@ import { PAYMENT_METHODS } from 'src/app/shared/constants/vehicle-constants';
   templateUrl: './payments-section.html',
   styleUrl: './payments-section.css',
 })
-export class InvoicePaymentsSection implements OnDestroy {
+export class InvoicePaymentsSection implements OnInit, OnDestroy {
   @Input() invoice!: InvoiceDto;
   @Output() paymentAdded = new EventEmitter<void>();
 
@@ -25,7 +24,8 @@ export class InvoicePaymentsSection implements OnDestroy {
   saving = false;
   private destroy$ = new Subject<void>();
 
-  paymentMethods = PAYMENT_METHODS;
+  paymentMethods: { nameAr: string; nameEn: string }[] = [];
+  private methodMap = new Map<string, { nameAr: string; nameEn: string }>();
 
   constructor(
     private fb: FormBuilder,
@@ -38,6 +38,28 @@ export class InvoicePaymentsSection implements OnDestroy {
       method:   ['Cash', Validators.required],
       notes:    [null],
     });
+  }
+
+  ngOnInit(): void {
+    this.api.get<any[]>('PaymentMethods')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (methods) => {
+          this.paymentMethods = methods;
+          this.methodMap.clear();
+          methods.forEach(m => this.methodMap.set(m.nameEn, m));
+        },
+      });
+  }
+
+  get isAr(): boolean {
+    return this.translate.currentLang === 'ar';
+  }
+
+  getMethodLabel(method: string): string {
+    const m = this.methodMap.get(method);
+    if (m) return this.translate.currentLang === 'ar' ? m.nameAr : m.nameEn;
+    return this.translate.instant('INVOICES.PAYMENTS.METHODS.' + method);
   }
 
   get payments(): InvoicePaymentDto[] {

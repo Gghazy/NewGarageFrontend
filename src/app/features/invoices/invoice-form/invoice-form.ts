@@ -63,9 +63,9 @@ export class InvoiceForm implements OnInit, OnDestroy {
       });
   }
 
-  printInvoice(): void {
+  async printInvoice(): Promise<void> {
     if (this.invoice) {
-      this.printService.print(this.invoice);
+      await this.printService.print(this.invoice);
     }
   }
 

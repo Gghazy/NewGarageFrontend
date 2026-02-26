@@ -47,7 +47,8 @@
     "CLIENTS": "Clients",
     "CLIENT_RESOURCES": "Client Resources",
     "VEHICLE_ORDERS": "Inspection Orders",
-    "INVOICES": "Invoices"
+    "INVOICES": "Invoices",
+    "PAYMENT_METHODS": "Payment Methods"
   },
   "BREADCRUMB": {
     "HOME": "Home",
@@ -83,7 +84,8 @@
     "INVOICES": "Invoices",
     "NEW_INVOICE": "New Invoice",
     "EDIT_INVOICE": "Edit Invoice",
-    "INVOICE_DETAILS": "Invoice Details"
+    "INVOICE_DETAILS": "Invoice Details",
+    "PAYMENT_METHODS": "Payment Methods"
   },
   "COMMON": {
     "ACTIONS": "Actions",
@@ -211,6 +213,10 @@
     "TITLE": "Inside and Decor Part Issues Types",
     "ADD": "Add New Issue"
   },
+  "PAYMENT_METHODS": {
+    "TITLE": "Payment Methods",
+    "ADD": "Add Payment Method"
+  },
   "CAR_MARKS": {
     "TITLE": "Car Marks",
     "ADD": "Add New Car Mark"
@@ -322,7 +328,8 @@
       "ServicePrice": "Service Prices",
       "Service": "Services",
       "Users": "Users",
-      "Term": "Terms & Conditions"
+      "Term": "Terms & Conditions",
+      "PaymentMethod": "Payment Methods"
     },
     "ACTIONS": {
       "Read": "Read",
@@ -593,6 +600,14 @@
       "ORIGINAL_INVOICE": "Original Invoice",
       "CREATE_REFUND": "Create Refund Invoice",
       "REFUND_CREATED": "Refund invoice created successfully"
+    },
+    "PRINT": {
+      "INVOICE": "Invoice",
+      "INVOICE_NUMBER": "Invoice Number",
+      "ISSUE_DATE": "Issue Date",
+      "ISSUE_TIME": "Issue Time",
+      "CLIENT_PHONE": "Client Phone",
+      "VAT_INCLUDED": "Price includes VAT"
     },
     "ITEMS": {
       "TITLE": "Invoice Items",

@@ -47,7 +47,8 @@
     "CLIENTS": "العملاء",
     "CLIENT_RESOURCES": "مصادر العملاء",
     "VEHICLE_ORDERS": "طلبات الفحص",
-    "INVOICES": "الفواتير"
+    "INVOICES": "الفواتير",
+    "PAYMENT_METHODS": "طرق الدفع"
   },
   "BREADCRUMB": {
     "HOME": "الرئيسية",
@@ -83,7 +84,8 @@
     "INVOICES": "الفواتير",
     "NEW_INVOICE": "فاتورة جديدة",
     "EDIT_INVOICE": "تعديل فاتورة",
-    "INVOICE_DETAILS": "تفاصيل الفاتورة"
+    "INVOICE_DETAILS": "تفاصيل الفاتورة",
+    "PAYMENT_METHODS": "طرق الدفع"
   },
   "COMMON": {
     "ACTIONS": "الإجراءات",
@@ -223,6 +225,10 @@
     "TITLE": "الاجزاء الداخلية والديكور",
     "ADD": "إضافة جزء داخلي أو ديكور"
   },
+  "PAYMENT_METHODS": {
+    "TITLE": "طرق الدفع",
+    "ADD": "إضافة طريقة دفع"
+  },
   "CAR_MARKS": {
     "TITLE": "ماركات السيارات",
     "ADD": "إضافة ماركة سيارة"
@@ -342,7 +348,8 @@
       "ServicePrice": "أسعار الخدمات",
       "Service": "الخدمات",
       "Users": "المستخدمين",
-      "Term": "الشروط والأحكام"
+      "Term": "الشروط والأحكام",
+      "PaymentMethod": "طرق الدفع"
     },
     "ACTIONS": {
       "Read": "عرض",
@@ -621,6 +628,14 @@
       "ORIGINAL_INVOICE": "الفاتورة الأصلية",
       "CREATE_REFUND": "إنشاء فاتورة مرتجع",
       "REFUND_CREATED": "تم إنشاء فاتورة المرتجع بنجاح"
+    },
+    "PRINT": {
+      "INVOICE": "فاتورة",
+      "INVOICE_NUMBER": "رقم الفاتورة",
+      "ISSUE_DATE": "تاريخ الاصدار",
+      "ISSUE_TIME": "زمن الاصدار",
+      "CLIENT_PHONE": "رقم العميل",
+      "VAT_INCLUDED": "السعر يشمل ضريبة القيمة المضافة"
     },
     "ITEMS": {
       "TITLE": "بنود الفاتورة",
