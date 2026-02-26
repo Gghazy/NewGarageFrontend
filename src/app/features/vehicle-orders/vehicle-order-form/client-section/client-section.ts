@@ -7,6 +7,7 @@ import { ApiService } from 'src/app/core/services/custom.service';
 import { ClientDto } from 'src/app/shared/Models/clients/client-dto';
 import { ClientForm } from 'src/app/features/management-clients/clients/client-form/client-form';
 import { ExaminationDto } from 'src/app/shared/Models/vehicle-orders/vehicle-order-dto';
+import { ClientFormOutput } from 'src/app/shared/constants/vehicle-constants';
 
 @Component({
   selector: 'app-client-section',
@@ -17,7 +18,7 @@ import { ExaminationDto } from 'src/app/shared/Models/vehicle-orders/vehicle-ord
 export class ClientSection implements OnInit, OnDestroy {
   @Input() examination?: ExaminationDto;
   @Input() submitted = false;
-  @Output() clientChange = new EventEmitter<{ id?: string; type: string; data: any }>();
+  @Output() clientChange = new EventEmitter<ClientFormOutput>();
 
   collapsed = false;
   private destroy$ = new Subject<void>();

@@ -5,8 +5,10 @@ import { takeUntil } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from 'src/app/core/services/custom.service';
-import { CreateExaminationRequest, ExaminationItemRequest, UpdateExaminationRequest } from 'src/app/shared/Models/vehicle-orders/vehicle-order-request';
+import { ExaminationItemRequest } from 'src/app/shared/Models/vehicle-orders/vehicle-order-request';
+import { buildCreatePayload, buildUpdatePayload, ExaminationPayloadInput } from './examination-payload-builder';
 import { ExaminationDto } from 'src/app/shared/Models/vehicle-orders/vehicle-order-dto';
+import { ClientFormData, ClientFormOutput, VehicleFormData } from 'src/app/shared/constants/vehicle-constants';
 
 @Component({
   selector: 'app-vehicle-order-form',
@@ -26,8 +28,8 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
   examination?: ExaminationDto;
 
   private destroy$ = new Subject<void>();
-  private clientData: { id?: string; type: string; data: any } = { type: 'Company', data: {} };
-  vehicleData: any = {};
+  private clientData: ClientFormOutput = { type: 'Company', data: {} as ClientFormData };
+  vehicleData: VehicleFormData = {} as VehicleFormData;
   private serviceItems: ExaminationItemRequest[] = [];
 
   constructor(
@@ -71,11 +73,11 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
       });
   }
 
-  onClientChange(event: { id?: string; type: string; data: any }): void {
+  onClientChange(event: ClientFormOutput): void {
     this.clientData = event;
   }
 
-  onVehicleChange(event: any): void {
+  onVehicleChange(event: VehicleFormData): void {
     this.vehicleData = event;
   }
 
@@ -96,13 +98,11 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
     }
 
     this.saving = true;
-    const d = this.clientData.data;
-    const v = this.vehicleData;
 
     if (this.isEdit) {
-      this.update(d, v);
+      this.update();
     } else {
-      this.create(d, v);
+      this.create();
     }
   }
 
@@ -158,56 +158,19 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
     return errors;
   }
 
-  private create(d: any, v: any): void {
-    const payload: CreateExaminationRequest = {
-      // Client
-      clientId:             this.clientData.id,
-      clientType:           this.clientData.type,
-      clientNameAr:         d.clientNameAr ?? '',
-      clientNameEn:         d.clientNameEn ?? '',
-      clientPhone:          d.clientPhone ?? '',
-      clientEmail:          d.email || undefined,
-      clientResourceId:     d.clientResourceId || undefined,
-      individualAddress:    d.individualAddress || undefined,
-      commercialRegister:   d.commercialRegister || undefined,
-      taxNumber:            d.taxNumber || undefined,
-      streetName:           d.streetName || undefined,
-      additionalStreetName: d.additionalStreetName || undefined,
-      cityName:             d.cityName || undefined,
-      postalZone:           d.postalZone || undefined,
-      countrySubentity:     d.countrySubentity || undefined,
-      countryCode:          d.countryCode || undefined,
-      buildingNumber:       d.buildingNumber || undefined,
-      citySubdivisionName:  d.citySubdivisionName || undefined,
-
-      // Branch + meta
-      branchId:     v.branchId || undefined,
-      type:         v.type ?? 'Regular',
-      hasWarranty:  v.hasWarranty ?? true,
-      marketerCode: v.marketerCode || undefined,
-      notes:        v.notes || undefined,
-
-      // Vehicle
-      manufacturerId: v.manufacturerId || undefined,
-      carMarkId:      v.carMarkId || undefined,
-      year:           v.year || undefined,
-      color:          v.color || undefined,
-      vin:            v.vin || undefined,
-      hasPlate:       v.hasPlate ?? true,
-      plateLetters:   v.plateLetters || undefined,
-      plateNumbers:   v.plateNumbers || undefined,
-      mileage:        v.mileage || undefined,
-      mileageUnit:    v.mileageUnit ?? 'Km',
-      transmission:   v.transmission || undefined,
-
-      // Services
-      items: this.serviceItems,
-
-      // Workflow
+  private get payloadInput(): ExaminationPayloadInput {
+    return {
+      clientId:       this.clientData.id,
+      clientType:     this.clientData.type,
+      clientData:     this.clientData.data,
+      vehicleData:    this.vehicleData,
+      serviceItems:   this.serviceItems,
       startAfterSave: this.startAfterSave,
     };
+  }
 
-    this.api.post<any>('Examinations', payload).subscribe({
+  private create(): void {
+    this.api.post<any>('Examinations', buildCreatePayload(this.payloadInput)).subscribe({
       next: () => {
         this.toastr.success(this.translate.instant('VEHICLE_ORDERS.FORM.SAVED'));
         this.router.navigate(['/features/vehicle-orders']);
@@ -219,55 +182,8 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
     });
   }
 
-  private update(d: any, v: any): void {
-    const payload: UpdateExaminationRequest = {
-      // Client
-      clientType:           this.clientData.type,
-      clientNameAr:         d.clientNameAr ?? '',
-      clientNameEn:         d.clientNameEn ?? '',
-      clientPhone:          d.clientPhone ?? '',
-      clientEmail:          d.email || undefined,
-      clientResourceId:     d.clientResourceId || undefined,
-      individualAddress:    d.individualAddress || undefined,
-      commercialRegister:   d.commercialRegister || undefined,
-      taxNumber:            d.taxNumber || undefined,
-      streetName:           d.streetName || undefined,
-      additionalStreetName: d.additionalStreetName || undefined,
-      cityName:             d.cityName || undefined,
-      postalZone:           d.postalZone || undefined,
-      countrySubentity:     d.countrySubentity || undefined,
-      countryCode:          d.countryCode || undefined,
-      buildingNumber:       d.buildingNumber || undefined,
-      citySubdivisionName:  d.citySubdivisionName || undefined,
-
-      // Branch + meta
-      branchId:     v.branchId || undefined,
-      type:         v.type ?? 'Regular',
-      hasWarranty:  v.hasWarranty ?? true,
-      marketerCode: v.marketerCode || undefined,
-      notes:        v.notes || undefined,
-
-      // Vehicle
-      manufacturerId: v.manufacturerId || undefined,
-      carMarkId:      v.carMarkId || undefined,
-      year:           v.year || undefined,
-      color:          v.color || undefined,
-      vin:            v.vin || undefined,
-      hasPlate:       v.hasPlate ?? true,
-      plateLetters:   v.plateLetters || undefined,
-      plateNumbers:   v.plateNumbers || undefined,
-      mileage:        v.mileage || undefined,
-      mileageUnit:    v.mileageUnit ?? 'Km',
-      transmission:   v.transmission || undefined,
-
-      // Services
-      items: this.serviceItems,
-
-      // Workflow
-      startAfterSave: this.startAfterSave,
-    };
-
-    this.api.put<any>(`Examinations/${this.examinationId}`, payload).subscribe({
+  private update(): void {
+    this.api.put<any>(`Examinations/${this.examinationId}`, buildUpdatePayload(this.payloadInput)).subscribe({
       next: () => {
         this.toastr.success(this.translate.instant('VEHICLE_ORDERS.FORM.SAVED'));
         this.router.navigate(['/features/vehicle-orders']);

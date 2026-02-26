@@ -18,7 +18,11 @@ import { ConfirmDeleteModal } from './components/confirm-delete-modal/confirm-de
 import { ClientForm } from '../features/management-clients/clients/client-form/client-form';
 import { ClientIndividualForm } from '../features/management-clients/clients/client-individual-form/client-individual-form';
 import { ClientCompanyForm } from '../features/management-clients/clients/client-company-form/client-company-form';
+import { StatusBadgePipe } from './pipes/status-badge.pipe';
 
+const PIPES = [
+  StatusBadgePipe,
+];
 
 const COMPONENTS = [
   Footer,
@@ -47,8 +51,8 @@ const MODULES = [
 
 
 @NgModule({
-  declarations: [...COMPONENTS],
+  declarations: [...COMPONENTS, ...PIPES],
   imports:  [...MODULES],
-  exports: [...COMPONENTS, ...MODULES],
+  exports: [...COMPONENTS, ...PIPES, ...MODULES],
 })
 export class SharedModule {}

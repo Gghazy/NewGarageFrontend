@@ -32,7 +32,8 @@
       "Bash(taskkill /F /IM iisexpress.exe)",
       "Bash(cmd.exe /c \"taskkill /F /IM iisexpress.exe\")",
       "Bash(dotnet ef migrations list --project Garage.Infrastructure --startup-project Garage.Api)",
-      "Bash(cmd.exe /c \"taskkill /F /IM iisexpress.exe 2>NUL\")"
+      "Bash(cmd.exe /c \"taskkill /F /IM iisexpress.exe 2>NUL\")",
+      "Bash(xargs grep -l \"class.*Repository\\\\|interface.*Repository\")"
     ],
     "additionalDirectories": [
       "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\shared\\Models\\vehicle-orders",

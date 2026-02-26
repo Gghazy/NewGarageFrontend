@@ -75,8 +75,8 @@
         <div class="col-md-3">
           <label class="form-label small">{{ 'INVOICES.PAYMENTS.METHOD' | translate }}</label>
           <select class="form-select form-select-sm" formControlName="method">
-            <option *ngFor="let m of paymentMethods" [value]="m">
-              {{ 'INVOICES.PAYMENTS.METHODS.' + m | translate }}
+            <option *ngFor="let m of paymentMethods" [value]="m.value">
+              {{ 'INVOICES.PAYMENTS.METHODS.' + m.value | translate }}
             </option>
           </select>
         </div>

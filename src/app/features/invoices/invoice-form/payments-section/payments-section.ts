@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { InvoiceDto, InvoicePaymentDto } from 'src/app/shared/Models/invoices/invoice-dto';
+import { PAYMENT_METHODS } from 'src/app/shared/constants/vehicle-constants';
 
 @Component({
   selector: 'app-invoice-payments-section',
@@ -24,7 +25,7 @@ export class InvoicePaymentsSection implements OnDestroy {
   saving = false;
   private destroy$ = new Subject<void>();
 
-  paymentMethods = ['Cash', 'Card', 'BankTransfer', 'Cheque'];
+  paymentMethods = PAYMENT_METHODS;
 
   constructor(
     private fb: FormBuilder,

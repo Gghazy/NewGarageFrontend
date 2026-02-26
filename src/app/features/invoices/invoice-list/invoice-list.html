@@ -28,7 +28,7 @@
       <td>{{ (pagingConfig.currentPage - 1) * pagingConfig.itemsPerPage + i + 1 }}</td>
       <td>{{ inv.invoiceNumber || '—' }}</td>
       <td>
-        <span class="badge" [class.bg-primary]="inv.type === 'Invoice'" [class.bg-danger]="inv.type === 'Refund'">
+        <span class="badge" [ngClass]="inv.type | statusBadge:'invoiceType'">
           {{ 'INVOICES.LIST.TYPES.' + inv.type | translate }}
         </span>
       </td>
@@ -42,12 +42,7 @@
         </span>
       </td>
       <td>
-        <span class="badge"
-          [class.bg-primary]="inv.status === 'Issued'"
-          [class.bg-success]="inv.status === 'Paid'"
-          [class.bg-danger]="inv.status === 'Cancelled'"
-          [class.bg-info]="inv.status === 'PartiallyRefunded'"
-          [class.bg-dark]="inv.status === 'Refunded'">
+        <span class="badge" [ngClass]="inv.status | statusBadge:'invoice'">
           {{ 'INVOICES.LIST.STATUSES.' + inv.status | translate }}
         </span>
       </td>

@@ -36,13 +36,7 @@
       <td>{{ order.branchNameAr || '—' }}</td>
       <td>{{ order.type || '—' }}</td>
       <td>
-        <span class="badge"
-          [class.bg-secondary]="order.status === 'Draft'"
-          [class.bg-warning]="order.status === 'Pending'"
-          [class.bg-primary]="order.status === 'InProgress'"
-          [class.bg-success]="order.status === 'Completed'"
-          [class.bg-info]="order.status === 'Delivered'"
-          [class.bg-danger]="order.status === 'Cancelled'">
+        <span class="badge" [ngClass]="order.status | statusBadge:'examination'">
           {{ 'VEHICLE_ORDERS.LIST.STATUSES.' + order.status | translate }}
         </span>
       </td>

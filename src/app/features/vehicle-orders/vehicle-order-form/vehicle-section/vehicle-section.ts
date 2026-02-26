@@ -5,25 +5,12 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { LookupDto } from 'src/app/shared/Models/lookup-dto';
 import { ExaminationDto } from 'src/app/shared/Models/vehicle-orders/vehicle-order-dto';
-
-export const SAUDI_PLATE_LETTERS = [
-  'أ','ب','ت','ث','ج','ح','خ','د','ذ','ر',
-  'ز','س','ش','ص','ط','ع','غ','ف','ق','ك',
-  'ل','م','ن','هـ','و','ي'
-];
-
-export const TRANSMISSION_OPTIONS = [
-  { value: 'Automatic',     labelAr: 'أوتوماتيك',      labelEn: 'Automatic' },
-  { value: 'Manual',        labelAr: 'يدوي',            labelEn: 'Manual' },
-  { value: 'SemiAutomatic', labelAr: 'نصف أوتوماتيك',  labelEn: 'Semi-Automatic' },
-  { value: 'CVT',           labelAr: 'CVT',             labelEn: 'CVT' },
-];
-
-export const EXAMINATION_TYPES = [
-  { value: 'Regular',     labelAr: 'فحص عادي',        labelEn: 'Regular' },
-  { value: 'Warranty',    labelAr: 'فحص ضمان',        labelEn: 'Warranty' },
-  { value: 'PrePurchase', labelAr: 'فحص ما قبل الشراء', labelEn: 'Pre-Purchase' },
-];
+import {
+  SAUDI_PLATE_LETTERS,
+  TRANSMISSION_OPTIONS,
+  EXAMINATION_TYPES,
+  VehicleFormData,
+} from 'src/app/shared/constants/vehicle-constants';
 
 @Component({
   selector: 'app-vehicle-section',
@@ -34,7 +21,7 @@ export const EXAMINATION_TYPES = [
 export class VehicleSection implements OnInit, OnDestroy {
   @Input() examination?: ExaminationDto;
   @Input() submitted = false;
-  @Output() vehicleChange = new EventEmitter<any>();
+  @Output() vehicleChange = new EventEmitter<VehicleFormData>();
 
   collapsed = false;
   form!: FormGroup;

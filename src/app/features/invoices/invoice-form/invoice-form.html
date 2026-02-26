@@ -11,12 +11,7 @@
       <span *ngIf="invoice?.type === 'Adjustment'" class="badge bg-warning text-dark fs-6">
         {{ 'INVOICES.LIST.TYPES.Adjustment' | translate }}
       </span>
-      <span *ngIf="invoice?.status" class="badge"
-        [class.bg-primary]="invoice?.status === 'Issued'"
-        [class.bg-success]="invoice?.status === 'Paid'"
-        [class.bg-danger]="invoice?.status === 'Cancelled'"
-        [class.bg-info]="invoice?.status === 'PartiallyRefunded'"
-        [class.bg-dark]="invoice?.status === 'Refunded'">
+      <span *ngIf="invoice?.status" class="badge" [ngClass]="invoice?.status | statusBadge:'invoice'">
         {{ 'INVOICES.LIST.STATUSES.' + invoice?.status | translate }}
       </span>
       <a *ngIf="invoice?.examinationId" class="badge bg-info text-decoration-none"
