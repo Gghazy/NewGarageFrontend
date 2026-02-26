@@ -12,7 +12,6 @@
   <!-- header -->
   <ng-container table-header>
     <th>#</th>
-    <th>{{ 'VEHICLE_ORDERS.LIST.INVOICE_NUMBER' | translate }}</th>
     <th>{{ 'VEHICLE_ORDERS.LIST.CLIENT' | translate }}</th>
     <th>{{ 'VEHICLE_ORDERS.LIST.PHONE' | translate }}</th>
     <th>{{ 'VEHICLE_ORDERS.LIST.MANUFACTURER' | translate }}</th>
@@ -29,7 +28,6 @@
   <ng-container table-body>
     <tr *ngFor="let order of orders; let i = index">
       <td>{{ (pagingConfig.currentPage - 1) * pagingConfig.itemsPerPage + i + 1 }}</td>
-      <td>{{ order.invoiceNumber || '—' }}</td>
       <td>{{ order.clientNameAr || '—' }}</td>
       <td>{{ order.clientPhone || '—' }}</td>
       <td>{{ order.manufacturerNameAr || '—' }}</td>
@@ -40,6 +38,7 @@
       <td>
         <span class="badge"
           [class.bg-secondary]="order.status === 'Draft'"
+          [class.bg-warning]="order.status === 'Pending'"
           [class.bg-primary]="order.status === 'InProgress'"
           [class.bg-success]="order.status === 'Completed'"
           [class.bg-info]="order.status === 'Delivered'"

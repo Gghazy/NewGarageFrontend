@@ -1,0 +1,172 @@
+<div class="container-fluid py-3">
+
+  <!-- Page header -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex align-items-center gap-2">
+      <h5 class="mb-0 fw-bold">{{ 'INVOICES.FORM.TITLE_DETAILS' | translate }}</h5>
+      <span *ngIf="invoice?.invoiceNumber" class="badge bg-primary fs-6">{{ invoice?.invoiceNumber }}</span>
+      <span *ngIf="invoice?.type === 'Refund'" class="badge bg-danger fs-6">
+        {{ 'INVOICES.FORM.REFUND_INVOICE' | translate }}
+      </span>
+      <span *ngIf="invoice?.type === 'Adjustment'" class="badge bg-warning text-dark fs-6">
+        {{ 'INVOICES.LIST.TYPES.Adjustment' | translate }}
+      </span>
+      <span *ngIf="invoice?.status" class="badge"
+        [class.bg-primary]="invoice?.status === 'Issued'"
+        [class.bg-success]="invoice?.status === 'Paid'"
+        [class.bg-danger]="invoice?.status === 'Cancelled'"
+        [class.bg-info]="invoice?.status === 'PartiallyRefunded'"
+        [class.bg-dark]="invoice?.status === 'Refunded'">
+        {{ 'INVOICES.LIST.STATUSES.' + invoice?.status | translate }}
+      </span>
+      <a *ngIf="invoice?.examinationId" class="badge bg-info text-decoration-none"
+        [routerLink]="['/features/vehicle-orders', invoice!.examinationId]">
+        <i class="bi bi-link-45deg me-1"></i>{{ 'INVOICES.FORM.LINKED_EXAMINATION' | translate }}
+      </a>
+      <a *ngIf="invoice?.originalInvoiceId" class="badge bg-warning text-dark text-decoration-none"
+        [routerLink]="['/features/invoices', invoice!.originalInvoiceId]">
+        <i class="bi bi-receipt me-1"></i>{{ 'INVOICES.FORM.ORIGINAL_INVOICE' | translate }}
+      </a>
+    </div>
+    <div class="d-flex gap-2">
+      <button type="button" class="btn btn-outline-dark btn-sm" (click)="printInvoice()">
+        <i class="bi bi-printer me-1"></i>{{ 'INVOICES.FORM.PRINT' | translate }}
+      </button>
+      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="goBack()">
+        <i class="bi bi-arrow-right me-1"></i>{{ 'COMMON.BACK' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading spinner -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status"></div>
+  </div>
+
+  <ng-container *ngIf="!loading && invoice">
+
+    <!-- Client & Branch info -->
+    <div class="card border-0 shadow-sm mb-3">
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label text-muted small mb-0">{{ 'INVOICES.FORM.CLIENT' | translate }}</label>
+            <div class="fw-semibold">{{ invoice.clientNameAr }}</div>
+            <div class="text-muted small">{{ invoice.clientPhone }}</div>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label text-muted small mb-0">{{ 'INVOICES.FORM.BRANCH' | translate }}</label>
+            <div class="fw-semibold">{{ invoice.branchNameAr }}</div>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label text-muted small mb-0">{{ 'INVOICES.FORM.DUE_DATE' | translate }}</label>
+            <div class="fw-semibold">{{ invoice.dueDate ? (invoice.dueDate | date:'yyyy-MM-dd') : '—' }}</div>
+          </div>
+        </div>
+        <div *ngIf="invoice.notes" class="mt-2">
+          <label class="form-label text-muted small mb-0">{{ 'INVOICES.FORM.NOTES' | translate }}</label>
+          <div>{{ invoice.notes }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Items table -->
+    <div class="card border-0 shadow-sm mb-3">
+      <div class="card-header bg-white py-2">
+        <h6 class="mb-0 fw-semibold">{{ 'INVOICES.ITEMS.TITLE' | translate }}</h6>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered mb-0 align-middle">
+            <thead class="table-light">
+              <tr>
+                <th style="width:36px">#</th>
+                <th>{{ 'INVOICES.ITEMS.DESCRIPTION' | translate }}</th>
+                <th style="width:100px">{{ 'INVOICES.ITEMS.QUANTITY' | translate }}</th>
+                <th style="width:140px">{{ 'INVOICES.ITEMS.UNIT_PRICE' | translate }}</th>
+                <th>{{ 'INVOICES.ITEMS.TOTAL' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of invoice.items; let i = index">
+                <td class="text-center text-muted">{{ i + 1 }}</td>
+                <td>{{ item.serviceNameAr || item.description }}</td>
+                <td class="text-center">{{ item.quantity }}</td>
+                <td>{{ item.unitPrice | number:'1.2-2' }} {{ item.currency }}</td>
+                <td class="fw-semibold">{{ item.totalPrice | number:'1.2-2' }} {{ item.currency }}</td>
+              </tr>
+              <tr *ngIf="invoice.items.length === 0">
+                <td colspan="5" class="text-center text-muted py-3">{{ 'INVOICES.ITEMS.NO_ITEMS' | translate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Discount section (Issued only, not for Refund) -->
+    <app-invoice-discount-section
+      *ngIf="invoice.status === 'Issued' && invoice.type !== 'Refund'"
+      [invoice]="invoice"
+      (discountSaved)="loadInvoice()">
+    </app-invoice-discount-section>
+
+    <!-- Related Invoices (Refund / Adjustment) -->
+    <div *ngIf="invoice.relatedInvoices && invoice.relatedInvoices.length > 0" class="card border-0 shadow-sm mb-3">
+      <div class="card-header bg-white py-2">
+        <h6 class="mb-0 fw-semibold">{{ 'INVOICES.RELATED.TITLE' | translate }}</h6>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered mb-0 align-middle">
+            <thead class="table-light">
+              <tr>
+                <th style="width:36px">#</th>
+                <th>{{ 'INVOICES.LIST.INVOICE_NUMBER' | translate }}</th>
+                <th>{{ 'INVOICES.LIST.TYPE' | translate }}</th>
+                <th>{{ 'INVOICES.LIST.STATUS' | translate }}</th>
+                <th>{{ 'INVOICES.LIST.TOTAL' | translate }}</th>
+                <th>{{ 'INVOICES.LIST.DATE' | translate }}</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rel of invoice.relatedInvoices; let i = index">
+                <td class="text-center text-muted">{{ i + 1 }}</td>
+                <td>{{ rel.invoiceNumber || '—' }}</td>
+                <td>
+                  <span class="badge" [class.bg-danger]="rel.type === 'Refund'" [class.bg-warning]="rel.type === 'Adjustment'" [class.text-dark]="rel.type === 'Adjustment'">
+                    {{ 'INVOICES.LIST.TYPES.' + rel.type | translate }}
+                  </span>
+                </td>
+                <td>
+                  <span class="badge"
+                    [class.bg-primary]="rel.status === 'Issued'"
+                    [class.bg-success]="rel.status === 'Paid'"
+                    [class.bg-danger]="rel.status === 'Cancelled'">
+                    {{ 'INVOICES.LIST.STATUSES.' + rel.status | translate }}
+                  </span>
+                </td>
+                <td class="fw-semibold">{{ rel.totalWithTax | number:'1.2-2' }} {{ rel.currency }}</td>
+                <td>{{ rel.createdAtUtc | date:'yyyy-MM-dd' }}</td>
+                <td class="text-center">
+                  <a class="btn btn-sm btn-outline-primary" [routerLink]="['/features/invoices', rel.id]">
+                    <i class="bi bi-eye"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payments section -->
+    <app-invoice-payments-section
+      [invoice]="invoice"
+      (paymentAdded)="loadInvoice()">
+    </app-invoice-payments-section>
+
+  </ng-container>
+
+</div>

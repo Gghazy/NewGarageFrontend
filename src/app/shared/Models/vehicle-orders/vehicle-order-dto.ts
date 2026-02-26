@@ -1,27 +1,16 @@
-export interface PaymentDto {
-  id: string;
-  amount: number;
-  currency: string;
-  method: string;
-  type: string;
-  notes?: string;
-  createdAtUtc: string;
-}
-
 export interface ExaminationItemDto {
   id: string;
   serviceId: string;
   serviceNameAr: string;
   serviceNameEn: string;
-  price: number;
-  currency: string;
+  quantity: number;
+  overridePrice?: number;
   status: string;
   notes?: string;
 }
 
 export interface ExaminationDto {
   id: string;
-  invoiceNumber?: string;
   status: string;
   type: string;
 
@@ -60,21 +49,8 @@ export interface ExaminationDto {
   marketerCode?: string;
   notes?: string;
 
-  // Financials
-  subTotal: number;
-  taxRate: number;
-  taxAmount: number;
-  totalWithTax: number;
-  currency: string;
-  totalPaid: number;
-  totalRefunded: number;
-  balance: number;
-
   // Items
   items: ExaminationItemDto[];
-
-  // Payments
-  payments: PaymentDto[];
 
   createdAtUtc: string;
 }

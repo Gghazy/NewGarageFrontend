@@ -77,6 +77,11 @@ a:hover {
 }
 
 
+/* ng-select validation red border */
+ng-select.is-invalid .ng-select-container {
+  border-color: #dc3545 !important;
+}
+
 /* Breadcrumb RTL fix */
 [dir="rtl"] .breadcrumb {
   direction: rtl;

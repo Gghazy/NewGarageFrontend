@@ -1,0 +1,34 @@
+<div class="card border-0 shadow-sm mb-3">
+  <div class="card-header bg-white d-flex justify-content-between align-items-center py-2 section-toggle" (click)="collapsed = !collapsed">
+    <div class="d-flex align-items-center gap-2">
+      <i class="bi bi-chevron-down toggle-icon" [class.rotated]="collapsed"></i>
+      <h6 class="mb-0 fw-semibold">{{ 'INVOICES.DISCOUNT.TITLE' | translate }}</h6>
+    </div>
+  </div>
+
+  <div class="card-body" [hidden]="collapsed">
+
+    <!-- Discount input -->
+    <div class="row g-2 align-items-end">
+      <div class="col-md-4">
+        <label class="form-label small">{{ 'INVOICES.DISCOUNT.AMOUNT' | translate }}</label>
+        <input type="number" class="form-control form-control-sm" [(ngModel)]="discountInput" min="0" step="0.01" />
+      </div>
+      <div class="col-md-3 d-flex gap-1">
+        <button type="button" class="btn btn-sm btn-primary" (click)="save()" [disabled]="saving">
+          <span *ngIf="saving" class="spinner-border spinner-border-sm me-1"></span>
+          {{ 'COMMON.SAVE' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Current discount info -->
+    <div *ngIf="invoice.discountAmount > 0" class="mt-2">
+      <small class="text-muted">
+        {{ 'INVOICES.DISCOUNT.CURRENT' | translate }}:
+        <strong class="text-danger">{{ invoice.discountAmount | number:'1.2-2' }} {{ invoice.currency }}</strong>
+      </small>
+    </div>
+
+  </div>
+</div>

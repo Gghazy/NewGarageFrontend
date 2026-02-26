@@ -1,0 +1,12 @@
+.section-toggle {
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-icon {
+  transition: transform 0.2s;
+}
+
+.toggle-icon.rotated {
+  transform: rotate(-90deg);
+}

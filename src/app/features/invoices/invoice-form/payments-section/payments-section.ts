@@ -1,21 +1,20 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from 'src/app/core/services/custom.service';
-import { ExaminationDto, PaymentDto } from 'src/app/shared/Models/vehicle-orders/vehicle-order-dto';
+import { InvoiceDto, InvoicePaymentDto } from 'src/app/shared/Models/invoices/invoice-dto';
 
 @Component({
-  selector: 'app-payments-section',
+  selector: 'app-invoice-payments-section',
   standalone: false,
   templateUrl: './payments-section.html',
   styleUrl: './payments-section.css',
 })
-export class PaymentsSection {
-  @Input() examination!: ExaminationDto;
+export class InvoicePaymentsSection implements OnDestroy {
+  @Input() invoice!: InvoiceDto;
   @Output() paymentAdded = new EventEmitter<void>();
 
   collapsed = false;
@@ -40,36 +39,40 @@ export class PaymentsSection {
     });
   }
 
-  get payments(): PaymentDto[] {
-    return this.examination?.payments ?? [];
+  get payments(): InvoicePaymentDto[] {
+    return this.invoice?.payments ?? [];
   }
 
   get totalPaid(): number {
-    return this.examination?.totalPaid ?? 0;
+    return this.invoice?.totalPaid ?? 0;
   }
 
   get totalRefunded(): number {
-    return this.examination?.totalRefunded ?? 0;
+    return this.invoice?.totalRefunded ?? 0;
   }
 
   get balance(): number {
-    return this.examination?.balance ?? 0;
+    return this.invoice?.balance ?? 0;
   }
 
   get subTotal(): number {
-    return this.examination?.subTotal ?? 0;
+    return this.invoice?.subTotal ?? 0;
+  }
+
+  get discountAmount(): number {
+    return this.invoice?.discountAmount ?? 0;
   }
 
   get taxRate(): number {
-    return this.examination?.taxRate ?? 0.15;
+    return this.invoice?.taxRate ?? 0.15;
   }
 
   get taxAmount(): number {
-    return this.examination?.taxAmount ?? 0;
+    return this.invoice?.taxAmount ?? 0;
   }
 
   get totalWithTax(): number {
-    return this.examination?.totalWithTax ?? 0;
+    return this.invoice?.totalWithTax ?? 0;
   }
 
   openForm(mode: 'Payment' | 'Refund'): void {
@@ -87,18 +90,19 @@ export class PaymentsSection {
     this.saving = true;
 
     const payload = this.form.value;
-    const endpoint = this.formMode === 'Payment'
-      ? `Examinations/${this.examination.id}/payments`
-      : `Examinations/${this.examination.id}/refunds`;
+    const endpoint = this.formMode === 'Refund'
+      ? `Invoices/${this.invoice.id}/refunds`
+      : `Invoices/${this.invoice.id}/payments`;
+
+    const successKey = this.formMode === 'Refund'
+      ? 'INVOICES.PAYMENTS.REFUND_ADDED'
+      : 'INVOICES.PAYMENTS.PAYMENT_ADDED';
 
     this.api.post<any>(endpoint, payload)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          const msgKey = this.formMode === 'Payment'
-            ? 'VEHICLE_ORDERS.PAYMENTS.PAYMENT_ADDED'
-            : 'VEHICLE_ORDERS.PAYMENTS.REFUND_ADDED';
-          this.toastr.success(this.translate.instant(msgKey));
+          this.toastr.success(this.translate.instant(successKey));
           this.showForm = false;
           this.saving = false;
           this.paymentAdded.emit();

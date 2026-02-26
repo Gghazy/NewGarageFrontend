@@ -17,7 +17,22 @@
       "Bash(dotnet ef migrations add AddVatFields --project src/Garage.Infrastructure --startup-project src/Garage.Api)",
       "Bash(dotnet build src/Garage.Api/Garage.Api.csproj)",
       "Bash(xargs grep -l \"InvoiceNumber\")",
-      "Bash(xargs head -50)"
+      "Bash(xargs head -50)",
+      "Bash(xargs grep -l \"sidebar\\\\|navigation\\\\|menu\" -i)",
+      "Bash(dotnet build)",
+      "Bash(xargs grep -l \"enum PaymentMethod\\\\|enum PaymentType\")",
+      "Bash(xargs grep -l \"InvoiceNumber\\\\|GenerateInvoiceNumber\")",
+      "Bash(dotnet build src/Garage.Domain/Garage.Domain.csproj --no-restore)",
+      "Bash(dotnet build --no-restore src/Garage.Application/Garage.Application.csproj)",
+      "Bash(find \"f:/projects/suidProjects/NewGarage/BackEnd/BackEnd/src\" -type f -name \"*.cs\" -exec grep -l \"AbstractValidator\" {} ;)",
+      "Bash(dotnet ef migrations add AddOverridePriceToExaminationItem --project Garage.Infrastructure --startup-project Garage.Api --output-dir Migrations)",
+      "Bash(dotnet build Garage.Api)",
+      "Bash(dotnet ef migrations add AddInvoiceDiscount --project Garage.Infrastructure --startup-project Garage.Api)",
+      "Bash(dotnet ef database update --project Garage.Infrastructure --startup-project Garage.Api)",
+      "Bash(taskkill /F /IM iisexpress.exe)",
+      "Bash(cmd.exe /c \"taskkill /F /IM iisexpress.exe\")",
+      "Bash(dotnet ef migrations list --project Garage.Infrastructure --startup-project Garage.Api)",
+      "Bash(cmd.exe /c \"taskkill /F /IM iisexpress.exe 2>NUL\")"
     ],
     "additionalDirectories": [
       "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\shared\\Models\\vehicle-orders",
@@ -31,7 +46,15 @@
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application\\Examinations",
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Infrastructure",
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Api\\Controllers",
-      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\ExaminationManagement\\Examinations"
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\ExaminationManagement\\Examinations",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\InvoiceManagement",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Contracts",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application\\Invoices\\Commands",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application\\Invoices\\Queries\\GetAll",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application\\Invoices\\Queries\\GetById",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\Users\\Permissions",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application\\Invoices",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\ExaminationManagement\\Shared"
     ]
   }
 }

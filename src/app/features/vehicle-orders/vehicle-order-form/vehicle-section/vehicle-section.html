@@ -10,7 +10,7 @@
 
         <!-- نوع الفحص -->
         <div class="col-md-4">
-          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.TYPE' | translate }}</label>
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.TYPE' | translate }} <span class="text-danger">*</span></label>
           <ng-select formControlName="type"
             [items]="examinationTypes"
             bindValue="value"
@@ -22,76 +22,109 @@
 
         <!-- فرع -->
         <div class="col-md-4">
-          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.BRANCH' | translate }}</label>
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.BRANCH' | translate }} <span class="text-danger">*</span></label>
           <ng-select formControlName="branchId"
             [items]="branches"
             bindValue="id"
             bindLabel="nameAr"
             [clearable]="true"
-            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate">
+            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+            [class.is-invalid]="submitted && !form.get('branchId')?.value">
           </ng-select>
+          <div *ngIf="submitted && !form.get('branchId')?.value" class="text-danger small mt-1">
+            {{ 'VEHICLE_ORDERS.VALIDATION.BRANCH_REQUIRED' | translate }}
+          </div>
         </div>
 
         <!-- الشركة المصنعة -->
         <div class="col-md-4">
-          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.MANUFACTURER' | translate }}</label>
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.MANUFACTURER' | translate }} <span class="text-danger">*</span></label>
           <ng-select formControlName="manufacturerId"
             [items]="manufacturers"
             bindValue="id"
             bindLabel="nameAr"
             [clearable]="true"
-            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate">
+            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+            [class.is-invalid]="submitted && !form.get('manufacturerId')?.value">
           </ng-select>
+          <div *ngIf="submitted && !form.get('manufacturerId')?.value" class="text-danger small mt-1">
+            {{ 'VEHICLE_ORDERS.VALIDATION.MANUFACTURER_REQUIRED' | translate }}
+          </div>
         </div>
 
         <!-- الماركة -->
         <div class="col-md-4">
-          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.CAR_MARK' | translate }}</label>
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.CAR_MARK' | translate }} <span class="text-danger">*</span></label>
           <ng-select formControlName="carMarkId"
             [items]="carMarks"
             bindValue="id"
             bindLabel="nameAr"
             [clearable]="true"
-            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate">
+            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+            [class.is-invalid]="submitted && !form.get('carMarkId')?.value">
           </ng-select>
+          <div *ngIf="submitted && !form.get('carMarkId')?.value" class="text-danger small mt-1">
+            {{ 'VEHICLE_ORDERS.VALIDATION.CAR_MARK_REQUIRED' | translate }}
+          </div>
         </div>
 
         <!-- السنة -->
         <div class="col-md-2">
-          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.YEAR' | translate }}</label>
-          <input class="form-control form-control-sm" type="number" formControlName="year" min="1990" max="2100" />
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.YEAR' | translate }} <span class="text-danger">*</span></label>
+          <input class="form-control form-control-sm" type="number" formControlName="year" min="1990" max="2100"
+            [class.is-invalid]="submitted && !form.get('year')?.value" />
+          <div *ngIf="submitted && !form.get('year')?.value" class="text-danger small mt-1">
+            {{ 'VEHICLE_ORDERS.VALIDATION.YEAR_REQUIRED' | translate }}
+          </div>
         </div>
 
         <!-- اللون -->
         <div class="col-md-2">
-          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.COLOR' | translate }}</label>
-          <input class="form-control form-control-sm" formControlName="color" />
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.COLOR' | translate }} <span class="text-danger">*</span></label>
+          <input class="form-control form-control-sm" formControlName="color"
+            [class.is-invalid]="submitted && !form.get('color')?.value" />
+          <div *ngIf="submitted && !form.get('color')?.value" class="text-danger small mt-1">
+            {{ 'VEHICLE_ORDERS.VALIDATION.COLOR_REQUIRED' | translate }}
+          </div>
         </div>
 
         <!-- ناقل الحركة -->
         <div class="col-md-4">
-          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.TRANSMISSION' | translate }}</label>
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.TRANSMISSION' | translate }} <span class="text-danger">*</span></label>
           <ng-select formControlName="transmission"
             [items]="transmissions"
             bindValue="value"
             bindLabel="labelAr"
             [clearable]="true"
-            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate">
+            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+            [class.is-invalid]="submitted && !form.get('transmission')?.value">
           </ng-select>
+          <div *ngIf="submitted && !form.get('transmission')?.value" class="text-danger small mt-1">
+            {{ 'VEHICLE_ORDERS.VALIDATION.TRANSMISSION_REQUIRED' | translate }}
+          </div>
         </div>
 
         <!-- أحرف اللوحة -->
-        <div class="col-md-6">
-          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.PLATE_LETTERS' | translate }}</label>
+        <div class="col-md-4">
+          <label class="form-label form-label-sm">
+            {{ 'VEHICLE_ORDERS.VEHICLE.PLATE_LETTERS' | translate }}
+            <span class="text-danger" *ngIf="form.get('hasPlate')?.value">*</span>
+          </label>
           <div class="d-flex align-items-center gap-2">
             <ng-select [items]="plateLetters" [(ngModel)]="plateL1" [ngModelOptions]="{standalone:true}"
-              (ngModelChange)="onPlateLetterChange()" [clearable]="true" style="width:90px" placeholder="حرف">
+              (ngModelChange)="onPlateLetterChange()" [clearable]="true" style="width:90px" placeholder="حرف"
+              [disabled]="!form.get('hasPlate')?.value"
+              [class.is-invalid]="submitted && form.get('hasPlate')?.value && !plateL1">
             </ng-select>
             <ng-select [items]="plateLetters" [(ngModel)]="plateL2" [ngModelOptions]="{standalone:true}"
-              (ngModelChange)="onPlateLetterChange()" [clearable]="true" style="width:90px" placeholder="حرف">
+              (ngModelChange)="onPlateLetterChange()" [clearable]="true" style="width:90px" placeholder="حرف"
+              [disabled]="!form.get('hasPlate')?.value"
+              [class.is-invalid]="submitted && form.get('hasPlate')?.value && !plateL2">
             </ng-select>
             <ng-select [items]="plateLetters" [(ngModel)]="plateL3" [ngModelOptions]="{standalone:true}"
-              (ngModelChange)="onPlateLetterChange()" [clearable]="true" style="width:90px" placeholder="حرف">
+              (ngModelChange)="onPlateLetterChange()" [clearable]="true" style="width:90px" placeholder="حرف"
+              [disabled]="!form.get('hasPlate')?.value"
+              [class.is-invalid]="submitted && form.get('hasPlate')?.value && !plateL3">
             </ng-select>
             <div class="form-check ms-2 mb-0">
               <input class="form-check-input" type="checkbox" formControlName="hasPlate" id="hasPlate" />
@@ -100,29 +133,50 @@
               </label>
             </div>
           </div>
+          <div *ngIf="submitted && form.get('hasPlate')?.value && (!plateL1 || !plateL2 || !plateL3)" class="text-danger small mt-1">
+            {{ 'VEHICLE_ORDERS.VALIDATION.PLATE_LETTERS_REQUIRED' | translate }}
+          </div>
         </div>
 
         <!-- أرقام اللوحة -->
         <div class="col-md-2">
-          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.PLATE_NUMBERS' | translate }}</label>
-          <input class="form-control form-control-sm" formControlName="plateNumbers" maxlength="4" />
+          <label class="form-label form-label-sm">
+            {{ 'VEHICLE_ORDERS.VEHICLE.PLATE_NUMBERS' | translate }}
+            <span class="text-danger" *ngIf="form.get('hasPlate')?.value">*</span>
+          </label>
+          <input class="form-control form-control-sm" formControlName="plateNumbers" maxlength="4"
+            [class.is-invalid]="submitted && form.get('hasPlate')?.value && !form.get('plateNumbers')?.value" />
+          <div *ngIf="submitted && form.get('hasPlate')?.value && !form.get('plateNumbers')?.value" class="text-danger small mt-1">
+            {{ 'VEHICLE_ORDERS.VALIDATION.PLATE_NUMBERS_REQUIRED' | translate }}
+          </div>
         </div>
 
         <!-- العداد -->
-        <div class="col-md-4">
-          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.MILEAGE' | translate }}</label>
+        <div class="col-md-2">
+          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.MILEAGE' | translate }} <span class="text-danger">*</span></label>
           <div class="input-group input-group-sm">
-            <input class="form-control" type="number" formControlName="mileage" min="0" />
+            <input class="form-control" type="number" formControlName="mileage" min="0"
+              [class.is-invalid]="submitted && form.get('mileage')?.value == null" />
             <ng-select formControlName="mileageUnit" [items]="mileageUnits" [clearable]="false"
               style="width:80px; border-radius: 0 4px 4px 0;">
             </ng-select>
+          </div>
+          <div *ngIf="submitted && form.get('mileage')?.value == null" class="text-danger small mt-1">
+            {{ 'VEHICLE_ORDERS.VALIDATION.MILEAGE_REQUIRED' | translate }}
           </div>
         </div>
 
         <!-- VIN -->
         <div class="col-md-4">
-          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.VIN' | translate }}</label>
-          <input class="form-control form-control-sm" formControlName="vin" />
+          <label class="form-label form-label-sm">
+            {{ 'VEHICLE_ORDERS.VEHICLE.VIN' | translate }}
+            <span class="text-danger" *ngIf="!form.get('hasPlate')?.value">*</span>
+          </label>
+          <input class="form-control form-control-sm" formControlName="vin"
+            [class.is-invalid]="submitted && !form.get('hasPlate')?.value && !form.get('vin')?.value" />
+          <div *ngIf="submitted && !form.get('hasPlate')?.value && !form.get('vin')?.value" class="text-danger small mt-1">
+            {{ 'VEHICLE_ORDERS.VALIDATION.VIN_REQUIRED' | translate }}
+          </div>
         </div>
 
         <!-- كود المسوق -->
@@ -142,21 +196,6 @@
             <div class="form-check">
               <input class="form-check-input" type="radio" [value]="false" formControlName="hasWarranty" id="warrantyNo" />
               <label class="form-check-label" for="warrantyNo">{{ 'VEHICLE_ORDERS.VEHICLE.NO_WARRANTY' | translate }}</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- صور -->
-        <div class="col-md-6">
-          <label class="form-label form-label-sm d-block">{{ 'VEHICLE_ORDERS.VEHICLE.PHOTOS' | translate }}</label>
-          <div class="d-flex gap-3">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" [value]="true" formControlName="hasPhotos" id="photosYes" />
-              <label class="form-check-label" for="photosYes">{{ 'VEHICLE_ORDERS.VEHICLE.WITH_PHOTOS' | translate }}</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" [value]="false" formControlName="hasPhotos" id="photosNo" />
-              <label class="form-check-label" for="photosNo">{{ 'VEHICLE_ORDERS.VEHICLE.NO_PHOTOS' | translate }}</label>
             </div>
           </div>
         </div>

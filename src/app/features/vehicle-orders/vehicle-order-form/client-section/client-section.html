@@ -4,20 +4,12 @@
       <i class="bi bi-chevron-down toggle-icon" [class.rotated]="collapsed"></i>
       <h6 class="mb-0 fw-semibold">{{ 'VEHICLE_ORDERS.CLIENT.TITLE' | translate }}</h6>
     </div>
-    <div class="d-flex gap-2" (click)="$event.stopPropagation()">
-      <button type="button" class="btn btn-sm btn-outline-secondary">
-        {{ 'VEHICLE_ORDERS.CLIENT.PREV_SERVICES' | translate }}
-      </button>
-      <button type="button" class="btn btn-sm btn-outline-secondary">
-        {{ 'VEHICLE_ORDERS.CLIENT.ADVANCE_CARDS' | translate }}
-      </button>
-    </div>
   </div>
 
   <div class="card-body" [hidden]="collapsed">
     <!-- Client search + add button -->
     <div class="mb-3">
-      <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.CLIENT.SEARCH' | translate }}</label>
+      <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.CLIENT.SEARCH' | translate }} <span class="text-danger">*</span></label>
       <div class="d-flex gap-2 align-items-center">
         <div class="flex-grow-1">
           <ng-select
@@ -29,13 +21,17 @@
             [placeholder]="'VEHICLE_ORDERS.CLIENT.SEARCH_PLACEHOLDER' | translate"
             [(ngModel)]="selectedClientId"
             (change)="onClientSelected($event)"
-            [clearable]="true">
+            [clearable]="true"
+            [class.is-invalid]="submitted && !selectedClientId">
             <ng-template ng-label-tmp let-item="item">{{ item.nameAr }}</ng-template>
             <ng-template ng-option-tmp let-item="item">
               <div>{{ item.nameAr }}</div>
               <small class="text-muted">{{ item.phoneNumber }}</small>
             </ng-template>
           </ng-select>
+          <div *ngIf="submitted && !selectedClientId" class="text-danger small mt-1">
+            {{ 'VEHICLE_ORDERS.VALIDATION.CLIENT_REQUIRED' | translate }}
+          </div>
         </div>
         <button type="button" class="btn btn-sm btn-outline-primary text-nowrap" (click)="openAddClientModal()">
           <i class="bi bi-person-plus me-1"></i>

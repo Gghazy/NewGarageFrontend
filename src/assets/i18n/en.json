@@ -46,7 +46,8 @@
     "EMPLOYEES": "Employees",
     "CLIENTS": "Clients",
     "CLIENT_RESOURCES": "Client Resources",
-    "VEHICLE_ORDERS": "Inspection Orders"
+    "VEHICLE_ORDERS": "Inspection Orders",
+    "INVOICES": "Invoices"
   },
   "BREADCRUMB": {
     "HOME": "Home",
@@ -78,7 +79,11 @@
     "CLIENT_RESOURCES": "Client Resources",
     "EXAMINATIONS": "Examinations",
     "NEW_EXAMINATION": "New Examination",
-    "EDIT_EXAMINATION": "Edit Examination"
+    "EDIT_EXAMINATION": "Edit Examination",
+    "INVOICES": "Invoices",
+    "NEW_INVOICE": "New Invoice",
+    "EDIT_INVOICE": "Edit Invoice",
+    "INVOICE_DETAILS": "Invoice Details"
   },
   "COMMON": {
     "ACTIONS": "Actions",
@@ -107,6 +112,8 @@
     "NAME_EN": "Name (EN)",
     "DELETED_SUCCESSFULLY": "Deleted successfully.",
     "DELETE_FAILED": "Failed to delete. Please try again.",
+    "BACK": "Back",
+    "DETAILS": "Details",
     "CONFIRM_DELETE": {
       "TITLE": "Confirm Delete",
       "MESSAGE": "Are you sure you want to delete this item? This action cannot be undone."
@@ -425,6 +432,7 @@
       "DATE": "Date",
       "STATUSES": {
         "Draft": "Draft",
+        "Pending": "Pending",
         "InProgress": "In Progress",
         "Completed": "Completed",
         "Delivered": "Delivered",
@@ -434,7 +442,10 @@
     "FORM": {
       "TITLE": "New Inspection Order",
       "TITLE_EDIT": "Edit Inspection Order",
-      "SAVED": "Order saved successfully."
+      "SAVED": "Order saved successfully.",
+      "SAVE_DRAFT": "Save Draft",
+      "GENERATE_INVOICE": "Generate Invoice",
+      "INVOICE_GENERATED": "Invoice generated successfully."
     },
     "CLIENT": {
       "TITLE": "Client Information",
@@ -476,6 +487,7 @@
       "ADD_LINE": "Add Service",
       "SERVICE": "Service",
       "PRICE": "Price",
+      "QUANTITY": "Qty",
       "OVERRIDE_PRICE": "Override Price",
       "SELECT_SERVICE": "Select service...",
       "PRICE_PLACEHOLDER": "0.00",
@@ -514,6 +526,122 @@
         "BankTransfer": "Bank Transfer",
         "Cheque": "Cheque"
       }
+    },
+    "VALIDATION": {
+      "CLIENT_REQUIRED": "Client is required.",
+      "BRANCH_REQUIRED": "Branch is required.",
+      "MANUFACTURER_REQUIRED": "Manufacturer is required.",
+      "CAR_MARK_REQUIRED": "Car mark is required.",
+      "YEAR_REQUIRED": "Year is required.",
+      "COLOR_REQUIRED": "Color is required.",
+      "TRANSMISSION_REQUIRED": "Transmission is required.",
+      "MILEAGE_REQUIRED": "Mileage is required.",
+      "PLATE_LETTERS_REQUIRED": "Plate letters are required.",
+      "PLATE_NUMBERS_REQUIRED": "Plate numbers are required.",
+      "VIN_REQUIRED": "VIN (chassis number) is required when there is no plate.",
+      "SERVICES_REQUIRED": "At least one service is required."
+    }
+  },
+  "INVOICES": {
+    "LIST": {
+      "TITLE": "Invoices",
+      "ADD": "New Invoice",
+      "EMPTY": "No invoices found",
+      "INVOICE_NUMBER": "Invoice #",
+      "CLIENT": "Client",
+      "PHONE": "Phone",
+      "BRANCH": "Branch",
+      "TOTAL": "Total",
+      "BALANCE": "Balance",
+      "STATUS": "Status",
+      "TYPE": "Type",
+      "DATE": "Date",
+      "TYPES": {
+        "Invoice": "Invoice",
+        "Refund": "Refund",
+        "Adjustment": "Adjustment"
+      },
+      "STATUSES": {
+        "Draft": "Draft",
+        "Issued": "Issued",
+        "Paid": "Paid",
+        "PartiallyPaid": "Partially Paid",
+        "Cancelled": "Cancelled",
+        "PartiallyRefunded": "Partially Refunded",
+        "Refunded": "Refunded"
+      }
+    },
+    "FORM": {
+      "TITLE": "New Invoice",
+      "TITLE_EDIT": "Edit Invoice",
+      "TITLE_DETAILS": "Invoice Details",
+      "SAVED": "Invoice saved successfully.",
+      "ISSUED": "Invoice issued successfully",
+      "CANCELLED": "Invoice cancelled",
+      "ISSUE": "Issue Invoice",
+      "CANCEL_INVOICE": "Cancel Invoice",
+      "PRINT": "Print",
+      "CLIENT_BRANCH": "Client & Branch",
+      "CLIENT": "Client",
+      "BRANCH": "Branch",
+      "SEARCH_CLIENT": "Search client...",
+      "SELECT_BRANCH": "Select branch...",
+      "NOTES": "Notes",
+      "DUE_DATE": "Due Date",
+      "LINKED_EXAMINATION": "Linked Examination",
+      "REFUND_INVOICE": "Refund Invoice",
+      "ORIGINAL_INVOICE": "Original Invoice",
+      "CREATE_REFUND": "Create Refund Invoice",
+      "REFUND_CREATED": "Refund invoice created successfully"
+    },
+    "ITEMS": {
+      "TITLE": "Invoice Items",
+      "ADD": "Add Item",
+      "EDIT_ITEM": "Edit Item",
+      "DESCRIPTION": "Description",
+      "QUANTITY": "Quantity",
+      "UNIT_PRICE": "Unit Price",
+      "TOTAL": "Total",
+      "SUB_TOTAL": "Subtotal",
+      "NO_ITEMS": "No items added"
+    },
+    "PAYMENTS": {
+      "TITLE": "Payments",
+      "ADD_PAYMENT": "Add Payment",
+      "ADD_REFUND": "Add Refund",
+      "SUB_TOTAL": "Subtotal",
+      "DISCOUNT": "Discount",
+      "TAX_AMOUNT": "VAT",
+      "TOTAL_WITH_TAX": "Total (Incl. Tax)",
+      "TOTAL_PAID": "Total Paid",
+      "TOTAL_REFUNDED": "Total Refunded",
+      "BALANCE": "Balance",
+      "DATE": "Date",
+      "TYPE": "Type",
+      "AMOUNT": "Amount",
+      "METHOD": "Payment Method",
+      "NOTES": "Notes",
+      "NO_PAYMENTS": "No payments yet",
+      "PAYMENT_ADDED": "Payment added successfully",
+      "REFUND_ADDED": "Refund added successfully",
+      "TYPES": {
+        "Payment": "Payment",
+        "Refund": "Refund"
+      },
+      "METHODS": {
+        "Cash": "Cash",
+        "Card": "Card",
+        "BankTransfer": "Bank Transfer",
+        "Cheque": "Cheque"
+      }
+    },
+    "DISCOUNT": {
+      "TITLE": "Discounts",
+      "AMOUNT": "Discount Amount",
+      "CURRENT": "Current Discount"
+    },
+    "RELATED": {
+      "TITLE": "Related Invoices"
     }
   }
 }

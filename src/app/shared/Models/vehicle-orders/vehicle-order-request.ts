@@ -1,5 +1,6 @@
 export interface ExaminationItemRequest {
   serviceId: string;
+  quantity: number;
   overridePrice?: number;
 }
 
@@ -31,18 +32,17 @@ export interface CreateExaminationRequest {
   citySubdivisionName?: string;
 
   // Branch
-  branchId: string;
+  branchId?: string;
 
   // Examination meta
   type: string;                 // "Regular" | "Warranty" | "PrePurchase"
   hasWarranty: boolean;
-  hasPhotos: boolean;
   marketerCode?: string;
   notes?: string;
 
   // Vehicle
-  manufacturerId: string;
-  carMarkId: string;
+  manufacturerId?: string;
+  carMarkId?: string;
   year?: number;
   color?: string;
   vin?: string;
@@ -55,6 +55,9 @@ export interface CreateExaminationRequest {
 
   // Services
   items: ExaminationItemRequest[];
+
+  // Workflow
+  startAfterSave?: boolean;
 }
 
 export interface UpdateExaminationRequest {
@@ -83,15 +86,18 @@ export interface UpdateExaminationRequest {
   buildingNumber?: string;
   citySubdivisionName?: string;
 
+  // Branch
+  branchId?: string;
+
   // Examination meta
+  type: string;
   hasWarranty: boolean;
-  hasPhotos: boolean;
   marketerCode?: string;
   notes?: string;
 
   // Vehicle
-  manufacturerId: string;
-  carMarkId: string;
+  manufacturerId?: string;
+  carMarkId?: string;
   year?: number;
   color?: string;
   vin?: string;
@@ -104,4 +110,7 @@ export interface UpdateExaminationRequest {
 
   // Services
   items?: ExaminationItemRequest[];
+
+  // Workflow
+  startAfterSave?: boolean;
 }

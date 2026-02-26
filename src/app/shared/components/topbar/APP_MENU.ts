@@ -63,5 +63,13 @@ export const APP_MENU: AppMenuItem[] = [
       { labelKey: 'MENU.VEHICLE_ORDERS', route: '/features/vehicle-orders', icon: 'bi bi-card-checklist', permissions: ['examination.read'] },
     ],
   },
+  {
+    labelKey: 'MENU.INVOICES',
+    icon: 'bi bi-receipt',
+    permissions: ['invoice.read'],
+    children: [
+      { labelKey: 'MENU.INVOICES', route: '/features/invoices', icon: 'bi bi-receipt-cutoff', permissions: ['invoice.read'] },
+    ],
+  },
 ];
   

@@ -23,8 +23,9 @@ interface ServicePriceDto {
   templateUrl: './services-section.html',
   styleUrl: './services-section.css',
 })
-export class ServicesSection implements OnInit, OnChanges, OnDestroy {
+export class ServicesSection implements OnInit, OnDestroy, OnChanges {
   @Input() examination?: ExaminationDto;
+  @Input() submitted = false;
   @Input() carMarkId?: string;
   @Input() year?: number;
   @Output() servicesChange = new EventEmitter<ExaminationItemRequest[]>();
@@ -34,7 +35,7 @@ export class ServicesSection implements OnInit, OnChanges, OnDestroy {
   private destroy$ = new Subject<void>();
 
   services: ServiceDto[] = [];
-  private priceMap = new Map<string, number>();
+  priceMap: Record<string, number> = {};
 
   constructor(
     private fb: FormBuilder,
@@ -77,8 +78,9 @@ export class ServicesSection implements OnInit, OnChanges, OnDestroy {
 
     for (const item of items) {
       this.lines.push(this.fb.group({
-        serviceId:     [item.serviceId],
-        overridePrice: [item.price || null],
+        serviceId: [item.serviceId],
+        quantity:  [item.quantity || 1],
+        price:     [item.overridePrice ?? 0],
       }));
     }
   }
@@ -101,25 +103,26 @@ export class ServicesSection implements OnInit, OnChanges, OnDestroy {
       .subscribe({ next: (res) => (this.services = res?.data?.items ?? []) });
   }
 
-  loadServicePrices(): void {
+  private loadServicePrices(): void {
     if (!this.carMarkId) {
-      this.priceMap.clear();
+      this.priceMap = {};
       return;
     }
 
-    this.api.post<any>('ServicePrices/pagination', {
-      search: { currentPage: 1, itemsPerPage: 500, textSearch: '' },
+    this.api.post<any>('servicePrices/pagination', {
+      search: { currentPage: 1, itemsPerPage: 500, textSearch: '', sort: 'serviceId', desc: false },
       markId: this.carMarkId,
       year: this.year || null,
     })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          this.priceMap.clear();
           const items: ServicePriceDto[] = res?.data?.items ?? [];
+          this.priceMap = {};
           for (const sp of items) {
-            this.priceMap.set(sp.serviceId, sp.price);
+            this.priceMap[sp.serviceId] = sp.price;
           }
+          this.autoFillPrices();
         },
       });
   }
@@ -130,8 +133,9 @@ export class ServicesSection implements OnInit, OnChanges, OnDestroy {
 
   addLine(): void {
     this.lines.push(this.fb.group({
-      serviceId:     [null],
-      overridePrice: [null],
+      serviceId: [null],
+      quantity:  [1],
+      price:     [0],
     }));
   }
 
@@ -139,26 +143,58 @@ export class ServicesSection implements OnInit, OnChanges, OnDestroy {
     this.lines.removeAt(index);
   }
 
-  getServicePrice(serviceId: string | null): number {
-    if (!serviceId) return 0;
-    return this.priceMap.get(serviceId) ?? 0;
+  onServiceChange(index: number): void {
+    const line = this.lines.at(index);
+    const serviceId = line.get('serviceId')?.value;
+    const price = this.getServicePrice(serviceId);
+    line.get('price')?.setValue(price);
   }
 
-  getLinePrice(ctrl: any): number {
-    const override = ctrl.value.overridePrice;
-    if (override != null && override !== '') return Number(override) || 0;
-    return this.getServicePrice(ctrl.value.serviceId);
+  private autoFillPrices(): void {
+    for (let i = 0; i < this.lines.length; i++) {
+      const line = this.lines.at(i);
+      const serviceId = line.get('serviceId')?.value;
+      const currentPrice = line.get('price')?.value || 0;
+      if (serviceId && currentPrice === 0) {
+        const price = this.getServicePrice(serviceId);
+        line.get('price')?.setValue(price);
+      }
+    }
+  }
+
+  get hasValidServices(): boolean {
+    return this.lines.controls.some(c => !!c.value.serviceId);
+  }
+
+  getServicePrice(serviceId: string | null): number {
+    if (!serviceId) return 0;
+    return this.priceMap[serviceId] ?? 0;
   }
 
   get totalPrice(): number {
-    return this.lines.controls.reduce((sum, ctrl) => sum + this.getLinePrice(ctrl), 0);
+    return this.lines.controls.reduce((sum, line) => {
+      const price = line.get('price')?.value || 0;
+      return sum + price;
+    }, 0);
+  }
+
+  get taxAmount(): number {
+    return this.totalPrice * 0.15;
+  }
+
+  get totalWithTax(): number {
+    return this.totalPrice + this.taxAmount;
   }
 
   private emitChange(): void {
     const items: ExaminationItemRequest[] = this.lines.controls
       .map(c => c.value)
       .filter(v => v.serviceId)
-      .map(v => ({ serviceId: v.serviceId, overridePrice: v.overridePrice ?? undefined }));
+      .map(v => ({
+        serviceId: v.serviceId,
+        quantity: v.quantity || 1,
+        overridePrice: v.price > 0 ? v.price : undefined,
+      }));
 
     this.servicesChange.emit(items);
   }

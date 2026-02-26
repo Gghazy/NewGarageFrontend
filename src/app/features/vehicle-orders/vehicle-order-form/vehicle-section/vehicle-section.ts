@@ -33,6 +33,7 @@ export const EXAMINATION_TYPES = [
 })
 export class VehicleSection implements OnInit, OnDestroy {
   @Input() examination?: ExaminationDto;
+  @Input() submitted = false;
   @Output() vehicleChange = new EventEmitter<any>();
 
   collapsed = false;
@@ -74,13 +75,18 @@ export class VehicleSection implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  private guidOrNull(val: string | undefined): string | null {
+    if (!val || val === '00000000-0000-0000-0000-000000000000') return null;
+    return val;
+  }
+
   private patchFormWithExamination(): void {
     const e = this.examination!;
 
     this.form.patchValue({
-      branchId:       e.branchId || null,
-      manufacturerId: e.manufacturerId || null,
-      carMarkId:      e.carMarkId || null,
+      branchId:       this.guidOrNull(e.branchId),
+      manufacturerId: this.guidOrNull(e.manufacturerId),
+      carMarkId:      this.guidOrNull(e.carMarkId),
       type:           e.type || 'Regular',
       hasPlate:       e.hasPlate,
       plateNumbers:   e.plateNumbers || '',
@@ -92,7 +98,6 @@ export class VehicleSection implements OnInit, OnDestroy {
       vin:            e.vin || '',
       marketerCode:   e.marketerCode || '',
       hasWarranty:    e.hasWarranty,
-      hasPhotos:      e.hasPhotos,
       notes:          e.notes || '',
     });
 
@@ -102,6 +107,9 @@ export class VehicleSection implements OnInit, OnDestroy {
     this.plateL1 = chars[0] || null;
     this.plateL2 = chars[1] || null;
     this.plateL3 = chars[2] || null;
+
+    // Sync plate enabled/disabled based on loaded hasPlate value
+    this.syncPlateState(e.hasPlate);
   }
 
   private buildForm(): void {
@@ -120,13 +128,33 @@ export class VehicleSection implements OnInit, OnDestroy {
       vin:            [''],
       marketerCode:   [''],
       hasWarranty:    [true],
-      hasPhotos:      [true],
       notes:          [''],
     });
 
     this.form.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(100))
-      .subscribe(val => this.emitChange(val));
+      .subscribe(() => this.emitChange(this.form.getRawValue()));
+
+    // Sync plate enabled/disabled when hasPlate changes
+    this.form.get('hasPlate')!.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(hasPlate => {
+        this.syncPlateState(hasPlate);
+      });
+  }
+
+  private syncPlateState(hasPlate: boolean): void {
+    const plateNumbers = this.form.get('plateNumbers')!;
+    if (!hasPlate) {
+      this.plateL1 = null;
+      this.plateL2 = null;
+      this.plateL3 = null;
+      plateNumbers.setValue('');
+      plateNumbers.disable({ emitEvent: false });
+    } else {
+      plateNumbers.enable({ emitEvent: false });
+    }
+    this.emitChange(this.form.getRawValue());
   }
 
   private loadBranches(): void {
@@ -148,7 +176,7 @@ export class VehicleSection implements OnInit, OnDestroy {
   }
 
   onPlateLetterChange(): void {
-    this.emitChange(this.form.value);
+    this.emitChange(this.form.getRawValue());
   }
 
   private buildPlateLetters(): string {

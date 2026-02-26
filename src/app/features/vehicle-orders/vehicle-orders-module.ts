@@ -7,7 +7,6 @@ import { VehicleOrderForm } from './vehicle-order-form/vehicle-order-form';
 import { ClientSection } from './vehicle-order-form/client-section/client-section';
 import { VehicleSection } from './vehicle-order-form/vehicle-section/vehicle-section';
 import { ServicesSection } from './vehicle-order-form/services-section/services-section';
-import { PaymentsSection } from './vehicle-order-form/payments-section/payments-section';
 import { VehicleOrderList } from './vehicle-order-list/vehicle-order-list';
 import { VehicleOrdersLayout } from './vehicle-orders-layout';
 
@@ -19,7 +18,6 @@ import { VehicleOrdersLayout } from './vehicle-orders-layout';
     ClientSection,
     VehicleSection,
     ServicesSection,
-    PaymentsSection,
   ],
   imports: [
     CommonModule,

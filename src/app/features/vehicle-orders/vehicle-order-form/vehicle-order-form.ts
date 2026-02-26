@@ -18,6 +18,10 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
   saving = false;
   loading = false;
   isEdit = false;
+  generatingInvoice = false;
+  startAfterSave = false;
+  submitted = false;
+  draftSubmitted = false;
   examinationId?: string;
   examination?: ExaminationDto;
 
@@ -79,10 +83,19 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
     this.serviceItems = items;
   }
 
-  save(): void {
+  save(start: boolean): void {
     if (this.saving) return;
-    this.saving = true;
+    this.startAfterSave = start;
 
+    this.draftSubmitted = true;
+    this.submitted = start;
+    const errors = this.validate(start);
+    if (errors.length > 0) {
+      this.toastr.error(errors[0]);
+      return;
+    }
+
+    this.saving = true;
     const d = this.clientData.data;
     const v = this.vehicleData;
 
@@ -91,6 +104,58 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
     } else {
       this.create(d, v);
     }
+  }
+
+  private validate(full: boolean): string[] {
+    const errors: string[] = [];
+
+    // Always required (draft + normal save)
+    if (!this.clientData.id) {
+      errors.push(this.translate.instant('VEHICLE_ORDERS.VALIDATION.CLIENT_REQUIRED'));
+    }
+
+    if (!full) return errors;
+
+    // Only required on normal save
+    if (!this.vehicleData.branchId) {
+      errors.push(this.translate.instant('VEHICLE_ORDERS.VALIDATION.BRANCH_REQUIRED'));
+    }
+    if (!this.vehicleData.manufacturerId) {
+      errors.push(this.translate.instant('VEHICLE_ORDERS.VALIDATION.MANUFACTURER_REQUIRED'));
+    }
+    if (!this.vehicleData.carMarkId) {
+      errors.push(this.translate.instant('VEHICLE_ORDERS.VALIDATION.CAR_MARK_REQUIRED'));
+    }
+    if (!this.vehicleData.year) {
+      errors.push(this.translate.instant('VEHICLE_ORDERS.VALIDATION.YEAR_REQUIRED'));
+    }
+    if (!this.vehicleData.color) {
+      errors.push(this.translate.instant('VEHICLE_ORDERS.VALIDATION.COLOR_REQUIRED'));
+    }
+    if (!this.vehicleData.transmission) {
+      errors.push(this.translate.instant('VEHICLE_ORDERS.VALIDATION.TRANSMISSION_REQUIRED'));
+    }
+    if (this.vehicleData.mileage == null) {
+      errors.push(this.translate.instant('VEHICLE_ORDERS.VALIDATION.MILEAGE_REQUIRED'));
+    }
+    if (this.vehicleData.hasPlate !== false) {
+      // Plate required when hasPlate is true
+      if (!this.vehicleData.plateLetters) {
+        errors.push(this.translate.instant('VEHICLE_ORDERS.VALIDATION.PLATE_LETTERS_REQUIRED'));
+      }
+      if (!this.vehicleData.plateNumbers) {
+        errors.push(this.translate.instant('VEHICLE_ORDERS.VALIDATION.PLATE_NUMBERS_REQUIRED'));
+      }
+    } else {
+      // VIN required when hasPlate is false
+      if (!this.vehicleData.vin) {
+        errors.push(this.translate.instant('VEHICLE_ORDERS.VALIDATION.VIN_REQUIRED'));
+      }
+    }
+    if (!this.serviceItems || this.serviceItems.length === 0) {
+      errors.push(this.translate.instant('VEHICLE_ORDERS.VALIDATION.SERVICES_REQUIRED'));
+    }
+    return errors;
   }
 
   private create(d: any, v: any): void {
@@ -116,16 +181,15 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
       citySubdivisionName:  d.citySubdivisionName || undefined,
 
       // Branch + meta
-      branchId:     v.branchId ?? '',
+      branchId:     v.branchId || undefined,
       type:         v.type ?? 'Regular',
       hasWarranty:  v.hasWarranty ?? true,
-      hasPhotos:    v.hasPhotos ?? true,
       marketerCode: v.marketerCode || undefined,
       notes:        v.notes || undefined,
 
       // Vehicle
-      manufacturerId: v.manufacturerId ?? '',
-      carMarkId:      v.carMarkId ?? '',
+      manufacturerId: v.manufacturerId || undefined,
+      carMarkId:      v.carMarkId || undefined,
       year:           v.year || undefined,
       color:          v.color || undefined,
       vin:            v.vin || undefined,
@@ -138,6 +202,9 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
 
       // Services
       items: this.serviceItems,
+
+      // Workflow
+      startAfterSave: this.startAfterSave,
     };
 
     this.api.post<any>('Examinations', payload).subscribe({
@@ -173,15 +240,16 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
       buildingNumber:       d.buildingNumber || undefined,
       citySubdivisionName:  d.citySubdivisionName || undefined,
 
-      // Examination meta
+      // Branch + meta
+      branchId:     v.branchId || undefined,
+      type:         v.type ?? 'Regular',
       hasWarranty:  v.hasWarranty ?? true,
-      hasPhotos:    v.hasPhotos ?? true,
       marketerCode: v.marketerCode || undefined,
       notes:        v.notes || undefined,
 
       // Vehicle
-      manufacturerId: v.manufacturerId ?? '',
-      carMarkId:      v.carMarkId ?? '',
+      manufacturerId: v.manufacturerId || undefined,
+      carMarkId:      v.carMarkId || undefined,
       year:           v.year || undefined,
       color:          v.color || undefined,
       vin:            v.vin || undefined,
@@ -194,6 +262,9 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
 
       // Services
       items: this.serviceItems,
+
+      // Workflow
+      startAfterSave: this.startAfterSave,
     };
 
     this.api.put<any>(`Examinations/${this.examinationId}`, payload).subscribe({
@@ -206,6 +277,28 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
         this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.ERROR'));
       },
     });
+  }
+
+  generateInvoice(): void {
+    if (this.generatingInvoice || !this.examinationId) return;
+    this.generatingInvoice = true;
+
+    this.api.post<any>(`Invoices/from-examination/${this.examinationId}`, {})
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.generatingInvoice = false;
+          this.toastr.success(this.translate.instant('VEHICLE_ORDERS.FORM.INVOICE_GENERATED'));
+          const invoiceId = res?.data;
+          if (invoiceId) {
+            this.router.navigate(['/features/invoices', invoiceId]);
+          }
+        },
+        error: (err) => {
+          this.generatingInvoice = false;
+          this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.ERROR'));
+        },
+      });
   }
 
   cancel(): void {

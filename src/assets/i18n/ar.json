@@ -46,7 +46,8 @@
     "EMPLOYEES": "الموظفين",
     "CLIENTS": "العملاء",
     "CLIENT_RESOURCES": "مصادر العملاء",
-    "VEHICLE_ORDERS": "طلبات الفحص"
+    "VEHICLE_ORDERS": "طلبات الفحص",
+    "INVOICES": "الفواتير"
   },
   "BREADCRUMB": {
     "HOME": "الرئيسية",
@@ -78,7 +79,11 @@
     "CLIENT_RESOURCES": "مصادر العملاء",
     "EXAMINATIONS": "طلبات الفحص",
     "NEW_EXAMINATION": "فحص جديد",
-    "EDIT_EXAMINATION": "تعديل الفحص"
+    "EDIT_EXAMINATION": "تعديل الفحص",
+    "INVOICES": "الفواتير",
+    "NEW_INVOICE": "فاتورة جديدة",
+    "EDIT_INVOICE": "تعديل فاتورة",
+    "INVOICE_DETAILS": "تفاصيل الفاتورة"
   },
   "COMMON": {
     "ACTIONS": "الإجراءات",
@@ -107,6 +112,8 @@
     "NAME_EN": "الاسم (إنجليزي)",
     "DELETED_SUCCESSFULLY": "تم الحذف بنجاح.",
     "DELETE_FAILED": "فشل الحذف. يرجى المحاولة مرة أخرى.",
+    "BACK": "رجوع",
+    "DETAILS": "التفاصيل",
     "CONFIRM_DELETE": {
       "TITLE": "تأكيد الحذف",
       "MESSAGE": "هل أنت متأكد من حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء."
@@ -453,6 +460,7 @@
       "DATE": "التاريخ",
       "STATUSES": {
         "Draft": "مسودة",
+        "Pending": "معلق",
         "InProgress": "قيد التنفيذ",
         "Completed": "مكتمل",
         "Delivered": "تم التسليم",
@@ -462,7 +470,10 @@
     "FORM": {
       "TITLE": "طلب فحص جديد",
       "TITLE_EDIT": "تعديل طلب فحص",
-      "SAVED": "تم حفظ الطلب بنجاح."
+      "SAVED": "تم حفظ الطلب بنجاح.",
+      "SAVE_DRAFT": "حفظ كمسودة",
+      "GENERATE_INVOICE": "إنشاء فاتورة",
+      "INVOICE_GENERATED": "تم إنشاء الفاتورة بنجاح."
     },
     "CLIENT": {
       "TITLE": "بيانات العميل",
@@ -486,7 +497,7 @@
       "COLOR": "اللون",
       "TRANSMISSION": "ناقل الحركة",
       "PLATE_LETTERS": "أحرف اللوحة",
-      "HAS_PLATE": "بوجد لوحة",
+      "HAS_PLATE": "يوجد لوحة",
       "PLATE_NUMBERS": "أرقام اللوحة",
       "MILEAGE": "العداد",
       "VIN": "رقم الهيكل (VIN)",
@@ -504,6 +515,7 @@
       "ADD_LINE": "إضافة خدمة",
       "SERVICE": "الخدمة",
       "PRICE": "السعر",
+      "QUANTITY": "الكمية",
       "OVERRIDE_PRICE": "سعر بديل",
       "SELECT_SERVICE": "اختر خدمة...",
       "PRICE_PLACEHOLDER": "0.00",
@@ -542,13 +554,122 @@
         "BankTransfer": "تحويل بنكي",
         "Cheque": "شيك"
       }
+    },
+    "VALIDATION": {
+      "CLIENT_REQUIRED": "العميل مطلوب.",
+      "BRANCH_REQUIRED": "الفرع مطلوب.",
+      "MANUFACTURER_REQUIRED": "الشركة المصنعة مطلوبة.",
+      "CAR_MARK_REQUIRED": "الماركة مطلوبة.",
+      "YEAR_REQUIRED": "سنة الصنع مطلوبة.",
+      "COLOR_REQUIRED": "اللون مطلوب.",
+      "TRANSMISSION_REQUIRED": "ناقل الحركة مطلوب.",
+      "MILEAGE_REQUIRED": "العداد مطلوب.",
+      "PLATE_LETTERS_REQUIRED": "أحرف اللوحة مطلوبة.",
+      "PLATE_NUMBERS_REQUIRED": "أرقام اللوحة مطلوبة.",
+      "VIN_REQUIRED": "رقم الهيكل مطلوب في حالة عدم وجود لوحة.",
+      "SERVICES_REQUIRED": "يجب إضافة خدمة واحدة على الأقل."
+    }
+  },
+  "INVOICES": {
+    "LIST": {
+      "TITLE": "الفواتير",
+      "ADD": "فاتورة جديدة",
+      "EMPTY": "لا توجد فواتير",
+      "INVOICE_NUMBER": "رقم الفاتورة",
+      "CLIENT": "العميل",
+      "PHONE": "الجوال",
+      "BRANCH": "الفرع",
+      "TOTAL": "الإجمالي",
+      "BALANCE": "المتبقي",
+      "STATUS": "الحالة",
+      "TYPE": "النوع",
+      "DATE": "التاريخ",
+      "TYPES": {
+        "Invoice": "فاتورة",
+        "Refund": "مرتجع",
+        "Adjustment": "فاتورة تعديل"
+      },
+      "STATUSES": {
+        "Draft": "مسودة",
+        "Issued": "صادرة",
+        "Paid": "مدفوعة",
+        "PartiallyPaid": "مدفوعة جزئياً",
+        "Cancelled": "ملغاة",
+        "PartiallyRefunded": "مسترد جزئياً",
+        "Refunded": "مسترد"
+      }
+    },
+    "FORM": {
+      "TITLE": "فاتورة جديدة",
+      "TITLE_EDIT": "تعديل فاتورة",
+      "TITLE_DETAILS": "تفاصيل الفاتورة",
+      "SAVED": "تم حفظ الفاتورة بنجاح.",
+      "ISSUED": "تم اصدار الفاتورة بنجاح",
+      "CANCELLED": "تم إلغاء الفاتورة",
+      "ISSUE": "اصدار الفاتورة",
+      "CANCEL_INVOICE": "إلغاء الفاتورة",
+      "PRINT": "طباعة",
+      "CLIENT_BRANCH": "العميل والفرع",
+      "CLIENT": "العميل",
+      "BRANCH": "الفرع",
+      "SEARCH_CLIENT": "بحث عن عميل...",
+      "SELECT_BRANCH": "اختر فرع...",
+      "NOTES": "ملاحظات",
+      "DUE_DATE": "تاريخ الاستحقاق",
+      "LINKED_EXAMINATION": "مرتبطة بفحص",
+      "REFUND_INVOICE": "فاتورة مرتجع",
+      "ORIGINAL_INVOICE": "الفاتورة الأصلية",
+      "CREATE_REFUND": "إنشاء فاتورة مرتجع",
+      "REFUND_CREATED": "تم إنشاء فاتورة المرتجع بنجاح"
+    },
+    "ITEMS": {
+      "TITLE": "بنود الفاتورة",
+      "ADD": "إضافة بند",
+      "EDIT_ITEM": "تعديل بند",
+      "DESCRIPTION": "الوصف",
+      "QUANTITY": "الكمية",
+      "UNIT_PRICE": "سعر الوحدة",
+      "TOTAL": "الإجمالي",
+      "SUB_TOTAL": "المجموع قبل الضريبة",
+      "NO_ITEMS": "لا توجد بنود"
+    },
+    "PAYMENTS": {
+      "TITLE": "المدفوعات",
+      "ADD_PAYMENT": "إضافة دفعة",
+      "ADD_REFUND": "إضافة استرداد",
+      "SUB_TOTAL": "المجموع قبل الضريبة",
+      "DISCOUNT": "الخصم",
+      "TAX_AMOUNT": "ضريبة القيمة المضافة",
+      "TOTAL_WITH_TAX": "الإجمالي شامل الضريبة",
+      "TOTAL_PAID": "إجمالي المدفوع",
+      "TOTAL_REFUNDED": "إجمالي المسترد",
+      "BALANCE": "المتبقي",
+      "DATE": "التاريخ",
+      "TYPE": "النوع",
+      "AMOUNT": "المبلغ",
+      "METHOD": "طريقة الدفع",
+      "NOTES": "ملاحظات",
+      "NO_PAYMENTS": "لا توجد مدفوعات",
+      "PAYMENT_ADDED": "تم إضافة الدفعة بنجاح",
+      "REFUND_ADDED": "تم إضافة الاسترداد بنجاح",
+      "TYPES": {
+        "Payment": "دفع",
+        "Refund": "استرداد"
+      },
+      "METHODS": {
+        "Cash": "نقدي",
+        "Card": "بطاقة",
+        "BankTransfer": "تحويل بنكي",
+        "Cheque": "شيك"
+      }
+    },
+    "DISCOUNT": {
+      "TITLE": "الخصومات",
+      "AMOUNT": "قيمة الخصم",
+      "CURRENT": "الخصم الحالي"
+    },
+    "RELATED": {
+      "TITLE": "الفواتير المرتبطة"
     }
   }
-
-
-
-
-
-
-
 }

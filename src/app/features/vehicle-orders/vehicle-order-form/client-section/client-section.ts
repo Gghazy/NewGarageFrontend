@@ -16,6 +16,7 @@ import { ExaminationDto } from 'src/app/shared/Models/vehicle-orders/vehicle-ord
 })
 export class ClientSection implements OnInit, OnDestroy {
   @Input() examination?: ExaminationDto;
+  @Input() submitted = false;
   @Output() clientChange = new EventEmitter<{ id?: string; type: string; data: any }>();
 
   collapsed = false;

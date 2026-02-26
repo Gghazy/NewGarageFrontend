@@ -1,0 +1,74 @@
+<app-shared-list
+  [titleKey]="'INVOICES.LIST.TITLE'"
+  [canAdd]="false"
+  [pagingConfig]="pagingConfig"
+  (pageSizeSearch)="search()"
+  [items]="invoices"
+  [emptyText]="'INVOICES.LIST.EMPTY' | translate"
+  (pageChanged)="pagingConfig.currentPage = $event; loadInvoices();">
+
+  <!-- header -->
+  <ng-container table-header>
+    <th>#</th>
+    <th>{{ 'INVOICES.LIST.INVOICE_NUMBER' | translate }}</th>
+    <th>{{ 'INVOICES.LIST.TYPE' | translate }}</th>
+    <th>{{ 'INVOICES.LIST.CLIENT' | translate }}</th>
+    <th>{{ 'INVOICES.LIST.PHONE' | translate }}</th>
+    <th>{{ 'INVOICES.LIST.BRANCH' | translate }}</th>
+    <th>{{ 'INVOICES.LIST.TOTAL' | translate }}</th>
+    <th>{{ 'INVOICES.LIST.BALANCE' | translate }}</th>
+    <th>{{ 'INVOICES.LIST.STATUS' | translate }}</th>
+    <th>{{ 'INVOICES.LIST.DATE' | translate }}</th>
+    <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
+  </ng-container>
+
+  <!-- body -->
+  <ng-container table-body>
+    <tr *ngFor="let inv of invoices; let i = index">
+      <td>{{ (pagingConfig.currentPage - 1) * pagingConfig.itemsPerPage + i + 1 }}</td>
+      <td>{{ inv.invoiceNumber || '—' }}</td>
+      <td>
+        <span class="badge" [class.bg-primary]="inv.type === 'Invoice'" [class.bg-danger]="inv.type === 'Refund'">
+          {{ 'INVOICES.LIST.TYPES.' + inv.type | translate }}
+        </span>
+      </td>
+      <td>{{ inv.clientNameAr || '—' }}</td>
+      <td>{{ inv.clientPhone || '—' }}</td>
+      <td>{{ inv.branchNameAr || '—' }}</td>
+      <td>{{ inv.totalWithTax | number:'1.2-2' }} {{ inv.currency }}</td>
+      <td>
+        <span [class.text-danger]="inv.balance > 0" [class.text-success]="inv.balance <= 0">
+          {{ inv.balance | number:'1.2-2' }} {{ inv.currency }}
+        </span>
+      </td>
+      <td>
+        <span class="badge"
+          [class.bg-primary]="inv.status === 'Issued'"
+          [class.bg-success]="inv.status === 'Paid'"
+          [class.bg-danger]="inv.status === 'Cancelled'"
+          [class.bg-info]="inv.status === 'PartiallyRefunded'"
+          [class.bg-dark]="inv.status === 'Refunded'">
+          {{ 'INVOICES.LIST.STATUSES.' + inv.status | translate }}
+        </span>
+      </td>
+      <td>{{ inv.createdAtUtc ? (inv.createdAtUtc | date:'yyyy-MM-dd') : '—' }}</td>
+      <td class="text-end">
+        <button
+          *ngIf="authService.hasPermission('invoice.read')"
+          (click)="openDetails(inv)"
+          class="btn btn-sm btn-outline-primary me-1"
+          type="button">
+          <i class="bi bi-eye me-1"></i>{{ 'COMMON.DETAILS' | translate }}
+        </button>
+        <button
+          *ngIf="authService.hasPermission('invoice.delete')"
+          (click)="deleteInvoice(inv)"
+          class="btn btn-sm btn-outline-danger"
+          type="button">
+          {{ 'COMMON.DELETE' | translate }}
+        </button>
+      </td>
+    </tr>
+  </ng-container>
+
+</app-shared-list>

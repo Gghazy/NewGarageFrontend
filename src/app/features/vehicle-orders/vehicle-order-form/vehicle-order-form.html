@@ -4,9 +4,9 @@
   <div class="d-flex justify-content-between align-items-center mb-3">
     <div class="d-flex align-items-center gap-2">
       <h5 class="mb-0 fw-bold">{{ (isEdit ? 'VEHICLE_ORDERS.FORM.TITLE_EDIT' : 'VEHICLE_ORDERS.FORM.TITLE') | translate }}</h5>
-      <span *ngIf="examination?.invoiceNumber" class="badge bg-primary fs-6">{{ examination?.invoiceNumber }}</span>
       <span *ngIf="examination?.status" class="badge"
         [class.bg-secondary]="examination?.status === 'Draft'"
+        [class.bg-warning]="examination?.status === 'Pending'"
         [class.bg-primary]="examination?.status === 'InProgress'"
         [class.bg-success]="examination?.status === 'Completed'"
         [class.bg-info]="examination?.status === 'Delivered'"
@@ -15,12 +15,21 @@
       </span>
     </div>
     <div class="d-flex gap-2">
+      <button *ngIf="isEdit && examination" type="button" class="btn btn-sm btn-outline-success" (click)="generateInvoice()" [disabled]="generatingInvoice">
+        <span *ngIf="generatingInvoice" class="spinner-border spinner-border-sm me-1"></span>
+        <i *ngIf="!generatingInvoice" class="bi bi-receipt me-1"></i>
+        {{ 'VEHICLE_ORDERS.FORM.GENERATE_INVOICE' | translate }}
+      </button>
       <button type="button" class="btn btn-outline-secondary btn-sm" (click)="cancel()">
         {{ 'COMMON.CANCEL' | translate }}
       </button>
-      <button type="button" class="btn btn-primary btn-sm" (click)="save()" [disabled]="saving || loading">
-        <span *ngIf="saving" class="spinner-border spinner-border-sm me-1"></span>
-        {{ saving ? ('COMMON.SAVING' | translate) : ('COMMON.SAVE' | translate) }}
+      <button type="button" class="btn btn-outline-primary btn-sm" (click)="save(false)" [disabled]="saving || loading">
+        <span *ngIf="saving && !startAfterSave" class="spinner-border spinner-border-sm me-1"></span>
+        {{ 'VEHICLE_ORDERS.FORM.SAVE_DRAFT' | translate }}
+      </button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="save(true)" [disabled]="saving || loading">
+        <span *ngIf="saving && startAfterSave" class="spinner-border spinner-border-sm me-1"></span>
+        {{ 'COMMON.SAVE' | translate }}
       </button>
     </div>
   </div>
@@ -34,29 +43,26 @@
     <!-- Client section -->
     <app-client-section
       [examination]="examination"
+      [submitted]="draftSubmitted"
       (clientChange)="onClientChange($event)">
     </app-client-section>
 
     <!-- Vehicle section -->
     <app-vehicle-section
       [examination]="examination"
+      [submitted]="submitted"
       (vehicleChange)="onVehicleChange($event)">
     </app-vehicle-section>
 
     <!-- Services section -->
     <app-services-section
       [examination]="examination"
+      [submitted]="submitted"
       [carMarkId]="vehicleData.carMarkId"
       [year]="vehicleData.year"
       (servicesChange)="onServicesChange($event)">
     </app-services-section>
 
-    <!-- Payments section (edit mode only) -->
-    <app-payments-section
-      *ngIf="isEdit && examination"
-      [examination]="examination"
-      (paymentAdded)="loadExamination()">
-    </app-payments-section>
   </ng-container>
 
 </div>
