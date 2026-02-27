@@ -31,7 +31,7 @@ const SECTION_DEFS: { labelKey: string; icon: string; moduleNames: string[] }[] 
   {
     labelKey: 'MENU.EXAMINATION_MANAGEMENT',
     icon: 'bi bi-clipboard-check',
-    moduleNames: ['SensorIssue', 'MechIssue', 'MechIssueType', 'InteriorIssue', 'InteriorBodyIssue', 'ExteriorBodyIssue', 'AccessoryIssue', 'RoadTestIssue', 'RoadTestIssueType', 'InsideAndDecorPart', 'InsideAndDecorPartIssue', 'InteriorBodyPart', 'ExteriorBodyPart'],
+    moduleNames: ['SensorIssue', 'MechPart', 'MechPartType', 'InteriorIssue', 'InteriorBodyIssue', 'ExteriorBodyIssue', 'AccessoryIssue', 'RoadTestIssue', 'RoadTestIssueType', 'InsideAndDecorPart', 'InsideAndDecorPartIssue', 'InteriorBodyPart', 'ExteriorBodyPart'],
   },
   {
     labelKey: 'MENU.USERS',

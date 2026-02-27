@@ -8,19 +8,19 @@ import { ApiService } from 'src/app/core/services/custom.service';
 import { FormService } from 'src/app/core/services/form.service';
 import { ApiResponse } from 'src/app/shared/Models/api-response';
 import { LookupDto } from 'src/app/shared/Models/lookup-dto';
-import { MechIssueDto } from 'src/app/shared/Models/mech-issues/mech-issue-dto';
+import { MechPartDto } from 'src/app/shared/Models/mech-parts/mech-part-dto';
 
 @Component({
-  selector: 'app-mech-issue-form',
+  selector: 'app-mech-part-form',
   standalone: false,
-  templateUrl: './mech-issue-form.html',
-  styleUrl: './mech-issue-form.css',
+  templateUrl: './mech-part-form.html',
+  styleUrl: './mech-part-form.css',
 })
-export class MechIssueForm implements OnInit, OnDestroy {
-  @Input() title = 'Add Mech Issue';
-  @Input() initial?: Partial<MechIssueDto>;
+export class MechPartForm implements OnInit, OnDestroy {
+  @Input() title = 'Add Mech Part';
+  @Input() initial?: Partial<MechPartDto>;
 
-  mechIssueTypes: LookupDto[] = [];
+  mechPartTypes: LookupDto[] = [];
   loading = false;
   private destroy$ = new Subject<void>();
 
@@ -28,7 +28,7 @@ export class MechIssueForm implements OnInit, OnDestroy {
     id: [''],
     nameAr: ['', [Validators.required, Validators.maxLength(200)]],
     nameEn: ['', [Validators.required, Validators.maxLength(200)]],
-    mechIssueTypeId: ['', [Validators.required]],
+    mechPartTypeId: ['', [Validators.required]],
   });
 
   constructor(
@@ -45,10 +45,10 @@ export class MechIssueForm implements OnInit, OnDestroy {
         id: this.initial.id ?? '',
         nameAr: this.initial.nameAr ?? '',
         nameEn: this.initial.nameEn ?? '',
-        mechIssueTypeId: this.initial.mechIssueTypeId ?? '',
+        mechPartTypeId: this.initial.mechPartTypeId ?? '',
       });
     }
-    this.getMechIssueTypes();
+    this.getMechPartTypes();
   }
 
   ngOnDestroy(): void {
@@ -61,13 +61,12 @@ export class MechIssueForm implements OnInit, OnDestroy {
     return !!c && c.invalid && (c.touched || c.dirty);
   }
 
-  getMechIssueTypes() {
-    // MechIssueTypesController uses Success() -> { data: [...] }
-    this.apiService.get<ApiResponse<LookupDto[]>>('MechIssueTypes')
+  getMechPartTypes() {
+    this.apiService.get<ApiResponse<LookupDto[]>>('MechPartTypes')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res) => { this.mechIssueTypes = res.data; },
-        error: (err) => { this.toastr.error(this.formService.extractError(err, 'Failed to load mech issue types'), 'Error'); }
+        next: (res) => { this.mechPartTypes = res.data; },
+        error: (err) => { this.toastr.error(this.formService.extractError(err, 'Failed to load mech part types'), 'Error'); }
       });
   }
 
@@ -77,23 +76,23 @@ export class MechIssueForm implements OnInit, OnDestroy {
       return;
     }
 
-    const value: MechIssueDto = {
+    const value: MechPartDto = {
       nameAr: this.form.value.nameAr!,
       nameEn: this.form.value.nameEn!,
       id: this.form.value.id!,
-      mechIssueTypeId: this.form.value.mechIssueTypeId!,
+      mechPartTypeId: this.form.value.mechPartTypeId!,
     };
 
     const isEdit = !!value.id;
     const apiCall = isEdit
-      ? this.apiService.put(`MechIssues/${value.id}`, value)
-      : this.apiService.post('MechIssues', value);
+      ? this.apiService.put(`MechParts/${value.id}`, value)
+      : this.apiService.post('MechParts', value);
 
     this.formService.handleSubmit(apiCall.pipe(takeUntil(this.destroy$)) as any, {
       activeModal: this.activeModal,
       toastr: this.toastr,
-      successMsg: isEdit ? 'Mech issue updated successfully' : 'Mech issue created successfully',
-      errorFallback: isEdit ? 'Failed to update mech issue' : 'Failed to create mech issue',
+      successMsg: isEdit ? 'Mech part updated successfully' : 'Mech part created successfully',
+      errorFallback: isEdit ? 'Failed to update mech part' : 'Failed to create mech part',
       setLoading: (v) => (this.loading = v),
       closeValue: value,
     });

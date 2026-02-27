@@ -5,7 +5,7 @@
 
 <div class="modal-body" [formGroup]="form">
   <div class="mb-3">
-    <label class="form-label">{{ 'MECH_ISSUES.TABLE.NAME_AR' | translate }}</label>
+    <label class="form-label">{{ 'MECH_PARTS.TABLE.NAME_AR' | translate }}</label>
     <input class="form-control" formControlName="nameAr" />
     <div class="text-danger small" *ngIf="form.get('nameAr')?.touched && form.get('nameAr')?.invalid">
       {{ 'COMMON.REQUIRED' | translate }}
@@ -13,14 +13,14 @@
   </div>
 
   <div class="mb-3">
-    <label class="form-label">{{ 'MECH_ISSUES.TABLE.NAME_EN' | translate }}</label>
+    <label class="form-label">{{ 'MECH_PARTS.TABLE.NAME_EN' | translate }}</label>
     <input class="form-control" formControlName="nameEn" />
     <div class="text-danger small" *ngIf="form.get('nameEn')?.touched && form.get('nameEn')?.invalid">
       {{ 'COMMON.REQUIRED' | translate }}
     </div>
   </div>
   <div class="mb-3">
-    <label class="form-label">{{ 'MECH_TYPE_ISSUES.TITLE' | translate }}</label>
+    <label class="form-label">{{ 'MECH_PART_TYPES.TITLE' | translate }}</label>
     <ng-select [items]="stages" [bindLabel]="'nameAr'" bindValue="id" formControlName="stages" [searchable]="true" [multiple]="true"
       [clearable]="true" [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate">
     </ng-select>

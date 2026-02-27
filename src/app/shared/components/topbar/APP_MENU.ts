@@ -27,8 +27,8 @@ export const APP_MENU: AppMenuItem[] = [
     permissions: ['examination.read'],
     children: [
       { labelKey: 'MENU.SENSOR_ISSUES', route: '/features/examination-management/sensor-issues', icon: 'bi bi-cpu', permissions: ['sensorIssue.read'] },
-      { labelKey: 'MENU.MECH_ISSUES', route: '/features/examination-management/mech-issues', icon: 'bi bi-gear-wide-connected', permissions: ['mechIssue.read'] },
-      { labelKey: 'MENU.MECH_TYPE_ISSUES', route: '/features/examination-management/mech-type-issues', icon: 'bi bi-diagram-2', permissions: ['mechIssueType.read'] },
+      { labelKey: 'MENU.MECH_PARTS', route: '/features/examination-management/mech-parts', icon: 'bi bi-gear-wide-connected', permissions: ['mechPart.read'] },
+      { labelKey: 'MENU.MECH_PART_TYPES', route: '/features/examination-management/mech-part-types', icon: 'bi bi-diagram-2', permissions: ['mechPartType.read'] },
       { labelKey: 'MENU.INTERIOR_ISSUES', route: '/features/examination-management/interior-issues', icon: 'bi bi-car-front', permissions: ['interiorIssue.read'] },
       { labelKey: 'MENU.INTERIOR_BODY_ISSUES', route: '/features/examination-management/interior-body-issues', icon: 'bi bi-layout-text-window', permissions: ['interiorBodyIssue.read'] },
       { labelKey: 'MENU.EXTERIOR_BODY_ISSUES', route: '/features/examination-management/exterior-body-issues', icon: 'bi bi-car-front-fill', permissions: ['exteriorBodyIssue.read'] },
@@ -39,6 +39,7 @@ export const APP_MENU: AppMenuItem[] = [
       { labelKey: 'MENU.INSIDE_AND_DECOR_PART_ISSUE', route: '/features/examination-management/inside-and-decor-part-issues', icon: 'bi bi-palette2', permissions: ['insideAndDecorPartIssue.read'] },
       { labelKey: 'MENU.INTERIOR_BODY_PART', route: '/features/examination-management/interior-body-parts', icon: 'bi bi-box', permissions: ['interiorBodyPart.read'] },
       { labelKey: 'MENU.EXTERIOR_BODY_PART', route: '/features/examination-management/exterior-body-parts', icon: 'bi bi-box-fill', permissions: ['exteriorBodyPart.read'] },
+      { labelKey: 'MENU.ACCESSORY_PART', route: '/features/examination-management/accessory-parts', icon: 'bi bi-puzzle', permissions: ['accessoryPart.read'] },
     ],
   },
   {

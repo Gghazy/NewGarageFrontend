@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MechIssueList } from './mech-issue-list/mech-issue-list';
+import { MechPartList } from './mech-part-list/mech-part-list';
 import { permissionGuard } from 'src/app/core/guards/permission.guard';
 
 const routes: Routes = [
   {
     path: '',
-    component: MechIssueList,
+    component: MechPartList,
     canActivate: [permissionGuard],
     data: {
-      breadcrumb: 'BREADCRUMB.MECH_ISSUES',
-      permissions: ['mechIssue.read'],
+      breadcrumb: 'BREADCRUMB.MECH_PARTS',
+      permissions: ['mechPart.read'],
       permissionMode: 'any'
     }
 
@@ -21,4 +21,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class MechIssuesRoutingModule { }
+export class MechPartsRoutingModule { }

@@ -6,19 +6,19 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { SearchCriteria } from 'src/app/shared/Models/search-criteria';
-import { MechIssueForm } from '../mech-issue-form/mech-issue-form';
+import { MechPartForm } from '../mech-part-form/mech-part-form';
 import { ConfirmDeleteModal } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal';
 import { TranslateService } from '@ngx-translate/core';
-import { MechIssueDto } from 'src/app/shared/Models/mech-issues/mech-issue-dto';
+import { MechPartDto } from 'src/app/shared/Models/mech-parts/mech-part-dto';
 
 @Component({
-  selector: 'app-mech-issue-list',
+  selector: 'app-mech-part-list',
   standalone: false,
-  templateUrl: './mech-issue-list.html',
-  styleUrl: './mech-issue-list.css',
+  templateUrl: './mech-part-list.html',
+  styleUrl: './mech-part-list.css',
 })
-export class MechIssueList implements OnInit, OnDestroy {
-  mechIssues: MechIssueDto[] = [];
+export class MechPartList implements OnInit, OnDestroy {
+  mechParts: MechPartDto[] = [];
   loading = false;
   private destroy$ = new Subject<void>();
 
@@ -40,7 +40,7 @@ export class MechIssueList implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.loadMechIssues();
+    this.loadMechParts();
   }
 
   ngOnDestroy(): void {
@@ -48,51 +48,51 @@ export class MechIssueList implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  loadMechIssues() {
+  loadMechParts() {
     this.loading = true;
-    this.apiService.post<any>('MechIssues/pagination', this.pagingConfig)
+    this.apiService.post<any>('MechParts/pagination', this.pagingConfig)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          this.mechIssues = res.data.items;
+          this.mechParts = res.data.items;
           this.pagingConfig.totalItems = res.data.totalCount;
           this.loading = false;
         },
         error: (err) => {
-          console.error('Error loading mech issues', err);
-          this.toastr.error('Failed to load mech issues', 'Error');
+          console.error('Error loading mech parts', err);
+          this.toastr.error('Failed to load mech parts', 'Error');
           this.loading = false;
         }
       });
   }
 
-  openAddMechIssue() {
-    const ref = this.modal.open(MechIssueForm, { centered: true, backdrop: 'static' });
-    ref.componentInstance.title = this.translate.instant('MECH_ISSUE.ADD');
-    ref.result.then(() => this.loadMechIssues()).catch(() => { });
+  openAddMechPart() {
+    const ref = this.modal.open(MechPartForm, { centered: true, backdrop: 'static' });
+    ref.componentInstance.title = this.translate.instant('MECH_PARTS.ADD');
+    ref.result.then(() => this.loadMechParts()).catch(() => { });
   }
 
-  openEditMechIssue(mechIssue: MechIssueDto) {
-    const ref = this.modal.open(MechIssueForm, { centered: true, backdrop: 'static' });
+  openEditMechPart(mechPart: MechPartDto) {
+    const ref = this.modal.open(MechPartForm, { centered: true, backdrop: 'static' });
     ref.componentInstance.title = this.translate.instant('COMMON.EDIT');
     ref.componentInstance.initial = {
-      id: mechIssue.id,
-      nameAr: mechIssue.nameAr,
-      nameEn: mechIssue.nameEn,
-      mechIssueTypeId: mechIssue.mechIssueTypeId
+      id: mechPart.id,
+      nameAr: mechPart.nameAr,
+      nameEn: mechPart.nameEn,
+      mechPartTypeId: mechPart.mechPartTypeId
     };
-    ref.result.then(() => this.loadMechIssues()).catch(() => { });
+    ref.result.then(() => this.loadMechParts()).catch(() => { });
   }
 
-  deleteMechIssue(mechIssue: MechIssueDto) {
+  deleteMechPart(mechPart: MechPartDto) {
     const ref = this.modal.open(ConfirmDeleteModal, { centered: true, backdrop: 'static' });
     ref.result.then(() => {
-      this.apiService.delete(`MechIssues/${mechIssue.id}`)
+      this.apiService.delete(`MechParts/${mechPart.id}`)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
             this.toastr.success(this.translate.instant('COMMON.DELETED_SUCCESSFULLY'), 'Success');
-            this.loadMechIssues();
+            this.loadMechParts();
           },
           error: (err) => {
             this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.DELETE_FAILED'), 'Error');
@@ -103,6 +103,6 @@ export class MechIssueList implements OnInit, OnDestroy {
 
   search() {
     this.pagingConfig.currentPage = 1;
-    this.loadMechIssues();
+    this.loadMechParts();
   }
 }

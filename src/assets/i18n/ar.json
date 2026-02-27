@@ -55,8 +55,8 @@
     "LOGS": "السجلات",
     "PROFILE": "الملف الشخصي",
     "LOGOUT": "تسجيل الخروج",
-    "MECH_ISSUES": "الأعطال الميكانيكية",
-    "MECH_TYPE_ISSUES": "أنواع الأعطال الميكانيكية",
+    "MECH_PARTS": "الأجزاء الميكانيكية",
+    "MECH_PART_TYPES": "أنواع الأجزاء الميكانيكية",
     "SENSOR_ISSUES": "مشاكل الحساسات",
     "INTERIOR_ISSUES": "مشاكل الداخلية",
     "INTERIOR_BODY_ISSUES": "مشاكل الهيكل الداخلى",
@@ -68,6 +68,7 @@
     "INSIDE_AND_DECOR_PART_ISSUE": "أعطال الداخلية والديكور",
     "INTERIOR_BODY_PART": "اجزاء الهيكل الداخلى",
     "EXTERIOR_BODY_PART": "اجزاء الهيكل الخارجى",
+    "ACCESSORY_PART": "أجزاء الاكسسوارات",
     "CAR_MARKS": "ماركات السيارات",
     "MANUFACTURERS": "الشركات المصنعة",
     "SERVICES": "الخدمات",
@@ -86,8 +87,8 @@
     "HOME": "الرئيسية",
     "BRANCHES": "الفروع",
     "SENSOR_ISSUES": "مشاكل الحساسات",
-    "MECH_ISSUES": "الأعطال الميكانيكية",
-    "MECH_TYPE_ISSUES": "أنواع الأعطال الميكانيكية",
+    "MECH_PARTS": "الأجزاء الميكانيكية",
+    "MECH_PART_TYPES": "أنواع الأجزاء الميكانيكية",
     "INTERIOR_ISSUES": "مشاكل الداخلية",
     "INTERIOR_BODY_ISSUES": "مشاكل الهيكل الداخلى",
     "EXTERIOR_BODY_ISSUES": "مشاكل الهيكل الخارجى",
@@ -98,6 +99,7 @@
     "INSIDE_AND_DECOR_PART_ISSUE": "أعطال الداخلية والديكور",
     "INTERIOR_BODY_PART": "اجزاء الهيكل الداخلى",
     "EXTERIOR_BODY_PART": "اجزاء الهيكل الخارجى",
+    "ACCESSORY_PART": "أجزاء الاكسسوارات",
     "CAR_MARKS": "ماركات السيارات",
     "MANUFACTURERS": "الشركات المصنعة",
     "SERVICE": "الخدمات",
@@ -216,10 +218,10 @@
       "NAME_EN": "الاسم (إنجليزي)"
     }
   },
-  "MECH_ISSUES": {
-    "TITLE": "الأعطال الميكانيكية",
-    "NAME": "الأعطال الميكانيكية",
-    "ADD": "إضافة عطل جديد",
+  "MECH_PARTS": {
+    "TITLE": "الأجزاء الميكانيكية",
+    "NAME": "الأجزاء الميكانيكية",
+    "ADD": "إضافة جزء ميكانيكي",
     "SEARCH_PLACEHOLDER": "بحث",
     "PAGE_SIZE_LABEL": "عدد العناصر في الصفحة",
     "TABLE": {
@@ -230,15 +232,15 @@
     },
     "EMPTY": "لا توجد بيانات للعرض",
     "FORM": {
-      "TITLE_ADD": "إضافة عطل ميكانيكي",
-      "TITLE_EDIT": "تعديل عطل ميكانيكي",
+      "TITLE_ADD": "إضافة جزء ميكانيكي",
+      "TITLE_EDIT": "تعديل جزء ميكانيكي",
       "NAME_AR": "الاسم (عربي)",
       "NAME_EN": "الاسم (إنجليزي)"
     }
   },
-  "MECH_TYPE_ISSUES": {
-    "TITLE": "أنواع الأعطال الميكانيكية",
-    "ADD": "إضافة نوع عطل ميكانيكي"
+  "MECH_PART_TYPES": {
+    "TITLE": "أنواع الأجزاء الميكانيكية",
+    "ADD": "إضافة نوع جزء ميكانيكي"
   },
   "INTERIOR_ISSUES": {
     "TITLE": "مشاكل الداخلية",
@@ -279,6 +281,10 @@
   "EXTERIOR_BODY_PART": {
     "TITLE": "اجزاء الهيكل الخارجى",
     "ADD": "إضافة جزء هيكل خارجى"
+  },
+  "ACCESSORY_PART": {
+    "TITLE": "أجزاء الاكسسوارات",
+    "ADD": "إضافة جزء اكسسوار"
   },
   "PAYMENT_METHODS": {
     "TITLE": "طرق الدفع",
@@ -398,14 +404,15 @@
       "InsideAndDecorPartIssue": "أعطال الداخلية والديكور",
       "InteriorBodyPart": "اجزاء الهيكل الداخلى",
       "ExteriorBodyPart": "اجزاء الهيكل الخارجى",
+      "AccessoryPart": "أجزاء الاكسسوارات",
       "ExteriorBodyIssue": "أعطال الهيكل الخارجي",
-      "MechIssue": "الأعطال الميكانيكية",
+      "MechPart": "الأجزاء الميكانيكية",
       "Manufacturer": "الشركات المصنعة",
       "InteriorIssue": "الأعطال الداخلية",
       "RoadTestIssue": "أعطال اختبار الطريق",
       "RoadTestIssueType": "انواع اعطال تجربة الطريق",
       "Permissions": "الصلاحيات",
-      "MechIssueType": "أنواع الأعطال الميكانيكية",
+      "MechPartType": "أنواع الأجزاء الميكانيكية",
       "SensorIssue": "أعطال الحساسات",
       "Roles": "الأدوار",
       "Role": "الدور",
@@ -819,9 +826,30 @@
     "INTERIOR_DECOR_PART": "أجزاء الداخلية والديكور",
     "INTERIOR_BODY_PART": "جزء الهيكل الداخلى",
     "EXTERIOR_BODY_PART": "جزء الهيكل الخارجى",
+    "ACCESSORY_PART": "جزء الاكسسوار",
     "SELECT_PART": "اختر الجزء...",
     "ISSUE_TYPE": "نوع العطل",
     "SELECT_ISSUES": "اختر الأعطال...",
-    "ADD_PARTS_HINT": "اختر جزء واضغط إضافة"
+    "ADD_PARTS_HINT": "اختر جزء واضغط إضافة",
+    "MECH_PART_TYPE": "نوع الجزء الميكانيكي",
+    "MECH_PARTS": "الأجزاء الميكانيكية",
+    "SELECT_PART_TYPE": "اختر نوع الجزء...",
+    "SELECT_PARTS": "اختر الأجزاء...",
+    "ADD_PART_TYPES_HINT": "اختر نوع الجزء واضغط إضافة",
+    "TIRE_POSITION_FRONT_RIGHT": "أمامي أيمن",
+    "TIRE_POSITION_FRONT_LEFT": "أمامي أيسر",
+    "TIRE_POSITION_REAR_RIGHT": "خلفي أيمن",
+    "TIRE_POSITION_REAR_LEFT": "خلفي أيسر",
+    "TIRE_POSITION_SPARE": "احتياطي",
+    "TIRE_YEAR": "سنة الإطار",
+    "TIRE_WEEK": "أسبوع الإنتاج",
+    "TIRE_CONDITION": "حالة الإطار",
+    "CONDITION_GOOD": "جيد",
+    "CONDITION_AVERAGE": "متوسط",
+    "CONDITION_BAD": "سيء",
+    "CONDITION_NEEDS_REPLACEMENT": "يحتاج استبدال",
+    "SELECT_YEAR": "اختر السنة",
+    "SELECT_WEEK": "اختر الأسبوع",
+    "SELECT_CONDITION": "اختر الحالة"
   }
 }

@@ -73,12 +73,7 @@
   border: none;
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(30, 58, 95, 0.08);
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
   background: #fff;
-}
-
-.card:hover {
-  box-shadow: 0 8px 24px rgba(30, 58, 95, 0.12);
 }
 
 .card-header {

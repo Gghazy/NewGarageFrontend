@@ -55,8 +55,8 @@
     "LOGS": "Logs",
     "PROFILE": "Profile",
     "LOGOUT": "Logout",
-    "MECH_ISSUES": "Mechanical Issues",
-    "MECH_TYPE_ISSUES": "Mechanical Issue Types",
+    "MECH_PARTS": "Mechanical Parts",
+    "MECH_PART_TYPES": "Mechanical Part Types",
     "SENSOR_ISSUES": "Sensor Issues",
     "INTERIOR_ISSUES": "Interior Issues",
     "INTERIOR_BODY_ISSUES": "Interior Body Issues",
@@ -68,6 +68,7 @@
     "INSIDE_AND_DECOR_PART_ISSUE": "Inside and Decor Part Issues",
     "INTERIOR_BODY_PART": "Interior Body Parts",
     "EXTERIOR_BODY_PART": "Exterior Body Parts",
+    "ACCESSORY_PART": "Accessory Parts",
     "CAR_MARKS": "Car Marks",
     "MANUFACTURERS": "Manufacturers",
     "SERVICES": "Services",
@@ -86,8 +87,8 @@
     "HOME": "Home",
     "BRANCHES": "Branches",
     "SENSOR_ISSUES": "Sensor Issues",
-    "MECH_ISSUES": "Mechanical Issues",
-    "MECH_TYPE_ISSUES": "Mechanical Issue Types",
+    "MECH_PARTS": "Mechanical Parts",
+    "MECH_PART_TYPES": "Mechanical Part Types",
     "INTERIOR_ISSUES": "Interior Issues",
     "INTERIOR_BODY_ISSUES": "Interior Body Issues",
     "EXTERIOR_BODY_ISSUES": "Exterior Body Issues",
@@ -98,6 +99,7 @@
     "INSIDE_AND_DECOR_PART_ISSUE": "Inside and Decor Part Issues",
     "INTERIOR_BODY_PART": "Interior Body Parts",
     "EXTERIOR_BODY_PART": "Exterior Body Parts",
+    "ACCESSORY_PART": "Accessory Parts",
     "CAR_MARKS": "Car Marks",
     "MANUFACTURERS": "Manufacturers",
     "SERVICE": "Services",
@@ -210,9 +212,9 @@
       "CODE": "Trouble Code"
     }
   },
-  "MECH_ISSUES": {
-    "TITLE": "Mechanical Issues",
-    "ADD": "Add New Issue",
+  "MECH_PARTS": {
+    "TITLE": "Mechanical Parts",
+    "ADD": "Add New Part",
     "TABLE": {
       "NO": "#",
       "NAME_AR": "Name (AR)",
@@ -220,13 +222,13 @@
       "ACTIONS": "Actions"
     },
     "FORM": {
-      "TITLE_ADD": "Add Mechanical Issue",
-      "TITLE_EDIT": "Edit Mechanical Issue"
+      "TITLE_ADD": "Add Mechanical Part",
+      "TITLE_EDIT": "Edit Mechanical Part"
     }
   },
-  "MECH_TYPE_ISSUES": {
-    "TITLE": "Mechanical Issue Types",
-    "ADD": "Add New Issue Type"
+  "MECH_PART_TYPES": {
+    "TITLE": "Mechanical Part Types",
+    "ADD": "Add New Part Type"
   },
   "INTERIOR_ISSUES": {
     "TITLE": "Interior Issues Types",
@@ -266,6 +268,10 @@
   },
   "EXTERIOR_BODY_PART": {
     "TITLE": "Exterior Body Parts",
+    "ADD": "Add New Part"
+  },
+  "ACCESSORY_PART": {
+    "TITLE": "Accessory Parts",
     "ADD": "Add New Part"
   },
   "PAYMENT_METHODS": {
@@ -378,14 +384,15 @@
       "InsideAndDecorPartIssue": "Inside & Decor Part Issues",
       "InteriorBodyPart": "Interior Body Parts",
       "ExteriorBodyPart": "Exterior Body Parts",
+      "AccessoryPart": "Accessory Parts",
       "ExteriorBodyIssue": "Exterior Body Issues",
-      "MechIssue": "Mechanical Issues",
+      "MechPart": "Mechanical Parts",
       "Manufacturer": "Manufacturers",
       "InteriorIssue": "Interior Issues",
       "RoadTestIssue": "Road Test Issues",
       "RoadTestIssueType": "Road Test Issue Types",
       "Permissions": "Permissions",
-      "MechIssueType": "Mechanical Issue Types",
+      "MechPartType": "Mechanical Part Types",
       "SensorIssue": "Sensor Issues",
       "Roles": "Roles",
       "Role": "Role",
@@ -485,9 +492,9 @@
       "SELECT_SOURCE": "Select source..."
     }
   },
-  "MECH_ISSUE": {
-    "ADD": "Add New Issue",
-    "EDIT": "Edit Issue"
+  "MECH_PART": {
+    "ADD": "Add New Part",
+    "EDIT": "Edit Part"
   },
   "VALIDATION": {
     "REQUIRED": "This field is required",
@@ -791,9 +798,30 @@
     "INTERIOR_DECOR_PART": "Interior & Decor Part",
     "INTERIOR_BODY_PART": "Interior Body Part",
     "EXTERIOR_BODY_PART": "Exterior Body Part",
+    "ACCESSORY_PART": "Accessory Part",
     "SELECT_PART": "Select part...",
     "ISSUE_TYPE": "Issue Type",
     "SELECT_ISSUES": "Select issues...",
-    "ADD_PARTS_HINT": "Select a part and click Add"
+    "ADD_PARTS_HINT": "Select a part and click Add",
+    "MECH_PART_TYPE": "Mechanical Part Type",
+    "MECH_PARTS": "Mechanical Parts",
+    "SELECT_PART_TYPE": "Select part type...",
+    "ADD_PART_TYPES_HINT": "Select a part type and click Add",
+    "SELECT_PARTS": "Select parts...",
+    "TIRE_POSITION_FRONT_RIGHT": "Front Right",
+    "TIRE_POSITION_FRONT_LEFT": "Front Left",
+    "TIRE_POSITION_REAR_RIGHT": "Rear Right",
+    "TIRE_POSITION_REAR_LEFT": "Rear Left",
+    "TIRE_POSITION_SPARE": "Spare",
+    "TIRE_YEAR": "Tire Year",
+    "TIRE_WEEK": "Production Week",
+    "TIRE_CONDITION": "Tire Condition",
+    "CONDITION_GOOD": "Good",
+    "CONDITION_AVERAGE": "Average",
+    "CONDITION_BAD": "Bad",
+    "CONDITION_NEEDS_REPLACEMENT": "Needs Replacement",
+    "SELECT_YEAR": "Select year",
+    "SELECT_WEEK": "Select week",
+    "SELECT_CONDITION": "Select condition"
   }
 }

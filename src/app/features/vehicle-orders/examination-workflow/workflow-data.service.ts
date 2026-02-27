@@ -30,7 +30,7 @@ export const STAGE_ISSUE_API: Record<number, string> = {
   4: 'ExteriorBodyIssues/pagination',
   5: 'InsideAndDecorParts/pagination',
   6: 'AccessoryIssues/pagination',
-  7: 'MechIssues/pagination',
+  7: 'MechParts/pagination',
   9: 'RoadTestIssues/pagination',
 };
 
@@ -40,6 +40,9 @@ const STAGE_GET_API: Record<number, string> = {
   3: 'stages/interior-body',
   4: 'stages/exterior-body',
   5: 'stages/interior-decor',
+  6: 'stages/accessories',
+  7: 'stages/mechanical',
+  8: 'stages/tires',
 };
 
 @Injectable()

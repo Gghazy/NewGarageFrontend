@@ -19,9 +19,9 @@ const routes: Routes = [
           import('./sensor-issues/sensor-issues-module').then(m => m.SensorIssuesModule),
       },
       {
-        path: 'mech-issues',
+        path: 'mech-parts',
         loadChildren: () =>
-          import('./mech-issues/mech-issues-module').then(m => m.MechIssuesModule),
+          import('./mech-parts/mech-parts-module').then(m => m.MechPartsModule),
       },
       {
         path: 'interior-body-issues',
@@ -44,9 +44,9 @@ const routes: Routes = [
           import('./road-test-issue/road-test-issue-module').then(m => m.RoadTestIssueModule),
       },
       {
-        path: 'mech-type-issues',
+        path: 'mech-part-types',
         loadChildren: () =>
-          import('./mech-type-issue/mech-type-issue-module').then(m => m.MechTypeIssueModule),
+          import('./mech-part-type/mech-part-type-module').then(m => m.MechPartTypeModule),
       },
       {
         path: 'inside-and-decor-parts',
@@ -72,6 +72,11 @@ const routes: Routes = [
         path: 'road-test-issue-types',
         loadChildren: () =>
           import('./road-test-issue-type/road-test-issue-type-module').then(m => m.RoadTestIssueTypeModule),
+      },
+      {
+        path: 'accessory-parts',
+        loadChildren: () =>
+          import('./accessory-part/accessory-part-module').then(m => m.AccessoryPartModule),
       }
 
     ]

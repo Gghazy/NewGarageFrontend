@@ -44,7 +44,10 @@
       "Bash(xargs grep -l \"StageDetail\\\\|cylinder\\\\|evaluation\\\\|issue.*status\" -i)",
       "Bash(npx ng build --configuration development)",
       "Bash(xargs cat)",
-      "Bash(xargs grep -l \"MediatR\\\\|AddMediatR\\\\|AddApplication\")"
+      "Bash(xargs grep -l \"MediatR\\\\|AddMediatR\\\\|AddApplication\")",
+      "Bash(find \"f:/projects/suidProjects/NewGarage/BackEnd/BackEnd/src\" -type f -name \"*.cs\" -exec grep -l \"Stage\\\\.\" {} ;)",
+      "Bash(ls -la \"f:/projects/suidProjects/NewGarage/BackEnd/BackEnd/src/Garage.Application/Examinations/Commands/Save\"*)",
+      "Bash(ls -la \"f:/projects/suidProjects/NewGarage/BackEnd/BackEnd/src/Garage.Application/Examinations/Queries/Get\"*)"
     ],
     "additionalDirectories": [
       "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\shared\\Models\\vehicle-orders",
@@ -73,7 +76,13 @@
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\InsideAndDecorPartIssues",
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\InteriorBodyParts",
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\ExteriorBodyParts\\Entity",
-      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\RoadTestIssues\\Entity"
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\RoadTestIssues\\Entity",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\AccessoryParts\\Entity",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\MechParts",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\MechPartTypes\\Entity",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Api\\Localization\\Resources",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\MechIssues",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\MechIssueTypes"
     ]
   }
 }

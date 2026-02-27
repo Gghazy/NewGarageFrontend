@@ -5,7 +5,7 @@
 
 <div class="modal-body" [formGroup]="form">
   <div class="mb-3">
-    <label class="form-label">{{ 'MECH_ISSUES.TABLE.NAME_AR' | translate }}</label>
+    <label class="form-label">{{ 'MECH_PARTS.TABLE.NAME_AR' | translate }}</label>
     <input class="form-control" formControlName="nameAr" />
     <div class="text-danger small" *ngIf="form.get('nameAr')?.touched && form.get('nameAr')?.invalid">
       {{ 'COMMON.REQUIRED' | translate }}
@@ -13,18 +13,18 @@
   </div>
 
   <div class="mb-3">
-    <label class="form-label">{{ 'MECH_ISSUES.TABLE.NAME_EN' | translate }}</label>
+    <label class="form-label">{{ 'MECH_PARTS.TABLE.NAME_EN' | translate }}</label>
     <input class="form-control" formControlName="nameEn" />
     <div class="text-danger small" *ngIf="form.get('nameEn')?.touched && form.get('nameEn')?.invalid">
       {{ 'COMMON.REQUIRED' | translate }}
     </div>
   </div>
   <div class="mb-3">
-    <label class="form-label">{{ 'MECH_TYPE_ISSUES.TITLE' | translate }}</label>
-    <ng-select [items]="mechIssueTypes" [bindLabel]="'nameAr'" bindValue="id" formControlName="mechIssueTypeId" [searchable]="true"
+    <label class="form-label">{{ 'MECH_PART_TYPES.TITLE' | translate }}</label>
+    <ng-select [items]="mechPartTypes" [bindLabel]="'nameAr'" bindValue="id" formControlName="mechPartTypeId" [searchable]="true"
       [clearable]="true" [placeholder]="'COMMON.SELECT' | translate">
     </ng-select>
-    <div class="text-danger small" *ngIf="form.get('mechIssueTypeId')?.touched && form.get('mechIssueTypeId')?.invalid">
+    <div class="text-danger small" *ngIf="form.get('mechPartTypeId')?.touched && form.get('mechPartTypeId')?.invalid">
       {{ 'COMMON.REQUIRED' | translate }}
     </div>
   </div>

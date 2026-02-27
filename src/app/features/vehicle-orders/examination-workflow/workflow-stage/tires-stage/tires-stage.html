@@ -1,26 +1,234 @@
-<div *ngIf="workflowData.issuesLoading" class="text-center py-4">
+<div *ngIf="loading" class="text-center py-4">
   <div class="spinner-border spinner-border-sm text-primary"></div>
 </div>
 
-<ng-container *ngIf="!workflowData.issuesLoading">
-  <div *ngIf="hasIssueApi">
-    <div *ngIf="issues.length === 0" class="empty-state-sm">
-      <i class="bi bi-check-circle text-success"></i>
-      <small>{{ 'WORKFLOW.NO_ISSUES' | translate }}</small>
-    </div>
+<ng-container *ngIf="!loading">
 
-    <div *ngIf="issues.length > 0" class="row g-2">
-      <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let issue of issues">
-        <div class="issue-card">
-          <span *ngIf="issue.code" class="issue-code">{{ issue.code }}</span>
-          <span class="issue-name">{{ isAr ? issue.nameAr : issue.nameEn }}</span>
+  <!-- No issues checkbox -->
+  <div class="form-check mb-3">
+    <input type="checkbox" class="form-check-input" id="noTireIssues"
+           [(ngModel)]="noIssuesFound" (change)="toggleNoIssues()">
+    <label class="form-check-label fw-semibold" for="noTireIssues">
+      {{ 'WORKFLOW.NO_ISSUES_FOUND' | translate }}
+    </label>
+  </div>
+
+  <div [class.disabled-section]="noIssuesFound">
+    <div class="tire-layout">
+
+      <!-- Front tires -->
+      <div class="tire-row">
+        <div class="tire-card front-right">
+          <div class="tire-card-header">
+            <span class="tire-icon"><i class="bi bi-circle"></i></span>
+            {{ 'WORKFLOW.TIRE_POSITION_FRONT_RIGHT' | translate }}
+          </div>
+          <div class="tire-field">
+            <label>{{ 'WORKFLOW.TIRE_YEAR' | translate }}</label>
+            <ng-select [items]="yearOptions" [(ngModel)]="tires[0].year"
+                       [placeholder]="'WORKFLOW.SELECT_YEAR' | translate"
+                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+            </ng-select>
+          </div>
+          <div class="tire-field">
+            <label>{{ 'WORKFLOW.TIRE_WEEK' | translate }}</label>
+            <ng-select [items]="weekOptions" [(ngModel)]="tires[0].week"
+                       [placeholder]="'WORKFLOW.SELECT_WEEK' | translate"
+                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+            </ng-select>
+          </div>
+          <div class="tire-field">
+            <label>{{ 'WORKFLOW.TIRE_CONDITION' | translate }}</label>
+            <ng-select [items]="conditionOptions" bindValue="value" [(ngModel)]="tires[0].condition"
+                       [placeholder]="'WORKFLOW.SELECT_CONDITION' | translate"
+                       [clearable]="true" [disabled]="noIssuesFound">
+              <ng-template ng-label-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
+              <ng-template ng-option-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="tire-card front-left">
+          <div class="tire-card-header">
+            <span class="tire-icon"><i class="bi bi-circle"></i></span>
+            {{ 'WORKFLOW.TIRE_POSITION_FRONT_LEFT' | translate }}
+          </div>
+          <div class="tire-field">
+            <label>{{ 'WORKFLOW.TIRE_YEAR' | translate }}</label>
+            <ng-select [items]="yearOptions" [(ngModel)]="tires[1].year"
+                       [placeholder]="'WORKFLOW.SELECT_YEAR' | translate"
+                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+            </ng-select>
+          </div>
+          <div class="tire-field">
+            <label>{{ 'WORKFLOW.TIRE_WEEK' | translate }}</label>
+            <ng-select [items]="weekOptions" [(ngModel)]="tires[1].week"
+                       [placeholder]="'WORKFLOW.SELECT_WEEK' | translate"
+                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+            </ng-select>
+          </div>
+          <div class="tire-field">
+            <label>{{ 'WORKFLOW.TIRE_CONDITION' | translate }}</label>
+            <ng-select [items]="conditionOptions" bindValue="value" [(ngModel)]="tires[1].condition"
+                       [placeholder]="'WORKFLOW.SELECT_CONDITION' | translate"
+                       [clearable]="true" [disabled]="noIssuesFound">
+              <ng-template ng-label-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
+              <ng-template ng-option-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
+            </ng-select>
+          </div>
         </div>
       </div>
+
+      <!-- Car chassis -->
+      <div class="chassis-center">
+        <svg class="chassis-svg" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+          <!-- Body -->
+          <rect x="18" y="15" width="64" height="170" rx="18" ry="18"
+                fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+          <!-- Windshield -->
+          <rect x="27" y="42" width="46" height="32" rx="6" ry="6"
+                fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1"/>
+          <!-- Rear window -->
+          <rect x="27" y="128" width="46" height="28" rx="6" ry="6"
+                fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1"/>
+          <!-- Headlights -->
+          <rect x="24" y="18" width="14" height="6" rx="3" fill="#fbbf24"/>
+          <rect x="62" y="18" width="14" height="6" rx="3" fill="#fbbf24"/>
+          <!-- Taillights -->
+          <rect x="24" y="176" width="14" height="5" rx="2" fill="#ef4444"/>
+          <rect x="62" y="176" width="14" height="5" rx="2" fill="#ef4444"/>
+          <!-- Wheels -->
+          <rect x="6" y="34" width="14" height="28" rx="5" fill="#475569"/>
+          <rect x="80" y="34" width="14" height="28" rx="5" fill="#475569"/>
+          <rect x="6" y="138" width="14" height="28" rx="5" fill="#475569"/>
+          <rect x="80" y="138" width="14" height="28" rx="5" fill="#475569"/>
+          <!-- Steering wheel hint -->
+          <circle cx="50" cy="82" r="6" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+        </svg>
+      </div>
+
+      <!-- Rear tires -->
+      <div class="tire-row">
+        <div class="tire-card rear-right">
+          <div class="tire-card-header">
+            <span class="tire-icon"><i class="bi bi-circle"></i></span>
+            {{ 'WORKFLOW.TIRE_POSITION_REAR_RIGHT' | translate }}
+          </div>
+          <div class="tire-field">
+            <label>{{ 'WORKFLOW.TIRE_YEAR' | translate }}</label>
+            <ng-select [items]="yearOptions" [(ngModel)]="tires[2].year"
+                       [placeholder]="'WORKFLOW.SELECT_YEAR' | translate"
+                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+            </ng-select>
+          </div>
+          <div class="tire-field">
+            <label>{{ 'WORKFLOW.TIRE_WEEK' | translate }}</label>
+            <ng-select [items]="weekOptions" [(ngModel)]="tires[2].week"
+                       [placeholder]="'WORKFLOW.SELECT_WEEK' | translate"
+                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+            </ng-select>
+          </div>
+          <div class="tire-field">
+            <label>{{ 'WORKFLOW.TIRE_CONDITION' | translate }}</label>
+            <ng-select [items]="conditionOptions" bindValue="value" [(ngModel)]="tires[2].condition"
+                       [placeholder]="'WORKFLOW.SELECT_CONDITION' | translate"
+                       [clearable]="true" [disabled]="noIssuesFound">
+              <ng-template ng-label-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
+              <ng-template ng-option-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="tire-card rear-left">
+          <div class="tire-card-header">
+            <span class="tire-icon"><i class="bi bi-circle"></i></span>
+            {{ 'WORKFLOW.TIRE_POSITION_REAR_LEFT' | translate }}
+          </div>
+          <div class="tire-field">
+            <label>{{ 'WORKFLOW.TIRE_YEAR' | translate }}</label>
+            <ng-select [items]="yearOptions" [(ngModel)]="tires[3].year"
+                       [placeholder]="'WORKFLOW.SELECT_YEAR' | translate"
+                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+            </ng-select>
+          </div>
+          <div class="tire-field">
+            <label>{{ 'WORKFLOW.TIRE_WEEK' | translate }}</label>
+            <ng-select [items]="weekOptions" [(ngModel)]="tires[3].week"
+                       [placeholder]="'WORKFLOW.SELECT_WEEK' | translate"
+                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+            </ng-select>
+          </div>
+          <div class="tire-field">
+            <label>{{ 'WORKFLOW.TIRE_CONDITION' | translate }}</label>
+            <ng-select [items]="conditionOptions" bindValue="value" [(ngModel)]="tires[3].condition"
+                       [placeholder]="'WORKFLOW.SELECT_CONDITION' | translate"
+                       [clearable]="true" [disabled]="noIssuesFound">
+              <ng-template ng-label-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
+              <ng-template ng-option-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spare tire -->
+      <div class="spare-row">
+        <div class="tire-card spare">
+          <div class="tire-card-header">
+            <span class="tire-icon"><i class="bi bi-life-preserver"></i></span>
+            {{ 'WORKFLOW.TIRE_POSITION_SPARE' | translate }}
+          </div>
+          <div class="row g-2">
+            <div class="col-sm-4">
+              <div class="tire-field">
+                <label>{{ 'WORKFLOW.TIRE_YEAR' | translate }}</label>
+                <ng-select [items]="yearOptions" [(ngModel)]="tires[4].year"
+                           [placeholder]="'WORKFLOW.SELECT_YEAR' | translate"
+                           [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+                </ng-select>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="tire-field">
+                <label>{{ 'WORKFLOW.TIRE_WEEK' | translate }}</label>
+                <ng-select [items]="weekOptions" [(ngModel)]="tires[4].week"
+                           [placeholder]="'WORKFLOW.SELECT_WEEK' | translate"
+                           [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+                </ng-select>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="tire-field">
+                <label>{{ 'WORKFLOW.TIRE_CONDITION' | translate }}</label>
+                <ng-select [items]="conditionOptions" bindValue="value" [(ngModel)]="tires[4].condition"
+                           [placeholder]="'WORKFLOW.SELECT_CONDITION' | translate"
+                           [clearable]="true" [disabled]="noIssuesFound">
+                  <ng-template ng-label-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
+                  <ng-template ng-option-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div *ngIf="!hasIssueApi" class="empty-state-sm">
-    <i class="bi bi-check-circle text-success"></i>
-    <small>{{ 'WORKFLOW.NO_ISSUES' | translate }}</small>
+  <!-- Comments -->
+  <div class="comments-section">
+    <label class="form-label">{{ 'WORKFLOW.COMMENTS' | translate }}</label>
+    <textarea class="form-control" rows="3"
+              [(ngModel)]="comments"
+              [placeholder]="'WORKFLOW.COMMENTS_PLACEHOLDER' | translate"></textarea>
   </div>
+
+  <!-- Save button -->
+  <div class="d-flex justify-content-end mt-3">
+    <button class="btn btn-success px-4" (click)="save()" [disabled]="saving">
+      <span *ngIf="saving" class="spinner-border spinner-border-sm me-1"></span>
+      <i *ngIf="!saving" class="bi bi-check-lg me-1"></i>
+      {{ 'COMMON.SAVE' | translate }}
+    </button>
+  </div>
+
 </ng-container>

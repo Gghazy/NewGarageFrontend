@@ -1,0 +1,42 @@
+<app-shared-list
+  [titleKey]="'MECH_PARTS.TITLE'"
+  [addLabelKey]="'MECH_PARTS.ADD'"
+  [canAdd]="authService.hasPermission('mechPart.create')"
+  (addClicked)="openAddMechPart()"
+  [pagingConfig]="pagingConfig"
+  (pageSizeSearch)="search()"
+  [items]="mechParts"
+  [emptyText]="'No mech parts found'"
+  (pageChanged)="pagingConfig.currentPage = $event; loadMechParts();"
+>
+  <!-- header -->
+  <ng-container table-header>
+    <th>{{ 'MECH_PARTS.TABLE.NO' | translate }}</th>
+    <th>{{ 'MECH_PARTS.TABLE.NAME_AR' | translate }}</th>
+    <th>{{ 'MECH_PARTS.TABLE.NAME_EN' | translate }}</th>
+    <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
+  </ng-container>
+
+  <!-- body -->
+  <ng-container table-body>
+    <tr *ngFor="let item of mechParts | paginate: pagingConfig; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ item.nameAr }}</td>
+      <td>{{ item.nameEn }}</td>
+      <td class="text-end">
+        <button
+          class="btn btn-sm btn-outline-primary me-1"
+          *ngIf="authService.hasPermission('mechPart.update')"
+          (click)="openEditMechPart(item)">
+          {{ 'COMMON.EDIT' | translate }}
+        </button>
+        <button
+          class="btn btn-sm btn-outline-danger"
+          *ngIf="authService.hasPermission('mechPart.delete')"
+          (click)="deleteMechPart(item)">
+          {{ 'COMMON.DELETE' | translate }}
+        </button>
+      </td>
+    </tr>
+  </ng-container>
+</app-shared-list>
