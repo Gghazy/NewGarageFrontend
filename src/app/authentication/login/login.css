@@ -100,7 +100,6 @@
 
 .btn-login:hover:not(:disabled) {
   opacity: 0.92;
-  transform: translateY(-1px);
 }
 
 .btn-login:disabled {

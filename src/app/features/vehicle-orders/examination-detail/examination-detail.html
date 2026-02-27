@@ -1,173 +1,200 @@
 <div class="container-fluid py-3">
 
-  <!-- Page header -->
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <div class="d-flex align-items-center gap-2">
-      <h5 class="mb-0 fw-bold">{{ 'VEHICLE_ORDERS.DETAIL.TITLE' | translate }}</h5>
-      <span *ngIf="examination?.status" class="badge" [ngClass]="examination?.status | statusBadge:'examination'">
-        {{ 'VEHICLE_ORDERS.LIST.STATUSES.' + examination?.status | translate }}
-      </span>
-      <span *ngIf="examination?.type" class="badge bg-secondary">
-        {{ 'VEHICLE_ORDERS.VEHICLE.TYPE_' + examination?.type | uppercase | translate }}
-      </span>
+  <!-- Page Header -->
+  <div class="detail-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div class="d-flex align-items-center gap-3">
+      <h5 class="detail-title">{{ 'VEHICLE_ORDERS.DETAIL.TITLE' | translate }}</h5>
+      <div class="header-badges">
+        <span *ngIf="examination?.status" class="badge status-pill" [ngClass]="examination?.status | statusBadge:'examination'">
+          {{ 'VEHICLE_ORDERS.LIST.STATUSES.' + examination?.status | translate }}
+        </span>
+        <span *ngIf="examination?.type" class="type-pill">
+          {{ 'VEHICLE_ORDERS.VEHICLE.TYPE_' + examination?.type | uppercase | translate }}
+        </span>
+      </div>
     </div>
-    <div class="d-flex gap-2 flex-wrap">
+    <div class="header-actions">
       <!-- Start -->
       <button *ngIf="canStart && authService.hasPermission('examination.update')"
-        type="button" class="btn btn-sm btn-success" (click)="start()" [disabled]="actionLoading">
-        <i class="bi bi-play-fill me-1"></i>{{ 'VEHICLE_ORDERS.DETAIL.START' | translate }}
+        type="button" class="btn btn-success" (click)="start()" [disabled]="actionLoading">
+        <i class="bi bi-play-fill"></i>{{ 'VEHICLE_ORDERS.DETAIL.START' | translate }}
       </button>
       <!-- Open Workflow -->
       <button *ngIf="canOpenWorkflow && authService.hasPermission('examination.update')"
-        type="button" class="btn btn-sm btn-primary" (click)="openWorkflow()" [disabled]="actionLoading">
-        <i class="bi bi-diagram-3 me-1"></i>{{ 'VEHICLE_ORDERS.DETAIL.OPEN_WORKFLOW' | translate }}
+        type="button" class="btn btn-primary" (click)="openWorkflow()" [disabled]="actionLoading">
+        <i class="bi bi-diagram-3"></i>{{ 'VEHICLE_ORDERS.DETAIL.OPEN_WORKFLOW' | translate }}
       </button>
       <!-- Complete -->
       <button *ngIf="canComplete && authService.hasPermission('examination.update')"
-        type="button" class="btn btn-sm btn-success" (click)="complete()" [disabled]="actionLoading">
-        <i class="bi bi-check-circle me-1"></i>{{ 'VEHICLE_ORDERS.DETAIL.COMPLETE' | translate }}
+        type="button" class="btn btn-success" (click)="complete()" [disabled]="actionLoading">
+        <i class="bi bi-check-circle"></i>{{ 'VEHICLE_ORDERS.DETAIL.COMPLETE' | translate }}
       </button>
       <!-- Deliver -->
       <button *ngIf="canDeliver && authService.hasPermission('examination.update')"
-        type="button" class="btn btn-sm btn-info" (click)="deliver()" [disabled]="actionLoading">
-        <i class="bi bi-truck me-1"></i>{{ 'VEHICLE_ORDERS.DETAIL.DELIVER' | translate }}
+        type="button" class="btn btn-info text-white" (click)="deliver()" [disabled]="actionLoading">
+        <i class="bi bi-truck"></i>{{ 'VEHICLE_ORDERS.DETAIL.DELIVER' | translate }}
       </button>
       <!-- Generate Invoice -->
       <button *ngIf="canGenerateInvoice && authService.hasPermission('examination.update')"
-        type="button" class="btn btn-sm btn-outline-success" (click)="generateInvoice()" [disabled]="actionLoading">
-        <i class="bi bi-receipt me-1"></i>{{ 'VEHICLE_ORDERS.DETAIL.GENERATE_INVOICE' | translate }}
+        type="button" class="btn btn-outline-success" (click)="generateInvoice()" [disabled]="actionLoading">
+        <i class="bi bi-receipt"></i>{{ 'VEHICLE_ORDERS.DETAIL.GENERATE_INVOICE' | translate }}
       </button>
       <!-- Edit -->
       <button *ngIf="canEdit && authService.hasPermission('examination.update')"
-        type="button" class="btn btn-sm btn-outline-primary" (click)="openEdit()">
-        <i class="bi bi-pencil me-1"></i>{{ 'COMMON.EDIT' | translate }}
+        type="button" class="btn btn-outline-primary" (click)="openEdit()">
+        <i class="bi bi-pencil"></i>{{ 'COMMON.EDIT' | translate }}
       </button>
       <!-- Cancel -->
       <button *ngIf="canCancel && authService.hasPermission('examination.update')"
-        type="button" class="btn btn-sm btn-outline-danger" (click)="cancel()" [disabled]="actionLoading">
-        <i class="bi bi-x-circle me-1"></i>{{ 'VEHICLE_ORDERS.DETAIL.CANCEL' | translate }}
+        type="button" class="btn btn-outline-danger" (click)="cancel()" [disabled]="actionLoading">
+        <i class="bi bi-x-circle"></i>{{ 'VEHICLE_ORDERS.DETAIL.CANCEL' | translate }}
       </button>
       <!-- Back -->
-      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="goBack()">
-        <i class="bi bi-arrow-right me-1"></i>{{ 'COMMON.BACK' | translate }}
+      <button type="button" class="btn btn-outline-secondary" (click)="goBack()">
+        <i class="bi bi-arrow-right"></i>{{ 'COMMON.BACK' | translate }}
       </button>
     </div>
   </div>
 
-  <!-- Loading spinner -->
-  <div *ngIf="loading" class="text-center py-5">
-    <div class="spinner-border text-primary" role="status"></div>
+  <!-- Loading -->
+  <div *ngIf="loading" class="detail-loading">
+    <div class="spinner-border" role="status"></div>
   </div>
 
   <ng-container *ngIf="!loading && examination">
 
-    <!-- Client info -->
-    <div class="card border-0 shadow-sm mb-3">
-      <div class="card-header bg-white py-2">
-        <h6 class="mb-0 fw-semibold">{{ 'VEHICLE_ORDERS.DETAIL.CLIENT_INFO' | translate }}</h6>
+    <!-- Summary Cards -->
+    <div class="summary-row">
+      <div class="summary-card card-client">
+        <div class="summary-icon client">
+          <i class="bi bi-person-fill"></i>
+        </div>
+        <div class="summary-info">
+          <div class="summary-label">{{ 'VEHICLE_ORDERS.LIST.CLIENT' | translate }}</div>
+          <div class="summary-value">{{ isAr ? examination.clientNameAr : (examination.clientNameEn || examination.clientNameAr) }}</div>
+          <div *ngIf="examination.clientPhone" class="summary-sub">{{ examination.clientPhone }}</div>
+        </div>
       </div>
-      <div class="card-body">
-        <div class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label text-muted small mb-0">{{ 'VEHICLE_ORDERS.LIST.CLIENT' | translate }}</label>
-            <div class="fw-semibold">{{ isAr ? examination.clientNameAr : (examination.clientNameEn || examination.clientNameAr) }}</div>
+
+      <div class="summary-card card-vehicle">
+        <div class="summary-icon vehicle">
+          <i class="bi bi-car-front-fill"></i>
+        </div>
+        <div class="summary-info">
+          <div class="summary-label">{{ 'VEHICLE_ORDERS.VEHICLE.CAR_MARK' | translate }}</div>
+          <div class="summary-value">{{ (isAr ? examination.manufacturerNameAr : (examination.manufacturerNameEn || examination.manufacturerNameAr)) + ' - ' + (isAr ? examination.carMarkNameAr : (examination.carMarkNameEn || examination.carMarkNameAr)) }}</div>
+        </div>
+      </div>
+
+      <div class="summary-card card-plate">
+        <div class="summary-icon plate">
+          <i class="bi bi-credit-card-2-front-fill"></i>
+        </div>
+        <div class="summary-info">
+          <div class="summary-label">{{ 'VEHICLE_ORDERS.VEHICLE.PLATE_LETTERS' | translate }}</div>
+          <div class="summary-value">{{ getPlateDisplay() }}</div>
+        </div>
+      </div>
+
+      <div class="summary-card card-mileage">
+        <div class="summary-icon mileage">
+          <i class="bi bi-speedometer2"></i>
+        </div>
+        <div class="summary-info">
+          <div class="summary-label">{{ 'VEHICLE_ORDERS.VEHICLE.MILEAGE' | translate }}</div>
+          <div class="summary-value">{{ examination.mileage != null ? (examination.mileage | number) + ' ' + examination.mileageUnit : '—' }}</div>
+        </div>
+      </div>
+
+      <div class="summary-card card-branch">
+        <div class="summary-icon branch">
+          <i class="bi bi-building"></i>
+        </div>
+        <div class="summary-info">
+          <div class="summary-label">{{ 'VEHICLE_ORDERS.VEHICLE.BRANCH' | translate }}</div>
+          <div class="summary-value">{{ isAr ? examination.branchNameAr : (examination.branchNameEn || examination.branchNameAr) }}</div>
+        </div>
+      </div>
+
+      <div class="summary-card card-date">
+        <div class="summary-icon date">
+          <i class="bi bi-calendar3"></i>
+        </div>
+        <div class="summary-info">
+          <div class="summary-label">{{ 'VEHICLE_ORDERS.LIST.DATE' | translate }}</div>
+          <div class="summary-value">{{ examination.createdAtUtc ? (examination.createdAtUtc | date:'yyyy-MM-dd') : '—' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vehicle Details -->
+    <div class="detail-card">
+      <div class="detail-card-header" (click)="vehicleCollapsed = !vehicleCollapsed">
+        <i class="bi bi-car-front"></i>
+        <h6>{{ 'VEHICLE_ORDERS.DETAIL.VEHICLE_INFO' | translate }}</h6>
+        <i class="bi bi-chevron-down toggle-icon ms-auto" [class.rotated]="vehicleCollapsed"></i>
+      </div>
+      <div class="detail-card-body" [hidden]="vehicleCollapsed">
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.TYPE' | translate }}</span>
+            <span class="info-value" [class.empty]="!examination.type">{{ examination.type || '—' }}</span>
           </div>
-          <div class="col-md-6">
-            <label class="form-label text-muted small mb-0">{{ 'VEHICLE_ORDERS.LIST.PHONE' | translate }}</label>
-            <div class="fw-semibold">{{ examination.clientPhone || '—' }}</div>
+          <div class="info-item">
+            <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.YEAR' | translate }}</span>
+            <span class="info-value" [class.empty]="!examination.year">{{ examination.year || '—' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.COLOR' | translate }}</span>
+            <span class="info-value" [class.empty]="!examination.color">{{ examination.color || '—' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.TRANSMISSION' | translate }}</span>
+            <span class="info-value" [class.empty]="!examination.transmission">{{ examination.transmission || '—' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.VIN' | translate }}</span>
+            <span class="info-value" [class.empty]="!examination.vin">{{ examination.vin || '—' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.WARRANTY' | translate }}</span>
+            <span class="info-value">{{ (examination.hasWarranty ? 'VEHICLE_ORDERS.VEHICLE.WITH_WARRANTY' : 'VEHICLE_ORDERS.VEHICLE.NO_WARRANTY') | translate }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.MARKETER_CODE' | translate }}</span>
+            <span class="info-value" [class.empty]="!examination.marketerCode">{{ examination.marketerCode || '—' }}</span>
+          </div>
+          <div *ngIf="examination.notes" class="info-item info-full">
+            <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.NOTES' | translate }}</span>
+            <div class="notes-box">{{ examination.notes }}</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Vehicle & Examination meta -->
-    <div class="card border-0 shadow-sm mb-3">
-      <div class="card-header bg-white py-2">
-        <h6 class="mb-0 fw-semibold">{{ 'VEHICLE_ORDERS.DETAIL.VEHICLE_INFO' | translate }}</h6>
+    <!-- Services -->
+    <div class="detail-card">
+      <div class="detail-card-header" (click)="servicesCollapsed = !servicesCollapsed">
+        <i class="bi bi-tools"></i>
+        <h6>{{ 'VEHICLE_ORDERS.DETAIL.SERVICES' | translate }}</h6>
+        <i class="bi bi-chevron-down toggle-icon ms-auto" [class.rotated]="servicesCollapsed"></i>
       </div>
-      <div class="card-body">
-        <div class="row g-3">
-          <div class="col-md-3">
-            <label class="form-label text-muted small mb-0">{{ 'VEHICLE_ORDERS.VEHICLE.BRANCH' | translate }}</label>
-            <div class="fw-semibold">{{ isAr ? examination.branchNameAr : (examination.branchNameEn || examination.branchNameAr) }}</div>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label text-muted small mb-0">{{ 'VEHICLE_ORDERS.VEHICLE.TYPE' | translate }}</label>
-            <div class="fw-semibold">{{ examination.type || '—' }}</div>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label text-muted small mb-0">{{ 'VEHICLE_ORDERS.VEHICLE.MANUFACTURER' | translate }}</label>
-            <div class="fw-semibold">{{ isAr ? examination.manufacturerNameAr : (examination.manufacturerNameEn || examination.manufacturerNameAr) }}</div>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label text-muted small mb-0">{{ 'VEHICLE_ORDERS.VEHICLE.CAR_MARK' | translate }}</label>
-            <div class="fw-semibold">{{ isAr ? examination.carMarkNameAr : (examination.carMarkNameEn || examination.carMarkNameAr) }}</div>
-          </div>
-          <div class="col-md-2">
-            <label class="form-label text-muted small mb-0">{{ 'VEHICLE_ORDERS.VEHICLE.YEAR' | translate }}</label>
-            <div class="fw-semibold">{{ examination.year || '—' }}</div>
-          </div>
-          <div class="col-md-2">
-            <label class="form-label text-muted small mb-0">{{ 'VEHICLE_ORDERS.VEHICLE.COLOR' | translate }}</label>
-            <div class="fw-semibold">{{ examination.color || '—' }}</div>
-          </div>
-          <div class="col-md-2">
-            <label class="form-label text-muted small mb-0">{{ 'VEHICLE_ORDERS.VEHICLE.TRANSMISSION' | translate }}</label>
-            <div class="fw-semibold">{{ examination.transmission || '—' }}</div>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label text-muted small mb-0">{{ 'VEHICLE_ORDERS.VEHICLE.PLATE_LETTERS' | translate }}</label>
-            <div class="fw-semibold">{{ getPlateDisplay() }}</div>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label text-muted small mb-0">{{ 'VEHICLE_ORDERS.VEHICLE.MILEAGE' | translate }}</label>
-            <div class="fw-semibold">{{ examination.mileage != null ? (examination.mileage | number) + ' ' + examination.mileageUnit : '—' }}</div>
-          </div>
-          <div class="col-md-4">
-            <label class="form-label text-muted small mb-0">{{ 'VEHICLE_ORDERS.VEHICLE.VIN' | translate }}</label>
-            <div class="fw-semibold">{{ examination.vin || '—' }}</div>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label text-muted small mb-0">{{ 'VEHICLE_ORDERS.VEHICLE.WARRANTY' | translate }}</label>
-            <div class="fw-semibold">{{ (examination.hasWarranty ? 'VEHICLE_ORDERS.VEHICLE.WITH_WARRANTY' : 'VEHICLE_ORDERS.VEHICLE.NO_WARRANTY') | translate }}</div>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label text-muted small mb-0">{{ 'VEHICLE_ORDERS.VEHICLE.MARKETER_CODE' | translate }}</label>
-            <div class="fw-semibold">{{ examination.marketerCode || '—' }}</div>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label text-muted small mb-0">{{ 'VEHICLE_ORDERS.LIST.DATE' | translate }}</label>
-            <div class="fw-semibold">{{ examination.createdAtUtc ? (examination.createdAtUtc | date:'yyyy-MM-dd') : '—' }}</div>
-          </div>
-        </div>
-        <div *ngIf="examination.notes" class="mt-3">
-          <label class="form-label text-muted small mb-0">{{ 'VEHICLE_ORDERS.VEHICLE.NOTES' | translate }}</label>
-          <div>{{ examination.notes }}</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Services table -->
-    <div class="card border-0 shadow-sm mb-3">
-      <div class="card-header bg-white py-2">
-        <h6 class="mb-0 fw-semibold">{{ 'VEHICLE_ORDERS.DETAIL.SERVICES' | translate }}</h6>
-      </div>
-      <div class="card-body p-0">
+      <div [hidden]="servicesCollapsed">
         <div class="table-responsive">
-          <table class="table table-sm table-bordered mb-0 align-middle">
-            <thead class="table-light">
+          <table class="detail-table">
+            <thead>
               <tr>
-                <th style="width:36px">#</th>
+                <th class="row-num">#</th>
                 <th>{{ 'VEHICLE_ORDERS.SERVICES.SERVICE' | translate }}</th>
-                <th style="width:100px">{{ 'VEHICLE_ORDERS.SERVICES.QUANTITY' | translate }}</th>
-                <th style="width:140px">{{ 'VEHICLE_ORDERS.SERVICES.OVERRIDE_PRICE' | translate }}</th>
-                <th>{{ 'VEHICLE_ORDERS.LIST.STATUS' | translate }}</th>
+                <th style="width:100px" class="text-center">{{ 'VEHICLE_ORDERS.SERVICES.QUANTITY' | translate }}</th>
+                <th style="width:140px" class="text-center">{{ 'VEHICLE_ORDERS.SERVICES.OVERRIDE_PRICE' | translate }}</th>
+                <th style="width:120px">{{ 'VEHICLE_ORDERS.LIST.STATUS' | translate }}</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of examination.items; let i = index">
-                <td class="text-center text-muted">{{ i + 1 }}</td>
-                <td>{{ isAr ? item.serviceNameAr : (item.serviceNameEn || item.serviceNameAr) }}</td>
+                <td class="row-num">{{ i + 1 }}</td>
+                <td class="fw-semibold">{{ isAr ? item.serviceNameAr : (item.serviceNameEn || item.serviceNameAr) }}</td>
                 <td class="text-center">{{ item.quantity }}</td>
                 <td class="text-center">{{ item.overridePrice != null ? (item.overridePrice | number:'1.2-2') : '—' }}</td>
                 <td>
@@ -176,8 +203,11 @@
                   </span>
                 </td>
               </tr>
-              <tr *ngIf="examination.items.length === 0">
-                <td colspan="5" class="text-center text-muted py-3">{{ 'VEHICLE_ORDERS.DETAIL.NO_SERVICES' | translate }}</td>
+              <tr *ngIf="examination.items.length === 0" class="empty-row">
+                <td colspan="5">
+                  <i class="bi bi-inbox"></i>
+                  {{ 'VEHICLE_ORDERS.DETAIL.NO_SERVICES' | translate }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -186,31 +216,33 @@
     </div>
 
     <!-- Invoices -->
-    <div class="card border-0 shadow-sm mb-3">
-      <div class="card-header bg-white py-2">
-        <h6 class="mb-0 fw-semibold">{{ 'VEHICLE_ORDERS.DETAIL.INVOICES' | translate }}</h6>
+    <div class="detail-card">
+      <div class="detail-card-header" (click)="invoicesCollapsed = !invoicesCollapsed">
+        <i class="bi bi-receipt-cutoff"></i>
+        <h6>{{ 'VEHICLE_ORDERS.DETAIL.INVOICES' | translate }}</h6>
+        <i class="bi bi-chevron-down toggle-icon ms-auto" [class.rotated]="invoicesCollapsed"></i>
       </div>
-      <div class="card-body p-0">
-        <div *ngIf="invoicesLoading" class="text-center py-3">
-          <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+      <div [hidden]="invoicesCollapsed">
+        <div *ngIf="invoicesLoading" class="detail-loading" style="padding: 30px 20px;">
+          <div class="spinner-border spinner-border-sm" role="status"></div>
         </div>
         <div class="table-responsive" *ngIf="!invoicesLoading">
-          <table class="table table-sm table-bordered mb-0 align-middle">
-            <thead class="table-light">
+          <table class="detail-table">
+            <thead>
               <tr>
-                <th style="width:36px">#</th>
+                <th class="row-num">#</th>
                 <th>{{ 'INVOICES.LIST.INVOICE_NUMBER' | translate }}</th>
                 <th>{{ 'INVOICES.LIST.TYPE' | translate }}</th>
                 <th>{{ 'INVOICES.LIST.STATUS' | translate }}</th>
                 <th>{{ 'INVOICES.LIST.TOTAL' | translate }}</th>
                 <th>{{ 'INVOICES.LIST.DATE' | translate }}</th>
-                <th></th>
+                <th style="width:50px"></th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let inv of invoices; let i = index">
-                <td class="text-center text-muted">{{ i + 1 }}</td>
-                <td>{{ inv.invoiceNumber || '—' }}</td>
+                <td class="row-num">{{ i + 1 }}</td>
+                <td class="fw-semibold">{{ inv.invoiceNumber || '—' }}</td>
                 <td>
                   <span class="badge" [ngClass]="inv.type | statusBadge:'invoiceType'">
                     {{ 'INVOICES.LIST.TYPES.' + inv.type | translate }}
@@ -224,13 +256,16 @@
                 <td class="fw-semibold">{{ inv.totalWithTax | number:'1.2-2' }} {{ inv.currency }}</td>
                 <td>{{ inv.createdAtUtc | date:'yyyy-MM-dd' }}</td>
                 <td class="text-center">
-                  <a class="btn btn-sm btn-outline-primary" [routerLink]="['/features/invoices', inv.id]">
+                  <button class="btn-view" [routerLink]="['/features/invoices', inv.id]">
                     <i class="bi bi-eye"></i>
-                  </a>
+                  </button>
                 </td>
               </tr>
-              <tr *ngIf="invoices.length === 0">
-                <td colspan="7" class="text-center text-muted py-3">{{ 'VEHICLE_ORDERS.DETAIL.NO_INVOICES' | translate }}</td>
+              <tr *ngIf="invoices.length === 0" class="empty-row">
+                <td colspan="7">
+                  <i class="bi bi-receipt"></i>
+                  {{ 'VEHICLE_ORDERS.DETAIL.NO_INVOICES' | translate }}
+                </td>
               </tr>
             </tbody>
           </table>

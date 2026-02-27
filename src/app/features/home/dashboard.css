@@ -25,7 +25,6 @@
 
 .stat-card:hover {
   box-shadow: 0 8px 24px rgba(30, 58, 95, 0.12);
-  transform: translateY(-2px);
 }
 
 .stat-card--warning { border-left-color: #d97706; }

@@ -45,7 +45,6 @@
 
 .summary-card:hover {
   box-shadow: 0 4px 16px rgba(30, 58, 95, 0.1);
-  transform: translateY(-1px);
 }
 
 .summary-icon {

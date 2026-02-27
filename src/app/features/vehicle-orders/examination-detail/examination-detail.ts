@@ -23,6 +23,10 @@ export class ExaminationDetail implements OnInit, OnDestroy {
   loading = false;
   invoicesLoading = false;
   actionLoading = false;
+
+  vehicleCollapsed = true;
+  servicesCollapsed = true;
+  invoicesCollapsed = true;
   private examinationId!: string;
   private destroy$ = new Subject<void>();
 

@@ -1,13 +1,1 @@
-.section-toggle {
-  cursor: pointer;
-  user-select: none;
-}
 
-.toggle-icon {
-  transition: transform 0.2s ease;
-  font-size: 0.85rem;
-}
-
-.toggle-icon.rotated {
-  transform: rotate(-90deg);
-}
