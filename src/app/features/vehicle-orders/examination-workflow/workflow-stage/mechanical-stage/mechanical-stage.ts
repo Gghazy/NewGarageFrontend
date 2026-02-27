@@ -23,15 +23,15 @@ interface MechPartDto {
 
 interface MechanicalRow {
   partTypeId: string;
-  partTypeNameAr: string;
-  partTypeNameEn: string;
-  partIds: string[];
+  partId: string;
+  issueIds: string[];
 }
 
 interface MechanicalStageResultDto {
   noIssuesFound: boolean;
   comments: string | null;
   items: { partTypeId: string; partId: string }[];
+  issueItems: { partId: string; issueId: string }[];
 }
 
 @Component({
@@ -45,11 +45,13 @@ export class MechanicalStageComponent extends BaseStageComponent implements OnIn
 
   partTypes: LookupDto[] = [];
   allParts: MechPartDto[] = [];
-  availablePartTypes: LookupDto[] = [];
+  allIssues: LookupDto[] = [];
+  filteredParts: MechPartDto[] = [];
   loading = false;
 
   noIssuesFound = false;
   selectedPartTypeId: string | null = null;
+  selectedPartId: string | null = null;
   rows: MechanicalRow[] = [];
   comments = '';
   saving = false;
@@ -74,35 +76,55 @@ export class MechanicalStageComponent extends BaseStageComponent implements OnIn
     this.destroy$.complete();
   }
 
-  getPartsForType(partTypeId: string): MechPartDto[] {
-    return this.allParts.filter(i => i.mechPartTypeId === partTypeId);
+  onPartTypeChange(): void {
+    this.selectedPartId = null;
+    if (!this.selectedPartTypeId) {
+      this.filteredParts = [];
+      return;
+    }
+    const addedPartIds = new Set(this.rows.map(r => r.partId));
+    this.filteredParts = this.allParts.filter(
+      p => p.mechPartTypeId === this.selectedPartTypeId && !addedPartIds.has(p.id),
+    );
   }
 
-  addPartType(): void {
-    if (!this.selectedPartTypeId) return;
-    const type = this.partTypes.find(t => t.id === this.selectedPartTypeId);
-    if (!type) return;
+  getPartTypeName(partTypeId: string): string {
+    const t = this.partTypes.find(pt => pt.id === partTypeId);
+    if (!t) return '';
+    return this.isAr ? t.nameAr : t.nameEn;
+  }
+
+  getPartName(partId: string): string {
+    const p = this.allParts.find(pt => pt.id === partId);
+    if (!p) return '';
+    return this.isAr ? p.nameAr : p.nameEn;
+  }
+
+  addRow(): void {
+    if (!this.selectedPartTypeId || !this.selectedPartId) return;
+    if (this.rows.some(r => r.partId === this.selectedPartId)) return;
 
     this.rows.push({
-      partTypeId: type.id,
-      partTypeNameAr: type.nameAr,
-      partTypeNameEn: type.nameEn,
-      partIds: [],
+      partTypeId: this.selectedPartTypeId,
+      partId: this.selectedPartId,
+      issueIds: [],
     });
-    this.selectedPartTypeId = null;
-    this.refreshAvailableTypes();
+
+    this.selectedPartId = null;
+    this.onPartTypeChange();
   }
 
   removeRow(index: number): void {
     this.rows.splice(index, 1);
-    this.refreshAvailableTypes();
+    this.onPartTypeChange();
   }
 
   toggleNoIssues(): void {
     if (this.noIssuesFound) {
       this.rows = [];
       this.selectedPartTypeId = null;
-      this.refreshAvailableTypes();
+      this.selectedPartId = null;
+      this.filteredParts = [];
     }
   }
 
@@ -112,9 +134,12 @@ export class MechanicalStageComponent extends BaseStageComponent implements OnIn
 
     this.saving = true;
     const items: { partTypeId: string; partId: string }[] = [];
+    const issueItems: { partId: string; issueId: string }[] = [];
+
     for (const row of this.rows) {
-      for (const partId of row.partIds) {
-        items.push({ partTypeId: row.partTypeId, partId });
+      items.push({ partTypeId: row.partTypeId, partId: row.partId });
+      for (const issueId of row.issueIds) {
+        issueItems.push({ partId: row.partId, issueId });
       }
     }
 
@@ -122,6 +147,7 @@ export class MechanicalStageComponent extends BaseStageComponent implements OnIn
       noIssuesFound: this.noIssuesFound,
       comments: this.comments,
       items,
+      issueItems,
     };
 
     this.api.post<ApiResponse<string>>(`Examinations/${examId}/stages/mechanical`, payload)
@@ -142,11 +168,6 @@ export class MechanicalStageComponent extends BaseStageComponent implements OnIn
       });
   }
 
-  private refreshAvailableTypes(): void {
-    const addedIds = new Set(this.rows.map(r => r.partTypeId));
-    this.availablePartTypes = this.partTypes.filter(t => !addedIds.has(t.id));
-  }
-
   private loadData(): void {
     const examId = this.workflowData.exam?.id;
     const search = { itemsPerPage: 200, currentPage: 1, textSearch: '', sort: 'nameAr', desc: false };
@@ -155,11 +176,12 @@ export class MechanicalStageComponent extends BaseStageComponent implements OnIn
     forkJoin({
       partTypes: this.api.post<any>('MechPartTypes/pagination', search),
       parts: this.api.post<any>('MechParts/pagination', search),
+      issues: this.api.post<any>('MechIssues/pagination', search),
     }).pipe(
       tap(res => {
         this.partTypes = res.partTypes.data?.items ?? [];
         this.allParts = res.parts.data?.items ?? [];
-        this.refreshAvailableTypes();
+        this.allIssues = res.issues.data?.items ?? [];
       }),
       switchMap(() => {
         if (!examId) return EMPTY;
@@ -177,25 +199,21 @@ export class MechanicalStageComponent extends BaseStageComponent implements OnIn
     this.noIssuesFound = data.noIssuesFound;
     this.comments = data.comments ?? '';
 
-    const grouped = new Map<string, string[]>();
-    for (const item of data.items ?? []) {
-      if (!grouped.has(item.partTypeId)) {
-        grouped.set(item.partTypeId, []);
+    // Group issues by partId
+    const issuesByPart = new Map<string, string[]>();
+    for (const ii of data.issueItems ?? []) {
+      if (!issuesByPart.has(ii.partId)) {
+        issuesByPart.set(ii.partId, []);
       }
-      grouped.get(item.partTypeId)!.push(item.partId);
+      issuesByPart.get(ii.partId)!.push(ii.issueId);
     }
 
-    this.rows = [];
-    for (const [partTypeId, partIds] of grouped) {
-      const type = this.partTypes.find(t => t.id === partTypeId);
-      this.rows.push({
-        partTypeId,
-        partTypeNameAr: type?.nameAr ?? '',
-        partTypeNameEn: type?.nameEn ?? '',
-        partIds,
-      });
-    }
-    this.refreshAvailableTypes();
+    // Each item = one row
+    this.rows = (data.items ?? []).map(item => ({
+      partTypeId: item.partTypeId,
+      partId: item.partId,
+      issueIds: issuesByPart.get(item.partId) ?? [],
+    }));
 
     if (data.noIssuesFound || (data.items?.length ?? 0) > 0) {
       this.workflowData.markStageCompleted(this.stageValue);

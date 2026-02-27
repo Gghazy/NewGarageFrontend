@@ -95,7 +95,7 @@ export class ExaminationDetail implements OnInit, OnDestroy {
   }
 
   get canOpenWorkflow(): boolean {
-    return this.examination?.status === 'Pending' || this.examination?.status === 'InProgress';
+    return this.examination?.status === 'InProgress';
   }
 
   get canComplete(): boolean {

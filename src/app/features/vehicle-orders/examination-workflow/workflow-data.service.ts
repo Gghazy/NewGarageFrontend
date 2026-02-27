@@ -43,6 +43,7 @@ const STAGE_GET_API: Record<number, string> = {
   6: 'stages/accessories',
   7: 'stages/mechanical',
   8: 'stages/tires',
+  9: 'stages/road-test',
 };
 
 @Injectable()
@@ -53,6 +54,7 @@ export class WorkflowDataService {
   completedStages = new Set<number>();
   loading = true;
   issuesLoading = false;
+  readOnly = false;
 
   private destroy$ = new Subject<void>();
 
@@ -102,6 +104,7 @@ export class WorkflowDataService {
     this.completedStages.clear();
     this.loading = true;
     this.issuesLoading = false;
+    this.readOnly = false;
   }
 
   private loadAllIssuesInParallel(): void {

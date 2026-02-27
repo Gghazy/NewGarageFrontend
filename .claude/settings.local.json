@@ -47,7 +47,8 @@
       "Bash(xargs grep -l \"MediatR\\\\|AddMediatR\\\\|AddApplication\")",
       "Bash(find \"f:/projects/suidProjects/NewGarage/BackEnd/BackEnd/src\" -type f -name \"*.cs\" -exec grep -l \"Stage\\\\.\" {} ;)",
       "Bash(ls -la \"f:/projects/suidProjects/NewGarage/BackEnd/BackEnd/src/Garage.Application/Examinations/Commands/Save\"*)",
-      "Bash(ls -la \"f:/projects/suidProjects/NewGarage/BackEnd/BackEnd/src/Garage.Application/Examinations/Queries/Get\"*)"
+      "Bash(ls -la \"f:/projects/suidProjects/NewGarage/BackEnd/BackEnd/src/Garage.Application/Examinations/Queries/Get\"*)",
+      "Bash(find \"f:\\\\projects\\\\suidProjects\\\\NewGarage\\\\BackEnd\\\\BackEnd\\\\src\" -name \"*.cs\" -type f -exec grep -l \"enum PaymentType\" {} ;)"
     ],
     "additionalDirectories": [
       "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\shared\\Models\\vehicle-orders",
@@ -82,7 +83,8 @@
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\MechPartTypes\\Entity",
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Api\\Localization\\Resources",
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\MechIssues",
-      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\MechIssueTypes"
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\MechIssueTypes",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\Services\\Enums"
     ]
   }
 }

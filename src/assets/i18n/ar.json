@@ -57,6 +57,7 @@
     "LOGOUT": "تسجيل الخروج",
     "MECH_PARTS": "الأجزاء الميكانيكية",
     "MECH_PART_TYPES": "أنواع الأجزاء الميكانيكية",
+    "MECH_ISSUES": "الأعطال الميكانيكية",
     "SENSOR_ISSUES": "مشاكل الحساسات",
     "INTERIOR_ISSUES": "مشاكل الداخلية",
     "INTERIOR_BODY_ISSUES": "مشاكل الهيكل الداخلى",
@@ -89,6 +90,7 @@
     "SENSOR_ISSUES": "مشاكل الحساسات",
     "MECH_PARTS": "الأجزاء الميكانيكية",
     "MECH_PART_TYPES": "أنواع الأجزاء الميكانيكية",
+    "MECH_ISSUES": "الأعطال الميكانيكية",
     "INTERIOR_ISSUES": "مشاكل الداخلية",
     "INTERIOR_BODY_ISSUES": "مشاكل الهيكل الداخلى",
     "EXTERIOR_BODY_ISSUES": "مشاكل الهيكل الخارجى",
@@ -241,6 +243,10 @@
   "MECH_PART_TYPES": {
     "TITLE": "أنواع الأجزاء الميكانيكية",
     "ADD": "إضافة نوع جزء ميكانيكي"
+  },
+  "MECH_ISSUES": {
+    "TITLE": "الأعطال الميكانيكية",
+    "ADD": "إضافة عطل ميكانيكي"
   },
   "INTERIOR_ISSUES": {
     "TITLE": "مشاكل الداخلية",
@@ -413,6 +419,7 @@
       "RoadTestIssueType": "انواع اعطال تجربة الطريق",
       "Permissions": "الصلاحيات",
       "MechPartType": "أنواع الأجزاء الميكانيكية",
+      "MechIssue": "الأعطال الميكانيكية",
       "SensorIssue": "أعطال الحساسات",
       "Roles": "الأدوار",
       "Role": "الدور",
@@ -432,6 +439,7 @@
       "Create": "إضافة",
       "Update": "تعديل",
       "Delete": "حذف",
+      "Start": "بدء الفحص",
       "Examinations": "كروت الخدمة",
       "Revenue": "الإيرادات"
     },
@@ -542,7 +550,7 @@
       "PHONE": "الجوال",
       "MANUFACTURER": "الشركة المصنعة",
       "CAR_MARK": "الماركة",
-      "PLATE": "اللوحة",
+      "PLATE": "رقم اللوحة",
       "BRANCH": "الفرع",
       "TYPE": "النوع",
       "STATUS": "الحالة",
@@ -831,11 +839,10 @@
     "ISSUE_TYPE": "نوع العطل",
     "SELECT_ISSUES": "اختر الأعطال...",
     "ADD_PARTS_HINT": "اختر جزء واضغط إضافة",
-    "MECH_PART_TYPE": "نوع الجزء الميكانيكي",
-    "MECH_PARTS": "الأجزاء الميكانيكية",
-    "SELECT_PART_TYPE": "اختر نوع الجزء...",
-    "SELECT_PARTS": "اختر الأجزاء...",
-    "ADD_PART_TYPES_HINT": "اختر نوع الجزء واضغط إضافة",
+    "MECH_PART_TYPE": "نوع القطعة",
+    "MECH_PART": "اسم القطعة",
+    "MECH_ISSUES": "نوع العطل",
+    "SELECT_PART_TYPE": "اختر نوع القطعة...",
     "TIRE_POSITION_FRONT_RIGHT": "أمامي أيمن",
     "TIRE_POSITION_FRONT_LEFT": "أمامي أيسر",
     "TIRE_POSITION_REAR_RIGHT": "خلفي أيمن",
@@ -850,6 +857,11 @@
     "CONDITION_NEEDS_REPLACEMENT": "يحتاج استبدال",
     "SELECT_YEAR": "اختر السنة",
     "SELECT_WEEK": "اختر الأسبوع",
-    "SELECT_CONDITION": "اختر الحالة"
+    "SELECT_CONDITION": "اختر الحالة",
+    "ROAD_TEST_PART": "نوع العطل",
+    "ROAD_TEST_ISSUES": "العطل",
+    "SELECT_ROAD_TEST_PART": "اختر نوع العطل...",
+    "SELECT_ROAD_TEST_ISSUE": "اختر العطل...",
+    "ADD_ROAD_TEST_HINT": "اختر نوع العطل والعطل واضغط إضافة"
   }
 }

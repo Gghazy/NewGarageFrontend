@@ -57,6 +57,7 @@
     "LOGOUT": "Logout",
     "MECH_PARTS": "Mechanical Parts",
     "MECH_PART_TYPES": "Mechanical Part Types",
+    "MECH_ISSUES": "Mechanical Issues",
     "SENSOR_ISSUES": "Sensor Issues",
     "INTERIOR_ISSUES": "Interior Issues",
     "INTERIOR_BODY_ISSUES": "Interior Body Issues",
@@ -89,6 +90,7 @@
     "SENSOR_ISSUES": "Sensor Issues",
     "MECH_PARTS": "Mechanical Parts",
     "MECH_PART_TYPES": "Mechanical Part Types",
+    "MECH_ISSUES": "Mechanical Issues",
     "INTERIOR_ISSUES": "Interior Issues",
     "INTERIOR_BODY_ISSUES": "Interior Body Issues",
     "EXTERIOR_BODY_ISSUES": "Exterior Body Issues",
@@ -229,6 +231,10 @@
   "MECH_PART_TYPES": {
     "TITLE": "Mechanical Part Types",
     "ADD": "Add New Part Type"
+  },
+  "MECH_ISSUES": {
+    "TITLE": "Mechanical Issues",
+    "ADD": "Add New Issue"
   },
   "INTERIOR_ISSUES": {
     "TITLE": "Interior Issues Types",
@@ -393,6 +399,7 @@
       "RoadTestIssueType": "Road Test Issue Types",
       "Permissions": "Permissions",
       "MechPartType": "Mechanical Part Types",
+      "MechIssue": "Mechanical Issues",
       "SensorIssue": "Sensor Issues",
       "Roles": "Roles",
       "Role": "Role",
@@ -412,6 +419,7 @@
       "Create": "Create",
       "Update": "Update",
       "Delete": "Delete",
+      "Start": "Start Examination",
       "Examinations": "Service Cards",
       "Revenue": "Revenue"
     },
@@ -514,7 +522,7 @@
       "PHONE": "Phone",
       "MANUFACTURER": "Manufacturer",
       "CAR_MARK": "Car Mark",
-      "PLATE": "Plate",
+      "PLATE": "Plate Number",
       "BRANCH": "Branch",
       "TYPE": "Type",
       "STATUS": "Status",
@@ -803,11 +811,10 @@
     "ISSUE_TYPE": "Issue Type",
     "SELECT_ISSUES": "Select issues...",
     "ADD_PARTS_HINT": "Select a part and click Add",
-    "MECH_PART_TYPE": "Mechanical Part Type",
-    "MECH_PARTS": "Mechanical Parts",
+    "MECH_PART_TYPE": "Part Type",
+    "MECH_PART": "Part Name",
+    "MECH_ISSUES": "Issue Type",
     "SELECT_PART_TYPE": "Select part type...",
-    "ADD_PART_TYPES_HINT": "Select a part type and click Add",
-    "SELECT_PARTS": "Select parts...",
     "TIRE_POSITION_FRONT_RIGHT": "Front Right",
     "TIRE_POSITION_FRONT_LEFT": "Front Left",
     "TIRE_POSITION_REAR_RIGHT": "Rear Right",
@@ -822,6 +829,11 @@
     "CONDITION_NEEDS_REPLACEMENT": "Needs Replacement",
     "SELECT_YEAR": "Select year",
     "SELECT_WEEK": "Select week",
-    "SELECT_CONDITION": "Select condition"
+    "SELECT_CONDITION": "Select condition",
+    "ROAD_TEST_PART": "Issue Type",
+    "ROAD_TEST_ISSUES": "Issue",
+    "SELECT_ROAD_TEST_PART": "Select issue type...",
+    "SELECT_ROAD_TEST_ISSUE": "Select issue...",
+    "ADD_ROAD_TEST_HINT": "Select an issue type and issue then click Add"
   }
 }

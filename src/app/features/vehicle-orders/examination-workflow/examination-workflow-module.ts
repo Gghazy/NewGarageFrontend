@@ -13,7 +13,6 @@ import { ExteriorAccessoriesStageComponent } from './workflow-stage/exterior-acc
 import { MechanicalStageComponent } from './workflow-stage/mechanical-stage/mechanical-stage';
 import { TiresStageComponent } from './workflow-stage/tires-stage/tires-stage';
 import { RoadTestStageComponent } from './workflow-stage/road-test-stage/road-test-stage';
-import { ApprovalStageComponent } from './workflow-stage/approval-stage/approval-stage';
 
 @NgModule({
   declarations: [
@@ -27,7 +26,6 @@ import { ApprovalStageComponent } from './workflow-stage/approval-stage/approval
     MechanicalStageComponent,
     TiresStageComponent,
     RoadTestStageComponent,
-    ApprovalStageComponent,
   ],
   imports: [
     CommonModule,

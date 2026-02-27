@@ -29,6 +29,7 @@ export const APP_MENU: AppMenuItem[] = [
       { labelKey: 'MENU.SENSOR_ISSUES', route: '/features/examination-management/sensor-issues', icon: 'bi bi-cpu', permissions: ['sensorIssue.read'] },
       { labelKey: 'MENU.MECH_PARTS', route: '/features/examination-management/mech-parts', icon: 'bi bi-gear-wide-connected', permissions: ['mechPart.read'] },
       { labelKey: 'MENU.MECH_PART_TYPES', route: '/features/examination-management/mech-part-types', icon: 'bi bi-diagram-2', permissions: ['mechPartType.read'] },
+      { labelKey: 'MENU.MECH_ISSUES', route: '/features/examination-management/mech-issues', icon: 'bi bi-exclamation-triangle', permissions: ['mechIssue.read'] },
       { labelKey: 'MENU.INTERIOR_ISSUES', route: '/features/examination-management/interior-issues', icon: 'bi bi-car-front', permissions: ['interiorIssue.read'] },
       { labelKey: 'MENU.INTERIOR_BODY_ISSUES', route: '/features/examination-management/interior-body-issues', icon: 'bi bi-layout-text-window', permissions: ['interiorBodyIssue.read'] },
       { labelKey: 'MENU.EXTERIOR_BODY_ISSUES', route: '/features/examination-management/exterior-body-issues', icon: 'bi bi-car-front-fill', permissions: ['exteriorBodyIssue.read'] },

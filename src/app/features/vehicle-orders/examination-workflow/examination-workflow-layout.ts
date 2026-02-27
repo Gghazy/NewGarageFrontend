@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { WorkflowDataService } from './workflow-data.service';
 
 @Component({
@@ -18,6 +19,7 @@ export class ExaminationWorkflowLayout implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private translate: TranslateService,
+    private authService: AuthService,
     public workflowData: WorkflowDataService,
   ) {}
 
@@ -32,6 +34,8 @@ export class ExaminationWorkflowLayout implements OnInit, OnDestroy {
       this.router.navigate(['/features/vehicle-orders']);
       return;
     }
+
+    this.workflowData.readOnly = !this.authService.hasPermission('examination.update');
 
     this.workflowData.loadWorkflow(id)
       .pipe(takeUntil(this.destroy$))

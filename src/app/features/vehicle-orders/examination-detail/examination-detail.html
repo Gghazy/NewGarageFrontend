@@ -15,12 +15,12 @@
     </div>
     <div class="header-actions">
       <!-- Start -->
-      <button *ngIf="canStart && authService.hasPermission('examination.update')"
+      <button *ngIf="canStart && authService.hasPermission('examination.start')"
         type="button" class="btn btn-success" (click)="start()" [disabled]="actionLoading">
         <i class="bi bi-play-fill"></i>{{ 'VEHICLE_ORDERS.DETAIL.START' | translate }}
       </button>
       <!-- Open Workflow -->
-      <button *ngIf="canOpenWorkflow && authService.hasPermission('examination.update')"
+      <button *ngIf="canOpenWorkflow && (authService.hasPermission('examination.update') || authService.hasPermission('examination.read'))"
         type="button" class="btn btn-primary" (click)="openWorkflow()" [disabled]="actionLoading">
         <i class="bi bi-diagram-3"></i>{{ 'VEHICLE_ORDERS.DETAIL.OPEN_WORKFLOW' | translate }}
       </button>

@@ -12,7 +12,7 @@
       <!-- No issues checkbox -->
       <div class="form-check mb-3">
         <input type="checkbox" class="form-check-input" id="noIssues"
-               [(ngModel)]="noIssuesFound" (change)="toggleNoIssues()">
+               [(ngModel)]="noIssuesFound" (change)="toggleNoIssues()" [disabled]="readOnly">
         <label class="form-check-label fw-semibold" for="noIssues">
           {{ 'WORKFLOW.NO_ISSUES_FOUND' | translate }}
         </label>
@@ -23,9 +23,9 @@
         <div class="mb-3">
           <label class="form-label">{{ 'WORKFLOW.CYLINDER_COUNT' | translate }}</label>
           <input type="number" class="form-control" min="1" max="16"
-                 [(ngModel)]="cylinderCount" [disabled]="noIssuesFound">
+                 [(ngModel)]="cylinderCount" [disabled]="noIssuesFound || readOnly">
         </div>
-        <div class="mb-3">
+        <div class="mb-3" *ngIf="!readOnly">
           <label class="form-label">{{ 'WORKFLOW.ISSUE_CODE' | translate }}</label>
           <ng-select [items]="availableIssues"
                      [bindLabel]="isAr ? 'nameAr' : 'nameEn'"
@@ -41,7 +41,7 @@
             </ng-template>
           </ng-select>
         </div>
-        <button class="btn btn-primary"
+        <button *ngIf="!readOnly" class="btn btn-primary"
                 [disabled]="noIssuesFound || !selectedIssueId"
                 (click)="addIssue()">
           <i class="bi bi-plus-lg me-1"></i>
@@ -72,11 +72,12 @@
         <label class="form-label">{{ 'WORKFLOW.COMMENTS' | translate }}</label>
         <textarea class="form-control" rows="3"
                   [(ngModel)]="comments"
-                  [placeholder]="'WORKFLOW.COMMENTS_PLACEHOLDER' | translate"></textarea>
+                  [placeholder]="'WORKFLOW.COMMENTS_PLACEHOLDER' | translate"
+                  [disabled]="readOnly"></textarea>
       </div>
 
       <!-- Save button -->
-      <div class="d-flex justify-content-end">
+      <div *ngIf="!readOnly" class="d-flex justify-content-end">
         <button class="btn btn-success px-4" (click)="save()" [disabled]="saving">
           <span *ngIf="saving" class="spinner-border spinner-border-sm me-1"></span>
           <i *ngIf="!saving" class="bi bi-check-lg me-1"></i>
@@ -95,14 +96,14 @@
               <th>{{ 'WORKFLOW.ISSUE_CODE' | translate }}</th>
               <th>{{ 'WORKFLOW.DESCRIPTION' | translate }}</th>
               <th class="text-center" colspan="2">{{ 'WORKFLOW.EVALUATION' | translate }}</th>
-              <th class="text-center" style="width: 60px;">{{ 'WORKFLOW.ACTION' | translate }}</th>
+              <th *ngIf="!readOnly" class="text-center" style="width: 60px;">{{ 'WORKFLOW.ACTION' | translate }}</th>
             </tr>
             <tr>
               <th></th>
               <th></th>
               <th class="text-center eval-header">{{ 'WORKFLOW.ACTIVE' | translate }}</th>
               <th class="text-center eval-header">{{ 'WORKFLOW.STORED' | translate }}</th>
-              <th></th>
+              <th *ngIf="!readOnly"></th>
             </tr>
           </thead>
           <tbody>
@@ -112,14 +113,14 @@
               <td class="text-center">
                 <input type="radio" class="form-check-input"
                        [name]="'eval_' + i" value="active"
-                       [(ngModel)]="row.evaluation">
+                       [(ngModel)]="row.evaluation" [disabled]="readOnly">
               </td>
               <td class="text-center">
                 <input type="radio" class="form-check-input"
                        [name]="'eval_' + i" value="stored"
-                       [(ngModel)]="row.evaluation">
+                       [(ngModel)]="row.evaluation" [disabled]="readOnly">
               </td>
-              <td class="text-center">
+              <td *ngIf="!readOnly" class="text-center">
                 <button class="btn btn-sm btn-outline-danger" (click)="removeIssue(i)">
                   <i class="bi bi-trash"></i>
                 </button>

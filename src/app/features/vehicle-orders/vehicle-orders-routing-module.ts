@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { permissionGuard } from 'src/app/core/guards/permission.guard';
 import { ExaminationDetail } from './examination-detail/examination-detail';
 import { VehicleOrderForm } from './vehicle-order-form/vehicle-order-form';
 import { VehicleOrderList } from './vehicle-order-list/vehicle-order-list';
@@ -14,28 +15,53 @@ const routes: Routes = [
       {
         path: '',
         component: VehicleOrderList,
-        data: { breadcrumb: '' }
+        canActivate: [permissionGuard],
+        data: {
+          breadcrumb: '',
+          permissions: ['examination.read'],
+          permissionMode: 'any'
+        }
       },
       {
         path: 'new',
         component: VehicleOrderForm,
-        data: { breadcrumb: 'BREADCRUMB.NEW_EXAMINATION' }
+        canActivate: [permissionGuard],
+        data: {
+          breadcrumb: 'BREADCRUMB.NEW_EXAMINATION',
+          permissions: ['examination.create'],
+          permissionMode: 'any'
+        }
       },
       {
         path: ':id/details',
         component: ExaminationDetail,
-        data: { breadcrumb: 'BREADCRUMB.EXAM_DETAILS' }
+        canActivate: [permissionGuard],
+        data: {
+          breadcrumb: 'BREADCRUMB.EXAM_DETAILS',
+          permissions: ['examination.read'],
+          permissionMode: 'any'
+        }
       },
       {
         path: ':id/workflow',
         loadChildren: () =>
           import('./examination-workflow/examination-workflow-module').then(m => m.ExaminationWorkflowModule),
-        data: { breadcrumb: 'BREADCRUMB.EXAM_WORKFLOW' }
+        canActivate: [permissionGuard],
+        data: {
+          breadcrumb: 'BREADCRUMB.EXAM_WORKFLOW',
+          permissions: ['examination.read', 'examination.update'],
+          permissionMode: 'any'
+        }
       },
       {
         path: ':id',
         component: VehicleOrderForm,
-        data: { breadcrumb: 'BREADCRUMB.EDIT_EXAMINATION' }
+        canActivate: [permissionGuard],
+        data: {
+          breadcrumb: 'BREADCRUMB.EDIT_EXAMINATION',
+          permissions: ['examination.update'],
+          permissionMode: 'any'
+        }
       }
     ]
   }

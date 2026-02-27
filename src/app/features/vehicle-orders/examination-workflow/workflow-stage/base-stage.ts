@@ -20,4 +20,8 @@ export abstract class BaseStageComponent {
   get issues(): IssueItem[] {
     return this.workflowData.getIssuesForStage(this.stageValue);
   }
+
+  get readOnly(): boolean {
+    return this.workflowData.readOnly;
+  }
 }

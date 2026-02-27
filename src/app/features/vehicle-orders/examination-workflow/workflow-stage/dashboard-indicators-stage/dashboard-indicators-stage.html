@@ -15,12 +15,13 @@
           <input type="number" class="form-control form-control-sm indicator-input"
                  [(ngModel)]="values[ind.key].value"
                  [min]="ind.min" [max]="ind.max"
-                 [disabled]="values[ind.key].notApplicable">
+                 [disabled]="values[ind.key].notApplicable || readOnly">
           <label class="d-flex align-items-center gap-1 text-nowrap text-muted mb-0 indicator-na"
                  [for]="'na_' + ind.key">
             <input type="checkbox" [id]="'na_' + ind.key"
                    [(ngModel)]="values[ind.key].notApplicable"
-                   (change)="toggleNotApplicable(ind.key)">
+                   (change)="toggleNotApplicable(ind.key)"
+                   [disabled]="readOnly">
             {{ 'WORKFLOW.NOT_APPLICABLE' | translate }}
           </label>
         </div>
@@ -75,11 +76,12 @@
     <label class="form-label">{{ 'WORKFLOW.COMMENTS' | translate }}</label>
     <textarea class="form-control" rows="3"
               [(ngModel)]="comments"
-              [placeholder]="'WORKFLOW.COMMENTS_PLACEHOLDER' | translate"></textarea>
+              [placeholder]="'WORKFLOW.COMMENTS_PLACEHOLDER' | translate"
+              [disabled]="readOnly"></textarea>
   </div>
 
   <!-- Save button -->
-  <div class="d-flex justify-content-end">
+  <div *ngIf="!readOnly" class="d-flex justify-content-end">
     <button class="btn btn-success px-4" (click)="save()" [disabled]="saving">
       <span *ngIf="saving" class="spinner-border spinner-border-sm me-1"></span>
       <i *ngIf="!saving" class="bi bi-check-lg me-1"></i>

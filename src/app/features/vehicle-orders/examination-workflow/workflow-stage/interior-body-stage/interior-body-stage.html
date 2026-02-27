@@ -12,14 +12,14 @@
       <!-- No issues checkbox -->
       <div class="form-check mb-3">
         <input type="checkbox" class="form-check-input" id="noIssuesInteriorBody"
-               [(ngModel)]="noIssuesFound" (change)="toggleNoIssues()">
+               [(ngModel)]="noIssuesFound" (change)="toggleNoIssues()" [disabled]="readOnly">
         <label class="form-check-label fw-semibold" for="noIssuesInteriorBody">
           {{ 'WORKFLOW.NO_ISSUES_FOUND' | translate }}
         </label>
       </div>
 
       <!-- Part selection -->
-      <div [class.disabled-section]="noIssuesFound">
+      <div [class.disabled-section]="noIssuesFound" *ngIf="!readOnly">
         <div class="mb-3">
           <label class="form-label">{{ 'WORKFLOW.INTERIOR_BODY_PART' | translate }}</label>
           <ng-select [items]="availableParts"
@@ -45,11 +45,12 @@
         <label class="form-label">{{ 'WORKFLOW.COMMENTS' | translate }}</label>
         <textarea class="form-control" rows="3"
                   [(ngModel)]="comments"
-                  [placeholder]="'WORKFLOW.COMMENTS_PLACEHOLDER' | translate"></textarea>
+                  [placeholder]="'WORKFLOW.COMMENTS_PLACEHOLDER' | translate"
+                  [disabled]="readOnly"></textarea>
       </div>
 
       <!-- Save button -->
-      <div class="d-flex justify-content-end">
+      <div *ngIf="!readOnly" class="d-flex justify-content-end">
         <button class="btn btn-success px-4" (click)="save()" [disabled]="saving">
           <span *ngIf="saving" class="spinner-border spinner-border-sm me-1"></span>
           <i *ngIf="!saving" class="bi bi-check-lg me-1"></i>
@@ -68,7 +69,7 @@
               <th style="width: 50px;">#</th>
               <th>{{ 'WORKFLOW.INTERIOR_BODY_PART' | translate }}</th>
               <th>{{ 'WORKFLOW.ISSUE_TYPE' | translate }}</th>
-              <th class="text-center" style="width: 60px;">{{ 'WORKFLOW.ACTION' | translate }}</th>
+              <th *ngIf="!readOnly" class="text-center" style="width: 60px;">{{ 'WORKFLOW.ACTION' | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -82,12 +83,13 @@
                            [(ngModel)]="row.issueIds"
                            [multiple]="true"
                            [placeholder]="'WORKFLOW.SELECT_ISSUES' | translate"
-                           [clearable]="true"
+                           [clearable]="!readOnly"
                            [searchable]="true"
+                           [disabled]="readOnly"
                            appendTo="body">
                 </ng-select>
               </td>
-              <td class="text-center">
+              <td *ngIf="!readOnly" class="text-center">
                 <button class="btn btn-sm btn-outline-danger" (click)="removePart(i)">
                   <i class="bi bi-trash"></i>
                 </button>

@@ -7,7 +7,7 @@
   <!-- No issues checkbox -->
   <div class="form-check mb-3">
     <input type="checkbox" class="form-check-input" id="noTireIssues"
-           [(ngModel)]="noIssuesFound" (change)="toggleNoIssues()">
+           [(ngModel)]="noIssuesFound" (change)="toggleNoIssues()" [disabled]="readOnly">
     <label class="form-check-label fw-semibold" for="noTireIssues">
       {{ 'WORKFLOW.NO_ISSUES_FOUND' | translate }}
     </label>
@@ -27,21 +27,21 @@
             <label>{{ 'WORKFLOW.TIRE_YEAR' | translate }}</label>
             <ng-select [items]="yearOptions" [(ngModel)]="tires[0].year"
                        [placeholder]="'WORKFLOW.SELECT_YEAR' | translate"
-                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound || readOnly">
             </ng-select>
           </div>
           <div class="tire-field">
             <label>{{ 'WORKFLOW.TIRE_WEEK' | translate }}</label>
             <ng-select [items]="weekOptions" [(ngModel)]="tires[0].week"
                        [placeholder]="'WORKFLOW.SELECT_WEEK' | translate"
-                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound || readOnly">
             </ng-select>
           </div>
           <div class="tire-field">
             <label>{{ 'WORKFLOW.TIRE_CONDITION' | translate }}</label>
             <ng-select [items]="conditionOptions" bindValue="value" [(ngModel)]="tires[0].condition"
                        [placeholder]="'WORKFLOW.SELECT_CONDITION' | translate"
-                       [clearable]="true" [disabled]="noIssuesFound">
+                       [clearable]="true" [disabled]="noIssuesFound || readOnly">
               <ng-template ng-label-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
               <ng-template ng-option-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
             </ng-select>
@@ -57,21 +57,21 @@
             <label>{{ 'WORKFLOW.TIRE_YEAR' | translate }}</label>
             <ng-select [items]="yearOptions" [(ngModel)]="tires[1].year"
                        [placeholder]="'WORKFLOW.SELECT_YEAR' | translate"
-                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound || readOnly">
             </ng-select>
           </div>
           <div class="tire-field">
             <label>{{ 'WORKFLOW.TIRE_WEEK' | translate }}</label>
             <ng-select [items]="weekOptions" [(ngModel)]="tires[1].week"
                        [placeholder]="'WORKFLOW.SELECT_WEEK' | translate"
-                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound || readOnly">
             </ng-select>
           </div>
           <div class="tire-field">
             <label>{{ 'WORKFLOW.TIRE_CONDITION' | translate }}</label>
             <ng-select [items]="conditionOptions" bindValue="value" [(ngModel)]="tires[1].condition"
                        [placeholder]="'WORKFLOW.SELECT_CONDITION' | translate"
-                       [clearable]="true" [disabled]="noIssuesFound">
+                       [clearable]="true" [disabled]="noIssuesFound || readOnly">
               <ng-template ng-label-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
               <ng-template ng-option-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
             </ng-select>
@@ -118,21 +118,21 @@
             <label>{{ 'WORKFLOW.TIRE_YEAR' | translate }}</label>
             <ng-select [items]="yearOptions" [(ngModel)]="tires[2].year"
                        [placeholder]="'WORKFLOW.SELECT_YEAR' | translate"
-                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound || readOnly">
             </ng-select>
           </div>
           <div class="tire-field">
             <label>{{ 'WORKFLOW.TIRE_WEEK' | translate }}</label>
             <ng-select [items]="weekOptions" [(ngModel)]="tires[2].week"
                        [placeholder]="'WORKFLOW.SELECT_WEEK' | translate"
-                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound || readOnly">
             </ng-select>
           </div>
           <div class="tire-field">
             <label>{{ 'WORKFLOW.TIRE_CONDITION' | translate }}</label>
             <ng-select [items]="conditionOptions" bindValue="value" [(ngModel)]="tires[2].condition"
                        [placeholder]="'WORKFLOW.SELECT_CONDITION' | translate"
-                       [clearable]="true" [disabled]="noIssuesFound">
+                       [clearable]="true" [disabled]="noIssuesFound || readOnly">
               <ng-template ng-label-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
               <ng-template ng-option-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
             </ng-select>
@@ -148,21 +148,21 @@
             <label>{{ 'WORKFLOW.TIRE_YEAR' | translate }}</label>
             <ng-select [items]="yearOptions" [(ngModel)]="tires[3].year"
                        [placeholder]="'WORKFLOW.SELECT_YEAR' | translate"
-                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound || readOnly">
             </ng-select>
           </div>
           <div class="tire-field">
             <label>{{ 'WORKFLOW.TIRE_WEEK' | translate }}</label>
             <ng-select [items]="weekOptions" [(ngModel)]="tires[3].week"
                        [placeholder]="'WORKFLOW.SELECT_WEEK' | translate"
-                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+                       [clearable]="true" [searchable]="true" [disabled]="noIssuesFound || readOnly">
             </ng-select>
           </div>
           <div class="tire-field">
             <label>{{ 'WORKFLOW.TIRE_CONDITION' | translate }}</label>
             <ng-select [items]="conditionOptions" bindValue="value" [(ngModel)]="tires[3].condition"
                        [placeholder]="'WORKFLOW.SELECT_CONDITION' | translate"
-                       [clearable]="true" [disabled]="noIssuesFound">
+                       [clearable]="true" [disabled]="noIssuesFound || readOnly">
               <ng-template ng-label-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
               <ng-template ng-option-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
             </ng-select>
@@ -183,7 +183,7 @@
                 <label>{{ 'WORKFLOW.TIRE_YEAR' | translate }}</label>
                 <ng-select [items]="yearOptions" [(ngModel)]="tires[4].year"
                            [placeholder]="'WORKFLOW.SELECT_YEAR' | translate"
-                           [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+                           [clearable]="true" [searchable]="true" [disabled]="noIssuesFound || readOnly">
                 </ng-select>
               </div>
             </div>
@@ -192,7 +192,7 @@
                 <label>{{ 'WORKFLOW.TIRE_WEEK' | translate }}</label>
                 <ng-select [items]="weekOptions" [(ngModel)]="tires[4].week"
                            [placeholder]="'WORKFLOW.SELECT_WEEK' | translate"
-                           [clearable]="true" [searchable]="true" [disabled]="noIssuesFound">
+                           [clearable]="true" [searchable]="true" [disabled]="noIssuesFound || readOnly">
                 </ng-select>
               </div>
             </div>
@@ -201,7 +201,7 @@
                 <label>{{ 'WORKFLOW.TIRE_CONDITION' | translate }}</label>
                 <ng-select [items]="conditionOptions" bindValue="value" [(ngModel)]="tires[4].condition"
                            [placeholder]="'WORKFLOW.SELECT_CONDITION' | translate"
-                           [clearable]="true" [disabled]="noIssuesFound">
+                           [clearable]="true" [disabled]="noIssuesFound || readOnly">
                   <ng-template ng-label-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
                   <ng-template ng-option-tmp let-item="item">{{ item.labelKey | translate }}</ng-template>
                 </ng-select>
@@ -219,11 +219,12 @@
     <label class="form-label">{{ 'WORKFLOW.COMMENTS' | translate }}</label>
     <textarea class="form-control" rows="3"
               [(ngModel)]="comments"
-              [placeholder]="'WORKFLOW.COMMENTS_PLACEHOLDER' | translate"></textarea>
+              [placeholder]="'WORKFLOW.COMMENTS_PLACEHOLDER' | translate"
+              [disabled]="readOnly"></textarea>
   </div>
 
   <!-- Save button -->
-  <div class="d-flex justify-content-end mt-3">
+  <div *ngIf="!readOnly" class="d-flex justify-content-end mt-3">
     <button class="btn btn-success px-4" (click)="save()" [disabled]="saving">
       <span *ngIf="saving" class="spinner-border spinner-border-sm me-1"></span>
       <i *ngIf="!saving" class="bi bi-check-lg me-1"></i>

@@ -11,30 +11,45 @@
 
       <!-- No issues checkbox -->
       <div class="form-check mb-3">
-        <input type="checkbox" class="form-check-input" id="noMechParts"
-               [(ngModel)]="noIssuesFound" (change)="toggleNoIssues()">
-        <label class="form-check-label fw-semibold" for="noMechParts">
+        <input type="checkbox" class="form-check-input" id="noMechIssues"
+               [(ngModel)]="noIssuesFound" (change)="toggleNoIssues()" [disabled]="readOnly">
+        <label class="form-check-label fw-semibold" for="noMechIssues">
           {{ 'WORKFLOW.NO_ISSUES_FOUND' | translate }}
         </label>
       </div>
 
-      <!-- Part type selection -->
-      <div [class.disabled-section]="noIssuesFound">
+      <!-- Part type + Part selection -->
+      <div [class.disabled-section]="noIssuesFound" *ngIf="!readOnly">
         <div class="mb-3">
           <label class="form-label">{{ 'WORKFLOW.MECH_PART_TYPE' | translate }}</label>
-          <ng-select [items]="availablePartTypes"
+          <ng-select [items]="partTypes"
                      [bindLabel]="isAr ? 'nameAr' : 'nameEn'"
                      bindValue="id"
                      [(ngModel)]="selectedPartTypeId"
+                     (change)="onPartTypeChange()"
                      [placeholder]="'WORKFLOW.SELECT_PART_TYPE' | translate"
                      [disabled]="noIssuesFound"
                      [clearable]="true"
                      [searchable]="true">
           </ng-select>
         </div>
+
+        <div class="mb-3">
+          <label class="form-label">{{ 'WORKFLOW.MECH_PART' | translate }}</label>
+          <ng-select [items]="filteredParts"
+                     [bindLabel]="isAr ? 'nameAr' : 'nameEn'"
+                     bindValue="id"
+                     [(ngModel)]="selectedPartId"
+                     [placeholder]="'WORKFLOW.SELECT_PART' | translate"
+                     [disabled]="noIssuesFound || !selectedPartTypeId"
+                     [clearable]="true"
+                     [searchable]="true">
+          </ng-select>
+        </div>
+
         <button class="btn btn-primary"
-                [disabled]="noIssuesFound || !selectedPartTypeId"
-                (click)="addPartType()">
+                [disabled]="noIssuesFound || !selectedPartId"
+                (click)="addRow()">
           <i class="bi bi-plus-lg me-1"></i>
           {{ 'WORKFLOW.ADD' | translate }}
         </button>
@@ -45,11 +60,12 @@
         <label class="form-label">{{ 'WORKFLOW.COMMENTS' | translate }}</label>
         <textarea class="form-control" rows="3"
                   [(ngModel)]="comments"
-                  [placeholder]="'WORKFLOW.COMMENTS_PLACEHOLDER' | translate"></textarea>
+                  [placeholder]="'WORKFLOW.COMMENTS_PLACEHOLDER' | translate"
+                  [disabled]="readOnly"></textarea>
       </div>
 
       <!-- Save button -->
-      <div class="d-flex justify-content-end">
+      <div *ngIf="!readOnly" class="d-flex justify-content-end">
         <button class="btn btn-success px-4" (click)="save()" [disabled]="saving">
           <span *ngIf="saving" class="spinner-border spinner-border-sm me-1"></span>
           <i *ngIf="!saving" class="bi bi-check-lg me-1"></i>
@@ -67,27 +83,30 @@
             <tr>
               <th style="width: 50px;">#</th>
               <th>{{ 'WORKFLOW.MECH_PART_TYPE' | translate }}</th>
-              <th>{{ 'WORKFLOW.MECH_PARTS' | translate }}</th>
-              <th class="text-center" style="width: 60px;">{{ 'WORKFLOW.ACTION' | translate }}</th>
+              <th>{{ 'WORKFLOW.MECH_PART' | translate }}</th>
+              <th>{{ 'WORKFLOW.MECH_ISSUES' | translate }}</th>
+              <th *ngIf="!readOnly" class="text-center" style="width: 60px;">{{ 'WORKFLOW.ACTION' | translate }}</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let row of rows; let i = index">
               <td class="fw-semibold">{{ i + 1 }}</td>
-              <td>{{ isAr ? row.partTypeNameAr : row.partTypeNameEn }}</td>
+              <td>{{ getPartTypeName(row.partTypeId) }}</td>
+              <td>{{ getPartName(row.partId) }}</td>
               <td>
-                <ng-select [items]="getPartsForType(row.partTypeId)"
+                <ng-select [items]="allIssues"
                            [bindLabel]="isAr ? 'nameAr' : 'nameEn'"
                            bindValue="id"
-                           [(ngModel)]="row.partIds"
+                           [(ngModel)]="row.issueIds"
                            [multiple]="true"
-                           [placeholder]="'WORKFLOW.SELECT_PARTS' | translate"
-                           [clearable]="true"
+                           [placeholder]="'WORKFLOW.SELECT_ISSUES' | translate"
+                           [clearable]="!readOnly"
                            [searchable]="true"
+                           [disabled]="readOnly"
                            appendTo="body">
                 </ng-select>
               </td>
-              <td class="text-center">
+              <td *ngIf="!readOnly" class="text-center">
                 <button class="btn btn-sm btn-outline-danger" (click)="removeRow(i)">
                   <i class="bi bi-trash"></i>
                 </button>
@@ -99,7 +118,7 @@
 
       <div *ngIf="rows.length === 0 && !noIssuesFound" class="empty-state-sm">
         <i class="bi bi-clipboard-plus text-muted"></i>
-        <small>{{ 'WORKFLOW.ADD_PART_TYPES_HINT' | translate }}</small>
+        <small>{{ 'WORKFLOW.ADD_PARTS_HINT' | translate }}</small>
       </div>
     </div>
 

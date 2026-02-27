@@ -44,6 +44,11 @@ const routes: Routes = [
           import('./road-test-issue/road-test-issue-module').then(m => m.RoadTestIssueModule),
       },
       {
+        path: 'mech-issues',
+        loadChildren: () =>
+          import('./mech-issue/mech-issue-module').then(m => m.MechIssueModule),
+      },
+      {
         path: 'mech-part-types',
         loadChildren: () =>
           import('./mech-part-type/mech-part-type-module').then(m => m.MechPartTypeModule),
