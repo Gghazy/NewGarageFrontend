@@ -699,6 +699,22 @@
     "EXAM_SUMMARY": "Exam Summary",
     "SERVICES": "Services",
     "ISSUES": "Potential Issues",
-    "NO_ISSUES": "No issues for this stage"
+    "NO_ISSUES": "No issues for this stage",
+    "NO_ISSUES_FOUND": "No issues found",
+    "CYLINDER_COUNT": "Cylinder Count",
+    "ISSUE_CODE": "Issue Code",
+    "SELECT_ISSUE": "Select issue...",
+    "ADD": "Add",
+    "DESCRIPTION": "Description",
+    "EVALUATION": "Evaluation",
+    "ACTIVE": "Active",
+    "STORED": "Stored",
+    "ACTION": "Action",
+    "ADD_ISSUES_HINT": "Select an issue code and click Add",
+    "TECHNICAL_TERMS": "Technical Terms Explanation",
+    "ACTIVE_DESC": "The issue is currently present and active in the vehicle system",
+    "STORED_DESC": "The issue was previously recorded but is no longer active",
+    "COMMENTS": "Comments",
+    "COMMENTS_PLACEHOLDER": "Add any additional notes..."
   }
 }

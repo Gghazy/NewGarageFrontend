@@ -727,6 +727,22 @@
     "EXAM_SUMMARY": "ملخص الفحص",
     "SERVICES": "الخدمات",
     "ISSUES": "المشاكل المحتملة",
-    "NO_ISSUES": "لا توجد مشاكل لهذه المرحلة"
+    "NO_ISSUES": "لا توجد مشاكل لهذه المرحلة",
+    "NO_ISSUES_FOUND": "لا يوجد أعطال",
+    "CYLINDER_COUNT": "عدد السلندر",
+    "ISSUE_CODE": "رمز المشكلة",
+    "SELECT_ISSUE": "اختر المشكلة...",
+    "ADD": "إضافة",
+    "DESCRIPTION": "الوصف",
+    "EVALUATION": "التقييم",
+    "ACTIVE": "نشط",
+    "STORED": "محفوظ",
+    "ACTION": "إجراء",
+    "ADD_ISSUES_HINT": "اختر رمز المشكلة واضغط إضافة",
+    "TECHNICAL_TERMS": "شرح المصطلحات الفنية",
+    "ACTIVE_DESC": "العطل موجود حالياً ونشط في نظام السيارة",
+    "STORED_DESC": "العطل تم تسجيله مسبقاً ولكنه لم يعد نشطاً",
+    "COMMENTS": "تعليقات",
+    "COMMENTS_PLACEHOLDER": "أضف أي ملاحظات إضافية..."
   }
 }
