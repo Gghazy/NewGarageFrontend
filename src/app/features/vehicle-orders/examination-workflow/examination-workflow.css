@@ -166,6 +166,20 @@
   text-align: center;
 }
 
+.stage-tab.completed {
+  color: #16a34a !important;
+}
+
+.stage-tab.completed.active {
+  color: #16a34a !important;
+  border-bottom-color: #16a34a;
+}
+
+.stage-tab-check {
+  font-size: 0.8rem;
+  color: #16a34a;
+}
+
 .stage-tab.active .stage-tab-count {
   background: #1e3a5f;
   color: #fff;

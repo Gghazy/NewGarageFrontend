@@ -39,6 +39,7 @@ export class WorkflowDataService {
   exam: ExaminationDto | null = null;
   stages: WorkflowStageDto[] = [];
   issuesCache: Record<number, IssueItem[]> = {};
+  completedStages = new Set<number>();
   loading = true;
   issuesLoading = false;
 
@@ -67,6 +68,18 @@ export class WorkflowDataService {
     return this.issuesCache[stageValue] ?? [];
   }
 
+  markStageCompleted(stageValue: number): void {
+    this.completedStages.add(stageValue);
+  }
+
+  markStageIncomplete(stageValue: number): void {
+    this.completedStages.delete(stageValue);
+  }
+
+  isStageCompleted(stageValue: number): boolean {
+    return this.completedStages.has(stageValue);
+  }
+
   reset(): void {
     this.destroy$.next();
     this.destroy$.complete();
@@ -74,6 +87,7 @@ export class WorkflowDataService {
     this.exam = null;
     this.stages = [];
     this.issuesCache = {};
+    this.completedStages.clear();
     this.loading = true;
     this.issuesLoading = false;
   }

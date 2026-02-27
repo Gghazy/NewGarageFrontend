@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { EMPTY, Subject } from 'rxjs';
+import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { ApiResponse } from 'src/app/shared/Models/api-response';
 import { WorkflowDataService } from '../../workflow-data.service';
@@ -23,6 +23,13 @@ export interface SensorIssueRow {
   evaluation: 'active' | 'stored';
 }
 
+interface SensorStageResultDto {
+  noIssuesFound: boolean;
+  cylinderCount: number;
+  comments: string | null;
+  issues: { issueId: string; evaluation: string }[];
+}
+
 @Component({
   selector: 'app-sensors-stage',
   templateUrl: './sensors-stage.html',
@@ -34,8 +41,7 @@ export class SensorsStageComponent extends BaseStageComponent implements OnInit,
 
   sensorIssues: SensorIssueDto[] = [];
   availableIssues: SensorIssueDto[] = [];
-  issuesLoading = false;
-  dataLoading = false;
+  loading = false;
 
   noIssuesFound = false;
   cylinderCount: number | null = 4;
@@ -56,7 +62,7 @@ export class SensorsStageComponent extends BaseStageComponent implements OnInit,
   }
 
   ngOnInit(): void {
-    this.loadSensorIssues();
+    this.loadData();
   }
 
   ngOnDestroy(): void {
@@ -94,11 +100,6 @@ export class SensorsStageComponent extends BaseStageComponent implements OnInit,
     }
   }
 
-  private refreshAvailable(): void {
-    const addedIds = new Set(this.addedIssues.map(i => i.issueId));
-    this.availableIssues = this.sensorIssues.filter(i => !addedIds.has(i.id));
-  }
-
   save(): void {
     const examId = this.workflowData.exam?.id;
     if (!examId) return;
@@ -115,66 +116,69 @@ export class SensorsStageComponent extends BaseStageComponent implements OnInit,
     };
 
     this.api.post<ApiResponse<string>>(`Examinations/${examId}/stages/sensors`, payload)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => this.saving = false),
+      )
       .subscribe({
         next: () => {
-          this.saving = false;
+          if (this.noIssuesFound || this.addedIssues.length > 0) {
+            this.workflowData.markStageCompleted(this.stageValue);
+          } else {
+            this.workflowData.markStageIncomplete(this.stageValue);
+          }
           this.toastr.success(this.translate.instant('WORKFLOW.SAVED'));
         },
-        error: (err) => {
-          this.saving = false;
-          this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.ERROR'));
-        },
+        error: (err) => this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.ERROR')),
       });
   }
 
-  private loadExistingData(): void {
+  private refreshAvailable(): void {
+    const addedIds = new Set(this.addedIssues.map(i => i.issueId));
+    this.availableIssues = this.sensorIssues.filter(i => !addedIds.has(i.id));
+  }
+
+  private loadData(): void {
     const examId = this.workflowData.exam?.id;
-    if (!examId) return;
 
-    this.dataLoading = true;
-    this.api.get<ApiResponse<any>>(`Examinations/${examId}/stages/sensors`)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: res => {
-          this.dataLoading = false;
-          const data = res.data;
-          if (!data) return;
-          this.noIssuesFound = data.noIssuesFound;
-          this.cylinderCount = data.cylinderCount;
-          this.comments = data.comments ?? '';
-          this.addedIssues = (data.issues ?? []).map((i: any) => {
-            const issue = this.sensorIssues.find(s => s.id === i.issueId);
-            return {
-              issueId: i.issueId,
-              code: issue?.code ?? '',
-              nameAr: issue?.nameAr ?? '',
-              nameEn: issue?.nameEn ?? '',
-              evaluation: i.evaluation,
-            } as SensorIssueRow;
-          });
-          this.refreshAvailable();
-        },
-        error: () => {
-          this.dataLoading = false;
-        },
-      });
-  }
-
-  private loadSensorIssues(): void {
-    this.issuesLoading = true;
+    this.loading = true;
     this.api.get<ApiResponse<SensorIssueDto[]>>('SensorIssues')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: res => {
+      .pipe(
+        tap(res => {
           this.sensorIssues = res.data;
           this.refreshAvailable();
-          this.issuesLoading = false;
-          this.loadExistingData();
-        },
-        error: () => {
-          this.issuesLoading = false;
-        },
-      });
+        }),
+        switchMap(() => {
+          if (!examId) return EMPTY;
+          return this.api.get<ApiResponse<SensorStageResultDto>>(`Examinations/${examId}/stages/sensors`);
+        }),
+        tap(res => this.applyExistingData(res.data)),
+        takeUntil(this.destroy$),
+        finalize(() => this.loading = false),
+      )
+      .subscribe();
+  }
+
+  private applyExistingData(data: SensorStageResultDto | null): void {
+    if (!data) return;
+
+    this.noIssuesFound = data.noIssuesFound;
+    this.cylinderCount = data.cylinderCount;
+    this.comments = data.comments ?? '';
+    this.addedIssues = (data.issues ?? []).map(i => {
+      const issue = this.sensorIssues.find(s => s.id === i.issueId);
+      return {
+        issueId: i.issueId,
+        code: issue?.code ?? '',
+        nameAr: issue?.nameAr ?? '',
+        nameEn: issue?.nameEn ?? '',
+        evaluation: i.evaluation as 'active' | 'stored',
+      };
+    });
+    this.refreshAvailable();
+
+    if (data.noIssuesFound || data.issues?.length > 0) {
+      this.workflowData.markStageCompleted(this.stageValue);
+    }
   }
 }

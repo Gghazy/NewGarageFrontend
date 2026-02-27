@@ -64,8 +64,10 @@
     <div class="stages-tabs">
       <a *ngFor="let stage of workflowData.stages"
          class="stage-tab"
+         [class.completed]="workflowData.isStageCompleted(stage.value)"
          [routerLink]="[stage.nameEn]"
          routerLinkActive="active">
+        <i *ngIf="workflowData.isStageCompleted(stage.value)" class="bi bi-check-circle-fill stage-tab-check"></i>
         <span class="stage-tab-name">{{ isAr ? stage.nameAr : stage.nameEn }}</span>
       </a>
     </div>
