@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ApiService } from 'src/app/core/services/custom.service';
@@ -34,6 +35,7 @@ export class SensorsStageComponent extends BaseStageComponent implements OnInit,
   sensorIssues: SensorIssueDto[] = [];
   availableIssues: SensorIssueDto[] = [];
   issuesLoading = false;
+  dataLoading = false;
 
   noIssuesFound = false;
   cylinderCount: number | null = 4;
@@ -48,6 +50,7 @@ export class SensorsStageComponent extends BaseStageComponent implements OnInit,
     translate: TranslateService,
     workflowData: WorkflowDataService,
     private api: ApiService,
+    private toastr: ToastrService,
   ) {
     super(translate, workflowData);
   }
@@ -97,22 +100,65 @@ export class SensorsStageComponent extends BaseStageComponent implements OnInit,
   }
 
   save(): void {
+    const examId = this.workflowData.exam?.id;
+    if (!examId) return;
+
     this.saving = true;
-    // TODO: wire to backend API when ready
     const payload = {
-      stageValue: this.stageValue,
       noIssuesFound: this.noIssuesFound,
-      cylinderCount: this.cylinderCount,
+      cylinderCount: this.cylinderCount ?? 0,
       comments: this.comments,
       issues: this.addedIssues.map(i => ({
         issueId: i.issueId,
         evaluation: i.evaluation,
       })),
     };
-    console.log('Save payload:', payload);
-    setTimeout(() => {
-      this.saving = false;
-    }, 500);
+
+    this.api.post<ApiResponse<string>>(`Examinations/${examId}/stages/sensors`, payload)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.saving = false;
+          this.toastr.success(this.translate.instant('WORKFLOW.SAVED'));
+        },
+        error: (err) => {
+          this.saving = false;
+          this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.ERROR'));
+        },
+      });
+  }
+
+  private loadExistingData(): void {
+    const examId = this.workflowData.exam?.id;
+    if (!examId) return;
+
+    this.dataLoading = true;
+    this.api.get<ApiResponse<any>>(`Examinations/${examId}/stages/sensors`)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: res => {
+          this.dataLoading = false;
+          const data = res.data;
+          if (!data) return;
+          this.noIssuesFound = data.noIssuesFound;
+          this.cylinderCount = data.cylinderCount;
+          this.comments = data.comments ?? '';
+          this.addedIssues = (data.issues ?? []).map((i: any) => {
+            const issue = this.sensorIssues.find(s => s.id === i.issueId);
+            return {
+              issueId: i.issueId,
+              code: issue?.code ?? '',
+              nameAr: issue?.nameAr ?? '',
+              nameEn: issue?.nameEn ?? '',
+              evaluation: i.evaluation,
+            } as SensorIssueRow;
+          });
+          this.refreshAvailable();
+        },
+        error: () => {
+          this.dataLoading = false;
+        },
+      });
   }
 
   private loadSensorIssues(): void {
@@ -124,6 +170,7 @@ export class SensorsStageComponent extends BaseStageComponent implements OnInit,
           this.sensorIssues = res.data;
           this.refreshAvailable();
           this.issuesLoading = false;
+          this.loadExistingData();
         },
         error: () => {
           this.issuesLoading = false;

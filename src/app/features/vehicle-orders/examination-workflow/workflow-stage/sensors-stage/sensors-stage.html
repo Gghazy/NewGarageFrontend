@@ -1,8 +1,8 @@
-<div *ngIf="issuesLoading" class="text-center py-4">
+<div *ngIf="issuesLoading || dataLoading" class="text-center py-4">
   <div class="spinner-border spinner-border-sm text-primary"></div>
 </div>
 
-<ng-container *ngIf="!issuesLoading">
+<ng-container *ngIf="!issuesLoading && !dataLoading">
 
   <div class="row g-4">
 

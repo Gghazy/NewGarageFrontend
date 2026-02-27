@@ -41,7 +41,8 @@
       "Bash(dotnet ef migrations add UpdateInvoicePaymentMethod --project ../Garage.Infrastructure --context ApplicationDbContext)",
       "Bash(xargs grep -l \"DateTime\\\\|dateFrom\\\\|dateTo\")",
       "Bash(npx ng build --configuration=development)",
-      "Bash(xargs grep -l \"StageDetail\\\\|cylinder\\\\|evaluation\\\\|issue.*status\" -i)"
+      "Bash(xargs grep -l \"StageDetail\\\\|cylinder\\\\|evaluation\\\\|issue.*status\" -i)",
+      "Bash(npx ng build --configuration development)"
     ],
     "additionalDirectories": [
       "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\shared\\Models\\vehicle-orders",

@@ -715,6 +715,7 @@
     "ACTIVE_DESC": "The issue is currently present and active in the vehicle system",
     "STORED_DESC": "The issue was previously recorded but is no longer active",
     "COMMENTS": "Comments",
-    "COMMENTS_PLACEHOLDER": "Add any additional notes..."
+    "COMMENTS_PLACEHOLDER": "Add any additional notes...",
+    "SAVED": "Saved successfully"
   }
 }
