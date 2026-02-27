@@ -15,6 +15,51 @@ type ViewModule = {
   actions: string[];
 };
 
+type ViewSection = {
+  labelKey: string;
+  icon: string;
+  modules: ViewModule[];
+  collapsed: boolean;
+};
+
+const SECTION_DEFS: { labelKey: string; icon: string; moduleNames: string[] }[] = [
+  {
+    labelKey: 'MENU.SETTINGS',
+    icon: 'bi bi-gear',
+    moduleNames: ['CarMark', 'Manufacturer', 'ServiceType', 'Service', 'ServicePrice', 'Crane', 'Term', 'Branches', 'PaymentMethod'],
+  },
+  {
+    labelKey: 'MENU.EXAMINATION_MANAGEMENT',
+    icon: 'bi bi-clipboard-check',
+    moduleNames: ['SensorIssue', 'MechIssue', 'MechIssueType', 'InteriorIssue', 'InteriorBodyIssue', 'ExteriorBodyIssue', 'AccessoryIssue', 'RoadTestIssue', 'RoadTestIssueType', 'InsideAndDecorPart', 'InsideAndDecorPartIssue', 'InteriorBodyPart', 'ExteriorBodyPart'],
+  },
+  {
+    labelKey: 'MENU.USERS',
+    icon: 'bi bi-people',
+    moduleNames: ['Users', 'Roles', 'Permissions', 'Employees'],
+  },
+  {
+    labelKey: 'MENU.CLIENTS',
+    icon: 'bi bi-person',
+    moduleNames: ['Clients', 'ClientResource'],
+  },
+  {
+    labelKey: 'MENU.VEHICLE_ORDERS',
+    icon: 'bi bi-clipboard2-check',
+    moduleNames: ['Examination'],
+  },
+  {
+    labelKey: 'MENU.INVOICES',
+    icon: 'bi bi-receipt',
+    moduleNames: ['Invoice'],
+  },
+  {
+    labelKey: 'PERMISSIONS.SECTIONS.DASHBOARD',
+    icon: 'bi bi-speedometer2',
+    moduleNames: ['Dashboard'],
+  },
+];
+
 @Component({
   selector: 'app-role-form',
   standalone: false,
@@ -29,6 +74,7 @@ export class RoleForm implements OnInit, OnDestroy {
   roleName = '';
 
   modules: ViewModule[] = [];
+  sections: ViewSection[] = [];
   selected = new Map<string, Set<string>>();
 
   private readonly actionOrder = ['Read', 'Create', 'Update', 'Delete'];
@@ -55,6 +101,7 @@ export class RoleForm implements OnInit, OnDestroy {
       .subscribe({
         next: (map) => {
           this.modules = this.toView(map);
+          this.sections = this.buildSections(this.modules);
           this.modules.forEach(m => this.selected.set(m.name, new Set<string>()));
           if (this.roleId) {
             this.loadRole(this.roleId);
@@ -111,9 +158,26 @@ export class RoleForm implements OnInit, OnDestroy {
     this.selected.set(moduleName, set);
   }
 
+  toggleAllInSection(section: ViewSection, checked: boolean): void {
+    for (const m of section.modules) {
+      this.toggleAllInModule(m.name, m.actions, checked);
+    }
+  }
+
   isAllSelected(moduleName: string, actions: string[]): boolean {
     const set = this.selected.get(moduleName);
     return !!set && actions.length > 0 && actions.every(a => set.has(a));
+  }
+
+  isAllSectionSelected(section: ViewSection): boolean {
+    return section.modules.length > 0 && section.modules.every(m => this.isAllSelected(m.name, m.actions));
+  }
+
+  isSomeSectionSelected(section: ViewSection): boolean {
+    return section.modules.some(m => {
+      const set = this.selected.get(m.name);
+      return !!set && set.size > 0;
+    });
   }
 
   isSelected(moduleName: string, action: string): boolean {
@@ -188,6 +252,44 @@ export class RoleForm implements OnInit, OnDestroy {
         actions: this.sortActions(actions)
       }))
       .sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  private buildSections(modules: ViewModule[]): ViewSection[] {
+    const moduleMap = new Map(modules.map(m => [m.name, m]));
+    const assigned = new Set<string>();
+    const sections: ViewSection[] = [];
+
+    for (const def of SECTION_DEFS) {
+      const sectionModules: ViewModule[] = [];
+      for (const name of def.moduleNames) {
+        const mod = moduleMap.get(name);
+        if (mod) {
+          sectionModules.push(mod);
+          assigned.add(name);
+        }
+      }
+      if (sectionModules.length > 0) {
+        sections.push({
+          labelKey: def.labelKey,
+          icon: def.icon,
+          modules: sectionModules,
+          collapsed: true,
+        });
+      }
+    }
+
+    // Any modules not assigned to a section go into "Other"
+    const remaining = modules.filter(m => !assigned.has(m.name));
+    if (remaining.length > 0) {
+      sections.push({
+        labelKey: 'PERMISSIONS.SECTIONS.OTHER',
+        icon: 'bi bi-three-dots',
+        modules: remaining,
+        collapsed: false,
+      });
+    }
+
+    return sections;
   }
 
   private sortActions(actions: string[]): string[] {

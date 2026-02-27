@@ -52,6 +52,26 @@ const routes: Routes = [
         path: 'inside-and-decor-parts',
         loadChildren: () =>
           import('./inside-and-decor-part/inside-and-decor-part-module').then(m => m.InsideAndDecorPartModule),
+      },
+      {
+        path: 'inside-and-decor-part-issues',
+        loadChildren: () =>
+          import('./inside-and-decor-part-issue/inside-and-decor-part-issue-module').then(m => m.InsideAndDecorPartIssueModule),
+      },
+      {
+        path: 'interior-body-parts',
+        loadChildren: () =>
+          import('./interior-body-part/interior-body-part-module').then(m => m.InteriorBodyPartModule),
+      },
+      {
+        path: 'exterior-body-parts',
+        loadChildren: () =>
+          import('./exterior-body-part/exterior-body-part-module').then(m => m.ExteriorBodyPartModule),
+      },
+      {
+        path: 'road-test-issue-types',
+        loadChildren: () =>
+          import('./road-test-issue-type/road-test-issue-type-module').then(m => m.RoadTestIssueTypeModule),
       }
 
     ]

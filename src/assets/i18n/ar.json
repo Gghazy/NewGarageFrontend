@@ -63,7 +63,11 @@
     "EXTERIOR_BODY_ISSUES": "مشاكل الهيكل الخارجى",
     "ACCESSORY_ISSUES": "مشاكل الإكسسوارات",
     "ROAD_TEST_ISSUES": "مشاكل اختبار الطريق",
+    "ROAD_TEST_ISSUE_TYPES": "انواع اعطال تجربة الطريق",
     "INSIDE_AND_DECOR_PART": "الاجزاء الداخلية والديكور",
+    "INSIDE_AND_DECOR_PART_ISSUE": "أعطال الداخلية والديكور",
+    "INTERIOR_BODY_PART": "اجزاء الهيكل الداخلى",
+    "EXTERIOR_BODY_PART": "اجزاء الهيكل الخارجى",
     "CAR_MARKS": "ماركات السيارات",
     "MANUFACTURERS": "الشركات المصنعة",
     "SERVICES": "الخدمات",
@@ -89,7 +93,11 @@
     "EXTERIOR_BODY_ISSUES": "مشاكل الهيكل الخارجى",
     "ACCESSORY_ISSUES": "مشاكل الإكسسوارات",
     "ROAD_TEST_ISSUES": "مشاكل اختبار الطريق",
+    "ROAD_TEST_ISSUE_TYPES": "انواع اعطال تجربة الطريق",
     "INSIDE_AND_DECOR_PART": "الاجزاء الداخلية والديكور",
+    "INSIDE_AND_DECOR_PART_ISSUE": "أعطال الداخلية والديكور",
+    "INTERIOR_BODY_PART": "اجزاء الهيكل الداخلى",
+    "EXTERIOR_BODY_PART": "اجزاء الهيكل الخارجى",
     "CAR_MARKS": "ماركات السيارات",
     "MANUFACTURERS": "الشركات المصنعة",
     "SERVICE": "الخدمات",
@@ -110,6 +118,7 @@
     "NEW_EXAMINATION": "فحص جديد",
     "EDIT_EXAMINATION": "تعديل الفحص",
     "EXAM_WORKFLOW": "تنفيذ الفحص",
+    "EXAM_DETAILS": "تفاصيل الفحص",
     "INVOICES": "الفواتير",
     "NEW_INVOICE": "فاتورة جديدة",
     "EDIT_INVOICE": "تعديل فاتورة",
@@ -145,6 +154,7 @@
     "DELETE_FAILED": "فشل الحذف. يرجى المحاولة مرة أخرى.",
     "BACK": "رجوع",
     "DETAILS": "التفاصيل",
+    "CONFIRM": "تأكيد",
     "CONFIRM_DELETE": {
       "TITLE": "تأكيد الحذف",
       "MESSAGE": "هل أنت متأكد من حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء."
@@ -250,9 +260,25 @@
     "TITLE": "مشاكل اختبار الطريق",
     "ADD": "إضافة مشكلة اختبار طريق"
   },
+  "ROAD_TEST_ISSUE_TYPES": {
+    "TITLE": "انواع اعطال تجربة الطريق",
+    "ADD": "إضافة نوع عطل تجربة طريق"
+  },
   "INSIDE_AND_DECOR_PART": {
     "TITLE": "الاجزاء الداخلية والديكور",
     "ADD": "إضافة جزء داخلي أو ديكور"
+  },
+  "INSIDE_AND_DECOR_PART_ISSUE": {
+    "TITLE": "أعطال الداخلية والديكور",
+    "ADD": "إضافة عطل داخلي أو ديكور"
+  },
+  "INTERIOR_BODY_PART": {
+    "TITLE": "اجزاء الهيكل الداخلى",
+    "ADD": "إضافة جزء هيكل داخلى"
+  },
+  "EXTERIOR_BODY_PART": {
+    "TITLE": "اجزاء الهيكل الخارجى",
+    "ADD": "إضافة جزء هيكل خارجى"
   },
   "PAYMENT_METHODS": {
     "TITLE": "طرق الدفع",
@@ -369,11 +395,15 @@
       "Crane": "الونش",
       "InteriorBodyIssue": "أعطال الهيكل الداخلي",
       "InsideAndDecorPart": "الأجزاء الداخلية والديكور",
+      "InsideAndDecorPartIssue": "أعطال الداخلية والديكور",
+      "InteriorBodyPart": "اجزاء الهيكل الداخلى",
+      "ExteriorBodyPart": "اجزاء الهيكل الخارجى",
       "ExteriorBodyIssue": "أعطال الهيكل الخارجي",
       "MechIssue": "الأعطال الميكانيكية",
       "Manufacturer": "الشركات المصنعة",
       "InteriorIssue": "الأعطال الداخلية",
       "RoadTestIssue": "أعطال اختبار الطريق",
+      "RoadTestIssueType": "انواع اعطال تجربة الطريق",
       "Permissions": "الصلاحيات",
       "MechIssueType": "أنواع الأعطال الميكانيكية",
       "SensorIssue": "أعطال الحساسات",
@@ -384,13 +414,23 @@
       "Service": "الخدمات",
       "Users": "المستخدمين",
       "Term": "الشروط والأحكام",
-      "PaymentMethod": "طرق الدفع"
+      "PaymentMethod": "طرق الدفع",
+      "Examination": "كروت الخدمة",
+      "Invoice": "الفواتير",
+      "Clients": "العملاء",
+      "ClientResource": "مصادر العملاء"
     },
     "ACTIONS": {
       "Read": "عرض",
       "Create": "إضافة",
       "Update": "تعديل",
-      "Delete": "حذف"
+      "Delete": "حذف",
+      "Examinations": "كروت الخدمة",
+      "Revenue": "الإيرادات"
+    },
+    "SECTIONS": {
+      "DASHBOARD": "لوحة التحكم",
+      "OTHER": "أخرى"
     }
   },
   "ROLES": {
@@ -598,6 +638,30 @@
         "Cheque": "شيك"
       }
     },
+    "DETAIL": {
+      "TITLE": "تفاصيل الفحص",
+      "CLIENT_INFO": "بيانات العميل",
+      "VEHICLE_INFO": "بيانات المركبة والفحص",
+      "SERVICES": "الخدمات",
+      "START": "بدء الفحص",
+      "COMPLETE": "إكمال الفحص",
+      "DELIVER": "تسليم",
+      "CANCEL": "إلغاء",
+      "GENERATE_INVOICE": "إنشاء فاتورة",
+      "OPEN_WORKFLOW": "فتح سير العمل",
+      "CONFIRM_START": "هل تريد بدء الفحص؟",
+      "CONFIRM_COMPLETE": "هل تريد إكمال الفحص؟",
+      "CONFIRM_DELIVER": "هل تريد تسليم الفحص؟",
+      "CONFIRM_CANCEL": "هل تريد إلغاء الفحص؟",
+      "STARTED": "تم بدء الفحص بنجاح",
+      "COMPLETED": "تم إكمال الفحص بنجاح",
+      "DELIVERED": "تم تسليم الفحص بنجاح",
+      "CANCELLED": "تم إلغاء الفحص",
+      "INVOICE_GENERATED": "تم إنشاء الفاتورة بنجاح",
+      "NO_SERVICES": "لا توجد خدمات",
+      "INVOICES": "الفواتير",
+      "NO_INVOICES": "لا توجد فواتير"
+    },
     "VALIDATION": {
       "CLIENT_REQUIRED": "العميل مطلوب.",
       "BRANCH_REQUIRED": "الفرع مطلوب.",
@@ -744,6 +808,20 @@
     "STORED_DESC": "العطل تم تسجيله مسبقاً ولكنه لم يعد نشطاً",
     "COMMENTS": "تعليقات",
     "COMMENTS_PLACEHOLDER": "أضف أي ملاحظات إضافية...",
-    "SAVED": "تم الحفظ بنجاح"
+    "SAVED": "تم الحفظ بنجاح",
+    "NOT_APPLICABLE": "لايوجد",
+    "INDICATOR": "المؤشر",
+    "MEASUREMENT_RANGE": "مدى القياس",
+    "NORMAL_RANGE": "النسبة الطبيعية",
+    "ABNORMAL_RANGE": "النسبة الغير طبيعية",
+    "LESS_THAN": "أقل من",
+    "MORE_THAN": "أكثر من",
+    "INTERIOR_DECOR_PART": "أجزاء الداخلية والديكور",
+    "INTERIOR_BODY_PART": "جزء الهيكل الداخلى",
+    "EXTERIOR_BODY_PART": "جزء الهيكل الخارجى",
+    "SELECT_PART": "اختر الجزء...",
+    "ISSUE_TYPE": "نوع العطل",
+    "SELECT_ISSUES": "اختر الأعطال...",
+    "ADD_PARTS_HINT": "اختر جزء واضغط إضافة"
   }
 }

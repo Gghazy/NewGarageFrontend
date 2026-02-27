@@ -43,13 +43,13 @@
       <td>{{ order.createdAtUtc ? (order.createdAtUtc | date:'yyyy-MM-dd') : '—' }}</td>
       <td class="text-end">
         <button
-          *ngIf="(order.status === 'Pending' || order.status === 'InProgress') && authService.hasPermission('examination.update')"
-          (click)="openWorkflow(order)"
-          class="btn btn-sm btn-outline-success me-1"
+          *ngIf="authService.hasPermission('examination.read')"
+          (click)="openDetail(order)"
+          class="btn btn-sm btn-outline-info me-1"
           type="button">
-          {{ 'VEHICLE_ORDERS.LIST.START_EXAM' | translate }}
+          <i class="bi bi-eye"></i>
         </button>
-        <button
+<button
           *ngIf="authService.hasPermission('examination.update')"
           (click)="openEdit(order)"
           class="btn btn-sm btn-outline-primary me-1"

@@ -63,7 +63,11 @@
     "EXTERIOR_BODY_ISSUES": "Exterior Body Issues",
     "ACCESSORY_ISSUES": "Accessory Issues",
     "ROAD_TEST_ISSUES": "Road Test Issues",
+    "ROAD_TEST_ISSUE_TYPES": "Road Test Issue Types",
     "INSIDE_AND_DECOR_PART": "Inside and Decor Part",
+    "INSIDE_AND_DECOR_PART_ISSUE": "Inside and Decor Part Issues",
+    "INTERIOR_BODY_PART": "Interior Body Parts",
+    "EXTERIOR_BODY_PART": "Exterior Body Parts",
     "CAR_MARKS": "Car Marks",
     "MANUFACTURERS": "Manufacturers",
     "SERVICES": "Services",
@@ -89,7 +93,11 @@
     "EXTERIOR_BODY_ISSUES": "Exterior Body Issues",
     "ACCESSORY_ISSUES": "Accessory Issues",
     "ROAD_TEST_ISSUES": "Road Test Issues",
+    "ROAD_TEST_ISSUE_TYPES": "Road Test Issue Types",
     "INSIDE_AND_DECOR_PART": "Inside and Decor Part",
+    "INSIDE_AND_DECOR_PART_ISSUE": "Inside and Decor Part Issues",
+    "INTERIOR_BODY_PART": "Interior Body Parts",
+    "EXTERIOR_BODY_PART": "Exterior Body Parts",
     "CAR_MARKS": "Car Marks",
     "MANUFACTURERS": "Manufacturers",
     "SERVICE": "Services",
@@ -110,6 +118,7 @@
     "NEW_EXAMINATION": "New Examination",
     "EDIT_EXAMINATION": "Edit Examination",
     "EXAM_WORKFLOW": "Exam Workflow",
+    "EXAM_DETAILS": "Examination Details",
     "INVOICES": "Invoices",
     "NEW_INVOICE": "New Invoice",
     "EDIT_INVOICE": "Edit Invoice",
@@ -145,6 +154,7 @@
     "DELETE_FAILED": "Failed to delete. Please try again.",
     "BACK": "Back",
     "DETAILS": "Details",
+    "CONFIRM": "Confirm",
     "CONFIRM_DELETE": {
       "TITLE": "Confirm Delete",
       "MESSAGE": "Are you sure you want to delete this item? This action cannot be undone."
@@ -238,9 +248,25 @@
     "TITLE": "Road Test Issues Types",
     "ADD": "Add New Issue"
   },
+  "ROAD_TEST_ISSUE_TYPES": {
+    "TITLE": "Road Test Issue Types",
+    "ADD": "Add New Issue Type"
+  },
   "INSIDE_AND_DECOR_PART": {
     "TITLE": "Inside and Decor Part Issues Types",
     "ADD": "Add New Issue"
+  },
+  "INSIDE_AND_DECOR_PART_ISSUE": {
+    "TITLE": "Inside and Decor Part Issues",
+    "ADD": "Add New Issue"
+  },
+  "INTERIOR_BODY_PART": {
+    "TITLE": "Interior Body Parts",
+    "ADD": "Add New Part"
+  },
+  "EXTERIOR_BODY_PART": {
+    "TITLE": "Exterior Body Parts",
+    "ADD": "Add New Part"
   },
   "PAYMENT_METHODS": {
     "TITLE": "Payment Methods",
@@ -349,11 +375,15 @@
       "Crane": "Crane",
       "InteriorBodyIssue": "Interior Body Issues",
       "InsideAndDecorPart": "Interior & Decor Parts",
+      "InsideAndDecorPartIssue": "Inside & Decor Part Issues",
+      "InteriorBodyPart": "Interior Body Parts",
+      "ExteriorBodyPart": "Exterior Body Parts",
       "ExteriorBodyIssue": "Exterior Body Issues",
       "MechIssue": "Mechanical Issues",
       "Manufacturer": "Manufacturers",
       "InteriorIssue": "Interior Issues",
       "RoadTestIssue": "Road Test Issues",
+      "RoadTestIssueType": "Road Test Issue Types",
       "Permissions": "Permissions",
       "MechIssueType": "Mechanical Issue Types",
       "SensorIssue": "Sensor Issues",
@@ -364,13 +394,23 @@
       "Service": "Services",
       "Users": "Users",
       "Term": "Terms & Conditions",
-      "PaymentMethod": "Payment Methods"
+      "PaymentMethod": "Payment Methods",
+      "Examination": "Service Cards",
+      "Invoice": "Invoices",
+      "Clients": "Clients",
+      "ClientResource": "Client Resources"
     },
     "ACTIONS": {
       "Read": "Read",
       "Create": "Create",
       "Update": "Update",
-      "Delete": "Delete"
+      "Delete": "Delete",
+      "Examinations": "Service Cards",
+      "Revenue": "Revenue"
+    },
+    "SECTIONS": {
+      "DASHBOARD": "Dashboard",
+      "OTHER": "Other"
     }
   },
   "ROLES": {
@@ -570,6 +610,30 @@
         "Cheque": "Cheque"
       }
     },
+    "DETAIL": {
+      "TITLE": "Examination Details",
+      "CLIENT_INFO": "Client Information",
+      "VEHICLE_INFO": "Vehicle & Examination Info",
+      "SERVICES": "Services",
+      "START": "Start Examination",
+      "COMPLETE": "Complete Examination",
+      "DELIVER": "Deliver",
+      "CANCEL": "Cancel",
+      "GENERATE_INVOICE": "Generate Invoice",
+      "OPEN_WORKFLOW": "Open Workflow",
+      "CONFIRM_START": "Are you sure you want to start this examination?",
+      "CONFIRM_COMPLETE": "Are you sure you want to complete this examination?",
+      "CONFIRM_DELIVER": "Are you sure you want to deliver this examination?",
+      "CONFIRM_CANCEL": "Are you sure you want to cancel this examination?",
+      "STARTED": "Examination started successfully",
+      "COMPLETED": "Examination completed successfully",
+      "DELIVERED": "Examination delivered successfully",
+      "CANCELLED": "Examination cancelled",
+      "INVOICE_GENERATED": "Invoice generated successfully",
+      "NO_SERVICES": "No services",
+      "INVOICES": "Invoices",
+      "NO_INVOICES": "No invoices"
+    },
     "VALIDATION": {
       "CLIENT_REQUIRED": "Client is required.",
       "BRANCH_REQUIRED": "Branch is required.",
@@ -716,6 +780,20 @@
     "STORED_DESC": "The issue was previously recorded but is no longer active",
     "COMMENTS": "Comments",
     "COMMENTS_PLACEHOLDER": "Add any additional notes...",
-    "SAVED": "Saved successfully"
+    "SAVED": "Saved successfully",
+    "NOT_APPLICABLE": "N/A",
+    "INDICATOR": "Indicator",
+    "MEASUREMENT_RANGE": "Measurement Range",
+    "NORMAL_RANGE": "Normal Range",
+    "ABNORMAL_RANGE": "Abnormal Range",
+    "LESS_THAN": "Less than",
+    "MORE_THAN": "More than",
+    "INTERIOR_DECOR_PART": "Interior & Decor Part",
+    "INTERIOR_BODY_PART": "Interior Body Part",
+    "EXTERIOR_BODY_PART": "Exterior Body Part",
+    "SELECT_PART": "Select part...",
+    "ISSUE_TYPE": "Issue Type",
+    "SELECT_ISSUES": "Select issues...",
+    "ADD_PARTS_HINT": "Select a part and click Add"
   }
 }

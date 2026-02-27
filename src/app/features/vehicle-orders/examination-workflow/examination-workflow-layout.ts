@@ -37,7 +37,7 @@ export class ExaminationWorkflowLayout implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          if (this.workflowData.stages.length > 0) {
+          if (this.workflowData.stages.length > 0 && !this.route.children.length) {
             this.router.navigate(
               [this.workflowData.stages[0].nameEn],
               { relativeTo: this.route, replaceUrl: true },

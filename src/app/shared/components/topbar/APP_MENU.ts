@@ -34,7 +34,11 @@ export const APP_MENU: AppMenuItem[] = [
       { labelKey: 'MENU.EXTERIOR_BODY_ISSUES', route: '/features/examination-management/exterior-body-issues', icon: 'bi bi-car-front-fill', permissions: ['exteriorBodyIssue.read'] },
       { labelKey: 'MENU.ACCESSORY_ISSUES', route: '/features/examination-management/accessory-issues', icon: 'bi bi-usb-symbol', permissions: ['accessoryIssue.read'] },
       { labelKey: 'MENU.ROAD_TEST_ISSUES', route: '/features/examination-management/road-test-issues', icon: 'bi bi-sign-turn-right', permissions: ['roadTestIssue.read'] },
+      { labelKey: 'MENU.ROAD_TEST_ISSUE_TYPES', route: '/features/examination-management/road-test-issue-types', icon: 'bi bi-sign-turn-right-fill', permissions: ['roadTestIssueType.read'] },
       { labelKey: 'MENU.INSIDE_AND_DECOR_PART', route: '/features/examination-management/inside-and-decor-parts', icon: 'bi bi-palette', permissions: ['insideAndDecorPart.read'] },
+      { labelKey: 'MENU.INSIDE_AND_DECOR_PART_ISSUE', route: '/features/examination-management/inside-and-decor-part-issues', icon: 'bi bi-palette2', permissions: ['insideAndDecorPartIssue.read'] },
+      { labelKey: 'MENU.INTERIOR_BODY_PART', route: '/features/examination-management/interior-body-parts', icon: 'bi bi-box', permissions: ['interiorBodyPart.read'] },
+      { labelKey: 'MENU.EXTERIOR_BODY_PART', route: '/features/examination-management/exterior-body-parts', icon: 'bi bi-box-fill', permissions: ['exteriorBodyPart.read'] },
     ],
   },
   {

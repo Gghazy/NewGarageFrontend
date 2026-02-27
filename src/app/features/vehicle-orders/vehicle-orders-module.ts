@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { SharedModule } from 'src/app/shared/shared-module';
 import { VehicleOrdersRoutingModule } from './vehicle-orders-routing-module';
+import { ExaminationDetail } from './examination-detail/examination-detail';
 import { VehicleOrderForm } from './vehicle-order-form/vehicle-order-form';
 import { ClientSection } from './vehicle-order-form/client-section/client-section';
 import { VehicleSection } from './vehicle-order-form/vehicle-section/vehicle-section';
@@ -15,6 +16,7 @@ import { VehicleOrdersLayout } from './vehicle-orders-layout';
     VehicleOrdersLayout,
     VehicleOrderList,
     VehicleOrderForm,
+    ExaminationDetail,
     ClientSection,
     VehicleSection,
     ServicesSection,

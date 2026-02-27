@@ -1,26 +1,90 @@
-<div *ngIf="workflowData.issuesLoading" class="text-center py-4">
+<div *ngIf="loading" class="text-center py-4">
   <div class="spinner-border spinner-border-sm text-primary"></div>
 </div>
 
-<ng-container *ngIf="!workflowData.issuesLoading">
-  <div *ngIf="hasIssueApi">
-    <div *ngIf="issues.length === 0" class="empty-state-sm">
-      <i class="bi bi-check-circle text-success"></i>
-      <small>{{ 'WORKFLOW.NO_ISSUES' | translate }}</small>
-    </div>
+<ng-container *ngIf="!loading">
 
-    <div *ngIf="issues.length > 0" class="row g-2">
-      <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let issue of issues">
-        <div class="issue-card">
-          <span *ngIf="issue.code" class="issue-code">{{ issue.code }}</span>
-          <span class="issue-name">{{ isAr ? issue.nameAr : issue.nameEn }}</span>
+  <!-- Indicators -->
+  <div class="indicator-row" *ngFor="let ind of indicators">
+    <div class="row align-items-center g-3">
+
+      <!-- Right column (RTL): Label + Input + Checkbox -->
+      <div class="col-lg-3 col-md-4">
+        <div class="indicator-label mb-1">{{ isAr ? ind.labelAr : ind.labelEn }}</div>
+        <div class="d-flex align-items-center gap-2">
+          <input type="number" class="form-control form-control-sm indicator-input"
+                 [(ngModel)]="values[ind.key].value"
+                 [min]="ind.min" [max]="ind.max"
+                 [disabled]="values[ind.key].notApplicable">
+          <label class="d-flex align-items-center gap-1 text-nowrap text-muted mb-0 indicator-na"
+                 [for]="'na_' + ind.key">
+            <input type="checkbox" [id]="'na_' + ind.key"
+                   [(ngModel)]="values[ind.key].notApplicable"
+                   (change)="toggleNotApplicable(ind.key)">
+            {{ 'WORKFLOW.NOT_APPLICABLE' | translate }}
+          </label>
         </div>
       </div>
+
+      <!-- Left column (RTL): Gauge bar -->
+      <div class="col-lg-9 col-md-8">
+        <div class="gauge-wrapper">
+          <div class="gauge-bar">
+            <div class="gauge-marker"
+                 *ngIf="getMarkerPercent(ind) >= 0"
+                 [style.left.%]="getMarkerPercent(ind)">
+            </div>
+          </div>
+          <div class="gauge-labels">
+            <span>{{ ind.max }}</span>
+            <span>{{ ind.min }}</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div *ngIf="!hasIssueApi" class="empty-state-sm">
-    <i class="bi bi-check-circle text-success"></i>
-    <small>{{ 'WORKFLOW.NO_ISSUES' | translate }}</small>
+  <!-- Reference Table -->
+  <div class="table-responsive mt-4">
+    <table class="table table-bordered align-middle mb-0 ref-table">
+      <thead class="table-light">
+        <tr>
+          <th>{{ 'WORKFLOW.INDICATOR' | translate }}</th>
+          <th class="text-center">{{ 'WORKFLOW.MEASUREMENT_RANGE' | translate }}</th>
+          <th class="text-center">{{ 'WORKFLOW.NORMAL_RANGE' | translate }}</th>
+          <th class="text-center">{{ 'WORKFLOW.ABNORMAL_RANGE' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ind of indicators">
+          <td class="fw-semibold">{{ isAr ? ind.labelAr : ind.labelEn }}</td>
+          <td class="text-center">{{ ind.min }}{{ ind.unit }} - {{ ind.max }}{{ ind.unit }}</td>
+          <td class="text-center text-success fw-medium">{{ ind.normalMin }}{{ ind.unit }} - {{ ind.normalMax }}{{ ind.unit }}</td>
+          <td class="text-center text-danger">
+            {{ 'WORKFLOW.LESS_THAN' | translate }} {{ ind.normalMin }}
+            {{ 'WORKFLOW.MORE_THAN' | translate }} {{ ind.normalMax }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+
+  <!-- Comments -->
+  <div class="mt-4 mb-3">
+    <label class="form-label">{{ 'WORKFLOW.COMMENTS' | translate }}</label>
+    <textarea class="form-control" rows="3"
+              [(ngModel)]="comments"
+              [placeholder]="'WORKFLOW.COMMENTS_PLACEHOLDER' | translate"></textarea>
+  </div>
+
+  <!-- Save button -->
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-success px-4" (click)="save()" [disabled]="saving">
+      <span *ngIf="saving" class="spinner-border spinner-border-sm me-1"></span>
+      <i *ngIf="!saving" class="bi bi-check-lg me-1"></i>
+      {{ 'COMMON.SAVE' | translate }}
+    </button>
+  </div>
+
 </ng-container>

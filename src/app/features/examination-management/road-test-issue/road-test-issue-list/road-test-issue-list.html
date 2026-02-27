@@ -1,1 +1,42 @@
-<app-lookup-list [config]="config"></app-lookup-list>
+<app-shared-list
+  [titleKey]="'ROAD_TEST_ISSUES.TITLE'"
+  [addLabelKey]="'ROAD_TEST_ISSUES.ADD'"
+  [canAdd]="authService.hasPermission('roadTestIssue.create')"
+  (addClicked)="openAdd()"
+  [pagingConfig]="pagingConfig"
+  (pageSizeSearch)="search()"
+  [items]="roadTestIssues"
+  [emptyText]="'No road test issues found'"
+  (pageChanged)="pagingConfig.currentPage = $event; load();"
+>
+  <!-- header -->
+  <ng-container table-header>
+    <th>#</th>
+    <th>{{ 'COMMON.NAME_AR' | translate }}</th>
+    <th>{{ 'COMMON.NAME_EN' | translate }}</th>
+    <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
+  </ng-container>
+
+  <!-- body -->
+  <ng-container table-body>
+    <tr *ngFor="let item of roadTestIssues | paginate: pagingConfig; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ item.nameAr }}</td>
+      <td>{{ item.nameEn }}</td>
+      <td class="text-end">
+        <button
+          class="btn btn-sm btn-outline-primary me-1"
+          *ngIf="authService.hasPermission('roadTestIssue.update')"
+          (click)="openEdit(item)">
+          {{ 'COMMON.EDIT' | translate }}
+        </button>
+        <button
+          class="btn btn-sm btn-outline-danger"
+          *ngIf="authService.hasPermission('roadTestIssue.delete')"
+          (click)="deleteItem(item)">
+          {{ 'COMMON.DELETE' | translate }}
+        </button>
+      </td>
+    </tr>
+  </ng-container>
+</app-shared-list>

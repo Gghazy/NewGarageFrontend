@@ -34,6 +34,14 @@ export const STAGE_ISSUE_API: Record<number, string> = {
   9: 'RoadTestIssues/pagination',
 };
 
+const STAGE_GET_API: Record<number, string> = {
+  1: 'stages/sensors',
+  2: 'stages/dashboard-indicators',
+  3: 'stages/interior-body',
+  4: 'stages/exterior-body',
+  5: 'stages/interior-decor',
+};
+
 @Injectable()
 export class WorkflowDataService {
   exam: ExaminationDto | null = null;
@@ -56,6 +64,7 @@ export class WorkflowDataService {
         this.stages = data.stages ?? [];
         this.loading = false;
         this.loadAllIssuesInParallel();
+        this.loadCompletedStages();
       }),
     );
   }
@@ -120,6 +129,39 @@ export class WorkflowDataService {
         error: () => {
           this.issuesLoading = false;
         },
+      });
+  }
+
+  private loadCompletedStages(): void {
+    const examId = this.exam?.id;
+    if (!examId) return;
+
+    const calls: Record<string, Observable<any>> = {};
+
+    for (const stage of this.stages) {
+      const apiPath = STAGE_GET_API[stage.value];
+      if (!apiPath) continue;
+      calls[stage.value] = this.api.get<ApiResponse<any>>(`Examinations/${examId}/${apiPath}`).pipe(
+        map(res => res.data),
+        catchError(() => of(null)),
+      );
+    }
+
+    if (Object.keys(calls).length === 0) return;
+
+    forkJoin(calls)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(results => {
+        for (const [key, data] of Object.entries(results)) {
+          if (!data) continue;
+          const hasData = data.noIssuesFound
+            || (data.items && data.items.length > 0)
+            || (data.issues && data.issues.length > 0)
+            || (data.indicators && data.indicators.length > 0);
+          if (hasData) {
+            this.completedStages.add(+key);
+          }
+        }
       });
   }
 }

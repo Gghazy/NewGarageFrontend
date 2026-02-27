@@ -303,3 +303,93 @@
   color: #166534;
   margin-inline-end: 6px;
 }
+
+/* ── Dashboard Indicators / Gauge ── */
+.indicator-row {
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.indicator-row:last-of-type {
+  border-bottom: none;
+}
+
+.indicator-label {
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: #1e293b;
+}
+
+.indicator-input {
+  width: 70px;
+  text-align: center;
+  font-size: 0.8rem;
+  padding: 4px 6px;
+}
+
+.indicator-na {
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.indicator-na input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.gauge-wrapper {
+  direction: ltr;
+}
+
+.gauge-bar {
+  height: 10px;
+  border-radius: 5px;
+  background: linear-gradient(to right, #dc2626, #ef4444, #f97316, #eab308, #84cc16, #22c55e, #14b8a6, #06b6d4, #3b82f6, #2563eb);
+  position: relative;
+}
+
+.gauge-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(to bottom,
+    rgba(255,255,255,0.35) 0%,
+    rgba(255,255,255,0.1) 40%,
+    transparent 55%,
+    rgba(0,0,0,0.1) 100%);
+  pointer-events: none;
+}
+
+.gauge-marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid rgba(0,0,0,0.25);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.gauge-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.ref-table {
+  font-size: 0.8rem;
+}
+
+.ref-table th {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #475569;
+}

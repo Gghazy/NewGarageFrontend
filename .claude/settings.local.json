@@ -42,7 +42,9 @@
       "Bash(xargs grep -l \"DateTime\\\\|dateFrom\\\\|dateTo\")",
       "Bash(npx ng build --configuration=development)",
       "Bash(xargs grep -l \"StageDetail\\\\|cylinder\\\\|evaluation\\\\|issue.*status\" -i)",
-      "Bash(npx ng build --configuration development)"
+      "Bash(npx ng build --configuration development)",
+      "Bash(xargs cat)",
+      "Bash(xargs grep -l \"MediatR\\\\|AddMediatR\\\\|AddApplication\")"
     ],
     "additionalDirectories": [
       "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\shared\\Models\\vehicle-orders",
@@ -67,7 +69,11 @@
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\ExaminationManagement\\Shared",
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\PaymentMethods",
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application\\Abstractions",
-      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application"
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\InsideAndDecorPartIssues",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\InteriorBodyParts",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\ExteriorBodyParts\\Entity",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\RoadTestIssues\\Entity"
     ]
   }
 }

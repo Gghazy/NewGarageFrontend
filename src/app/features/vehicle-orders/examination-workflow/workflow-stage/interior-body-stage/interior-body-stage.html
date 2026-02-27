@@ -1,26 +1,108 @@
-<div *ngIf="workflowData.issuesLoading" class="text-center py-4">
+<div *ngIf="loading" class="text-center py-4">
   <div class="spinner-border spinner-border-sm text-primary"></div>
 </div>
 
-<ng-container *ngIf="!workflowData.issuesLoading">
-  <div *ngIf="hasIssueApi">
-    <div *ngIf="issues.length === 0" class="empty-state-sm">
-      <i class="bi bi-check-circle text-success"></i>
-      <small>{{ 'WORKFLOW.NO_ISSUES' | translate }}</small>
+<ng-container *ngIf="!loading">
+
+  <div class="row g-4">
+
+    <!-- Form side -->
+    <div class="col-lg-5">
+
+      <!-- No issues checkbox -->
+      <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="noIssuesInteriorBody"
+               [(ngModel)]="noIssuesFound" (change)="toggleNoIssues()">
+        <label class="form-check-label fw-semibold" for="noIssuesInteriorBody">
+          {{ 'WORKFLOW.NO_ISSUES_FOUND' | translate }}
+        </label>
+      </div>
+
+      <!-- Part selection -->
+      <div [class.disabled-section]="noIssuesFound">
+        <div class="mb-3">
+          <label class="form-label">{{ 'WORKFLOW.INTERIOR_BODY_PART' | translate }}</label>
+          <ng-select [items]="availableParts"
+                     [bindLabel]="isAr ? 'nameAr' : 'nameEn'"
+                     bindValue="id"
+                     [(ngModel)]="selectedPartId"
+                     [placeholder]="'WORKFLOW.SELECT_PART' | translate"
+                     [disabled]="noIssuesFound"
+                     [clearable]="true"
+                     [searchable]="true">
+          </ng-select>
+        </div>
+        <button class="btn btn-primary"
+                [disabled]="noIssuesFound || !selectedPartId"
+                (click)="addPart()">
+          <i class="bi bi-plus-lg me-1"></i>
+          {{ 'WORKFLOW.ADD' | translate }}
+        </button>
+      </div>
+
+      <!-- Comments -->
+      <div class="mt-4 mb-3">
+        <label class="form-label">{{ 'WORKFLOW.COMMENTS' | translate }}</label>
+        <textarea class="form-control" rows="3"
+                  [(ngModel)]="comments"
+                  [placeholder]="'WORKFLOW.COMMENTS_PLACEHOLDER' | translate"></textarea>
+      </div>
+
+      <!-- Save button -->
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-success px-4" (click)="save()" [disabled]="saving">
+          <span *ngIf="saving" class="spinner-border spinner-border-sm me-1"></span>
+          <i *ngIf="!saving" class="bi bi-check-lg me-1"></i>
+          {{ 'COMMON.SAVE' | translate }}
+        </button>
+      </div>
+
     </div>
 
-    <div *ngIf="issues.length > 0" class="row g-2">
-      <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let issue of issues">
-        <div class="issue-card">
-          <span *ngIf="issue.code" class="issue-code">{{ issue.code }}</span>
-          <span class="issue-name">{{ isAr ? issue.nameAr : issue.nameEn }}</span>
-        </div>
+    <!-- Table side -->
+    <div class="col-lg-7">
+      <div *ngIf="rows.length > 0" class="table-responsive">
+        <table class="table table-bordered table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th style="width: 50px;">#</th>
+              <th>{{ 'WORKFLOW.INTERIOR_BODY_PART' | translate }}</th>
+              <th>{{ 'WORKFLOW.ISSUE_TYPE' | translate }}</th>
+              <th class="text-center" style="width: 60px;">{{ 'WORKFLOW.ACTION' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of rows; let i = index">
+              <td class="fw-semibold">{{ i + 1 }}</td>
+              <td>{{ isAr ? row.partNameAr : row.partNameEn }}</td>
+              <td>
+                <ng-select [items]="allIssues"
+                           [bindLabel]="isAr ? 'nameAr' : 'nameEn'"
+                           bindValue="id"
+                           [(ngModel)]="row.issueIds"
+                           [multiple]="true"
+                           [placeholder]="'WORKFLOW.SELECT_ISSUES' | translate"
+                           [clearable]="true"
+                           [searchable]="true"
+                           appendTo="body">
+                </ng-select>
+              </td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-outline-danger" (click)="removePart(i)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="rows.length === 0 && !noIssuesFound" class="empty-state-sm">
+        <i class="bi bi-clipboard-plus text-muted"></i>
+        <small>{{ 'WORKFLOW.ADD_PARTS_HINT' | translate }}</small>
       </div>
     </div>
+
   </div>
 
-  <div *ngIf="!hasIssueApi" class="empty-state-sm">
-    <i class="bi bi-check-circle text-success"></i>
-    <small>{{ 'WORKFLOW.NO_ISSUES' | translate }}</small>
-  </div>
 </ng-container>
