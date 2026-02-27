@@ -1,0 +1,46 @@
+<div class="section-header mb-3">
+  <i class="bi bi-wallet2"></i>
+  <span>{{ 'DASHBOARD.REVENUE' | translate }}</span>
+</div>
+<div class="row g-3">
+  <div class="col-md-4">
+    <div class="card stat-card stat-card--success h-100">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div class="stat-icon bg-success-subtle text-success">
+          <i class="bi bi-cash-coin"></i>
+        </div>
+        <div class="flex-grow-1">
+          <div class="stat-value">{{ netRevenue | number:'1.0-0' }}</div>
+          <div class="stat-label">{{ 'DASHBOARD.NET_REVENUE' | translate }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card stat-card stat-card--warning h-100">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div class="stat-icon bg-warning-subtle text-warning">
+          <i class="bi bi-tag"></i>
+        </div>
+        <div class="flex-grow-1">
+          <div class="stat-value">{{ totalDiscounts | number:'1.0-0' }}</div>
+          <div class="stat-label">{{ 'DASHBOARD.TOTAL_DISCOUNTS' | translate }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card stat-card stat-card--danger h-100">
+      <div class="card-body d-flex align-items-center gap-3">
+        <div class="stat-icon bg-danger-subtle text-danger">
+          <i class="bi bi-arrow-return-left"></i>
+        </div>
+        <div class="flex-grow-1">
+          <div class="stat-value">{{ refundCount }}</div>
+          <div class="stat-label">{{ 'DASHBOARD.REFUNDS' | translate }}</div>
+          <div class="stat-sub">{{ refundAmount | number:'1.0-0' }} {{ 'DASHBOARD.REVENUE_LABEL' | translate }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+.filter-bar {
+  background: var(--card-bg, #fff);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.filter-bar-icon {
+  color: var(--primary-dark, #1e3a5f);
+  font-size: 1rem;
+}
+
+.filter-bar-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-dark, #1e293b);
+}
+
+.filter-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-gray, #64748b);
+  margin-bottom: 4px;
+}
+
+.filter-input {
+  font-size: 0.85rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.filter-input:focus {
+  border-color: var(--primary-dark, #1e3a5f);
+  box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.1);
+}

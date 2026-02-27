@@ -1,0 +1,26 @@
+<div *ngIf="workflowData.issuesLoading" class="text-center py-4">
+  <div class="spinner-border spinner-border-sm text-primary"></div>
+</div>
+
+<ng-container *ngIf="!workflowData.issuesLoading">
+  <div *ngIf="hasIssueApi">
+    <div *ngIf="issues.length === 0" class="empty-state-sm">
+      <i class="bi bi-check-circle text-success"></i>
+      <small>{{ 'WORKFLOW.NO_ISSUES' | translate }}</small>
+    </div>
+
+    <div *ngIf="issues.length > 0" class="row g-2">
+      <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let issue of issues">
+        <div class="issue-card">
+          <span *ngIf="issue.code" class="issue-code">{{ issue.code }}</span>
+          <span class="issue-name">{{ isAr ? issue.nameAr : issue.nameEn }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!hasIssueApi" class="empty-state-sm">
+    <i class="bi bi-check-circle text-success"></i>
+    <small>{{ 'WORKFLOW.NO_ISSUES' | translate }}</small>
+  </div>
+</ng-container>

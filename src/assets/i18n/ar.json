@@ -16,6 +16,34 @@
     "TITLE": "الميزات",
     "WELCOME": "أهلاً بك! أنت مسجل دخول."
   },
+  "DASHBOARD": {
+    "CLIENTS": "عملاء التطبيقات",
+    "CLIENTS_LABEL": "عميل / شركة",
+    "VEHICLES": "السيارات",
+    "VEHICLES_LABEL": "سيارة / مركبة",
+    "EXAMINATIONS": "الفحوصات",
+    "EXAMINATIONS_LABEL": "كرت خدمة",
+    "REVENUE": "الإيرادات",
+    "REVENUE_LABEL": "ريال سعودي",
+    "PEAK_TIMES": "أوقات الذروة",
+    "CLIENT_SOURCES": "مصادر العملاء",
+    "EXAMS_PENDING": "فحوصات معلقة",
+    "EXAMS_PENDING_LABEL": "معلق",
+    "EXAMS_IN_PROGRESS": "فحوصات قيد التنفيذ",
+    "EXAMS_IN_PROGRESS_LABEL": "قيد التنفيذ",
+    "EXAMS_COMPLETED": "فحوصات مكتملة",
+    "EXAMS_COMPLETED_LABEL": "مكتمل",
+    "NET_REVENUE": "صافي الإيرادات",
+    "TOTAL_DISCOUNTS": "الخصومات",
+    "REFUNDS": "فواتير المرتجع",
+    "REFUNDS_VALUE": "بقيمة",
+    "FILTER_TITLE": "تصفية",
+    "FILTER_FROM": "من",
+    "FILTER_TO": "إلى",
+    "FILTER_BRANCH": "الفرع",
+    "FILTER_ALL_BRANCHES": "جميع الفروع",
+    "SERVICE_USAGE": "استخدام الخدمات"
+  },
   "MENU": {
     "GARAGE": "الجراج",
     "SETTINGS": "الإعدادات",
@@ -81,6 +109,7 @@
     "EXAMINATIONS": "طلبات الفحص",
     "NEW_EXAMINATION": "فحص جديد",
     "EDIT_EXAMINATION": "تعديل الفحص",
+    "EXAM_WORKFLOW": "تنفيذ الفحص",
     "INVOICES": "الفواتير",
     "NEW_INVOICE": "فاتورة جديدة",
     "EDIT_INVOICE": "تعديل فاتورة",
@@ -331,6 +360,12 @@
       "AccessoryIssue": "أعطال الإكسسوارات",
       "Employees": "الموظفين",
       "Dashboard": "لوحة التحكم",
+      "DashboardClients": "لوحة التحكم - العملاء",
+      "DashboardVehicles": "لوحة التحكم - السيارات",
+      "DashboardExaminations": "لوحة التحكم - كروت الخدمة",
+      "DashboardRevenue": "لوحة التحكم - الإيرادات",
+      "DashboardPeakTimes": "لوحة التحكم - أوقات الذروة",
+      "DashboardClientSources": "لوحة التحكم - مصادر العملاء",
       "Crane": "الونش",
       "InteriorBodyIssue": "أعطال الهيكل الداخلي",
       "InsideAndDecorPart": "الأجزاء الداخلية والديكور",
@@ -472,7 +507,8 @@
         "Completed": "مكتمل",
         "Delivered": "تم التسليم",
         "Cancelled": "ملغي"
-      }
+      },
+      "START_EXAM": "بدء الفحص"
     },
     "FORM": {
       "TITLE": "طلب فحص جديد",
@@ -686,5 +722,11 @@
     "RELATED": {
       "TITLE": "الفواتير المرتبطة"
     }
+  },
+  "WORKFLOW": {
+    "EXAM_SUMMARY": "ملخص الفحص",
+    "SERVICES": "الخدمات",
+    "ISSUES": "المشاكل المحتملة",
+    "NO_ISSUES": "لا توجد مشاكل لهذه المرحلة"
   }
 }

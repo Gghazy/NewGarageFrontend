@@ -36,14 +36,14 @@
   <div class="container-fluid">
     <ul class="secondary-nav">
       <li class="nav-item dropdown" *ngFor="let parent of menu()">
-        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+        <a class="nav-link dropdown-toggle" [class.active]="isParentActive(parent)" role="button" data-bs-toggle="dropdown">
           <i [class]="(parent.icon || '') + ' me-1'"></i>
           {{ parent.labelKey | translate }}
         </a>
 
         <ul class="dropdown-menu" [class.dropdown-menu-end]="lang !== 'ar'">
           <li *ngFor="let child of parent.children">
-            <a class="dropdown-item d-flex align-items-center gap-2" [routerLink]="child.route">
+            <a class="dropdown-item d-flex align-items-center gap-2" [routerLink]="child.route" routerLinkActive="active">
               <i *ngIf="child.icon" [class]="child.icon"></i>
               {{ child.labelKey | translate }}
             </a>

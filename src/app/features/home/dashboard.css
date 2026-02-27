@@ -1,0 +1,72 @@
+/* ── Section Headers ── */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-dark, #1e293b);
+}
+
+.section-header i {
+  color: var(--primary-dark, #1e3a5f);
+  font-size: 1.1rem;
+}
+
+/* ── Stat Cards ── */
+.stat-card {
+  border: none;
+  border-radius: 12px;
+  border-left: 4px solid transparent;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  background: var(--card-bg, #fff);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.stat-card:hover {
+  box-shadow: 0 8px 24px rgba(30, 58, 95, 0.12);
+  transform: translateY(-2px);
+}
+
+.stat-card--warning { border-left-color: #d97706; }
+.stat-card--info    { border-left-color: #0284c7; }
+.stat-card--success { border-left-color: #16a34a; }
+.stat-card--danger  { border-left-color: #dc2626; }
+
+/* ── Stat Icon ── */
+.stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* ── Stat Values ── */
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-dark, #1e293b);
+  line-height: 1.2;
+}
+
+.stat-label {
+  color: var(--text-gray, #64748b);
+  font-size: 0.8rem;
+  margin-top: 2px;
+}
+
+.stat-sub {
+  color: var(--text-gray, #64748b);
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+/* ── Chart ── */
+.chart-container {
+  position: relative;
+  height: 320px;
+}

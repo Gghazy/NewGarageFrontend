@@ -2,7 +2,9 @@ export interface InvoicePaymentDto {
   id: string;
   amount: number;
   currency: string;
-  method: string;
+  methodId: string;
+  methodNameAr: string;
+  methodNameEn: string;
   type: string;
   notes?: string;
   createdAtUtc: string;

@@ -1,0 +1,77 @@
+<div *ngIf="workflowData.loading" class="text-center py-5">
+  <div class="spinner-border text-primary"></div>
+</div>
+
+<div *ngIf="!workflowData.loading && workflowData.exam" class="workflow-page">
+
+  <!-- Summary cards row -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-3 col-6">
+      <div class="summary-card">
+        <div class="summary-icon bg-info-subtle text-info">
+          <i class="bi bi-car-front"></i>
+        </div>
+        <div>
+          <small class="text-muted">{{ 'VEHICLE_ORDERS.LIST.CAR_MARK' | translate }}</small>
+          <div class="summary-value">{{ isAr ? workflowData.exam.carMarkNameAr : workflowData.exam.carMarkNameEn }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="summary-card">
+        <div class="summary-icon bg-warning-subtle text-warning">
+          <i class="bi bi-speedometer2"></i>
+        </div>
+        <div>
+          <small class="text-muted">{{ 'VEHICLE_ORDERS.LIST.MANUFACTURER' | translate }}</small>
+          <div class="summary-value">{{ isAr ? workflowData.exam.manufacturerNameAr : workflowData.exam.manufacturerNameEn }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-6" *ngIf="workflowData.exam.hasPlate">
+      <div class="summary-card">
+        <div class="summary-icon bg-primary-subtle text-primary">
+          <i class="bi bi-card-text"></i>
+        </div>
+        <div>
+          <small class="text-muted">{{ 'VEHICLE_ORDERS.FORM.PLATE' | translate }}</small>
+          <div class="summary-value">{{ workflowData.exam.plateLetters }} {{ workflowData.exam.plateNumbers }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col" *ngIf="workflowData.exam.items.length > 0">
+      <div class="summary-card summary-card--services">
+        <div class="summary-icon bg-success-subtle text-success">
+          <i class="bi bi-tools"></i>
+        </div>
+        <div class="services-chips">
+          <span class="service-chip" *ngFor="let item of workflowData.exam.items">
+            {{ isAr ? item.serviceNameAr : item.serviceNameEn }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No stages -->
+  <div *ngIf="workflowData.stages.length === 0" class="empty-state">
+    <i class="bi bi-clipboard-x"></i>
+    <p>{{ 'COMMON.NO_DATA' | translate }}</p>
+  </div>
+
+  <!-- Stage tabs + router outlet -->
+  <div *ngIf="workflowData.stages.length > 0" class="stages-container">
+    <div class="stages-tabs">
+      <a *ngFor="let stage of workflowData.stages"
+         class="stage-tab"
+         [routerLink]="[stage.nameEn]"
+         routerLinkActive="active">
+        <span class="stage-tab-name">{{ isAr ? stage.nameAr : stage.nameEn }}</span>
+      </a>
+    </div>
+
+    <div class="stage-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

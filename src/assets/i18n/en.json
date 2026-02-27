@@ -16,6 +16,34 @@
     "TITLE": "Features",
     "WELCOME": "Welcome! You are logged in."
   },
+  "DASHBOARD": {
+    "CLIENTS": "App Clients",
+    "CLIENTS_LABEL": "Client / Company",
+    "VEHICLES": "Vehicles",
+    "VEHICLES_LABEL": "Vehicle",
+    "EXAMINATIONS": "Service Cards",
+    "EXAMINATIONS_LABEL": "Service Card",
+    "REVENUE": "Revenue",
+    "REVENUE_LABEL": "Saudi Riyal",
+    "PEAK_TIMES": "Peak Times",
+    "CLIENT_SOURCES": "Client Sources",
+    "EXAMS_PENDING": "Pending Examinations",
+    "EXAMS_PENDING_LABEL": "Pending",
+    "EXAMS_IN_PROGRESS": "In Progress Examinations",
+    "EXAMS_IN_PROGRESS_LABEL": "In Progress",
+    "EXAMS_COMPLETED": "Completed Examinations",
+    "EXAMS_COMPLETED_LABEL": "Completed",
+    "NET_REVENUE": "Net Revenue",
+    "TOTAL_DISCOUNTS": "Discounts",
+    "REFUNDS": "Refund Invoices",
+    "REFUNDS_VALUE": "Value:",
+    "FILTER_TITLE": "Filters",
+    "FILTER_FROM": "From",
+    "FILTER_TO": "To",
+    "FILTER_BRANCH": "Branch",
+    "FILTER_ALL_BRANCHES": "All Branches",
+    "SERVICE_USAGE": "Service Usage"
+  },
   "MENU": {
     "GARAGE": "Garage",
     "SETTINGS": "Settings",
@@ -81,6 +109,7 @@
     "EXAMINATIONS": "Examinations",
     "NEW_EXAMINATION": "New Examination",
     "EDIT_EXAMINATION": "Edit Examination",
+    "EXAM_WORKFLOW": "Exam Workflow",
     "INVOICES": "Invoices",
     "NEW_INVOICE": "New Invoice",
     "EDIT_INVOICE": "Edit Invoice",
@@ -311,6 +340,12 @@
       "AccessoryIssue": "Accessory Issues",
       "Employees": "Employees",
       "Dashboard": "Dashboard",
+      "DashboardClients": "Dashboard - Clients",
+      "DashboardVehicles": "Dashboard - Vehicles",
+      "DashboardExaminations": "Dashboard - Service Cards",
+      "DashboardRevenue": "Dashboard - Revenue",
+      "DashboardPeakTimes": "Dashboard - Peak Times",
+      "DashboardClientSources": "Dashboard - Client Sources",
       "Crane": "Crane",
       "InteriorBodyIssue": "Interior Body Issues",
       "InsideAndDecorPart": "Interior & Decor Parts",
@@ -444,7 +479,8 @@
         "Completed": "Completed",
         "Delivered": "Delivered",
         "Cancelled": "Cancelled"
-      }
+      },
+      "START_EXAM": "Start Exam"
     },
     "FORM": {
       "TITLE": "New Inspection Order",
@@ -658,5 +694,11 @@
     "RELATED": {
       "TITLE": "Related Invoices"
     }
+  },
+  "WORKFLOW": {
+    "EXAM_SUMMARY": "Exam Summary",
+    "SERVICES": "Services",
+    "ISSUES": "Potential Issues",
+    "NO_ISSUES": "No issues for this stage"
   }
 }

@@ -52,6 +52,11 @@ export class Topbar {
     return this.auth.hasAnyPermission(perms); // هنضيفها تحت
   }
 
+  isParentActive(parent: AppMenuItem): boolean {
+    const url = this.router.url;
+    return !!parent.children?.some(child => child.route && url.startsWith(child.route));
+  }
+
   logout(): void {
     this.auth.clear();
     this.router.navigate(['/login']);

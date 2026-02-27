@@ -4,11 +4,11 @@
       <i class="bi bi-chevron-down toggle-icon" [class.rotated]="collapsed"></i>
       <h6 class="mb-0 fw-semibold">{{ 'INVOICES.PAYMENTS.TITLE' | translate }}</h6>
     </div>
-    <div *ngIf="invoice?.status === 'Issued' && invoice?.type !== 'Refund'" class="d-flex gap-1" (click)="$event.stopPropagation()">
-      <button type="button" class="btn btn-sm btn-success" (click)="openForm('Payment')">
+    <div *ngIf="invoice?.type !== 'Refund' && invoice?.status !== 'Cancelled'" class="d-flex gap-1" (click)="$event.stopPropagation()">
+      <button *ngIf="balance > 0" type="button" class="btn btn-sm btn-success" (click)="openForm('Payment')">
         <i class="bi bi-plus-lg me-1"></i>{{ 'INVOICES.PAYMENTS.ADD_PAYMENT' | translate }}
       </button>
-      <button type="button" class="btn btn-sm btn-outline-danger" (click)="openForm('Refund')">
+      <button *ngIf="canRefund" type="button" class="btn btn-sm btn-outline-danger" (click)="openForm('Refund')">
         <i class="bi bi-arrow-return-left me-1"></i>{{ 'INVOICES.PAYMENTS.ADD_REFUND' | translate }}
       </button>
     </div>
@@ -18,25 +18,25 @@
 
     <!-- Summary cards -->
     <div class="row g-2 p-3">
-      <div class="col-4">
+      <div class="col-3">
         <div class="border rounded p-2 text-center">
           <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.SUB_TOTAL' | translate }}</small>
           <strong>{{ subTotal | number:'1.2-2' }}</strong>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-3">
         <div class="border rounded p-2 text-center">
           <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.DISCOUNT' | translate }}</small>
           <strong class="text-danger">{{ discountAmount | number:'1.2-2' }}</strong>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-3">
         <div class="border rounded p-2 text-center">
           <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.TAX_AMOUNT' | translate }} ({{ taxRate * 100 | number:'1.0-0' }}%)</small>
           <strong>{{ taxAmount | number:'1.2-2' }}</strong>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-3">
         <div class="border rounded p-2 text-center bg-light">
           <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.TOTAL_WITH_TAX' | translate }}</small>
           <strong class="fs-6">{{ totalWithTax | number:'1.2-2' }}</strong>
@@ -74,8 +74,8 @@
         </div>
         <div class="col-md-3">
           <label class="form-label small">{{ 'INVOICES.PAYMENTS.METHOD' | translate }}</label>
-          <select class="form-select form-select-sm" formControlName="method">
-            <option *ngFor="let m of paymentMethods" [value]="m.nameEn">
+          <select class="form-select form-select-sm" formControlName="methodId">
+            <option *ngFor="let m of paymentMethods" [value]="m.id">
               {{ isAr ? m.nameAr : m.nameEn }}
             </option>
           </select>
@@ -119,7 +119,7 @@
               </span>
             </td>
             <td class="fw-semibold">{{ p.amount | number:'1.2-2' }} {{ p.currency }}</td>
-            <td>{{ getMethodLabel(p.method) }}</td>
+            <td>{{ getMethodLabel(p) }}</td>
             <td class="text-muted">{{ p.notes || '—' }}</td>
           </tr>
 

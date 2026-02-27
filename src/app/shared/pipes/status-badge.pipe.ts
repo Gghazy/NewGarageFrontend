@@ -9,6 +9,13 @@ const EXAMINATION_BADGE: Record<string, string> = {
   Cancelled:  'bg-danger',
 };
 
+const EXAMINATION_ITEM_BADGE: Record<string, string> = {
+  Pending:       'bg-warning text-dark',
+  Passed:        'bg-success',
+  Failed:        'bg-danger',
+  NotApplicable: 'bg-secondary',
+};
+
 const INVOICE_BADGE: Record<string, string> = {
   Issued:            'bg-primary',
   Paid:              'bg-success',
@@ -24,9 +31,10 @@ const INVOICE_TYPE_BADGE: Record<string, string> = {
 };
 
 const MAPS: Record<string, Record<string, string>> = {
-  examination: EXAMINATION_BADGE,
-  invoice:     INVOICE_BADGE,
-  invoiceType: INVOICE_TYPE_BADGE,
+  examination:     EXAMINATION_BADGE,
+  examinationItem: EXAMINATION_ITEM_BADGE,
+  invoice:         INVOICE_BADGE,
+  invoiceType:     INVOICE_TYPE_BADGE,
 };
 
 @Pipe({ name: 'statusBadge', standalone: false })

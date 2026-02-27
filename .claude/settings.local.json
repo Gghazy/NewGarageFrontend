@@ -35,7 +35,13 @@
       "Bash(cmd.exe /c \"taskkill /F /IM iisexpress.exe 2>NUL\")",
       "Bash(xargs grep -l \"class.*Repository\\\\|interface.*Repository\")",
       "Bash(npm install qrcode @types/qrcode)",
-      "Bash(npm install qrcode @types/qrcode --legacy-peer-deps)"
+      "Bash(npm install qrcode @types/qrcode --legacy-peer-deps)",
+      "Bash(npm install chart.js ng2-charts --legacy-peer-deps)",
+      "Bash(node -e \"const m = require\\(''ng2-charts''\\); console.log\\(Object.keys\\(m\\).filter\\(k => k.includes\\(''Module''\\) || k.includes\\(''Chart''\\)\\)\\)\")",
+      "Bash(dotnet ef migrations add UpdateInvoicePaymentMethod --project ../Garage.Infrastructure --context ApplicationDbContext)",
+      "Bash(xargs grep -l \"DateTime\\\\|dateFrom\\\\|dateTo\")",
+      "Bash(npx ng build --configuration=development)",
+      "Bash(xargs grep -l \"StageDetail\\\\|cylinder\\\\|evaluation\\\\|issue.*status\" -i)"
     ],
     "additionalDirectories": [
       "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\shared\\Models\\vehicle-orders",
@@ -59,7 +65,8 @@
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application\\Invoices",
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\ExaminationManagement\\Shared",
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\PaymentMethods",
-      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application\\Abstractions"
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application\\Abstractions",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Application"
     ]
   }
 }

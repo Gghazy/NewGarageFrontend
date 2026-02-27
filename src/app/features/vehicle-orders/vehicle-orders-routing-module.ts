@@ -21,6 +21,12 @@ const routes: Routes = [
         data: { breadcrumb: 'BREADCRUMB.NEW_EXAMINATION' }
       },
       {
+        path: ':id/workflow',
+        loadChildren: () =>
+          import('./examination-workflow/examination-workflow-module').then(m => m.ExaminationWorkflowModule),
+        data: { breadcrumb: 'BREADCRUMB.EXAM_WORKFLOW' }
+      },
+      {
         path: ':id',
         component: VehicleOrderForm,
         data: { breadcrumb: 'BREADCRUMB.EDIT_EXAMINATION' }

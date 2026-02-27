@@ -70,6 +70,10 @@ export class VehicleOrderList implements OnInit, OnDestroy {
     this.router.navigate(['/features/vehicle-orders', order.id]);
   }
 
+  openWorkflow(order: ExaminationDto): void {
+    this.router.navigate(['/features/vehicle-orders', order.id, 'workflow']);
+  }
+
   search(): void {
     this.pagingConfig.currentPage = 1;
     this.loadOrders();

@@ -43,7 +43,7 @@ export class InvoicePrintService {
         <td>${p.createdAtUtc ? new Date(p.createdAtUtc).toLocaleDateString() : '—'}</td>
         <td style="text-align:center"><span style="color:${p.type === 'Refund' ? '#dc3545' : '#198754'}">${t('INVOICES.PAYMENTS.TYPES.' + p.type)}</span></td>
         <td style="text-align:center">${p.amount.toFixed(2)} ${p.currency}</td>
-        <td>${t('INVOICES.PAYMENTS.METHODS.' + p.method)}</td>
+        <td>${isAr ? p.methodNameAr : p.methodNameEn}</td>
       </tr>
     `).join('');
 

@@ -1,6 +1,30 @@
-<div class="card shadow-sm">
-  <div class="card-body">
-    <h5 class="card-title">{{ 'FEATURES.TITLE' | translate }}</h5>
-    <p class="mb-0">{{ 'FEATURES.WELCOME' | translate }}</p>
-  </div>
+<app-dashboard-filter
+  [branches]="branches"
+  [isAr]="isAr"
+  (filterChange)="onFilterChange($event)"
+  class="d-block mb-4">
+</app-dashboard-filter>
+
+<div *ngIf="loading" class="text-center py-5">
+  <div class="spinner-border text-primary"></div>
+</div>
+
+<div *ngIf="!loading">
+  <app-exam-stats *ngIf="canSeeExams" class="d-block mb-4"
+    [pending]="examsPending"
+    [inProgress]="examsInProgress"
+    [completed]="examsCompleted">
+  </app-exam-stats>
+
+  <app-revenue-stats *ngIf="canSeeRevenue" class="d-block mb-4"
+    [netRevenue]="netRevenue"
+    [totalDiscounts]="totalDiscounts"
+    [refundCount]="refundCount"
+    [refundAmount]="refundAmount">
+  </app-revenue-stats>
+
+  <app-service-usage-chart *ngIf="canSeeExams"
+    [chartData]="barChartData"
+    [chartOptions]="barChartOptions">
+  </app-service-usage-chart>
 </div>

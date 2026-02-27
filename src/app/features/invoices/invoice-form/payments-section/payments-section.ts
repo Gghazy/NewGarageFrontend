@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { InvoiceDto, InvoicePaymentDto } from 'src/app/shared/Models/invoices/invoice-dto';
+import { ApiResponse } from 'src/app/shared/Models/api-response';
 
 @Component({
   selector: 'app-invoice-payments-section',
@@ -24,8 +25,7 @@ export class InvoicePaymentsSection implements OnInit, OnDestroy {
   saving = false;
   private destroy$ = new Subject<void>();
 
-  paymentMethods: { nameAr: string; nameEn: string }[] = [];
-  private methodMap = new Map<string, { nameAr: string; nameEn: string }>();
+  paymentMethods: { id: string; nameAr: string; nameEn: string }[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -35,19 +35,20 @@ export class InvoicePaymentsSection implements OnInit, OnDestroy {
   ) {
     this.form = this.fb.group({
       amount:   [null, [Validators.required, Validators.min(0.01)]],
-      method:   ['Cash', Validators.required],
+      methodId: ['', Validators.required],
       notes:    [null],
     });
   }
 
   ngOnInit(): void {
-    this.api.get<any[]>('PaymentMethods')
+    this.api.get<ApiResponse<any[]>>('PaymentMethods')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (methods) => {
-          this.paymentMethods = methods;
-          this.methodMap.clear();
-          methods.forEach(m => this.methodMap.set(m.nameEn, m));
+        next: (res) => {
+          this.paymentMethods = res.data;
+          if (res.data.length > 0) {
+            this.form.patchValue({ methodId: res.data[0].id });
+          }
         },
       });
   }
@@ -56,10 +57,8 @@ export class InvoicePaymentsSection implements OnInit, OnDestroy {
     return this.translate.currentLang === 'ar';
   }
 
-  getMethodLabel(method: string): string {
-    const m = this.methodMap.get(method);
-    if (m) return this.translate.currentLang === 'ar' ? m.nameAr : m.nameEn;
-    return this.translate.instant('INVOICES.PAYMENTS.METHODS.' + method);
+  getMethodLabel(p: InvoicePaymentDto): string {
+    return this.isAr ? p.methodNameAr : p.methodNameEn;
   }
 
   get payments(): InvoicePaymentDto[] {
@@ -76,6 +75,10 @@ export class InvoicePaymentsSection implements OnInit, OnDestroy {
 
   get balance(): number {
     return this.invoice?.balance ?? 0;
+  }
+
+  get canRefund(): boolean {
+    return this.totalPaid > this.totalRefunded;
   }
 
   get subTotal(): number {
@@ -100,7 +103,8 @@ export class InvoicePaymentsSection implements OnInit, OnDestroy {
 
   openForm(mode: 'Payment' | 'Refund'): void {
     this.formMode = mode;
-    this.form.reset({ amount: null, method: 'Cash', notes: null });
+    const defaultMethodId = this.paymentMethods.length > 0 ? this.paymentMethods[0].id : '';
+    this.form.reset({ amount: null, methodId: defaultMethodId, notes: null });
     this.showForm = true;
   }
 

@@ -1,5 +1,7 @@
 .app-shell {
-  min-height: calc(100vh - 110px); // 60px navbar-top + ~50px secondary-menu-bar
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 60px);
   background: var(--light-bg);
-  padding: 1.5rem 0;
+  padding: 0;
 }
