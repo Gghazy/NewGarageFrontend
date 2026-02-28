@@ -15,16 +15,53 @@ const routes: Routes = [
   {
     path: '',
     component: ExaminationWorkflowLayout,
+    data: { breadcrumb: '' },
     children: [
-      { path: 'Sensors', component: SensorsStageComponent },
-      { path: 'DashboardIndicators', component: DashboardIndicatorsStageComponent },
-      { path: 'InteriorBody', component: InteriorBodyStageComponent },
-      { path: 'ExteriorBody', component: ExteriorBodyStageComponent },
-      { path: 'InteriorAndTrim', component: InteriorTrimStageComponent },
-      { path: 'ExteriorAccessories', component: ExteriorAccessoriesStageComponent },
-      { path: 'MechanicalIssues', component: MechanicalStageComponent },
-      { path: 'Tires', component: TiresStageComponent },
-      { path: 'RoadTest', component: RoadTestStageComponent },
+      {
+        path: 'Sensors',
+        component: SensorsStageComponent,
+        data: { breadcrumb: '' }
+      },
+      {
+        path: 'DashboardIndicators',
+        component: DashboardIndicatorsStageComponent,
+        data: { breadcrumb: '' }
+      },
+      {
+        path: 'InteriorBody',
+        component: InteriorBodyStageComponent,
+        data: { breadcrumb: '' }
+      },
+      {
+        path: 'ExteriorBody',
+        component: ExteriorBodyStageComponent,
+        data: { breadcrumb: '' }
+      },
+      {
+        path: 'InteriorAndTrim',
+        component: InteriorTrimStageComponent,
+        data: { breadcrumb: '' }
+      },
+      {
+        path: 'ExteriorAccessories',
+        component: ExteriorAccessoriesStageComponent,
+        data: { breadcrumb: '' }
+      },
+      {
+        path: 'MechanicalIssues',
+        component: MechanicalStageComponent,
+        data: { breadcrumb: '' }
+      },
+      {
+        path: 'Tires',
+        component: TiresStageComponent,
+        data: { breadcrumb: '' }
+      },
+      {
+        path: 'RoadTest',
+        component: RoadTestStageComponent,
+        data: { breadcrumb: '' }
+      },
     ],
   },
 ];
@@ -33,4 +70,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ExaminationWorkflowRoutingModule {}
+export class ExaminationWorkflowRoutingModule { }

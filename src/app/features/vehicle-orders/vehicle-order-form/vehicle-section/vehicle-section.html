@@ -60,6 +60,7 @@
             bindValue="id"
             bindLabel="nameAr"
             [clearable]="true"
+            [disabled]="!form.get('manufacturerId')?.value"
             [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
             [class.is-invalid]="submitted && !form.get('carMarkId')?.value">
           </ng-select>
@@ -177,12 +178,6 @@
           <div *ngIf="submitted && !form.get('hasPlate')?.value && !form.get('vin')?.value" class="text-danger small mt-1">
             {{ 'VEHICLE_ORDERS.VALIDATION.VIN_REQUIRED' | translate }}
           </div>
-        </div>
-
-        <!-- كود المسوق -->
-        <div class="col-md-4">
-          <label class="form-label form-label-sm">{{ 'VEHICLE_ORDERS.VEHICLE.MARKETER_CODE' | translate }}</label>
-          <input class="form-control form-control-sm" formControlName="marketerCode" />
         </div>
 
         <!-- ضمان -->

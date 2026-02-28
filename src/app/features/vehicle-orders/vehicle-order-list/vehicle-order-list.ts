@@ -70,12 +70,16 @@ export class VehicleOrderList implements OnInit, OnDestroy {
     this.router.navigate(['/features/vehicle-orders', order.id, 'details']);
   }
 
+  isEditable(order: ExaminationDto): boolean {
+    return order.status === 'Draft' || order.status === 'Pending' || order.status === 'InProgress';
+  }
+
   openEdit(order: ExaminationDto): void {
     this.router.navigate(['/features/vehicle-orders', order.id]);
   }
 
   openWorkflow(order: ExaminationDto): void {
-    this.router.navigate(['/features/vehicle-orders', order.id, 'workflow']);
+    this.router.navigate(['/features/vehicle-orders', order.id, 'details', 'workflow']);
   }
 
   search(): void {

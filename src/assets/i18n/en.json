@@ -42,7 +42,9 @@
     "FILTER_TO": "To",
     "FILTER_BRANCH": "Branch",
     "FILTER_ALL_BRANCHES": "All Branches",
-    "SERVICE_USAGE": "Service Usage"
+    "SERVICE_USAGE": "Service Usage",
+    "WELCOME_TITLE": "Welcome!",
+    "WELCOME_MESSAGE": "Use the navigation menu to access the available pages."
   },
   "MENU": {
     "GARAGE": "Garage",
@@ -308,7 +310,8 @@
   },
   "CAR_MARKS": {
     "TITLE": "Car Marks",
-    "ADD": "Add New Car Mark"
+    "ADD": "Add New Car Mark",
+    "MANUFACTURER": "Manufacturer"
   },
   "MANUFACTURERS": {
     "TITLE": "Manufacturers",
@@ -569,7 +572,8 @@
       "SAVED": "Order saved successfully.",
       "SAVE_DRAFT": "Save Draft",
       "GENERATE_INVOICE": "Generate Invoice",
-      "INVOICE_GENERATED": "Invoice generated successfully."
+      "INVOICE_GENERATED": "Invoice generated successfully.",
+      "NOT_EDITABLE": "This examination cannot be edited in its current status."
     },
     "CLIENT": {
       "TITLE": "Client Information",
@@ -597,7 +601,6 @@
       "PLATE_NUMBERS": "Plate Numbers",
       "MILEAGE": "Mileage",
       "VIN": "VIN",
-      "MARKETER_CODE": "Marketer Code",
       "WARRANTY": "Warranty",
       "WITH_WARRANTY": "With Warranty",
       "NO_WARRANTY": "No Warranty",
@@ -677,6 +680,30 @@
       "NO_SERVICES": "No services",
       "INVOICES": "Invoices",
       "NO_INVOICES": "No invoices"
+    },
+    "HISTORY": {
+      "TITLE": "History",
+      "NO_HISTORY": "No history records",
+      "ACTIONS": {
+        "Created": "Examination Created",
+        "Updated": "Examination Updated",
+        "Started": "Examination Started",
+        "BeganWork": "Work Began",
+        "Completed": "Examination Completed",
+        "Delivered": "Examination Delivered",
+        "Reopened": "Examination Reopened",
+        "Cancelled": "Examination Cancelled",
+        "Deleted": "Examination Deleted",
+        "SensorStageSaved": "Sensor Stage Saved",
+        "DashboardIndicatorsStageSaved": "Dashboard Indicators Stage Saved",
+        "InteriorDecorStageSaved": "Interior & Decor Stage Saved",
+        "InteriorBodyStageSaved": "Interior Body Stage Saved",
+        "ExteriorBodyStageSaved": "Exterior Body Stage Saved",
+        "TireStageSaved": "Tire Stage Saved",
+        "AccessoryStageSaved": "Accessory Stage Saved",
+        "MechanicalStageSaved": "Mechanical Stage Saved",
+        "RoadTestStageSaved": "Road Test Stage Saved"
+      }
     },
     "VALIDATION": {
       "CLIENT_REQUIRED": "Client is required.",

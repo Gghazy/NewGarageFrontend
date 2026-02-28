@@ -28,8 +28,7 @@ export class ExaminationWorkflowLayout implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id')
-      || this.route.parent?.snapshot.paramMap.get('id');
+    const id = this.resolveExaminationId();
     if (!id) {
       this.router.navigate(['/features/vehicle-orders']);
       return;
@@ -61,7 +60,22 @@ export class ExaminationWorkflowLayout implements OnInit, OnDestroy {
   }
 
   goBack(): void {
-    this.router.navigate(['/features/vehicle-orders']);
+    const id = this.resolveExaminationId();
+    if (id) {
+      this.router.navigate(['/features/vehicle-orders', id, 'details']);
+    } else {
+      this.router.navigate(['/features/vehicle-orders']);
+    }
+  }
+
+  private resolveExaminationId(): string | null {
+    let r: ActivatedRoute | null = this.route;
+    while (r) {
+      const id = r.snapshot.paramMap.get('id');
+      if (id) return id;
+      r = r.parent;
+    }
+    return null;
   }
 
   get examTypeKey(): string {

@@ -31,7 +31,6 @@ export interface VehicleFormData {
   color: string;
   transmission?: string;
   vin: string;
-  marketerCode: string;
   hasWarranty: boolean;
   notes: string;
 }

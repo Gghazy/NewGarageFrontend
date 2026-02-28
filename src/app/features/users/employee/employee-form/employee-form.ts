@@ -71,11 +71,10 @@ export class EmployeeForm implements OnInit, OnDestroy {
   }
 
   getRoles() {
-    // RolesController returns raw List<RoleDto> (no ApiResponse wrapper)
-    this.apiService.get<RoleDto[]>('Roles')
+    this.apiService.get<ApiResponse<RoleDto[]>>('Roles')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (data) => { this.roles = data; },
+        next: (res) => { this.roles = res.data; },
         error: (err) => { this.toastr.error(this.formService.extractError(err, 'Failed to load roles'), 'Error'); }
       });
   }

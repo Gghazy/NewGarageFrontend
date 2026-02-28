@@ -42,7 +42,6 @@ function buildCommonFields(input: ExaminationPayloadInput) {
     branchId:     v.branchId || undefined,
     type:         v.type ?? 'Regular',
     hasWarranty:  v.hasWarranty ?? true,
-    marketerCode: v.marketerCode || undefined,
     notes:        v.notes || undefined,
 
     // Vehicle

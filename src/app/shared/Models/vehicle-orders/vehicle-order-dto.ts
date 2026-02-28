@@ -46,11 +46,20 @@ export interface ExaminationDto {
   // Examination meta
   hasWarranty: boolean;
   hasPhotos: boolean;
-  marketerCode?: string;
   notes?: string;
 
   // Items
   items: ExaminationItemDto[];
 
+  createdAtUtc: string;
+}
+
+export interface ExaminationHistoryDto {
+  id: string;
+  action: string;
+  details?: string;
+  performedById?: string;
+  performedByNameAr?: string;
+  performedByNameEn?: string;
   createdAtUtc: string;
 }

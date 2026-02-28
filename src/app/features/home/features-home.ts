@@ -50,21 +50,28 @@ export class FeaturesHome implements OnInit, OnDestroy {
 
   constructor(
     private api: ApiService,
-    private auth: AuthService,
+    public auth: AuthService,
     private translate: TranslateService,
   ) {}
+
+  get showWelcome(): boolean {
+    return !this.canSeeExams && !this.canSeeRevenue;
+  }
 
   ngOnInit(): void {
     this.canSeeExams = this.auth.hasPermission('dashboard.examinations');
     this.canSeeRevenue = this.auth.hasPermission('dashboard.revenue');
 
-    this.api.get<ApiResponse<any[]>>('Branches')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res) => this.branches = res.data ?? [],
-      });
-
-    this.loadData();
+    if (!this.showWelcome) {
+      this.api.get<ApiResponse<any[]>>('Branches')
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res) => this.branches = res.data ?? [],
+        });
+      this.loadData();
+    } else {
+      this.loading = false;
+    }
   }
 
   onFilterChange(f: DashboardFilter): void {

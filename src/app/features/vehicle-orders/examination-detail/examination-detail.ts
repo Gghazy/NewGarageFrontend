@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { ExaminationDto } from 'src/app/shared/Models/vehicle-orders/vehicle-order-dto';
+import { ExaminationDto, ExaminationHistoryDto } from 'src/app/shared/Models/vehicle-orders/vehicle-order-dto';
 import { InvoiceDto } from 'src/app/shared/Models/invoices/invoice-dto';
 import { ConfirmDeleteModal } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal';
 
@@ -20,14 +20,17 @@ import { ConfirmDeleteModal } from 'src/app/shared/components/confirm-delete-mod
 export class ExaminationDetail implements OnInit, OnDestroy {
   examination?: ExaminationDto;
   invoices: InvoiceDto[] = [];
+  historyItems: ExaminationHistoryDto[] = [];
   loading = false;
   invoicesLoading = false;
+  historyLoading = false;
   actionLoading = false;
   allStagesCompleted = false;
 
   vehicleCollapsed = true;
   servicesCollapsed = true;
   invoicesCollapsed = true;
+  historyCollapsed = true;
   private examinationId!: string;
   private destroy$ = new Subject<void>();
 
@@ -65,6 +68,7 @@ export class ExaminationDetail implements OnInit, OnDestroy {
           this.examination = res.data;
           this.loading = false;
           this.loadInvoices();
+          this.loadHistory();
           if (this.examination?.status === 'InProgress') {
             this.checkCanComplete();
           }
@@ -100,12 +104,77 @@ export class ExaminationDetail implements OnInit, OnDestroy {
       });
   }
 
+  loadHistory(): void {
+    this.historyLoading = true;
+    this.api.get<any>(`Examinations/${this.examinationId}/history`)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.historyItems = res.data ?? [];
+          this.historyLoading = false;
+        },
+        error: () => {
+          this.historyLoading = false;
+        },
+      });
+  }
+
+  getActionIcon(action: string): string {
+    const icons: Record<string, string> = {
+      Created: 'bi-plus-circle-fill',
+      Updated: 'bi-pencil-fill',
+      Started: 'bi-play-fill',
+      BeganWork: 'bi-gear-fill',
+      Completed: 'bi-check-circle-fill',
+      Delivered: 'bi-truck',
+      Reopened: 'bi-arrow-counterclockwise',
+      Cancelled: 'bi-x-circle-fill',
+      Deleted: 'bi-trash-fill',
+      SensorStageSaved: 'bi-cpu',
+      DashboardIndicatorsStageSaved: 'bi-speedometer2',
+      InteriorDecorStageSaved: 'bi-lamp',
+      InteriorBodyStageSaved: 'bi-box',
+      ExteriorBodyStageSaved: 'bi-car-front',
+      TireStageSaved: 'bi-circle',
+      AccessoryStageSaved: 'bi-puzzle',
+      MechanicalStageSaved: 'bi-wrench',
+      RoadTestStageSaved: 'bi-signpost-2',
+    };
+    return icons[action] ?? 'bi-clock-history';
+  }
+
+  getActionColor(action: string): string {
+    const colors: Record<string, string> = {
+      Created: '#22c55e',
+      Updated: '#3b82f6',
+      Started: '#22c55e',
+      BeganWork: '#8b5cf6',
+      Completed: '#10b981',
+      Delivered: '#06b6d4',
+      Reopened: '#f59e0b',
+      Cancelled: '#ef4444',
+      Deleted: '#ef4444',
+    };
+    return colors[action] ?? '#64748b';
+  }
+
+  getPerformerName(item: ExaminationHistoryDto): string {
+    if (this.isAr) {
+      return item.performedByNameAr || item.performedByNameEn || '';
+    }
+    return item.performedByNameEn || item.performedByNameAr || '';
+  }
+
   openInvoice(invoice: InvoiceDto): void {
     this.router.navigate(['/features/invoices', invoice.id]);
   }
 
   get canStart(): boolean {
     return this.examination?.status === 'Draft' || this.examination?.status === 'Pending';
+  }
+
+  get isWorkflowActive(): boolean {
+    return this.route.children.length > 0;
   }
 
   get canOpenWorkflow(): boolean {
@@ -126,7 +195,8 @@ export class ExaminationDetail implements OnInit, OnDestroy {
   }
 
   get canEdit(): boolean {
-    return this.examination?.status === 'Draft' || this.examination?.status === 'Pending';
+    const s = this.examination?.status;
+    return !!s && ['Draft', 'Pending', 'InProgress'].includes(s);
   }
 
   get canGenerateReport(): boolean {
@@ -207,7 +277,7 @@ export class ExaminationDetail implements OnInit, OnDestroy {
   }
 
   openWorkflow(): void {
-    this.router.navigate(['/features/vehicle-orders', this.examinationId, 'workflow']);
+    this.router.navigate(['workflow'], { relativeTo: this.route });
   }
 
   goBack(): void {

@@ -64,6 +64,11 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.examination = res.data;
+          if (this.examination && !['Draft', 'Pending', 'InProgress'].includes(this.examination.status)) {
+            this.toastr.error(this.translate.instant('VEHICLE_ORDERS.FORM.NOT_EDITABLE'));
+            this.router.navigate(['/features/vehicle-orders', this.examinationId, 'details']);
+            return;
+          }
           this.loading = false;
         },
         error: () => {

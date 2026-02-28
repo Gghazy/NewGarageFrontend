@@ -10,7 +10,7 @@
   --primary-darker: #0f4c75;
   --primary-gradient: linear-gradient(135deg, #1e3a5f, #0f4c75);
   --light-bg: #f8fafc;
-  --light-border: #e2e8f0;
+  --light-border: #b3bfce;
   --light-text: #94a3b8;
   --text-gray: #64748b;
   --text-dark: #1e293b;
@@ -76,6 +76,52 @@ a:hover {
   color: var(--text-label);
 }
 
+
+/* ── Ensure form-control-sm keeps its small size ── */
+/* (higher specificity to beat shared-styles .form-control override) */
+.form-control.form-control-sm {
+  padding: .375rem .5rem;
+  font-size: .875rem;
+}
+
+/* ── ng-select: match form-control-sm height, border & radius ── */
+.ng-select .ng-select-container {
+  min-height: calc(1.5em + .75rem + 2px) !important;
+  border: 1px solid var(--light-border) !important;
+  border-radius: 8px;
+  font-size: .875rem;
+  background: #fff;
+}
+
+.ng-select.ng-select-single .ng-select-container {
+  height: calc(1.5em + .75rem + 2px);
+}
+
+.ng-select .ng-select-container .ng-value-container {
+  padding: 0 .5rem;
+}
+
+.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+  top: 50%;
+  transform: translateY(-50%);
+  padding-left: .5rem;
+  padding-right: 50px;
+}
+
+.ng-select .ng-select-container .ng-value-container .ng-placeholder {
+  top: 50%;
+  transform: translateY(-50%);
+  position: absolute;
+}
+
+.ng-select .ng-arrow-wrapper {
+  padding-right: 6px;
+}
+
+.ng-select.ng-select-focused:not(.ng-select-opened) .ng-select-container {
+  border-color: var(--primary-dark) !important;
+  box-shadow: 0 0 0 0.2rem rgba(30, 58, 95, 0.12);
+}
 
 /* ng-select validation red border */
 ng-select.is-invalid .ng-select-container {

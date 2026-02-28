@@ -383,6 +383,89 @@
   color: #1e3a5f;
 }
 
+/* ── History Timeline ── */
+.history-empty {
+  text-align: center;
+  color: #94a3b8;
+  padding: 28px 20px;
+  font-size: 0.85rem;
+}
+
+.history-empty i {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: 6px;
+  opacity: 0.5;
+}
+
+.history-timeline {
+  padding: 16px 20px;
+}
+
+.history-item {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.history-item:not(:last-child) {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.history-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.history-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.history-action {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.history-details {
+  font-size: 0.82rem;
+  color: #64748b;
+  background: #f8fafc;
+  border-radius: 6px;
+  padding: 4px 10px;
+  margin: 4px 0;
+  border: 1px solid #e2e8f0;
+}
+
+.history-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 4px;
+}
+
+.history-user,
+.history-time {
+  font-size: 0.76rem;
+  color: #94a3b8;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.history-user i,
+.history-time i {
+  font-size: 0.72rem;
+}
+
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .detail-header {

@@ -1,1 +1,44 @@
-<app-lookup-list [config]="config"></app-lookup-list>
+<app-shared-list
+  [titleKey]="'CAR_MARKS.TITLE'"
+  [addLabelKey]="'CAR_MARKS.ADD'"
+  [canAdd]="authService.hasPermission('carMark.create')"
+  (addClicked)="openAdd()"
+  [pagingConfig]="pagingConfig"
+  (pageSizeSearch)="search()"
+  [items]="items"
+  [emptyText]="'No data found'"
+  (pageChanged)="pagingConfig.currentPage = $event; load();"
+>
+  <!-- header -->
+  <ng-container table-header>
+    <th>#</th>
+    <th>{{ 'COMMON.NAME_AR' | translate }}</th>
+    <th>{{ 'COMMON.NAME_EN' | translate }}</th>
+    <th>{{ 'CAR_MARKS.MANUFACTURER' | translate }}</th>
+    <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
+  </ng-container>
+
+  <!-- body -->
+  <ng-container table-body>
+    <tr *ngFor="let row of items | paginate: pagingConfig; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ row.nameAr }}</td>
+      <td>{{ row.nameEn }}</td>
+      <td>{{ isAr() ? row.manufacturerNameAr : row.manufacturerNameEn }}</td>
+      <td class="text-end">
+        <button
+          class="btn btn-sm btn-outline-primary me-1"
+          *ngIf="authService.hasPermission('carMark.update')"
+          (click)="openEdit(row)">
+          {{ 'COMMON.EDIT' | translate }}
+        </button>
+        <button
+          class="btn btn-sm btn-outline-danger"
+          *ngIf="authService.hasPermission('carMark.delete')"
+          (click)="openDelete(row)">
+          {{ 'COMMON.DELETE' | translate }}
+        </button>
+      </td>
+    </tr>
+  </ng-container>
+</app-shared-list>

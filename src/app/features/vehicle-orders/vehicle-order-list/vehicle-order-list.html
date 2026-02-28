@@ -50,14 +50,14 @@
           <i class="bi bi-eye"></i>
         </button>
 <button
-          *ngIf="authService.hasPermission('examination.update')"
+          *ngIf="isEditable(order) && authService.hasPermission('examination.update')"
           (click)="openEdit(order)"
           class="btn btn-sm btn-outline-primary me-1"
           type="button">
           {{ 'COMMON.EDIT' | translate }}
         </button>
         <button
-          *ngIf="authService.hasPermission('examination.delete')"
+          *ngIf="isEditable(order) && authService.hasPermission('examination.delete')"
           (click)="deleteOrder(order)"
           class="btn btn-sm btn-outline-danger"
           type="button">

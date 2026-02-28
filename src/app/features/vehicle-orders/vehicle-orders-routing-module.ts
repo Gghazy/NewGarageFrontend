@@ -41,7 +41,20 @@ const routes: Routes = [
           breadcrumb: 'BREADCRUMB.EXAM_DETAILS',
           permissions: ['examination.read'],
           permissionMode: 'any'
-        }
+        },
+        children: [
+          {
+            path: 'workflow',
+            loadChildren: () =>
+              import('./examination-workflow/examination-workflow-module').then(m => m.ExaminationWorkflowModule),
+            canActivate: [permissionGuard],
+            data: {
+              breadcrumb: 'BREADCRUMB.EXAM_WORKFLOW',
+              permissions: ['examination.read', 'examination.update'],
+              permissionMode: 'any'
+            }
+          }
+        ]
       },
       {
         path: ':id/report',
@@ -50,17 +63,6 @@ const routes: Routes = [
         data: {
           breadcrumb: 'BREADCRUMB.EXAM_REPORT',
           permissions: ['examination.report'],
-          permissionMode: 'any'
-        }
-      },
-      {
-        path: ':id/workflow',
-        loadChildren: () =>
-          import('./examination-workflow/examination-workflow-module').then(m => m.ExaminationWorkflowModule),
-        canActivate: [permissionGuard],
-        data: {
-          breadcrumb: 'BREADCRUMB.EXAM_WORKFLOW',
-          permissions: ['examination.read', 'examination.update'],
           permissionMode: 'any'
         }
       },
@@ -82,4 +84,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class VehicleOrdersRoutingModule {}
+export class VehicleOrdersRoutingModule { }

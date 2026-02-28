@@ -50,7 +50,10 @@
       "Bash(ls -la \"f:/projects/suidProjects/NewGarage/BackEnd/BackEnd/src/Garage.Application/Examinations/Queries/Get\"*)",
       "Bash(find \"f:\\\\projects\\\\suidProjects\\\\NewGarage\\\\BackEnd\\\\BackEnd\\\\src\" -name \"*.cs\" -type f -exec grep -l \"enum PaymentType\" {} ;)",
       "Bash(xargs grep -l \"StageResult\\\\|SensorStage\\\\|DashboardIndicators\\\\|InteriorBody\\\\|ExteriorBody\")",
-      "Bash(dotnet restore)"
+      "Bash(dotnet restore)",
+      "Bash(xargs grep -l \"CreatedBy\\\\|UpdatedBy\\\\|CreatedAt\\\\|UpdatedAt\")",
+      "Bash(xargs grep -l \"IEvent\\\\|IDomainEvent\\\\|EventLog\\\\|AuditEntry\\\\|ChangeLog\")",
+      "Bash(xargs grep -l \"Audit\\\\|History\\\\|Event\")"
     ],
     "additionalDirectories": [
       "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\shared\\Models\\vehicle-orders",
@@ -86,7 +89,10 @@
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Api\\Localization\\Resources",
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\MechIssues",
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\MechIssueTypes",
-      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\Services\\Enums"
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\Services\\Enums",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\CarMarkes\\Entity",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Api\\Converters",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Api"
     ]
   }
 }

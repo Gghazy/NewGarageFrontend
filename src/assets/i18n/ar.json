@@ -42,7 +42,9 @@
     "FILTER_TO": "إلى",
     "FILTER_BRANCH": "الفرع",
     "FILTER_ALL_BRANCHES": "جميع الفروع",
-    "SERVICE_USAGE": "استخدام الخدمات"
+    "SERVICE_USAGE": "استخدام الخدمات",
+    "WELCOME_TITLE": "أهلاً بك!",
+    "WELCOME_MESSAGE": "استخدم القائمة للوصول إلى الصفحات المتاحة."
   },
   "MENU": {
     "GARAGE": "الجراج",
@@ -320,7 +322,8 @@
   },
   "CAR_MARKS": {
     "TITLE": "ماركات السيارات",
-    "ADD": "إضافة ماركة سيارة"
+    "ADD": "إضافة ماركة سيارة",
+    "MANUFACTURER": "الشركة المصنعة"
   },
   "MANUFACTURERS": {
     "TITLE": "الشركات المصنعة",
@@ -597,7 +600,8 @@
       "SAVED": "تم حفظ الطلب بنجاح.",
       "SAVE_DRAFT": "حفظ كمسودة",
       "GENERATE_INVOICE": "إنشاء فاتورة",
-      "INVOICE_GENERATED": "تم إنشاء الفاتورة بنجاح."
+      "INVOICE_GENERATED": "تم إنشاء الفاتورة بنجاح.",
+      "NOT_EDITABLE": "لا يمكن تعديل هذا الفحص في حالته الحالية."
     },
     "CLIENT": {
       "TITLE": "بيانات العميل",
@@ -625,7 +629,6 @@
       "PLATE_NUMBERS": "أرقام اللوحة",
       "MILEAGE": "العداد",
       "VIN": "رقم الهيكل (VIN)",
-      "MARKETER_CODE": "كود المسوق",
       "WARRANTY": "الضمان",
       "WITH_WARRANTY": "مع ضمان",
       "NO_WARRANTY": "بدون ضمان",
@@ -705,6 +708,30 @@
       "NO_SERVICES": "لا توجد خدمات",
       "INVOICES": "الفواتير",
       "NO_INVOICES": "لا توجد فواتير"
+    },
+    "HISTORY": {
+      "TITLE": "السجل",
+      "NO_HISTORY": "لا يوجد سجل",
+      "ACTIONS": {
+        "Created": "تم إنشاء الفحص",
+        "Updated": "تم تعديل الفحص",
+        "Started": "تم بدء الفحص",
+        "BeganWork": "تم بدء العمل",
+        "Completed": "تم إكمال الفحص",
+        "Delivered": "تم تسليم الفحص",
+        "Reopened": "تم إعادة فتح الفحص",
+        "Cancelled": "تم إلغاء الفحص",
+        "Deleted": "تم حذف الفحص",
+        "SensorStageSaved": "تم حفظ مرحلة الحساسات",
+        "DashboardIndicatorsStageSaved": "تم حفظ مرحلة مؤشرات الطبلون",
+        "InteriorDecorStageSaved": "تم حفظ مرحلة الداخلية والديكور",
+        "InteriorBodyStageSaved": "تم حفظ مرحلة الهيكل الداخلي",
+        "ExteriorBodyStageSaved": "تم حفظ مرحلة الهيكل الخارجي",
+        "TireStageSaved": "تم حفظ مرحلة الإطارات",
+        "AccessoryStageSaved": "تم حفظ مرحلة الإكسسوارات",
+        "MechanicalStageSaved": "تم حفظ مرحلة الميكانيكا",
+        "RoadTestStageSaved": "تم حفظ مرحلة اختبار الطريق"
+      }
     },
     "VALIDATION": {
       "CLIENT_REQUIRED": "العميل مطلوب.",

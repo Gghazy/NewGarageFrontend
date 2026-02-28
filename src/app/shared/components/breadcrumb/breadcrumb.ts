@@ -32,7 +32,7 @@ export class Breadcrumb {
       if (routeURL) url += `/${routeURL}`;
 
       const label = child.snapshot.data?.['breadcrumb'];
-      if (label) crumbs.push({ label, url });
+      if (label && label !== crumbs[crumbs.length - 1]?.label) crumbs.push({ label, url });
 
       return this.buildCrumbs(child, url, crumbs);
     }

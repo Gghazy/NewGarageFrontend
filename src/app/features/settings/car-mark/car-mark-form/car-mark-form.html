@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ title }}</h5>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body" [formGroup]="form">
+  <div class="mb-3">
+    <label class="form-label">{{ 'CAR_MARKS.MANUFACTURER' | translate }}</label>
+    <ng-select [items]="manufacturers" [bindLabel]="'nameAr'" bindValue="id" formControlName="manufacturerId"
+      [searchable]="true" [multiple]="false" [clearable]="true"
+      [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate">
+    </ng-select>
+    <div class="text-danger small" *ngIf="form.get('manufacturerId')?.touched && form.get('manufacturerId')?.invalid">
+      {{ 'COMMON.REQUIRED' | translate }}
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">{{ 'COMMON.NAME_AR' | translate }}</label>
+    <input class="form-control" formControlName="nameAr"
+      [class.is-invalid]="isInvalid('nameAr')" />
+    <div class="invalid-feedback" *ngIf="isInvalid('nameAr')">
+      {{ 'COMMON.REQUIRED' | translate }}
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">{{ 'COMMON.NAME_EN' | translate }}</label>
+    <input class="form-control" formControlName="nameEn"
+      [class.is-invalid]="isInvalid('nameEn')" />
+    <div class="invalid-feedback" *ngIf="isInvalid('nameEn')">
+      {{ 'COMMON.REQUIRED' | translate }}
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-light" [disabled]="loading" (click)="activeModal.dismiss()">{{ 'COMMON.CANCEL' | translate }}</button>
+  <button class="btn btn-primary" [disabled]="loading" (click)="submit()">
+    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+    {{ 'COMMON.SAVE' | translate }}
+  </button>
+</div>

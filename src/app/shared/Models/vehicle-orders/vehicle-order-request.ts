@@ -37,7 +37,6 @@ export interface CreateExaminationRequest {
   // Examination meta
   type: string;                 // "Regular" | "Warranty" | "PrePurchase"
   hasWarranty: boolean;
-  marketerCode?: string;
   notes?: string;
 
   // Vehicle
@@ -92,7 +91,6 @@ export interface UpdateExaminationRequest {
   // Examination meta
   type: string;
   hasWarranty: boolean;
-  marketerCode?: string;
   notes?: string;
 
   // Vehicle

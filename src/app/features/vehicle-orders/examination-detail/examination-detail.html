@@ -1,5 +1,7 @@
 <div class="container-fluid py-3">
 
+  <ng-container *ngIf="!isWorkflowActive">
+
   <!-- Page Header -->
   <div class="detail-header d-flex justify-content-between align-items-center flex-wrap gap-2">
     <div class="d-flex align-items-center gap-3">
@@ -165,10 +167,6 @@
             <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.WARRANTY' | translate }}</span>
             <span class="info-value">{{ (examination.hasWarranty ? 'VEHICLE_ORDERS.VEHICLE.WITH_WARRANTY' : 'VEHICLE_ORDERS.VEHICLE.NO_WARRANTY') | translate }}</span>
           </div>
-          <div class="info-item">
-            <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.MARKETER_CODE' | translate }}</span>
-            <span class="info-value" [class.empty]="!examination.marketerCode">{{ examination.marketerCode || '—' }}</span>
-          </div>
           <div *ngIf="examination.notes" class="info-item info-full">
             <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.NOTES' | translate }}</span>
             <div class="notes-box">{{ examination.notes }}</div>
@@ -278,6 +276,48 @@
       </div>
     </div>
 
+    <!-- History -->
+    <div class="detail-card">
+      <div class="detail-card-header" (click)="historyCollapsed = !historyCollapsed">
+        <i class="bi bi-clock-history"></i>
+        <h6>{{ 'VEHICLE_ORDERS.HISTORY.TITLE' | translate }}</h6>
+        <i class="bi bi-chevron-down toggle-icon ms-auto" [class.rotated]="historyCollapsed"></i>
+      </div>
+      <div [hidden]="historyCollapsed">
+        <div *ngIf="historyLoading" class="detail-loading" style="padding: 30px 20px;">
+          <div class="spinner-border spinner-border-sm" role="status"></div>
+        </div>
+        <div *ngIf="!historyLoading && historyItems.length === 0" class="history-empty">
+          <i class="bi bi-clock"></i>
+          {{ 'VEHICLE_ORDERS.HISTORY.NO_HISTORY' | translate }}
+        </div>
+        <div *ngIf="!historyLoading && historyItems.length > 0" class="history-timeline">
+          <div class="history-item" *ngFor="let h of historyItems">
+            <div class="history-icon" [style.background]="getActionColor(h.action) + '18'" [style.color]="getActionColor(h.action)">
+              <i class="bi" [ngClass]="getActionIcon(h.action)"></i>
+            </div>
+            <div class="history-content">
+              <div class="history-action">{{ 'VEHICLE_ORDERS.HISTORY.ACTIONS.' + h.action | translate }}</div>
+              <div *ngIf="h.details" class="history-details">{{ h.details }}</div>
+              <div class="history-meta">
+                <span *ngIf="getPerformerName(h)" class="history-user">
+                  <i class="bi bi-person-fill"></i>{{ getPerformerName(h) }}
+                </span>
+                <span class="history-time">
+                  <i class="bi bi-clock"></i>{{ h.createdAtUtc | date:'yyyy-MM-dd hh:mm a' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </ng-container>
+
+  </ng-container>
+
+  <!-- Workflow child route outlet (always available for router) -->
+  <router-outlet></router-outlet>
 
 </div>

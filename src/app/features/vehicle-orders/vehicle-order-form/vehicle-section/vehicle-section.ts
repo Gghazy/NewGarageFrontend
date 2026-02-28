@@ -29,7 +29,7 @@ export class VehicleSection implements OnInit, OnDestroy {
 
   branches: LookupDto[]      = [];
   manufacturers: LookupDto[] = [];
-  carMarks: LookupDto[]      = [];
+  carMarks: any[]            = [];
 
   readonly plateLetters    = SAUDI_PLATE_LETTERS;
   readonly transmissions   = TRANSMISSION_OPTIONS;
@@ -50,7 +50,6 @@ export class VehicleSection implements OnInit, OnDestroy {
     this.buildForm();
     this.loadBranches();
     this.loadManufacturers();
-    this.loadCarMarks();
 
     if (this.examination) {
       this.patchFormWithExamination();
@@ -69,11 +68,13 @@ export class VehicleSection implements OnInit, OnDestroy {
 
   private patchFormWithExamination(): void {
     const e = this.examination!;
+    const manufacturerId = this.guidOrNull(e.manufacturerId);
+    const carMarkId = this.guidOrNull(e.carMarkId);
 
+    // Patch without carMarkId first (manufacturer change will clear it)
     this.form.patchValue({
       branchId:       this.guidOrNull(e.branchId),
-      manufacturerId: this.guidOrNull(e.manufacturerId),
-      carMarkId:      this.guidOrNull(e.carMarkId),
+      manufacturerId: manufacturerId,
       type:           e.type || 'Regular',
       hasPlate:       e.hasPlate,
       plateNumbers:   e.plateNumbers || '',
@@ -83,10 +84,21 @@ export class VehicleSection implements OnInit, OnDestroy {
       color:          e.color || '',
       transmission:   e.transmission || null,
       vin:            e.vin || '',
-      marketerCode:   e.marketerCode || '',
       hasWarranty:    e.hasWarranty,
       notes:          e.notes || '',
     });
+
+    // Load car marks from backend then set carMarkId after data arrives
+    if (manufacturerId) {
+      this.api.get<any>(`CarMarkes/by-manufacturer/${manufacturerId}`)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res) => {
+            this.carMarks = res?.data ?? [];
+            this.form.get('carMarkId')!.setValue(carMarkId, { emitEvent: true });
+          }
+        });
+    }
 
     // Split plate letters into individual chars
     const letters = e.plateLetters || '';
@@ -113,7 +125,6 @@ export class VehicleSection implements OnInit, OnDestroy {
       color:          [''],
       transmission:   [null],
       vin:            [''],
-      marketerCode:   [''],
       hasWarranty:    [true],
       notes:          [''],
     });
@@ -121,6 +132,14 @@ export class VehicleSection implements OnInit, OnDestroy {
     this.form.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(100))
       .subscribe(() => this.emitChange(this.form.getRawValue()));
+
+    // Load car marks from backend when manufacturer changes
+    this.form.get('manufacturerId')!.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(manufacturerId => {
+        this.form.get('carMarkId')!.setValue(null, { emitEvent: true });
+        this.loadCarMarksByManufacturer(manufacturerId);
+      });
 
     // Sync plate enabled/disabled when hasPlate changes
     this.form.get('hasPlate')!.valueChanges
@@ -156,10 +175,16 @@ export class VehicleSection implements OnInit, OnDestroy {
       .subscribe({ next: (res) => (this.manufacturers = res?.data?.items ?? []) });
   }
 
-  private loadCarMarks(): void {
-    this.api.post<any>('CarMarkes/pagination', { currentPage: 1, itemsPerPage: 200, textSearch: '', sort: 'nameAr', desc: false })
+  private loadCarMarksByManufacturer(manufacturerId: string | null): void {
+    if (!manufacturerId) {
+      this.carMarks = [];
+      return;
+    }
+    this.api.get<any>(`CarMarkes/by-manufacturer/${manufacturerId}`)
       .pipe(takeUntil(this.destroy$))
-      .subscribe({ next: (res) => (this.carMarks = res?.data?.items ?? []) });
+      .subscribe({
+        next: (res) => (this.carMarks = res?.data ?? [])
+      });
   }
 
   onPlateLetterChange(): void {
