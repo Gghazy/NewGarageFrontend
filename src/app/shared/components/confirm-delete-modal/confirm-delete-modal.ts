@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
   standalone: false,
   template: `
     <div class="modal-header border-0 pb-0">
-      <h5 class="modal-title text-danger">
+      <h5 class="modal-title" [ngClass]="titleClass">
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
         {{ titleKey | translate }}
       </h5>
@@ -22,9 +22,9 @@ import { TranslateModule } from '@ngx-translate/core';
       <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">
         {{ 'COMMON.CANCEL' | translate }}
       </button>
-      <button type="button" class="btn btn-danger" (click)="activeModal.close(true)">
-        <i class="bi bi-trash me-1"></i>
-        {{ 'COMMON.DELETE' | translate }}
+      <button type="button" [ngClass]="confirmClass" (click)="activeModal.close(true)">
+        <i [class]="confirmIcon + ' me-1'"></i>
+        {{ confirmKey | translate }}
       </button>
     </div>
   `,
@@ -32,6 +32,10 @@ import { TranslateModule } from '@ngx-translate/core';
 export class ConfirmDeleteModal {
   @Input() titleKey = 'COMMON.CONFIRM_DELETE.TITLE';
   @Input() messageKey = 'COMMON.CONFIRM_DELETE.MESSAGE';
+  @Input() titleClass = 'text-danger';
+  @Input() confirmKey = 'COMMON.DELETE';
+  @Input() confirmClass = 'btn btn-danger';
+  @Input() confirmIcon = 'bi bi-trash';
 
   constructor(public activeModal: NgbActiveModal) {}
 }

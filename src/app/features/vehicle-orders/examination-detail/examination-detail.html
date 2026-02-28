@@ -30,22 +30,27 @@
         <i class="bi bi-check-circle"></i>{{ 'VEHICLE_ORDERS.DETAIL.COMPLETE' | translate }}
       </button>
       <!-- Deliver -->
-      <button *ngIf="canDeliver && authService.hasPermission('examination.update')"
+      <button *ngIf="canDeliver && authService.hasPermission('examination.deliver')"
         type="button" class="btn btn-info text-white" (click)="deliver()" [disabled]="actionLoading">
         <i class="bi bi-truck"></i>{{ 'VEHICLE_ORDERS.DETAIL.DELIVER' | translate }}
       </button>
-      <!-- Generate Invoice -->
-      <button *ngIf="canGenerateInvoice && authService.hasPermission('examination.update')"
-        type="button" class="btn btn-outline-success" (click)="generateInvoice()" [disabled]="actionLoading">
-        <i class="bi bi-receipt"></i>{{ 'VEHICLE_ORDERS.DETAIL.GENERATE_INVOICE' | translate }}
+      <!-- Generate Report -->
+      <button *ngIf="canGenerateReport && authService.hasPermission('examination.report')"
+        type="button" class="btn btn-outline-info" (click)="generateReport()" [disabled]="actionLoading">
+        <i class="bi bi-file-earmark-text"></i>{{ 'VEHICLE_ORDERS.DETAIL.GENERATE_REPORT' | translate }}
       </button>
       <!-- Edit -->
       <button *ngIf="canEdit && authService.hasPermission('examination.update')"
         type="button" class="btn btn-outline-primary" (click)="openEdit()">
         <i class="bi bi-pencil"></i>{{ 'COMMON.EDIT' | translate }}
       </button>
+      <!-- Reopen -->
+      <button *ngIf="canReopen && authService.hasPermission('examination.reopen')"
+        type="button" class="btn btn-outline-warning" (click)="reopen()" [disabled]="actionLoading">
+        <i class="bi bi-arrow-counterclockwise"></i>{{ 'VEHICLE_ORDERS.DETAIL.REOPEN' | translate }}
+      </button>
       <!-- Cancel -->
-      <button *ngIf="canCancel && authService.hasPermission('examination.update')"
+      <button *ngIf="canCancel && authService.hasPermission('examination.cancel')"
         type="button" class="btn btn-outline-danger" (click)="cancel()" [disabled]="actionLoading">
         <i class="bi bi-x-circle"></i>{{ 'VEHICLE_ORDERS.DETAIL.CANCEL' | translate }}
       </button>

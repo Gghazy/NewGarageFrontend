@@ -23,6 +23,7 @@ export class ExaminationDetail implements OnInit, OnDestroy {
   loading = false;
   invoicesLoading = false;
   actionLoading = false;
+  allStagesCompleted = false;
 
   vehicleCollapsed = true;
   servicesCollapsed = true;
@@ -56,6 +57,7 @@ export class ExaminationDetail implements OnInit, OnDestroy {
 
   loadExamination(): void {
     this.loading = true;
+    this.allStagesCompleted = false;
     this.api.get<any>(`Examinations/${this.examinationId}`)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -63,11 +65,23 @@ export class ExaminationDetail implements OnInit, OnDestroy {
           this.examination = res.data;
           this.loading = false;
           this.loadInvoices();
+          if (this.examination?.status === 'InProgress') {
+            this.checkCanComplete();
+          }
         },
         error: () => {
           this.toastr.error(this.translate.instant('COMMON.ERROR'));
           this.router.navigate(['/features/vehicle-orders']);
         },
+      });
+  }
+
+  private checkCanComplete(): void {
+    this.api.get<any>(`Examinations/${this.examinationId}/can-complete`)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => { this.allStagesCompleted = !!res.data; },
+        error: () => { this.allStagesCompleted = false; },
       });
   }
 
@@ -99,7 +113,7 @@ export class ExaminationDetail implements OnInit, OnDestroy {
   }
 
   get canComplete(): boolean {
-    return this.examination?.status === 'InProgress';
+    return this.examination?.status === 'InProgress' && this.allStagesCompleted;
   }
 
   get canDeliver(): boolean {
@@ -115,7 +129,11 @@ export class ExaminationDetail implements OnInit, OnDestroy {
     return this.examination?.status === 'Draft' || this.examination?.status === 'Pending';
   }
 
-  get canGenerateInvoice(): boolean {
+  get canGenerateReport(): boolean {
+    return this.examination?.status === 'Delivered';
+  }
+
+  get canReopen(): boolean {
     return this.examination?.status === 'Completed' || this.examination?.status === 'Delivered';
   }
 
@@ -132,10 +150,15 @@ export class ExaminationDetail implements OnInit, OnDestroy {
   }
 
   start(): void {
+    const isPending = this.examination?.status === 'Pending';
+    const endpoint = isPending
+      ? `Examinations/${this.examinationId}/begin-work`
+      : `Examinations/${this.examinationId}/start`;
     this.confirmAndExecute(
       'VEHICLE_ORDERS.DETAIL.CONFIRM_START',
-      `Examinations/${this.examinationId}/start`,
+      endpoint,
       'VEHICLE_ORDERS.DETAIL.STARTED',
+      { confirmKey: 'VEHICLE_ORDERS.DETAIL.START', confirmClass: 'btn btn-success', confirmIcon: 'bi bi-play-fill', titleClass: 'text-success' },
     );
   }
 
@@ -144,6 +167,7 @@ export class ExaminationDetail implements OnInit, OnDestroy {
       'VEHICLE_ORDERS.DETAIL.CONFIRM_COMPLETE',
       `Examinations/${this.examinationId}/complete`,
       'VEHICLE_ORDERS.DETAIL.COMPLETED',
+      { confirmKey: 'VEHICLE_ORDERS.DETAIL.COMPLETE', confirmClass: 'btn btn-success', confirmIcon: 'bi bi-check-circle', titleClass: 'text-success' },
     );
   }
 
@@ -152,6 +176,7 @@ export class ExaminationDetail implements OnInit, OnDestroy {
       'VEHICLE_ORDERS.DETAIL.CONFIRM_DELIVER',
       `Examinations/${this.examinationId}/deliver`,
       'VEHICLE_ORDERS.DETAIL.DELIVERED',
+      { confirmKey: 'VEHICLE_ORDERS.DETAIL.DELIVER', confirmClass: 'btn btn-info text-white', confirmIcon: 'bi bi-truck', titleClass: 'text-info' },
     );
   }
 
@@ -160,23 +185,34 @@ export class ExaminationDetail implements OnInit, OnDestroy {
       'VEHICLE_ORDERS.DETAIL.CONFIRM_CANCEL',
       `Examinations/${this.examinationId}/cancel`,
       'VEHICLE_ORDERS.DETAIL.CANCELLED',
+      { confirmKey: 'VEHICLE_ORDERS.DETAIL.CANCEL', confirmClass: 'btn btn-danger', confirmIcon: 'bi bi-x-circle', titleClass: 'text-danger' },
     );
   }
 
-  generateInvoice(): void {
+  reopen(): void {
+    this.confirmAndExecute(
+      'VEHICLE_ORDERS.DETAIL.CONFIRM_REOPEN',
+      `Examinations/${this.examinationId}/reopen`,
+      'VEHICLE_ORDERS.DETAIL.REOPENED',
+      { confirmKey: 'VEHICLE_ORDERS.DETAIL.REOPEN', confirmClass: 'btn btn-warning', confirmIcon: 'bi bi-arrow-counterclockwise', titleClass: 'text-warning' },
+    );
+  }
+
+  generateReport(): void {
     if (this.actionLoading) return;
     this.actionLoading = true;
 
-    this.api.post<any>(`Invoices/from-examination/${this.examinationId}`, {})
+    this.api.getFile(`Examinations/${this.examinationId}/report`)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res) => {
+        next: (blob: Blob) => {
           this.actionLoading = false;
-          this.toastr.success(this.translate.instant('VEHICLE_ORDERS.DETAIL.INVOICE_GENERATED'));
-          const invoiceId = res?.data;
-          if (invoiceId) {
-            this.router.navigate(['/features/invoices', invoiceId]);
-          }
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `examination-report-${this.examinationId}.pdf`;
+          a.click();
+          window.URL.revokeObjectURL(url);
         },
         error: (err) => {
           this.actionLoading = false;
@@ -197,10 +233,17 @@ export class ExaminationDetail implements OnInit, OnDestroy {
     this.router.navigate(['/features/vehicle-orders']);
   }
 
-  private confirmAndExecute(messageKey: string, endpoint: string, successKey: string): void {
+  private confirmAndExecute(
+    messageKey: string, endpoint: string, successKey: string,
+    style?: { confirmKey?: string; confirmClass?: string; confirmIcon?: string; titleClass?: string },
+  ): void {
     const ref = this.modal.open(ConfirmDeleteModal, { centered: true, backdrop: 'static' });
     ref.componentInstance.titleKey = 'COMMON.CONFIRM';
     ref.componentInstance.messageKey = messageKey;
+    if (style?.confirmKey) ref.componentInstance.confirmKey = style.confirmKey;
+    if (style?.confirmClass) ref.componentInstance.confirmClass = style.confirmClass;
+    if (style?.confirmIcon) ref.componentInstance.confirmIcon = style.confirmIcon;
+    if (style?.titleClass) ref.componentInstance.titleClass = style.titleClass;
 
     ref.result
       .then(() => {
