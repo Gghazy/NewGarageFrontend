@@ -138,10 +138,12 @@ export class RoleForm implements OnInit, OnDestroy {
   }
 
   toggle(moduleName: string, action: string, checked: boolean): void {
+    const module = this.modules.find(m => m.name === moduleName);
+    const hasRead = module?.actions.includes('Read') ?? false;
     const set = this.selected.get(moduleName) ?? new Set<string>();
     if (checked) {
       set.add(action);
-      if (action !== 'Read') set.add('Read');
+      if (action !== 'Read' && hasRead) set.add('Read');
     } else {
       set.delete(action);
       if (action === 'Read') ['Create', 'Update', 'Delete'].forEach(a => set.delete(a));
@@ -153,7 +155,6 @@ export class RoleForm implements OnInit, OnDestroy {
     const set = new Set<string>();
     if (checked) {
       actions.forEach(a => set.add(a));
-      if (actions.some(a => a !== 'Read')) set.add('Read');
     }
     this.selected.set(moduleName, set);
   }

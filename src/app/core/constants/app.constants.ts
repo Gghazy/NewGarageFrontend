@@ -21,6 +21,7 @@ export const JWT_CLAIMS = {
   PERMISSION: 'permission',
   ROLES: 'roles',
   ROLE: 'role',
+  BRANCH: 'branch',
 } as const;
 
 export const SUPPORTED_LANGS = {

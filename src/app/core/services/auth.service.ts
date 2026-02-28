@@ -14,6 +14,7 @@ export interface JwtPayload {
   permission?: string[] | string;
   roles?: string[] | string;
   role?: string[] | string;
+  branch?: string[] | string;
   [key: string]: unknown;
 }
 
@@ -28,6 +29,7 @@ export class AuthService {
   employeeName = signal<string>('');
   userName = signal<string>('');
   email = signal<string>('');
+  branches = signal<string[]>([]);
 
   constructor(@Inject(PLATFORM_ID) platformId: object) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -83,6 +85,12 @@ export class AuthService {
   getRoles(): string[] {
     const payload = this.decode<JwtPayload>();
     const claims = payload?.[JWT_CLAIMS.ROLES] ?? payload?.[JWT_CLAIMS.ROLE];
+    return this.toStringArray(claims as string | string[] | undefined);
+  }
+
+  getBranches(): string[] {
+    const payload = this.decode<JwtPayload>();
+    const claims = payload?.[JWT_CLAIMS.BRANCH];
     return this.toStringArray(claims as string | string[] | undefined);
   }
 
@@ -175,6 +183,7 @@ export class AuthService {
           ''
         )
       );
+      this.branches.set(this.getBranches());
     } catch (error) {
       console.error('[AuthService] Failed to load token payload:', error);
       this.payload = null;

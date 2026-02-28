@@ -63,10 +63,16 @@ export class FeaturesHome implements OnInit, OnDestroy {
     this.canSeeRevenue = this.auth.hasPermission('dashboard.revenue');
 
     if (!this.showWelcome) {
+      const employeeBranches = this.auth.getBranches();
       this.api.get<ApiResponse<any[]>>('Branches')
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (res) => this.branches = res.data ?? [],
+          next: (res) => {
+            const all = res.data ?? [];
+            this.branches = employeeBranches.length > 0
+              ? all.filter((b: any) => employeeBranches.includes(b.id))
+              : all;
+          },
         });
       this.loadData();
     } else {

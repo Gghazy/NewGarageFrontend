@@ -53,7 +53,9 @@
       "Bash(dotnet restore)",
       "Bash(xargs grep -l \"CreatedBy\\\\|UpdatedBy\\\\|CreatedAt\\\\|UpdatedAt\")",
       "Bash(xargs grep -l \"IEvent\\\\|IDomainEvent\\\\|EventLog\\\\|AuditEntry\\\\|ChangeLog\")",
-      "Bash(xargs grep -l \"Audit\\\\|History\\\\|Event\")"
+      "Bash(xargs grep -l \"Audit\\\\|History\\\\|Event\")",
+      "Bash(find /f/projects/suidProjects/NewGarage/BackEnd/BackEnd/src -type f -name \"*.cs\" -exec grep -l \"EmployeeBranch\\\\|employee.*branch\" {} ;)",
+      "Bash(xargs ls -la)"
     ],
     "additionalDirectories": [
       "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\shared\\Models\\vehicle-orders",
