@@ -138,16 +138,15 @@ export class ExteriorAccessoriesStageComponent extends BaseStageComponent implem
 
   private loadData(): void {
     const examId = this.workflowData.exam?.id;
-    const search = { itemsPerPage: 200, currentPage: 1, textSearch: '', sort: 'nameAr', desc: false };
 
     this.loading = true;
     forkJoin({
-      parts: this.api.post<any>('AccessoryParts/pagination', search),
-      issues: this.api.post<any>('AccessoryIssues/pagination', search),
+      parts: this.api.get<any>('AccessoryParts'),
+      issues: this.api.get<any>('AccessoryIssues'),
     }).pipe(
       tap(res => {
-        this.parts = res.parts.data?.items ?? [];
-        this.allIssues = res.issues.data?.items ?? [];
+        this.parts = res.parts.data ?? [];
+        this.allIssues = res.issues.data ?? [];
         this.refreshAvailableParts();
       }),
       switchMap(() => {

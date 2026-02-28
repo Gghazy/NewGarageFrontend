@@ -507,6 +507,7 @@
       "NAME": "الاسم",
       "EMAIL": "البريد الإلكتروني",
       "BRANCH": "الفرع",
+      "BRANCHES": "الفروع",
       "PHONE": "رقم الهاتف",
       "ROLE": "الدور",
       "ACTIONS": "إجراء"
@@ -518,6 +519,7 @@
       "NAME_AR": "الاسم (عربي)",
       "NAME_EN": "الاسم (إنجليزي)",
       "BRANCH": "الفرع",
+      "SELECT_BRANCHES": "اختر الفروع...",
       "EMAIL": "البريد الإلكتروني",
       "PHONE": "رقم الهاتف",
       "ROLE": "الدور"
@@ -856,6 +858,24 @@
     },
     "RELATED": {
       "TITLE": "الفواتير المرتبطة"
+    },
+    "HISTORY": {
+      "TITLE": "السجل",
+      "NO_HISTORY": "لا يوجد سجل",
+      "ACTIONS": {
+        "Created": "تم إنشاء الفاتورة",
+        "Updated": "تم تحديث الفاتورة",
+        "Cancelled": "تم إلغاء الفاتورة",
+        "Deleted": "تم حذف الفاتورة",
+        "PaymentAdded": "تمت إضافة دفعة",
+        "RefundAdded": "تمت إضافة استرداد",
+        "DiscountSet": "تم تعيين الخصم",
+        "ItemAdded": "تمت إضافة بند",
+        "ItemRemoved": "تم حذف بند",
+        "ItemUpdated": "تم تحديث بند",
+        "StatusChanged": "تم تغيير الحالة",
+        "RefundInvoiceCreated": "تم إنشاء فاتورة استرداد"
+      }
     }
   },
   "WORKFLOW": {

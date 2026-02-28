@@ -5,6 +5,6 @@ export interface EmployeeRequest {
     nameEn: string;
     phoneNumber: string;
     email: string;
-    branchId: string;
+    branchIds: string[];
     roleId: string;
 }

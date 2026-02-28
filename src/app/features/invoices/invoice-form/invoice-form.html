@@ -15,7 +15,7 @@
         {{ 'INVOICES.LIST.STATUSES.' + invoice?.status | translate }}
       </span>
       <a *ngIf="invoice?.examinationId" class="badge bg-info text-decoration-none"
-        [routerLink]="['/features/vehicle-orders', invoice!.examinationId]">
+        [routerLink]="['/features/vehicle-orders', invoice!.examinationId, 'details']">
         <i class="bi bi-link-45deg me-1"></i>{{ 'INVOICES.FORM.LINKED_EXAMINATION' | translate }}
       </a>
       <a *ngIf="invoice?.originalInvoiceId" class="badge bg-warning text-dark text-decoration-none"
@@ -161,6 +161,43 @@
       [invoice]="invoice"
       (paymentAdded)="loadInvoice()">
     </app-invoice-payments-section>
+
+    <!-- History -->
+    <div class="detail-card">
+      <div class="detail-card-header" (click)="historyCollapsed = !historyCollapsed">
+        <i class="bi bi-clock-history"></i>
+        <h6>{{ 'INVOICES.HISTORY.TITLE' | translate }}</h6>
+        <i class="bi bi-chevron-down toggle-icon ms-auto" [class.rotated]="historyCollapsed"></i>
+      </div>
+      <div [hidden]="historyCollapsed">
+        <div *ngIf="historyLoading" class="history-loading">
+          <div class="spinner-border spinner-border-sm" role="status"></div>
+        </div>
+        <div *ngIf="!historyLoading && historyItems.length === 0" class="history-empty">
+          <i class="bi bi-clock"></i>
+          {{ 'INVOICES.HISTORY.NO_HISTORY' | translate }}
+        </div>
+        <div *ngIf="!historyLoading && historyItems.length > 0" class="history-timeline">
+          <div class="history-item" *ngFor="let h of historyItems">
+            <div class="history-icon" [style.background]="getActionColor(h.action) + '18'" [style.color]="getActionColor(h.action)">
+              <i class="bi" [ngClass]="getActionIcon(h.action)"></i>
+            </div>
+            <div class="history-content">
+              <div class="history-action">{{ 'INVOICES.HISTORY.ACTIONS.' + h.action | translate }}</div>
+              <div *ngIf="h.details" class="history-details">{{ h.details }}</div>
+              <div class="history-meta">
+                <span *ngIf="getPerformerName(h)" class="history-user">
+                  <i class="bi bi-person-fill"></i>{{ getPerformerName(h) }}
+                </span>
+                <span class="history-time">
+                  <i class="bi bi-clock"></i>{{ h.createdAtUtc | date:'yyyy-MM-dd hh:mm a' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </ng-container>
 

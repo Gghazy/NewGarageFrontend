@@ -164,15 +164,15 @@ export class VehicleSection implements OnInit, OnDestroy {
   }
 
   private loadBranches(): void {
-    this.api.post<any>('Branches/pagination', { currentPage: 1, itemsPerPage: 100, textSearch: '', sort: 'nameAr', desc: false })
+    this.api.get<any>('Branches')
       .pipe(takeUntil(this.destroy$))
-      .subscribe({ next: (res) => (this.branches = res?.data?.items ?? []) });
+      .subscribe({ next: (res) => (this.branches = res?.data ?? []) });
   }
 
   private loadManufacturers(): void {
-    this.api.post<any>('Manufacturers/pagination', { currentPage: 1, itemsPerPage: 200, textSearch: '', sort: 'nameAr', desc: false })
+    this.api.get<any>('Manufacturers')
       .pipe(takeUntil(this.destroy$))
-      .subscribe({ next: (res) => (this.manufacturers = res?.data?.items ?? []) });
+      .subscribe({ next: (res) => (this.manufacturers = res?.data ?? []) });
   }
 
   private loadCarMarksByManufacturer(manufacturerId: string | null): void {

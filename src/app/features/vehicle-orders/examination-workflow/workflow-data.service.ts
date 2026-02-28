@@ -25,13 +25,13 @@ export interface IssueItem {
 }
 
 export const STAGE_ISSUE_API: Record<number, string> = {
-  1: 'SensorIssues/pagination',
-  3: 'InteriorBodyIssues/pagination',
-  4: 'ExteriorBodyIssues/pagination',
-  5: 'InsideAndDecorParts/pagination',
-  6: 'AccessoryIssues/pagination',
-  7: 'MechParts/pagination',
-  9: 'RoadTestIssues/pagination',
+  1: 'SensorIssues',
+  3: 'InteriorBodyIssues',
+  4: 'ExteriorBodyIssues',
+  5: 'InsideAndDecorParts',
+  6: 'AccessoryIssues',
+  7: 'MechParts',
+  9: 'RoadTestIssues',
 };
 
 const STAGE_GET_API: Record<number, string> = {
@@ -108,14 +108,13 @@ export class WorkflowDataService {
   }
 
   private loadAllIssuesInParallel(): void {
-    const search = { itemsPerPage: 200, currentPage: 1, textSearch: '', sort: 'nameAr', desc: false };
     const calls: Record<string, Observable<IssueItem[]>> = {};
 
     for (const stage of this.stages) {
       const apiUrl = STAGE_ISSUE_API[stage.value];
       if (!apiUrl) continue;
-      calls[stage.value] = this.api.post<any>(apiUrl, search).pipe(
-        map((res: any) => res.data?.items ?? []),
+      calls[stage.value] = this.api.get<any>(apiUrl).pipe(
+        map((res: any) => res.data ?? []),
         catchError(() => of([] as IssueItem[])),
       );
     }

@@ -156,16 +156,15 @@ export class RoadTestStageComponent extends BaseStageComponent implements OnInit
 
   private loadData(): void {
     const examId = this.workflowData.exam?.id;
-    const search = { itemsPerPage: 200, currentPage: 1, textSearch: '', sort: 'nameAr', desc: false };
 
     this.loading = true;
     forkJoin({
-      issueTypes: this.api.post<any>('RoadTestIssueTypes/pagination', search),
-      issues: this.api.post<any>('RoadTestIssues/pagination', search),
+      issueTypes: this.api.get<any>('RoadTestIssueTypes'),
+      issues: this.api.get<any>('RoadTestIssues'),
     }).pipe(
       tap(res => {
-        this.issueTypes = res.issueTypes.data?.items ?? [];
-        this.allIssues = res.issues.data?.items ?? [];
+        this.issueTypes = res.issueTypes.data ?? [];
+        this.allIssues = res.issues.data ?? [];
       }),
       switchMap(() => {
         if (!examId) return EMPTY;

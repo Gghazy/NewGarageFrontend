@@ -170,18 +170,17 @@ export class MechanicalStageComponent extends BaseStageComponent implements OnIn
 
   private loadData(): void {
     const examId = this.workflowData.exam?.id;
-    const search = { itemsPerPage: 200, currentPage: 1, textSearch: '', sort: 'nameAr', desc: false };
 
     this.loading = true;
     forkJoin({
-      partTypes: this.api.post<any>('MechPartTypes/pagination', search),
-      parts: this.api.post<any>('MechParts/pagination', search),
-      issues: this.api.post<any>('MechIssues/pagination', search),
+      partTypes: this.api.get<any>('MechPartTypes'),
+      parts: this.api.get<any>('MechParts'),
+      issues: this.api.get<any>('MechIssues'),
     }).pipe(
       tap(res => {
-        this.partTypes = res.partTypes.data?.items ?? [];
-        this.allParts = res.parts.data?.items ?? [];
-        this.allIssues = res.issues.data?.items ?? [];
+        this.partTypes = res.partTypes.data ?? [];
+        this.allParts = res.parts.data ?? [];
+        this.allIssues = res.issues.data ?? [];
       }),
       switchMap(() => {
         if (!examId) return EMPTY;

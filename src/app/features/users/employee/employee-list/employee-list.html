@@ -15,7 +15,7 @@
     <th>{{ 'EMPLOYEES.TABLE.NAME' | translate }}</th>
     <th>{{ 'EMPLOYEES.TABLE.PHONE' | translate }}</th>
     <th>{{ 'EMPLOYEES.TABLE.EMAIL' | translate }}</th>
-    <th>{{ 'EMPLOYEES.TABLE.BRANCH' | translate }}</th>
+    <th>{{ 'EMPLOYEES.TABLE.BRANCHES' | translate }}</th>
     <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
   </ng-container>
 
@@ -26,7 +26,10 @@
       <td>{{ isAr() ? employee.nameAr : employee.nameEn }}</td>
       <td>{{ employee.phoneNumber }}</td>
       <td>{{ employee.email }}</td>
-      <td>{{ isAr() ? employee.branchNameAr : employee.branchNameEn }}</td>
+      <td>
+        <span *ngFor="let b of employee.branches; let last = last">{{ isAr() ? b.branchNameAr : b.branchNameEn }}{{ last ? '' : ', ' }}</span>
+        <span *ngIf="!employee.branches?.length" class="text-muted">—</span>
+      </td>
       <td class="text-end">
         <button
           class="btn btn-sm btn-outline-primary me-1"

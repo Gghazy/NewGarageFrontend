@@ -1,3 +1,13 @@
+export interface InvoiceHistoryDto {
+  id: string;
+  action: string;
+  details?: string;
+  performedById?: string;
+  performedByNameAr?: string;
+  performedByNameEn?: string;
+  createdAtUtc: string;
+}
+
 export interface InvoicePaymentDto {
   id: string;
   amount: number;

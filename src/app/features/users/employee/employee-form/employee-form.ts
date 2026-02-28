@@ -36,7 +36,7 @@ export class EmployeeForm implements OnInit, OnDestroy {
     nameEn: ['', Validators.required],
     phoneNumber: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    branchId: ['', Validators.required],
+    branchIds: [[] as string[], Validators.required],
     roleId: ['', Validators.required],
   });
 
@@ -57,7 +57,7 @@ export class EmployeeForm implements OnInit, OnDestroy {
         nameEn: this.employee.nameEn,
         phoneNumber: this.employee.phoneNumber,
         email: this.employee.email,
-        branchId: this.employee.branchId,
+        branchIds: this.employee.branches?.map(b => b.branchId) ?? [],
         roleId: this.employee.roleId,
       });
     }

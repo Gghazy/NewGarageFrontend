@@ -80,18 +80,20 @@
             </div>
         </div>
 
-        <!-- Branch -->
+        <!-- Branches -->
         <div class="col-12 col-md-6">
             <label class="form-label">{{ 'EMPLOYEES.FORM.BRANCH' | translate }}</label>
-            <select class="form-select" formControlName="branchId" [class.is-invalid]="isInvalid('branchId')">
-                <option value="" disabled selected>
-                    {{ 'EMPLOYEES.FORM.BRANCH' | translate }}
-                </option>
-                <option *ngFor="let b of branches" [value]="b.id">
-                    {{ (isAr() ? b.nameAr : b.nameEn) }}
-                </option>
-            </select>
-            <div class="invalid-feedback" *ngIf="isInvalid('branchId')">
+            <ng-select
+                [items]="branches"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                bindValue="id"
+                [bindLabel]="isAr() ? 'nameAr' : 'nameEn'"
+                formControlName="branchIds"
+                [placeholder]="'EMPLOYEES.FORM.SELECT_BRANCHES' | translate"
+                [class.is-invalid]="isInvalid('branchIds')">
+            </ng-select>
+            <div class="invalid-feedback" *ngIf="isInvalid('branchIds')" style="display:block">
                 {{ 'VALIDATION.REQUIRED' | translate }}
             </div>
         </div>

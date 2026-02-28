@@ -96,11 +96,9 @@ export class ServicesSection implements OnInit, OnDestroy, OnChanges {
   }
 
   private loadServices(): void {
-    this.api.post<any>('Services/pagination', {
-      currentPage: 1, itemsPerPage: 200, textSearch: '', sort: 'nameAr', desc: false,
-    })
+    this.api.get<any>('Services')
       .pipe(takeUntil(this.destroy$))
-      .subscribe({ next: (res) => (this.services = res?.data?.items ?? []) });
+      .subscribe({ next: (res) => (this.services = res?.data ?? []) });
   }
 
   private loadServicePrices(): void {

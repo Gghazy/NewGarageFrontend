@@ -480,6 +480,7 @@
       "NAME": "Name",
       "EMAIL": "Email",
       "BRANCH": "Branch",
+      "BRANCHES": "Branches",
       "PHONE": "Phone",
       "ROLE": "Role",
       "ACTIONS": "Actions"
@@ -491,6 +492,7 @@
       "NAME_EN": "Name (EN)",
       "EMAIL": "Email",
       "BRANCH": "Branch",
+      "SELECT_BRANCHES": "Select branches...",
       "PHONE": "Phone",
       "ROLE": "Role"
     }
@@ -828,6 +830,24 @@
     },
     "RELATED": {
       "TITLE": "Related Invoices"
+    },
+    "HISTORY": {
+      "TITLE": "History",
+      "NO_HISTORY": "No history available",
+      "ACTIONS": {
+        "Created": "Invoice Created",
+        "Updated": "Invoice Updated",
+        "Cancelled": "Invoice Cancelled",
+        "Deleted": "Invoice Deleted",
+        "PaymentAdded": "Payment Added",
+        "RefundAdded": "Refund Added",
+        "DiscountSet": "Discount Set",
+        "ItemAdded": "Item Added",
+        "ItemRemoved": "Item Removed",
+        "ItemUpdated": "Item Updated",
+        "StatusChanged": "Status Changed",
+        "RefundInvoiceCreated": "Refund Invoice Created"
+      }
     }
   },
   "WORKFLOW": {
