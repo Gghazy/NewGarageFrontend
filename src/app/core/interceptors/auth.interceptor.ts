@@ -9,7 +9,7 @@ import {
 import { Observable, catchError, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { APP_ROUTES, HTTP_STATUS } from '../constants/app.constants';
+import { APP_ROUTES, HTTP_STATUS, STORAGE_KEYS } from '../constants/app.constants';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -17,11 +17,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = this.auth.getToken();
+    const lang = localStorage.getItem(STORAGE_KEYS.LANG) || 'ar';
 
-    const authReq =
-      token
-        ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } })
-        : req;
+    const headers: Record<string, string> = { 'Accept-Language': lang };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+    const authReq = req.clone({ setHeaders: headers });
 
     return next.handle(authReq).pipe(
       catchError((err: HttpErrorResponse) => {

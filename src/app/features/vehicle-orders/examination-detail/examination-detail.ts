@@ -199,26 +199,7 @@ export class ExaminationDetail implements OnInit, OnDestroy {
   }
 
   generateReport(): void {
-    if (this.actionLoading) return;
-    this.actionLoading = true;
-
-    this.api.getFile(`Examinations/${this.examinationId}/report`)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (blob: Blob) => {
-          this.actionLoading = false;
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `examination-report-${this.examinationId}.pdf`;
-          a.click();
-          window.URL.revokeObjectURL(url);
-        },
-        error: (err) => {
-          this.actionLoading = false;
-          this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.ERROR'));
-        },
-      });
+    this.router.navigate(['/features/vehicle-orders', this.examinationId, 'report']);
   }
 
   openEdit(): void {

@@ -1,0 +1,287 @@
+<div class="report-container">
+
+  <!-- Header (hidden on print) -->
+  <div class="report-header no-print">
+    <h5>{{ 'REPORT.TITLE' | translate }}</h5>
+    <div class="header-actions">
+      <button class="btn btn-outline-primary btn-sm" (click)="print()">
+        <i class="bi bi-printer"></i> {{ 'REPORT.PRINT' | translate }}
+      </button>
+      <button class="btn btn-outline-secondary btn-sm" (click)="goBack()">
+        <i class="bi bi-arrow-right"></i> {{ 'COMMON.BACK' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border" role="status"></div>
+  </div>
+
+  <ng-container *ngIf="!loading && report">
+
+    <!-- Print Header -->
+    <div class="print-header print-only">
+      <h3>{{ 'REPORT.TITLE' | translate }}</h3>
+      <div class="print-date">{{ exam?.createdAtUtc | date:'yyyy-MM-dd' }}</div>
+    </div>
+
+    <!-- Exam Info -->
+    <div class="report-section">
+      <div class="section-title">{{ 'REPORT.EXAM_INFO' | translate }}</div>
+      <div class="info-grid">
+        <div class="info-row">
+          <span class="info-label">{{ 'VEHICLE_ORDERS.LIST.CLIENT' | translate }}</span>
+          <span class="info-value">{{ isAr ? exam.clientNameAr : (exam.clientNameEn || exam.clientNameAr) }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.CAR_MARK' | translate }}</span>
+          <span class="info-value">{{ (isAr ? exam.manufacturerNameAr : (exam.manufacturerNameEn || exam.manufacturerNameAr)) + ' - ' + (isAr ? exam.carMarkNameAr : (exam.carMarkNameEn || exam.carMarkNameAr)) }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.PLATE_LETTERS' | translate }}</span>
+          <span class="info-value">{{ getPlateDisplay() }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.YEAR' | translate }}</span>
+          <span class="info-value">{{ exam.year || '—' }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.COLOR' | translate }}</span>
+          <span class="info-value">{{ exam.color || '—' }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.MILEAGE' | translate }}</span>
+          <span class="info-value">{{ exam.mileage != null ? (exam.mileage | number) + ' ' + exam.mileageUnit : '—' }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.VIN' | translate }}</span>
+          <span class="info-value">{{ exam.vin || '—' }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.BRANCH' | translate }}</span>
+          <span class="info-value">{{ isAr ? exam.branchNameAr : (exam.branchNameEn || exam.branchNameAr) }}</span>
+        </div>
+        <div class="info-row" *ngIf="exam.notes">
+          <span class="info-label">{{ 'VEHICLE_ORDERS.VEHICLE.NOTES' | translate }}</span>
+          <span class="info-value">{{ exam.notes }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Services -->
+    <div class="report-section">
+      <div class="section-title">{{ 'REPORT.SERVICES' | translate }}</div>
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th class="col-num">#</th>
+            <th>{{ 'VEHICLE_ORDERS.SERVICES.SERVICE' | translate }}</th>
+            <th class="text-center col-sm">{{ 'VEHICLE_ORDERS.SERVICES.QUANTITY' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of exam.items; let i = index">
+            <td class="col-num">{{ i + 1 }}</td>
+            <td>{{ isAr ? item.serviceNameAr : (item.serviceNameEn || item.serviceNameAr) }}</td>
+            <td class="text-center">{{ item.quantity }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ═══ Stage 1: Sensors ═══ -->
+    <div class="report-section" *ngIf="report.sensorStage">
+      <div class="section-title stage-title">{{ 'REPORT.STAGES.SENSORS' | translate }}</div>
+      <div *ngIf="report.sensorStage.noIssuesFound" class="no-issues-badge">
+        <i class="bi bi-check-circle"></i> {{ 'REPORT.NO_ISSUES' | translate }}
+      </div>
+      <div *ngIf="report.sensorStage.cylinderCount" class="stage-meta">
+        {{ 'WORKFLOW.CYLINDER_COUNT' | translate }}: {{ report.sensorStage.cylinderCount }}
+      </div>
+      <table class="report-table" *ngIf="report.sensorStage.issues.length > 0">
+        <thead>
+          <tr>
+            <th class="col-num">#</th>
+            <th>{{ 'WORKFLOW.ISSUE_CODE' | translate }}</th>
+            <th>{{ 'WORKFLOW.DESCRIPTION' | translate }}</th>
+            <th class="col-md">{{ 'WORKFLOW.EVALUATION' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let issue of report.sensorStage.issues; let i = index">
+            <td class="col-num">{{ i + 1 }}</td>
+            <td>{{ issue.code || '—' }}</td>
+            <td>{{ isAr ? issue.nameAr : (issue.nameEn || issue.nameAr) }}</td>
+            <td>{{ getEvaluation(issue.evaluation) }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="report.sensorStage.comments" class="stage-comments">
+        <strong>{{ 'WORKFLOW.COMMENTS' | translate }}:</strong> {{ report.sensorStage.comments }}
+      </div>
+    </div>
+
+    <!-- ═══ Stage 2: Dashboard Indicators ═══ -->
+    <div class="report-section" *ngIf="report.dashboardIndicatorsStage">
+      <div class="section-title stage-title">{{ 'REPORT.STAGES.DASHBOARD_INDICATORS' | translate }}</div>
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th class="col-num">#</th>
+            <th>{{ 'WORKFLOW.INDICATOR' | translate }}</th>
+            <th class="col-md text-center">{{ 'COMMON.STATUS' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ind of report.dashboardIndicatorsStage.indicators; let i = index">
+            <td class="col-num">{{ i + 1 }}</td>
+            <td>{{ getIndicatorLabel(ind.key) }}</td>
+            <td class="text-center">
+              <span *ngIf="ind.notApplicable" class="text-muted">{{ 'WORKFLOW.NOT_APPLICABLE' | translate }}</span>
+              <span *ngIf="!ind.notApplicable">{{ ind.value != null ? ind.value : '—' }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="report.dashboardIndicatorsStage.comments" class="stage-comments">
+        <strong>{{ 'WORKFLOW.COMMENTS' | translate }}:</strong> {{ report.dashboardIndicatorsStage.comments }}
+      </div>
+    </div>
+
+    <!-- ═══ Stage 3: Interior Body ═══ -->
+    <ng-container *ngTemplateOutlet="partIssueStage; context: { $implicit: report.interiorBodyStage, title: 'REPORT.STAGES.INTERIOR_BODY' }"></ng-container>
+
+    <!-- ═══ Stage 4: Exterior Body ═══ -->
+    <ng-container *ngTemplateOutlet="partIssueStage; context: { $implicit: report.exteriorBodyStage, title: 'REPORT.STAGES.EXTERIOR_BODY' }"></ng-container>
+
+    <!-- ═══ Stage 5: Interior Decor ═══ -->
+    <ng-container *ngTemplateOutlet="partIssueStage; context: { $implicit: report.interiorDecorStage, title: 'REPORT.STAGES.INTERIOR_DECOR' }"></ng-container>
+
+    <!-- ═══ Stage 6: Accessories ═══ -->
+    <ng-container *ngTemplateOutlet="partIssueStage; context: { $implicit: report.accessoryStage, title: 'REPORT.STAGES.ACCESSORIES' }"></ng-container>
+
+    <!-- Shared template for part+issue stages (3,4,5,6) -->
+    <ng-template #partIssueStage let-stage let-title="title">
+      <div class="report-section" *ngIf="stage">
+        <div class="section-title stage-title">{{ title | translate }}</div>
+        <div *ngIf="stage.noIssuesFound" class="no-issues-badge">
+          <i class="bi bi-check-circle"></i> {{ 'REPORT.NO_ISSUES' | translate }}
+        </div>
+        <table class="report-table" *ngIf="stage.items.length > 0">
+          <thead>
+            <tr>
+              <th class="col-num">#</th>
+              <th>{{ 'REPORT.PART' | translate }}</th>
+              <th>{{ 'REPORT.ISSUE' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of stage.items; let i = index">
+              <td class="col-num">{{ i + 1 }}</td>
+              <td>{{ isAr ? item.partNameAr : (item.partNameEn || item.partNameAr) }}</td>
+              <td>{{ isAr ? item.issueNameAr : (item.issueNameEn || item.issueNameAr) }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="stage.comments" class="stage-comments">
+          <strong>{{ 'WORKFLOW.COMMENTS' | translate }}:</strong> {{ stage.comments }}
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- ═══ Stage 7: Mechanical ═══ -->
+    <div class="report-section" *ngIf="report.mechanicalStage">
+      <div class="section-title stage-title">{{ 'REPORT.STAGES.MECHANICAL' | translate }}</div>
+      <div *ngIf="report.mechanicalStage.noIssuesFound" class="no-issues-badge">
+        <i class="bi bi-check-circle"></i> {{ 'REPORT.NO_ISSUES' | translate }}
+      </div>
+      <table class="report-table" *ngIf="report.mechanicalStage.rows.length > 0">
+        <thead>
+          <tr>
+            <th class="col-num">#</th>
+            <th>{{ 'WORKFLOW.MECH_PART_TYPE' | translate }}</th>
+            <th>{{ 'WORKFLOW.MECH_PART' | translate }}</th>
+            <th>{{ 'WORKFLOW.MECH_ISSUES' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of report.mechanicalStage.rows; let i = index">
+            <td class="col-num">{{ i + 1 }}</td>
+            <td>{{ isAr ? row.partTypeNameAr : (row.partTypeNameEn || row.partTypeNameAr) }}</td>
+            <td>{{ isAr ? row.partNameAr : (row.partNameEn || row.partNameAr) }}</td>
+            <td>
+              <span *ngFor="let issue of row.issues; let last = last">
+                {{ isAr ? issue.nameAr : (issue.nameEn || issue.nameAr) }}<span *ngIf="!last">، </span>
+              </span>
+              <span *ngIf="row.issues.length === 0">—</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="report.mechanicalStage.comments" class="stage-comments">
+        <strong>{{ 'WORKFLOW.COMMENTS' | translate }}:</strong> {{ report.mechanicalStage.comments }}
+      </div>
+    </div>
+
+    <!-- ═══ Stage 8: Tires ═══ -->
+    <div class="report-section" *ngIf="report.tireStage">
+      <div class="section-title stage-title">{{ 'REPORT.STAGES.TIRES' | translate }}</div>
+      <div *ngIf="report.tireStage.noIssuesFound" class="no-issues-badge">
+        <i class="bi bi-check-circle"></i> {{ 'REPORT.NO_ISSUES' | translate }}
+      </div>
+      <table class="report-table" *ngIf="report.tireStage.items.length > 0">
+        <thead>
+          <tr>
+            <th class="col-num">#</th>
+            <th>{{ 'REPORT.POSITION' | translate }}</th>
+            <th class="col-md text-center">{{ 'WORKFLOW.TIRE_YEAR' | translate }}</th>
+            <th class="col-md text-center">{{ 'WORKFLOW.TIRE_WEEK' | translate }}</th>
+            <th class="col-md">{{ 'WORKFLOW.TIRE_CONDITION' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of report.tireStage.items; let i = index">
+            <td class="col-num">{{ i + 1 }}</td>
+            <td>{{ getTirePosition(item.position) }}</td>
+            <td class="text-center">{{ item.year ?? '—' }}</td>
+            <td class="text-center">{{ item.week ?? '—' }}</td>
+            <td>{{ getTireCondition(item.condition) }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="report.tireStage.comments" class="stage-comments">
+        <strong>{{ 'WORKFLOW.COMMENTS' | translate }}:</strong> {{ report.tireStage.comments }}
+      </div>
+    </div>
+
+    <!-- ═══ Stage 9: Road Test ═══ -->
+    <div class="report-section" *ngIf="report.roadTestStage">
+      <div class="section-title stage-title">{{ 'REPORT.STAGES.ROAD_TEST' | translate }}</div>
+      <div *ngIf="report.roadTestStage.noIssuesFound" class="no-issues-badge">
+        <i class="bi bi-check-circle"></i> {{ 'REPORT.NO_ISSUES' | translate }}
+      </div>
+      <table class="report-table" *ngIf="report.roadTestStage.items.length > 0">
+        <thead>
+          <tr>
+            <th class="col-num">#</th>
+            <th>{{ 'WORKFLOW.ISSUE_TYPE' | translate }}</th>
+            <th>{{ 'REPORT.ISSUE' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of report.roadTestStage.items; let i = index">
+            <td class="col-num">{{ i + 1 }}</td>
+            <td>{{ isAr ? item.issueTypeNameAr : (item.issueTypeNameEn || item.issueTypeNameAr) }}</td>
+            <td>{{ isAr ? item.issueNameAr : (item.issueNameEn || item.issueNameAr) }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="report.roadTestStage.comments" class="stage-comments">
+        <strong>{{ 'WORKFLOW.COMMENTS' | translate }}:</strong> {{ report.roadTestStage.comments }}
+      </div>
+    </div>
+
+  </ng-container>
+
+</div>

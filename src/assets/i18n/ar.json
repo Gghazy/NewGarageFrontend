@@ -127,7 +127,29 @@
     "NEW_INVOICE": "فاتورة جديدة",
     "EDIT_INVOICE": "تعديل فاتورة",
     "INVOICE_DETAILS": "تفاصيل الفاتورة",
-    "PAYMENT_METHODS": "طرق الدفع"
+    "PAYMENT_METHODS": "طرق الدفع",
+    "EXAM_REPORT": "تقرير الفحص"
+  },
+  "REPORT": {
+    "TITLE": "تقرير الفحص",
+    "PRINT": "طباعة",
+    "EXAM_INFO": "معلومات الفحص",
+    "SERVICES": "الخدمات",
+    "NO_ISSUES": "لا توجد أعطال",
+    "PART": "الجزء",
+    "ISSUE": "العطل",
+    "POSITION": "الموقع",
+    "STAGES": {
+      "SENSORS": "الحساسات",
+      "DASHBOARD_INDICATORS": "مؤشرات لوحة القيادة",
+      "INTERIOR_BODY": "الهيكل الداخلي",
+      "EXTERIOR_BODY": "الهيكل الخارجي",
+      "INTERIOR_DECOR": "الداخلية والديكور",
+      "ACCESSORIES": "الإكسسوارات",
+      "MECHANICAL": "الميكانيكا",
+      "TIRES": "الإطارات",
+      "ROAD_TEST": "تجربة الطريق"
+    }
   },
   "COMMON": {
     "ACTIONS": "الإجراءات",

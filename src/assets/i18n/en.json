@@ -127,7 +127,29 @@
     "NEW_INVOICE": "New Invoice",
     "EDIT_INVOICE": "Edit Invoice",
     "INVOICE_DETAILS": "Invoice Details",
-    "PAYMENT_METHODS": "Payment Methods"
+    "PAYMENT_METHODS": "Payment Methods",
+    "EXAM_REPORT": "Examination Report"
+  },
+  "REPORT": {
+    "TITLE": "Examination Report",
+    "PRINT": "Print",
+    "EXAM_INFO": "Examination Info",
+    "SERVICES": "Services",
+    "NO_ISSUES": "No Issues Found",
+    "PART": "Part",
+    "ISSUE": "Issue",
+    "POSITION": "Position",
+    "STAGES": {
+      "SENSORS": "Sensors",
+      "DASHBOARD_INDICATORS": "Dashboard Indicators",
+      "INTERIOR_BODY": "Interior Body",
+      "EXTERIOR_BODY": "Exterior Body",
+      "INTERIOR_DECOR": "Interior & Decor",
+      "ACCESSORIES": "Accessories",
+      "MECHANICAL": "Mechanical",
+      "TIRES": "Tires",
+      "ROAD_TEST": "Road Test"
+    }
   },
   "COMMON": {
     "ACTIONS": "Actions",

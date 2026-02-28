@@ -99,7 +99,34 @@ ng-select.is-invalid .ng-select-container {
   text-align: right;
 }
 
+/* ── Print Styles ──────────────────────────────────────── */
+@media print {
+  app-topbar,
+  app-breadcrumb,
+  app-footer {
+    display: none !important;
+  }
 
+  .card {
+    box-shadow: none !important;
+    border: none !important;
+  }
 
+  .card-body {
+    padding: 0 !important;
+  }
 
+  .app-shell {
+    min-height: auto !important;
+  }
+
+  .container-fluid {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  body {
+    background: #fff !important;
+  }
+}
 

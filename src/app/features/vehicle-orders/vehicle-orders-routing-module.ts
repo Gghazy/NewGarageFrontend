@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { permissionGuard } from 'src/app/core/guards/permission.guard';
 import { ExaminationDetail } from './examination-detail/examination-detail';
+import { ExaminationReport } from './examination-report/examination-report';
 import { VehicleOrderForm } from './vehicle-order-form/vehicle-order-form';
 import { VehicleOrderList } from './vehicle-order-list/vehicle-order-list';
 import { VehicleOrdersLayout } from './vehicle-orders-layout';
@@ -39,6 +40,16 @@ const routes: Routes = [
         data: {
           breadcrumb: 'BREADCRUMB.EXAM_DETAILS',
           permissions: ['examination.read'],
+          permissionMode: 'any'
+        }
+      },
+      {
+        path: ':id/report',
+        component: ExaminationReport,
+        canActivate: [permissionGuard],
+        data: {
+          breadcrumb: 'BREADCRUMB.EXAM_REPORT',
+          permissions: ['examination.report'],
           permissionMode: 'any'
         }
       },
