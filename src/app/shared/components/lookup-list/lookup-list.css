@@ -1,0 +1,48 @@
+/* ── Controls Row ── */
+.list-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  gap: 12px;
+}
+
+/* ── Search Input ── */
+.list-search {
+  position: relative;
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.list-search input {
+  width: 100%;
+  padding: 0.5rem 0.875rem;
+  padding-inline-start: 2.25rem;
+  border: 1px solid var(--light-border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: var(--card-bg);
+  color: var(--text-dark);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.list-search input::placeholder {
+  color: var(--text-gray);
+  opacity: 0.65;
+}
+
+.list-search input:focus {
+  outline: none;
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 0 3px rgba(51, 65, 85, 0.15);
+}
+
+.list-search .search-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  inset-inline-start: 0.75rem;
+  color: var(--text-gray);
+  font-size: 0.85rem;
+  pointer-events: none;
+}

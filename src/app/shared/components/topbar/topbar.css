@@ -5,7 +5,7 @@
 /* ── Top Navbar Wrapper ── */
 .navbar-wrapper {
   background: var(--primary-gradient);
-  box-shadow: 0 2px 8px rgba(30, 58, 95, 0.18);
+  box-shadow: 0 2px 8px rgba(51, 65, 85, 0.25);
 }
 
 .navbar-top {

@@ -204,7 +204,8 @@
   },
   "PAGINATION": {
     "PREVIOUS": "السابق",
-    "NEXT": "التالي"
+    "NEXT": "التالي",
+    "SHOW": "عرض"
   },
   "CONFIRM": {
     "DELETE_TITLE": "تأكيد الحذف",

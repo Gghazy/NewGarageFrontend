@@ -1,24 +1,47 @@
-#pageSize {
-  width: 80px !important;
-  padding: 0.5rem;
+.page-size-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.page-size-label {
+  font-size: 0.85rem;
+  color: var(--text-gray);
+  white-space: nowrap;
+}
+
+.page-size-select {
+  width: 68px;
+  padding: 0.45rem 0.5rem;
   border-radius: 8px;
   border: 1px solid var(--light-border);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   text-align: center;
-  background-color: #fff;
-  cursor: pointer;
+  background-color: var(--card-bg);
   color: var(--text-dark);
-  transition: all 0.2s ease;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16'%3E%3Cpath fill='%236b7280' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center right 6px;
+  padding-right: 24px;
 }
 
-#pageSize:hover {
-  background-color: var(--light-bg);
+[dir="rtl"] .page-size-select,
+:host-context([dir="rtl"]) .page-size-select {
+  background-position: center left 6px;
+  padding-right: 0.5rem;
+  padding-left: 24px;
+}
+
+.page-size-select:hover {
   border-color: var(--primary-dark);
 }
 
-#pageSize:focus {
+.page-size-select:focus {
   outline: none;
   border-color: var(--primary-dark);
-  box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.12);
+  box-shadow: 0 0 0 3px rgba(51, 65, 85, 0.15);
 }
-  

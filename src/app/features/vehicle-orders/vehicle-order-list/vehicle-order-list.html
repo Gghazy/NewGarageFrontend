@@ -4,6 +4,7 @@
   [canAdd]="authService.hasPermission('examination.create')"
   (addClicked)="openNew()"
   [pagingConfig]="pagingConfig"
+  [showSearch]="false"
   (pageSizeSearch)="search()"
   [items]="orders"
   [emptyText]="'VEHICLE_ORDERS.LIST.EMPTY' | translate"

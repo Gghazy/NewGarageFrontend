@@ -1,8 +1,8 @@
 export interface AppMenuItem {
   labelKey: string;
-  icon?: string;                 
-  route?: string;                
-  permissions?: string[];        
+  icon?: string;
+  route?: string;
+  permissions?: string[];
   children?: AppMenuItem[];
 }
 export const APP_MENU: AppMenuItem[] = [
@@ -11,14 +11,18 @@ export const APP_MENU: AppMenuItem[] = [
     icon: 'bi bi-gear',
     permissions: ['settings.read'],
     children: [
-      { labelKey: 'MENU.CAR_MARKS', route: '/features/settings/car-marks', icon: 'bi bi-badge-tm', permissions: ['carMark.read'] },
+      // — Branches & Operations —
+      { labelKey: 'MENU.BRANCHES', route: '/features/settings/branches', icon: 'bi bi-diagram-3', permissions: ['branches.read'] },
+      { labelKey: 'MENU.CRANES', route: '/features/settings/cranes', icon: 'bi bi-truck', permissions: ['crane.read'] },
+      // — Vehicles —
       { labelKey: 'MENU.MANUFACTURERS', route: '/features/settings/manufacturers', icon: 'bi bi-building', permissions: ['manufacturer.read'] },
+      { labelKey: 'MENU.CAR_MARKS', route: '/features/settings/car-marks', icon: 'bi bi-badge-tm', permissions: ['carMark.read'] },
+      // — Services & Pricing —
       { labelKey: 'MENU.SERVICES', route: '/features/settings/services', icon: 'bi bi-tools', permissions: ['service.read'] },
       { labelKey: 'MENU.SERVICE_PRICES', route: '/features/settings/service-prices', icon: 'bi bi-cash-stack', permissions: ['servicePrice.read'] },
-      { labelKey: 'MENU.CRANES', route: '/features/settings/cranes', icon: 'bi bi-truck', permissions: ['crane.read'] },
-      { labelKey: 'MENU.TERMS', route: '/features/settings/terms', icon: 'bi bi-file-text', permissions: ['term.read'] },
-      { labelKey: 'MENU.BRANCHES', route: '/features/settings/branches', icon: 'bi bi-diagram-3', permissions: ['branches.read'] },
+      // — Payment & Terms —
       { labelKey: 'MENU.PAYMENT_METHODS', route: '/features/settings/payment-methods', icon: 'bi bi-credit-card', permissions: ['paymentMethod.read'] },
+      { labelKey: 'MENU.TERMS', route: '/features/settings/terms', icon: 'bi bi-file-text', permissions: ['term.read'] },
     ],
   },
   {
@@ -26,21 +30,29 @@ export const APP_MENU: AppMenuItem[] = [
     icon: 'bi bi-clipboard-check',
     permissions: ['examination.read'],
     children: [
+      // — Sensor Stage —
       { labelKey: 'MENU.SENSOR_ISSUES', route: '/features/examination-management/sensor-issues', icon: 'bi bi-cpu', permissions: ['sensorIssue.read'] },
+      // — Mechanical Stage —
       { labelKey: 'MENU.MECH_PARTS', route: '/features/examination-management/mech-parts', icon: 'bi bi-gear-wide-connected', permissions: ['mechPart.read'] },
       { labelKey: 'MENU.MECH_PART_TYPES', route: '/features/examination-management/mech-part-types', icon: 'bi bi-diagram-2', permissions: ['mechPartType.read'] },
       { labelKey: 'MENU.MECH_ISSUES', route: '/features/examination-management/mech-issues', icon: 'bi bi-exclamation-triangle', permissions: ['mechIssue.read'] },
+      // — Interior Stage —
       { labelKey: 'MENU.INTERIOR_ISSUES', route: '/features/examination-management/interior-issues', icon: 'bi bi-car-front', permissions: ['interiorIssue.read'] },
+      // — Interior Body Stage —
+      { labelKey: 'MENU.INTERIOR_BODY_PART', route: '/features/examination-management/interior-body-parts', icon: 'bi bi-box', permissions: ['interiorBodyPart.read'] },
       { labelKey: 'MENU.INTERIOR_BODY_ISSUES', route: '/features/examination-management/interior-body-issues', icon: 'bi bi-layout-text-window', permissions: ['interiorBodyIssue.read'] },
+      // — Exterior Body Stage —
+      { labelKey: 'MENU.EXTERIOR_BODY_PART', route: '/features/examination-management/exterior-body-parts', icon: 'bi bi-box-fill', permissions: ['exteriorBodyPart.read'] },
       { labelKey: 'MENU.EXTERIOR_BODY_ISSUES', route: '/features/examination-management/exterior-body-issues', icon: 'bi bi-car-front-fill', permissions: ['exteriorBodyIssue.read'] },
+      // — Accessory Stage —
+      { labelKey: 'MENU.ACCESSORY_PART', route: '/features/examination-management/accessory-parts', icon: 'bi bi-puzzle', permissions: ['accessoryPart.read'] },
       { labelKey: 'MENU.ACCESSORY_ISSUES', route: '/features/examination-management/accessory-issues', icon: 'bi bi-usb-symbol', permissions: ['accessoryIssue.read'] },
-      { labelKey: 'MENU.ROAD_TEST_ISSUES', route: '/features/examination-management/road-test-issues', icon: 'bi bi-sign-turn-right', permissions: ['roadTestIssue.read'] },
-      { labelKey: 'MENU.ROAD_TEST_ISSUE_TYPES', route: '/features/examination-management/road-test-issue-types', icon: 'bi bi-sign-turn-right-fill', permissions: ['roadTestIssueType.read'] },
+      // — Inside & Decor Stage —
       { labelKey: 'MENU.INSIDE_AND_DECOR_PART', route: '/features/examination-management/inside-and-decor-parts', icon: 'bi bi-palette', permissions: ['insideAndDecorPart.read'] },
       { labelKey: 'MENU.INSIDE_AND_DECOR_PART_ISSUE', route: '/features/examination-management/inside-and-decor-part-issues', icon: 'bi bi-palette2', permissions: ['insideAndDecorPartIssue.read'] },
-      { labelKey: 'MENU.INTERIOR_BODY_PART', route: '/features/examination-management/interior-body-parts', icon: 'bi bi-box', permissions: ['interiorBodyPart.read'] },
-      { labelKey: 'MENU.EXTERIOR_BODY_PART', route: '/features/examination-management/exterior-body-parts', icon: 'bi bi-box-fill', permissions: ['exteriorBodyPart.read'] },
-      { labelKey: 'MENU.ACCESSORY_PART', route: '/features/examination-management/accessory-parts', icon: 'bi bi-puzzle', permissions: ['accessoryPart.read'] },
+      // — Road Test Stage —
+      { labelKey: 'MENU.ROAD_TEST_ISSUES', route: '/features/examination-management/road-test-issues', icon: 'bi bi-sign-turn-right', permissions: ['roadTestIssue.read'] },
+      { labelKey: 'MENU.ROAD_TEST_ISSUE_TYPES', route: '/features/examination-management/road-test-issue-types', icon: 'bi bi-sign-turn-right-fill', permissions: ['roadTestIssueType.read'] },
     ],
   },
   {
@@ -48,8 +60,8 @@ export const APP_MENU: AppMenuItem[] = [
     icon: 'bi bi-people',
     permissions: ['users.read'],
     children: [
-      { labelKey: 'MENU.ROLES', route: '/features/users/roles', icon: 'bi bi-shield-lock', permissions: ['roles.read'] },
       { labelKey: 'MENU.EMPLOYEES', route: '/features/users/employees', icon: 'bi bi-person-badge', permissions: ['employees.read'] },
+      { labelKey: 'MENU.ROLES', route: '/features/users/roles', icon: 'bi bi-shield-lock', permissions: ['roles.read'] },
     ],
   },
   {
@@ -61,8 +73,7 @@ export const APP_MENU: AppMenuItem[] = [
       { labelKey: 'MENU.CLIENT_RESOURCES', route: '/features/management-clients/client-resources', icon: 'bi bi-person-workspace', permissions: ['clientResource.read'] },
     ],
   },
-
-   {
+  {
     labelKey: 'MENU.VEHICLE_ORDERS',
     icon: 'bi bi-clipboard2-check',
     permissions: ['examination.read'],
@@ -79,4 +90,3 @@ export const APP_MENU: AppMenuItem[] = [
     ],
   },
 ];
-  

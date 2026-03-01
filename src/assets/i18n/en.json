@@ -204,7 +204,8 @@
   },
   "PAGINATION": {
     "PREVIOUS": "Previous",
-    "NEXT": "Next"
+    "NEXT": "Next",
+    "SHOW": "Show"
   },
   "CONFIRM": {
     "DELETE_TITLE": "Confirm Delete",

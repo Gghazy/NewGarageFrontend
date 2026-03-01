@@ -26,17 +26,31 @@ const SECTION_DEFS: { labelKey: string; icon: string; moduleNames: string[] }[] 
   {
     labelKey: 'MENU.SETTINGS',
     icon: 'bi bi-gear',
-    moduleNames: ['CarMark', 'Manufacturer', 'ServiceType', 'Service', 'ServicePrice', 'Crane', 'Term', 'Branches', 'PaymentMethod'],
+    moduleNames: [
+      'Branches', 'Crane',                         // Operations
+      'Manufacturer', 'CarMark',                    // Vehicles
+      'ServiceType', 'Service', 'ServicePrice',     // Services
+      'PaymentMethod', 'Term',                      // Payment & Terms
+    ],
   },
   {
     labelKey: 'MENU.EXAMINATION_MANAGEMENT',
     icon: 'bi bi-clipboard-check',
-    moduleNames: ['SensorIssue', 'MechPart', 'MechPartType', 'MechIssue', 'InteriorIssue', 'InteriorBodyIssue', 'ExteriorBodyIssue', 'AccessoryIssue', 'RoadTestIssue', 'RoadTestIssueType', 'InsideAndDecorPart', 'InsideAndDecorPartIssue', 'InteriorBodyPart', 'ExteriorBodyPart'],
+    moduleNames: [
+      'SensorIssue',                                            // Sensor stage
+      'MechPart', 'MechPartType', 'MechIssue',                 // Mechanical stage
+      'InteriorIssue',                                          // Interior stage
+      'InteriorBodyPart', 'InteriorBodyIssue',                  // Interior Body stage
+      'ExteriorBodyPart', 'ExteriorBodyIssue',                  // Exterior Body stage
+      'AccessoryPart', 'AccessoryIssue',                        // Accessory stage
+      'InsideAndDecorPart', 'InsideAndDecorPartIssue',          // Inside & Decor stage
+      'RoadTestIssue', 'RoadTestIssueType',                     // Road Test stage
+    ],
   },
   {
     labelKey: 'MENU.USERS',
     icon: 'bi bi-people',
-    moduleNames: ['Users', 'Roles', 'Permissions', 'Employees'],
+    moduleNames: ['Employees', 'Users', 'Roles', 'Permissions'],
   },
   {
     labelKey: 'MENU.CLIENTS',

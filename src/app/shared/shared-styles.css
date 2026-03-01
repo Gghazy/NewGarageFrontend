@@ -7,9 +7,9 @@
 :root[data-theme="light"],
 :root {
   /* Primary Colors */
-  --primary-dark: #1e3a5f;
-  --primary-darker: #0f4c75;
-  --primary-gradient: linear-gradient(135deg, #1e3a5f, #0f4c75);
+  --primary-dark: #334155;
+  --primary-darker: #475569;
+  --primary-gradient: linear-gradient(135deg, #334155, #64748b);
 
   /* Backgrounds */
   --light-bg: #f8fafc;

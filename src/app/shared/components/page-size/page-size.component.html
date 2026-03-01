@@ -1,9 +1,9 @@
-<div class="d-flex align-items-center">
+<div class="page-size-wrap">
+  <label class="page-size-label">{{ 'PAGINATION.SHOW' | translate }}</label>
   <select
-    id="pageSize"
-    class="form-select form-select-sm text-center w-auto"
     [(ngModel)]="pageSize"
     (ngModelChange)="onPageSizeChange($event)"
+    class="page-size-select"
   >
     <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
   </select>

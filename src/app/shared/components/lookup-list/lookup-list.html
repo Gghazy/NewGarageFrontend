@@ -9,7 +9,15 @@
   </button>
 </div>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="list-controls">
+  <div class="list-search">
+    <i class="bi bi-search search-icon"></i>
+    <input type="text"
+           [(ngModel)]="pagingConfig.textSearch"
+           (keyup.enter)="search()"
+           [placeholder]="'COMMON.SEARCH' | translate" />
+  </div>
+
   <app-page-size [(pageSize)]="pagingConfig.itemsPerPage" (search)="search()"></app-page-size>
 </div>
 

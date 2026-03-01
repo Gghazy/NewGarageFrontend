@@ -11,8 +11,16 @@
   </button>
 </div>
 
-<!-- Page Size -->
-<div class="d-flex justify-content-between align-items-center mb-3" *ngIf="showPageSize">
+<!-- Page Size + Search -->
+<div class="list-controls" *ngIf="showPageSize">
+  <div class="list-search" *ngIf="showSearch">
+    <i class="bi bi-search search-icon"></i>
+    <input type="text"
+           [(ngModel)]="pagingConfig.textSearch"
+           (keyup.enter)="pageSizeSearch.emit()"
+           [placeholder]="'COMMON.SEARCH' | translate" />
+  </div>
+
   <app-page-size
     [(pageSize)]="pagingConfig.itemsPerPage"
     (search)="pageSizeSearch.emit()">

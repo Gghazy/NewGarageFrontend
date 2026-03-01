@@ -15,6 +15,8 @@ import { RoleDto } from 'src/app/shared/Models/roles/role-dto';
 export class RoleList implements OnInit, OnDestroy {
   loading = true;
   roles: RoleDto[] = [];
+  allRoles: RoleDto[] = [];
+  searchTerm = '';
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -40,7 +42,8 @@ export class RoleList implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          this.roles = res.data;
+          this.allRoles = res.data;
+          this.roles = this.allRoles;
           this.loading = false;
         },
         error: (err) => {
@@ -49,6 +52,13 @@ export class RoleList implements OnInit, OnDestroy {
           this.loading = false;
         }
       });
+  }
+
+  search() {
+    const term = this.searchTerm.trim().toLowerCase();
+    this.roles = term
+      ? this.allRoles.filter(r => r.name.toLowerCase().includes(term))
+      : this.allRoles;
   }
 
   create() {

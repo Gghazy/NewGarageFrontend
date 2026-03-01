@@ -16,9 +16,10 @@ export class SharedList {
   @Input() canAdd = false;                              
   @Output() addClicked = new EventEmitter<void>();
 
-  // ---- Page size ----
+  // ---- Page size & Search ----
   @Input() showPageSize = true;
-  @Input({ required: true }) pagingConfig!: any;        
+  @Input() showSearch = true;
+  @Input({ required: true }) pagingConfig!: any;
   @Output() pageSizeSearch = new EventEmitter<void>();  
 
   // ---- List ----
