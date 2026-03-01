@@ -36,8 +36,6 @@ export const APP_MENU: AppMenuItem[] = [
       { labelKey: 'MENU.MECH_PARTS', route: '/features/examination-management/mech-parts', icon: 'bi bi-gear-wide-connected', permissions: ['mechPart.read'] },
       { labelKey: 'MENU.MECH_PART_TYPES', route: '/features/examination-management/mech-part-types', icon: 'bi bi-diagram-2', permissions: ['mechPartType.read'] },
       { labelKey: 'MENU.MECH_ISSUES', route: '/features/examination-management/mech-issues', icon: 'bi bi-exclamation-triangle', permissions: ['mechIssue.read'] },
-      // — Interior Stage —
-      { labelKey: 'MENU.INTERIOR_ISSUES', route: '/features/examination-management/interior-issues', icon: 'bi bi-car-front', permissions: ['interiorIssue.read'] },
       // — Interior Body Stage —
       { labelKey: 'MENU.INTERIOR_BODY_PART', route: '/features/examination-management/interior-body-parts', icon: 'bi bi-box', permissions: ['interiorBodyPart.read'] },
       { labelKey: 'MENU.INTERIOR_BODY_ISSUES', route: '/features/examination-management/interior-body-issues', icon: 'bi bi-layout-text-window', permissions: ['interiorBodyIssue.read'] },

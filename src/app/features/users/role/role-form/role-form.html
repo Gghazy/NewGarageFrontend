@@ -2,7 +2,7 @@
 
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="mb-0">
-      {{ roleId ? ('ROLES.EDIT' | translate) : ('ROLES.ADD' | translate) }}
+      {{ roleId ? ('ROLES.FORM.TITLE_EDIT' | translate) : ('ROLES.FORM.TITLE_ADD' | translate) }}
     </h5>
 
     <button class="btn btn-primary btn-sm" [disabled]="saving || !roleName.trim()" (click)="save()">

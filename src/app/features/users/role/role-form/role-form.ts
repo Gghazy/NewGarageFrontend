@@ -39,7 +39,6 @@ const SECTION_DEFS: { labelKey: string; icon: string; moduleNames: string[] }[] 
     moduleNames: [
       'SensorIssue',                                            // Sensor stage
       'MechPart', 'MechPartType', 'MechIssue',                 // Mechanical stage
-      'InteriorIssue',                                          // Interior stage
       'InteriorBodyPart', 'InteriorBodyIssue',                  // Interior Body stage
       'ExteriorBodyPart', 'ExteriorBodyIssue',                  // Exterior Body stage
       'AccessoryPart', 'AccessoryIssue',                        // Accessory stage

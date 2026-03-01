@@ -52,7 +52,7 @@
     "EXAMINATION_MANAGEMENT": "إدارة الفحص",
     "BRANCHES": "الفروع",
     "USERS": "المستخدمين",
-    "ROLES": "الأدوار",
+    "ROLES": "الصلاحيات",
     "PERMISSIONS": "الصلاحيات",
     "LOGS": "السجلات",
     "PROFILE": "الملف الشخصي",
@@ -61,7 +61,6 @@
     "MECH_PART_TYPES": "أنواع الأجزاء الميكانيكية",
     "MECH_ISSUES": "الأعطال الميكانيكية",
     "SENSOR_ISSUES": "مشاكل الحساسات",
-    "INTERIOR_ISSUES": "مشاكل الداخلية",
     "INTERIOR_BODY_ISSUES": "مشاكل الهيكل الداخلى",
     "EXTERIOR_BODY_ISSUES": "مشاكل الهيكل الخارجى",
     "ACCESSORY_ISSUES": "مشاكل الإكسسوارات",
@@ -93,7 +92,6 @@
     "MECH_PARTS": "الأجزاء الميكانيكية",
     "MECH_PART_TYPES": "أنواع الأجزاء الميكانيكية",
     "MECH_ISSUES": "الأعطال الميكانيكية",
-    "INTERIOR_ISSUES": "مشاكل الداخلية",
     "INTERIOR_BODY_ISSUES": "مشاكل الهيكل الداخلى",
     "EXTERIOR_BODY_ISSUES": "مشاكل الهيكل الخارجى",
     "ACCESSORY_ISSUES": "مشاكل الإكسسوارات",
@@ -110,9 +108,9 @@
     "CRANES": "الرافعات",
     "SERVICE_PRICE": "أسعار الخدمات",
     "TERMS": "الشروط والاحكام",
-    "ROLES": "الأدوار",
-    "ADD_ROLE": "إضافة دور",
-    "EDIT_ROLE": "تعديل دور",
+    "ROLES": "الصلاحيات",
+    "ADD_ROLE": "إضافة صلاحية",
+    "EDIT_ROLE": "تعديل صلاحية",
     "EMPLOYEES": "الموظفين",
     "ADD_EMPLOYEE": "إضافة موظف",
     "EDIT_EMPLOYEE": "تعديل موظف",
@@ -272,10 +270,6 @@
   "MECH_ISSUES": {
     "TITLE": "الأعطال الميكانيكية",
     "ADD": "إضافة عطل ميكانيكي"
-  },
-  "INTERIOR_ISSUES": {
-    "TITLE": "مشاكل الداخلية",
-    "ADD": "إضافة مشكلة داخلية"
   },
   "INTERIOR_BODY_ISSUES": {
     "TITLE": "مشاكل الهيكل الداخلى",
@@ -440,15 +434,14 @@
       "ExteriorBodyIssue": "أعطال الهيكل الخارجي",
       "MechPart": "الأجزاء الميكانيكية",
       "Manufacturer": "الشركات المصنعة",
-      "InteriorIssue": "الأعطال الداخلية",
       "RoadTestIssue": "أعطال اختبار الطريق",
       "RoadTestIssueType": "انواع اعطال تجربة الطريق",
       "Permissions": "الصلاحيات",
       "MechPartType": "أنواع الأجزاء الميكانيكية",
       "MechIssue": "الأعطال الميكانيكية",
       "SensorIssue": "أعطال الحساسات",
-      "Roles": "الأدوار",
-      "Role": "الدور",
+      "Roles": "الصلاحيات",
+      "Role": "الصلاحية",
       "ServiceType": "أنواع الخدمات",
       "ServicePrice": "أسعار الخدمات",
       "Service": "الخدمات",
@@ -479,9 +472,9 @@
     }
   },
   "ROLES": {
-    "TITLE": "الأدوار",
-    "NAME": "الأدوار",
-    "ADD": "إضافة دور",
+    "TITLE": "الصلاحيات",
+    "NAME": "الصلاحيات",
+    "ADD": "إضافة صلاحية",
     "SEARCH_PLACEHOLDER": "بحث",
     "PAGE_SIZE_LABEL": "عدد العناصر في الصفحة",
     "TABLE": {
@@ -491,9 +484,9 @@
     },
     "EMPTY": "لا توجد بيانات للعرض",
     "FORM": {
-      "TITLE_ADD": "إضافة دور",
-      "TITLE_EDIT": "تعديل دور",
-      "ROLE_NAME": "اسم الدور",
+      "TITLE_ADD": "إضافة صلاحية",
+      "TITLE_EDIT": "تعديل صلاحية",
+      "ROLE_NAME": "اسم الصلاحية",
       "PERMISSIONS": "الصلاحيات"
     }
   },
@@ -510,7 +503,7 @@
       "BRANCH": "الفرع",
       "BRANCHES": "الفروع",
       "PHONE": "رقم الهاتف",
-      "ROLE": "الدور",
+      "ROLE": "الصلاحية",
       "ACTIONS": "إجراء"
     },
     "EMPTY": "لا توجد بيانات للعرض",
@@ -523,7 +516,7 @@
       "SELECT_BRANCHES": "اختر الفروع...",
       "EMAIL": "البريد الإلكتروني",
       "PHONE": "رقم الهاتف",
-      "ROLE": "الدور"
+      "ROLE": "الصلاحية"
     }
   },
   "CLIENTS": {
@@ -948,7 +941,7 @@
     "NAME_EN": "الاسم (إنجليزي)",
     "EMAIL": "البريد الإلكتروني",
     "PHONE": "الهاتف",
-    "ROLE": "الدور",
+    "ROLE": "الصلاحية",
     "BRANCHES": "الفروع",
     "CHANGE_PASSWORD": "تغيير كلمة المرور",
     "CURRENT_PASSWORD": "كلمة المرور الحالية",

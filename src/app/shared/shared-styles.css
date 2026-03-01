@@ -712,6 +712,11 @@ a:hover {
   border-color: var(--light-border);
 }
 
+:root[data-theme="dark"] .form-check-input:checked {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
 :root[data-theme="dark"] .input-group-text {
   background-color: var(--light-bg);
   border-color: var(--light-border);

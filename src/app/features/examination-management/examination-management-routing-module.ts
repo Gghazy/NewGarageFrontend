@@ -10,10 +10,6 @@ const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
-        path: 'interior-issues',
-        loadChildren: () => import('./interior-issue/interior-issue-module').then(m => m.InteriorIssueModule)
-      },
-      {
         path: 'sensor-issues',
         loadChildren: () =>
           import('./sensor-issues/sensor-issues-module').then(m => m.SensorIssuesModule),

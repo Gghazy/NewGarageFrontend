@@ -61,7 +61,6 @@
     "MECH_PART_TYPES": "Mechanical Part Types",
     "MECH_ISSUES": "Mechanical Issues",
     "SENSOR_ISSUES": "Sensor Issues",
-    "INTERIOR_ISSUES": "Interior Issues",
     "INTERIOR_BODY_ISSUES": "Interior Body Issues",
     "EXTERIOR_BODY_ISSUES": "Exterior Body Issues",
     "ACCESSORY_ISSUES": "Accessory Issues",
@@ -93,7 +92,6 @@
     "MECH_PARTS": "Mechanical Parts",
     "MECH_PART_TYPES": "Mechanical Part Types",
     "MECH_ISSUES": "Mechanical Issues",
-    "INTERIOR_ISSUES": "Interior Issues",
     "INTERIOR_BODY_ISSUES": "Interior Body Issues",
     "EXTERIOR_BODY_ISSUES": "Exterior Body Issues",
     "ACCESSORY_ISSUES": "Accessory Issues",
@@ -261,10 +259,6 @@
     "TITLE": "Mechanical Issues",
     "ADD": "Add New Issue"
   },
-  "INTERIOR_ISSUES": {
-    "TITLE": "Interior Issues Types",
-    "ADD": "Add New Issue"
-  },
   "INTERIOR_BODY_ISSUES": {
     "TITLE": "Interior Body Issues Types",
     "ADD": "Add New Issue"
@@ -420,7 +414,6 @@
       "ExteriorBodyIssue": "Exterior Body Issues",
       "MechPart": "Mechanical Parts",
       "Manufacturer": "Manufacturers",
-      "InteriorIssue": "Interior Issues",
       "RoadTestIssue": "Road Test Issues",
       "RoadTestIssueType": "Road Test Issue Types",
       "Permissions": "Permissions",
