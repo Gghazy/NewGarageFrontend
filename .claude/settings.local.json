@@ -55,7 +55,8 @@
       "Bash(xargs grep -l \"IEvent\\\\|IDomainEvent\\\\|EventLog\\\\|AuditEntry\\\\|ChangeLog\")",
       "Bash(xargs grep -l \"Audit\\\\|History\\\\|Event\")",
       "Bash(find /f/projects/suidProjects/NewGarage/BackEnd/BackEnd/src -type f -name \"*.cs\" -exec grep -l \"EmployeeBranch\\\\|employee.*branch\" {} ;)",
-      "Bash(xargs ls -la)"
+      "Bash(xargs ls -la)",
+      "Bash(npx ng build --configuration=development --verbose)"
     ],
     "additionalDirectories": [
       "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\shared\\Models\\vehicle-orders",

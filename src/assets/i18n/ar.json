@@ -939,5 +939,19 @@
     "SELECT_ROAD_TEST_PART": "اختر نوع العطل...",
     "SELECT_ROAD_TEST_ISSUE": "اختر العطل...",
     "ADD_ROAD_TEST_HINT": "اختر نوع العطل والعطل واضغط إضافة"
+  },
+  "PROFILE": {
+    "TITLE": "ملفي الشخصي",
+    "PERSONAL_INFO": "المعلومات الشخصية",
+    "NAME_AR": "الاسم (عربي)",
+    "NAME_EN": "الاسم (إنجليزي)",
+    "EMAIL": "البريد الإلكتروني",
+    "PHONE": "الهاتف",
+    "ROLE": "الدور",
+    "BRANCHES": "الفروع",
+    "CHANGE_PASSWORD": "تغيير كلمة المرور",
+    "CURRENT_PASSWORD": "كلمة المرور الحالية",
+    "NEW_PASSWORD": "كلمة المرور الجديدة",
+    "CONFIRM_PASSWORD": "تأكيد كلمة المرور"
   }
 }

@@ -6,9 +6,12 @@
   z-index: 100;
   background: var(--light-bg);
   border-top: 1px solid var(--light-border);
-  padding: 1.35rem 0;
-  color: var(--text-gray);
+  padding: 0.85rem 0;
   text-align: center;
   font-size: 0.8rem;
   line-height: 1.2;
+}
+
+.footer-text {
+  color: var(--text-gray);
 }

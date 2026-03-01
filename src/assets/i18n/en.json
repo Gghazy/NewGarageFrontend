@@ -911,5 +911,19 @@
     "SELECT_ROAD_TEST_PART": "Select issue type...",
     "SELECT_ROAD_TEST_ISSUE": "Select issue...",
     "ADD_ROAD_TEST_HINT": "Select an issue type and issue then click Add"
+  },
+  "PROFILE": {
+    "TITLE": "My Profile",
+    "PERSONAL_INFO": "Personal Information",
+    "NAME_AR": "Name (Arabic)",
+    "NAME_EN": "Name (English)",
+    "EMAIL": "Email",
+    "PHONE": "Phone",
+    "ROLE": "Role",
+    "BRANCHES": "Branches",
+    "CHANGE_PASSWORD": "Change Password",
+    "CURRENT_PASSWORD": "Current Password",
+    "NEW_PASSWORD": "New Password",
+    "CONFIRM_PASSWORD": "Confirm Password"
   }
 }

@@ -10,12 +10,13 @@
   align-items: center;
   margin-bottom: 24px;
   padding-bottom: 12px;
-  border-bottom: 2px solid #dee2e6;
+  border-bottom: 2px solid var(--light-border);
 }
 
 .report-header h5 {
   margin: 0;
   font-weight: 700;
+  color: var(--text-dark);
 }
 
 .header-actions {
@@ -34,9 +35,10 @@
   font-weight: 700;
   padding: 8px 12px;
   margin-bottom: 12px;
-  background: #f8f9fa;
+  background: var(--section-bg);
   border-radius: 6px;
-  border-inline-start: 4px solid #0d6efd;
+  border-inline-start: 4px solid var(--primary-dark);
+  color: var(--text-dark);
 }
 
 .section-title.stage-title {
@@ -56,17 +58,18 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px 14px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--light-border);
 }
 
 .info-label {
-  color: #6c757d;
+  color: var(--text-gray);
   font-size: 13px;
 }
 
 .info-value {
   font-weight: 600;
   font-size: 13px;
+  color: var(--text-dark);
 }
 
 /* ── Tables ─────────────────────────────────────────────── */
@@ -79,12 +82,13 @@
 
 .report-table th,
 .report-table td {
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--light-border);
   padding: 8px 12px;
+  color: var(--text-dark);
 }
 
 .report-table th {
-  background: #f8f9fa;
+  background: var(--section-bg);
   font-weight: 600;
   font-size: 12px;
 }
@@ -109,8 +113,8 @@
   align-items: center;
   gap: 6px;
   padding: 6px 16px;
-  background: #d1e7dd;
-  color: #0f5132;
+  background: var(--success-bg);
+  color: var(--success-text);
   border-radius: 6px;
   font-size: 13px;
   font-weight: 600;
@@ -119,7 +123,7 @@
 
 .stage-meta {
   font-size: 13px;
-  color: #495057;
+  color: var(--text-gray);
   margin-bottom: 10px;
   padding: 4px 0;
 }
@@ -127,10 +131,10 @@
 .stage-comments {
   margin-top: 10px;
   padding: 10px 14px;
-  background: #f8f9fa;
+  background: var(--section-bg);
   border-radius: 6px;
   font-size: 13px;
-  color: #495057;
+  color: var(--text-gray);
 }
 
 /* ── Print-only header ──────────────────────────────────── */
@@ -149,7 +153,7 @@
 }
 
 .print-date {
-  color: #6c757d;
+  color: var(--text-gray);
   font-size: 13px;
 }
 

@@ -2,109 +2,38 @@
 @import "@ng-select/ng-select/themes/default.theme.css";
 @import 'ngx-toastr/toastr';
 @import 'app/shared/shared-styles.css';
-:root {
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  
-  /* Login Color Palette */
-  --primary-dark: #1e3a5f;
-  --primary-darker: #0f4c75;
-  --primary-gradient: linear-gradient(135deg, #1e3a5f, #0f4c75);
-  --light-bg: #f8fafc;
-  --light-border: #b3bfce;
-  --light-text: #94a3b8;
-  --text-gray: #64748b;
-  --text-dark: #1e293b;
-  --text-label: #374151;
-  --white-text: #fff;
-  --error-bg: #fef2f2;
-  --error-text: #b91c1c;
-}
+@import 'app/shared/styles-ltr.css';
+@import 'app/shared/styles-rtl.css';
 
 html, body {
   height: 100%;
-  background: var(--light-bg);
+  background: var(--body-bg, var(--light-bg));
 }
+
 .toast-container {
   z-index: 999999 !important;
 }
 
-body.rtl {
-  direction: rtl;
-  text-align: right;
-}
-
-body.ltr {
-  direction: ltr;
-  text-align: left;
-}
-
-/* Global Button Styling */
-.btn-primary {
-  background: var(--primary-gradient);
-  border: none;
-  color: var(--white-text);
-}
-
-.btn-primary:hover {
-  background: var(--primary-darker);
-  color: var(--white-text);
-}
-
-/* Global Link Styling */
-a {
-  color: var(--primary-dark);
-}
-
-a:hover {
-  color: var(--primary-darker);
-}
-
-/* Global Input Styling */
-.form-control,
-.form-select {
-  border-color: var(--light-border);
+/* ── ng-select: match form-control size ── */
+.ng-select .ng-select-container {
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 0.325rem 0.25rem;
+  border: 1px solid var(--light-border) !important;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: var(--card-bg);
   color: var(--text-dark);
 }
 
-.form-control:focus,
-.form-select:focus {
-  border-color: var(--primary-dark);
-  box-shadow: 0 0 0 0.2rem rgba(30, 58, 95, 0.12);
-}
-
-.form-label {
-  color: var(--text-label);
-}
-
-
-/* ── Ensure form-control-sm keeps its small size ── */
-/* (higher specificity to beat shared-styles .form-control override) */
-.form-control.form-control-sm {
-  padding: .375rem .5rem;
-  font-size: .875rem;
-}
-
-/* ── ng-select: match form-control-sm height, border & radius ── */
-.ng-select .ng-select-container {
-  min-height: calc(1.5em + .75rem + 2px) !important;
-  border: 1px solid var(--light-border) !important;
-  border-radius: 8px;
-  font-size: .875rem;
-  background: #fff;
-}
-
-.ng-select.ng-select-single .ng-select-container {
-  height: calc(1.5em + .75rem + 2px);
-}
-
 .ng-select .ng-select-container .ng-value-container {
-  padding: 0 .5rem;
+  padding: 0 0.625rem;
 }
 
 .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
   top: 50%;
   transform: translateY(-50%);
-  padding-left: .5rem;
+  padding-left: 0.625rem;
   padding-right: 50px;
 }
 
@@ -112,6 +41,8 @@ a:hover {
   top: 50%;
   transform: translateY(-50%);
   position: absolute;
+  color: var(--text-gray);
+  opacity: 0.8;
 }
 
 .ng-select .ng-arrow-wrapper {
@@ -120,32 +51,39 @@ a:hover {
 
 .ng-select.ng-select-focused:not(.ng-select-opened) .ng-select-container {
   border-color: var(--primary-dark) !important;
-  box-shadow: 0 0 0 0.2rem rgba(30, 58, 95, 0.12);
+  box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.12);
 }
 
 /* ng-select validation red border */
 ng-select.is-invalid .ng-select-container {
-  border-color: #dc3545 !important;
+  border-color: var(--error-text) !important;
 }
 
-/* Breadcrumb RTL fix */
-[dir="rtl"] .breadcrumb {
-  direction: rtl;
+ng-select.is-invalid.ng-select-focused .ng-select-container {
+  box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
 }
 
-[dir="rtl"] .breadcrumb-item + .breadcrumb-item::before {
-  float: right;
-  padding-right: 0;
-  padding-left: .5rem;
-  content: "/";
+/* ng-select dark mode */
+.ng-select .ng-dropdown-panel {
+  background: var(--card-bg);
+  border: 1px solid var(--light-border);
 }
 
-/* optional: لو عايز المسافة تبقى مظبوطة */
-[dir="rtl"] .breadcrumb-item {
-  text-align: right;
+.ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  background: var(--card-bg);
+  color: var(--text-dark);
 }
 
-/* ── Print Styles ──────────────────────────────────────── */
+.ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  background: var(--light-bg);
+}
+
+.ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected {
+  background: var(--primary-dark);
+  color: #fff;
+}
+
+/* ── Print Styles ── */
 @media print {
   app-topbar,
   app-breadcrumb,
@@ -175,4 +113,3 @@ ng-select.is-invalid .ng-select-container {
     background: #fff !important;
   }
 }
-

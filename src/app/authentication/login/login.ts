@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { finalize } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ApiService } from 'src/app/core/services/custom.service';
 
@@ -25,7 +26,21 @@ export class Login {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
+    private translate: TranslateService,
   ) {}
+
+  get isAr(): boolean {
+    return this.translate.currentLang === 'ar';
+  }
+
+  toggleLang(): void {
+    const newLang = this.isAr ? 'en' : 'ar';
+    this.translate.use(newLang);
+    localStorage.setItem('lang', newLang);
+    document.body.classList.remove('rtl', 'ltr');
+    document.body.classList.add(newLang === 'ar' ? 'rtl' : 'ltr');
+    document.body.setAttribute('dir', newLang === 'ar' ? 'rtl' : 'ltr');
+  }
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
@@ -35,7 +50,7 @@ export class Login {
     this.errorMsg = '';
 
     if (!this.username.trim() || !this.password) {
-      this.errorMsg = 'Username & password are required';
+      this.errorMsg = this.translate.instant('LOGIN.USERNAME') + ' & ' + this.translate.instant('LOGIN.PASSWORD') + ' required';
       return;
     }
 

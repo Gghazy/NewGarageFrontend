@@ -1,55 +1,71 @@
 <nav class="navbar-wrapper" [attr.dir]="lang === 'ar' ? 'rtl' : 'ltr'">
-  <!-- Top Navbar -->
   <div class="navbar-top">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#garageNavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <!-- Start: Hamburger (mobile) + Brand -->
+    <div class="navbar-start">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#garageNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" routerLink="/features">
+        <i class="bi bi-search"></i>
+        <span>{{ 'MENU.GARAGE' | translate }}</span>
+      </a>
+    </div>
 
-    <button type="button" class="btn btn-outline-light btn-sm language-toggle" (click)="toggleLang()">
-      {{ lang === 'ar' ? 'EN' : 'AR' }}
-    </button>
+    <!-- End: Actions -->
+    <div class="navbar-actions">
+      <button type="button" class="action-btn" (click)="toggleLang()">
+        {{ lang === 'ar' ? 'EN' : 'AR' }}
+      </button>
 
-    <button type="button" class="theme-toggle" (click)="toggleTheme()" [attr.title]="themeService.isDarkMode() ? 'Light Mode' : 'Dark Mode'">
-      <i [class]="themeService.isDarkMode() ? 'bi bi-sun-fill' : 'bi bi-moon-fill'"></i>
-    </button>
+      <button type="button" class="action-btn" (click)="toggleTheme()"
+        [attr.title]="themeService.isDarkMode() ? 'Light Mode' : 'Dark Mode'">
+        <i [class]="themeService.isDarkMode() ? 'bi bi-sun-fill' : 'bi bi-moon-fill'"></i>
+      </button>
 
-    <div class="user-profile">
       <div class="dropdown">
-        <button class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown">
-          <i class="bi bi-person-circle me-1"></i> {{ employeeName() }}
+        <button class="user-btn" data-bs-toggle="dropdown">
+          <span class="user-avatar">{{ employeeInitials() }}</span>
+          <i class="bi bi-chevron-down user-chevron"></i>
         </button>
-
         <ul class="dropdown-menu" [class.dropdown-menu-start]="lang === 'ar'" [class.dropdown-menu-end]="lang !== 'ar'">
-          <li><a class="dropdown-item" routerLink="/profile">{{ 'MENU.PROFILE' | translate }}</a></li>
-          <li>
-            <hr class="dropdown-divider" />
+          <li class="dropdown-user-info">
+            <span class="dropdown-user-name">{{ employeeName() }}</span>
           </li>
-          <li><button class="dropdown-item text-danger" (click)="logout()">{{ 'MENU.LOGOUT' | translate }}</button></li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <a class="dropdown-item" routerLink="/features/profile">
+              <i class="bi bi-person"></i> {{ 'MENU.PROFILE' | translate }}
+            </a>
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <button class="dropdown-item text-danger" (click)="logout()">
+              <i class="bi bi-box-arrow-right"></i> {{ 'MENU.LOGOUT' | translate }}
+            </button>
+          </li>
         </ul>
       </div>
     </div>
   </div>
 </nav>
 
-<!-- Separate Secondary Menu Bar -->
-<div class="secondary-menu-bar">
-  <div class="container-fluid">
-    <ul class="secondary-nav">
-      <li class="nav-item dropdown" *ngFor="let parent of menu()">
-        <a class="nav-link dropdown-toggle" [class.active]="isParentActive(parent)" role="button" data-bs-toggle="dropdown">
-          <i [class]="(parent.icon || '') + ' me-1'"></i>
-          {{ parent.labelKey | translate }}
-        </a>
-
-        <ul class="dropdown-menu" [class.dropdown-menu-end]="lang !== 'ar'">
-          <li *ngFor="let child of parent.children">
-            <a class="dropdown-item d-flex align-items-center gap-2" [routerLink]="child.route" routerLinkActive="active">
-              <i *ngIf="child.icon" [class]="child.icon"></i>
-              {{ child.labelKey | translate }}
-            </a>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </div>
+<!-- Secondary Menu Bar -->
+<div class="secondary-menu-bar" [attr.dir]="lang === 'ar' ? 'rtl' : 'ltr'">
+  <ul class="secondary-nav">
+    <li class="nav-item dropdown" *ngFor="let parent of menu()">
+      <a class="nav-link dropdown-toggle" [class.active]="isParentActive(parent)"
+        role="button" data-bs-toggle="dropdown">
+        <i [class]="parent.icon || ''"></i>
+        <span>{{ parent.labelKey | translate }}</span>
+      </a>
+      <ul class="dropdown-menu" [class.dropdown-menu-end]="lang !== 'ar'">
+        <li *ngFor="let child of parent.children">
+          <a class="dropdown-item" [routerLink]="child.route" routerLinkActive="active">
+            <i *ngIf="child.icon" [class]="child.icon"></i>
+            {{ child.labelKey | translate }}
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
 </div>

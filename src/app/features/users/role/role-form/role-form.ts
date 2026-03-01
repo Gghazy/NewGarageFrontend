@@ -196,7 +196,9 @@ export class RoleForm implements OnInit, OnDestroy {
     this.saving = true;
 
     const body = { roleName, permissions };
-    const apiCall = this.apiService.post('Roles', body);
+    const apiCall = this.isEdit
+      ? this.apiService.put(`Roles/${this.roleId}`, body)
+      : this.apiService.post('Roles', body);
 
     apiCall.pipe(takeUntil(this.destroy$)).subscribe({
       next: (res: any) => {

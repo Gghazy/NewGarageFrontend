@@ -1,0 +1,181 @@
+/* =============================================
+   GLOBAL RTL STYLES (Arabic)
+   System-wide overrides for right-to-left layout
+   ============================================= */
+
+/* ── Base Direction ── */
+body.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ── Typography ── */
+body.rtl {
+  font-family: "Segoe UI", Tahoma, "Noto Sans Arabic", system-ui, sans-serif;
+}
+
+/* ── Forms ── */
+body.rtl .form-label {
+  text-align: right;
+}
+
+body.rtl .form-control,
+body.rtl .form-select {
+  text-align: right;
+}
+
+body.rtl .form-check {
+  padding-left: 0;
+  padding-right: 1.5em;
+}
+
+body.rtl .form-check .form-check-input {
+  float: right;
+  margin-left: 0;
+  margin-right: -1.5em;
+}
+
+/* Input groups: icon should be on the right (start) side */
+body.rtl .input-group > .input-group-text:first-child {
+  border-radius: 0 8px 8px 0;
+  border-left: 0;
+  border-right: 1px solid var(--light-border);
+}
+
+body.rtl .input-group > .form-control:last-child {
+  border-radius: 8px 0 0 8px;
+}
+
+body.rtl .input-group > .input-group-text:last-child {
+  border-radius: 8px 0 0 8px;
+  border-right: 0;
+  border-left: 1px solid var(--light-border);
+}
+
+body.rtl .input-group > .form-control:first-child {
+  border-radius: 0 8px 8px 0;
+}
+
+/* ── Buttons ── */
+body.rtl .btn .bi {
+  margin-left: 0.35rem;
+  margin-right: 0;
+}
+
+body.rtl .text-end {
+  text-align: left !important;
+}
+
+body.rtl .text-start {
+  text-align: right !important;
+}
+
+/* ── Modals ── */
+body.rtl .modal-header {
+  text-align: center;
+}
+
+body.rtl .modal-footer {
+  flex-direction: row-reverse;
+}
+
+body.rtl .btn-close {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* ── Alerts — border on right side ── */
+body.rtl .alert-primary {
+  border-left: none;
+  border-right: 4px solid var(--primary-dark);
+}
+
+body.rtl .alert-success {
+  border-left: none;
+  border-right: 4px solid #10b981;
+}
+
+body.rtl .alert-warning {
+  border-left: none;
+  border-right: 4px solid #f59e0b;
+}
+
+body.rtl .alert-danger {
+  border-left: none;
+  border-right: 4px solid var(--error-text);
+}
+
+body.rtl .alert-info {
+  border-left: none;
+  border-right: 4px solid #0284c7;
+}
+
+/* ── Breadcrumb ── */
+body.rtl .breadcrumb {
+  direction: rtl;
+}
+
+body.rtl .breadcrumb-item + .breadcrumb-item::before {
+  float: right;
+  padding-right: 0;
+  padding-left: 0.5rem;
+  content: "/";
+}
+
+body.rtl .breadcrumb-item {
+  text-align: right;
+}
+
+/* ── Tables ── */
+body.rtl .table th,
+body.rtl .table td {
+  text-align: right;
+}
+
+/* ── Dropdowns ── */
+body.rtl .dropdown-menu {
+  text-align: right;
+}
+
+/* ── Spacing helpers flip ── */
+body.rtl .me-1 { margin-right: 0 !important; margin-left: 0.25rem !important; }
+body.rtl .me-2 { margin-right: 0 !important; margin-left: 0.5rem !important; }
+body.rtl .me-3 { margin-right: 0 !important; margin-left: 1rem !important; }
+body.rtl .ms-1 { margin-left: 0 !important; margin-right: 0.25rem !important; }
+body.rtl .ms-2 { margin-left: 0 !important; margin-right: 0.5rem !important; }
+body.rtl .ms-3 { margin-left: 0 !important; margin-right: 1rem !important; }
+body.rtl .ms-auto { margin-left: 0 !important; margin-right: auto !important; }
+body.rtl .me-auto { margin-right: 0 !important; margin-left: auto !important; }
+body.rtl .pe-2 { padding-right: 0 !important; padding-left: 0.5rem !important; }
+body.rtl .ps-2 { padding-left: 0 !important; padding-right: 0.5rem !important; }
+
+/* ── ng-select RTL ── */
+body.rtl .ng-select .ng-select-container .ng-value-container {
+  padding: 0 0.5rem;
+  direction: rtl;
+}
+
+body.rtl .ng-select .ng-arrow-wrapper {
+  padding-right: 0;
+  padding-left: 6px;
+}
+
+body.rtl .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+  padding-left: 50px;
+  padding-right: 0.5rem;
+}
+
+/* ── Toastr RTL ── */
+body.rtl .toast-container .ngx-toastr {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ── Topbar RTL ── */
+body.rtl app-topbar .user-btn {
+  padding: 0.3rem 0.3rem 0.3rem 0.65rem;
+}
+
+body.rtl app-topbar .dropdown-item {
+  text-align: right;
+}

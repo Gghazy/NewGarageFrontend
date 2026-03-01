@@ -26,6 +26,13 @@ export class Topbar {
     this.auth.employeeName() || this.auth.userName() || this.auth.email() || 'User'
   );
 
+  employeeInitials = computed(() => {
+    const name = this.employeeName();
+    const parts = name.trim().split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+    return (parts[0]?.[0] ?? '?').toUpperCase();
+  });
+
   private filterMenu(items: AppMenuItem[]): AppMenuItem[] {
     return items
       .map(item => {
