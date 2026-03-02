@@ -1,4 +1,12 @@
 {
+  "FILTER": {
+    "TEXT_SEARCH": "Search",
+    "SEARCH_CLIENT": "Client name or phone...",
+    "DATE_FROM": "From",
+    "DATE_TO": "To",
+    "BRANCH": "Branch",
+    "ALL_BRANCHES": "All Branches"
+  },
   "APP": {
     "TITLE": "Garage",
     "NAV": {
@@ -500,7 +508,9 @@
       "NAME": "Name",
       "TYPE": "Type",
       "EMAIL": "Email",
-      "PHONE": "Phone"
+      "PHONE": "Phone",
+      "EXAMINATION_COUNT": "Examinations",
+      "TOTAL_REVENUE": "Revenue"
     },
     "EMPTY": "No clients found",
     "FORM": {
@@ -739,9 +749,7 @@
         "Draft": "Draft",
         "Issued": "Issued",
         "Paid": "Paid",
-        "PartiallyPaid": "Partially Paid",
         "Cancelled": "Cancelled",
-        "PartiallyRefunded": "Partially Refunded",
         "Refunded": "Refunded"
       }
     },
@@ -816,6 +824,14 @@
         "BankTransfer": "Bank Transfer",
         "Cheque": "Cheque"
       }
+    },
+    "SUMMARY": {
+      "TITLE": "Invoice Summary",
+      "SUB_TOTAL": "Subtotal (Before Tax)",
+      "TAX_AMOUNT": "VAT",
+      "TOTAL_WITH_TAX": "Total (Incl. Tax)",
+      "REFUND_TOTAL": "Refund Invoices Total",
+      "NET_TOTAL": "Net Total"
     },
     "DISCOUNT": {
       "TITLE": "Discounts",

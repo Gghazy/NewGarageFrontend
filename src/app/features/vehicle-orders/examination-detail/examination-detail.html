@@ -129,7 +129,7 @@
         </div>
         <div class="summary-info">
           <div class="summary-label">{{ 'VEHICLE_ORDERS.LIST.DATE' | translate }}</div>
-          <div class="summary-value">{{ examination.createdAtUtc ? (examination.createdAtUtc | date:'yyyy-MM-dd') : '—' }}</div>
+          <div class="summary-value">{{ examination.createdAtUtc ? (examination.createdAtUtc | date:'dd/MM/yyyy') : '—' }}</div>
         </div>
       </div>
     </div>
@@ -257,7 +257,7 @@
                   </span>
                 </td>
                 <td class="fw-semibold">{{ inv.totalWithTax | number:'1.2-2' }} {{ inv.currency }}</td>
-                <td>{{ inv.createdAtUtc | date:'yyyy-MM-dd' }}</td>
+                <td>{{ inv.createdAtUtc | date:'dd/MM/yyyy' }}</td>
                 <td class="text-center">
                   <button class="btn-view" [routerLink]="['/features/invoices', inv.id]">
                     <i class="bi bi-eye"></i>

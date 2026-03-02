@@ -1,4 +1,12 @@
 {
+  "FILTER": {
+    "TEXT_SEARCH": "بحث",
+    "SEARCH_CLIENT": "اسم العميل أو رقم الهاتف...",
+    "DATE_FROM": "من",
+    "DATE_TO": "إلى",
+    "BRANCH": "الفرع",
+    "ALL_BRANCHES": "كل الفروع"
+  },
   "APP": {
     "TITLE": "Garage",
     "NAV": {
@@ -528,7 +536,9 @@
       "NAME": "الاسم",
       "TYPE": "النوع",
       "EMAIL": "البريد الإلكتروني",
-      "PHONE": "رقم الهاتف"
+      "PHONE": "رقم الهاتف",
+      "EXAMINATION_COUNT": "عدد الفحوصات",
+      "TOTAL_REVENUE": "الإيرادات"
     },
     "EMPTY": "لم يتم العثور على عملاء",
     "FORM": {
@@ -767,9 +777,7 @@
         "Draft": "مسودة",
         "Issued": "صادرة",
         "Paid": "مدفوعة",
-        "PartiallyPaid": "مدفوعة جزئياً",
         "Cancelled": "ملغاة",
-        "PartiallyRefunded": "مسترد جزئياً",
         "Refunded": "مسترد"
       }
     },
@@ -844,6 +852,14 @@
         "BankTransfer": "تحويل بنكي",
         "Cheque": "شيك"
       }
+    },
+    "SUMMARY": {
+      "TITLE": "ملخص الفاتورة",
+      "SUB_TOTAL": "الإجمالي قبل الضريبة",
+      "TAX_AMOUNT": "ضريبة القيمة المضافة",
+      "TOTAL_WITH_TAX": "الإجمالي شامل الضريبة",
+      "REFUND_TOTAL": "إجمالي فواتير المرتجع",
+      "NET_TOTAL": "الصافي"
     },
     "DISCOUNT": {
       "TITLE": "الخصومات",

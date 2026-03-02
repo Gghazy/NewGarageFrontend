@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { SearchCriteria } from 'src/app/shared/Models/search-criteria';
-import { PaginatedResponse } from 'src/app/shared/Models/api-response';
+import { PaginatedResponse, ApiResponse } from 'src/app/shared/Models/api-response';
 import { ExaminationDto } from 'src/app/shared/Models/vehicle-orders/vehicle-order-dto';
 import { ConfirmDeleteModal } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal';
 
@@ -20,6 +20,7 @@ import { ConfirmDeleteModal } from 'src/app/shared/components/confirm-delete-mod
 })
 export class VehicleOrderList implements OnInit, OnDestroy {
   orders: ExaminationDto[] = [];
+  branches: { id: string; nameAr: string; nameEn: string }[] = [];
   private destroy$ = new Subject<void>();
 
   pagingConfig: SearchCriteria = {
@@ -29,6 +30,9 @@ export class VehicleOrderList implements OnInit, OnDestroy {
     sort: 'createdAtUtc',
     desc: true,
     totalItems: 0,
+    dateFrom: undefined,
+    dateTo: undefined,
+    branchId: null,
   };
 
   constructor(
@@ -40,8 +44,31 @@ export class VehicleOrderList implements OnInit, OnDestroy {
     public authService: AuthService,
   ) {}
 
+  get isAr(): boolean {
+    return this.translate.currentLang === 'ar';
+  }
+
   ngOnInit(): void {
+    this.loadBranches();
     this.loadOrders();
+  }
+
+  private get isUnrestrictedRole(): boolean {
+    return this.authService.hasRole('Admin') || this.authService.hasRole('Manager');
+  }
+
+  private loadBranches(): void {
+    const employeeBranches = this.authService.getBranches();
+    this.api.get<ApiResponse<any[]>>('Branches')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          const all = res.data ?? [];
+          this.branches = (!this.isUnrestrictedRole && employeeBranches.length > 0)
+            ? all.filter((b: any) => employeeBranches.includes(b.id))
+            : all;
+        },
+      });
   }
 
   ngOnDestroy(): void {

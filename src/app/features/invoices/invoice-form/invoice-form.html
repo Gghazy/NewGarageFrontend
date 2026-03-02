@@ -18,19 +18,10 @@
         [routerLink]="['/features/vehicle-orders', invoice!.examinationId, 'details']">
         <i class="bi bi-link-45deg me-1"></i>{{ 'INVOICES.FORM.LINKED_EXAMINATION' | translate }}
       </a>
-      <a *ngIf="invoice?.originalInvoiceId" class="badge bg-warning text-dark text-decoration-none"
-        [routerLink]="['/features/invoices', invoice!.originalInvoiceId]">
-        <i class="bi bi-receipt me-1"></i>{{ 'INVOICES.FORM.ORIGINAL_INVOICE' | translate }}
-      </a>
     </div>
-    <div class="d-flex gap-2">
-      <button type="button" class="btn btn-outline-dark btn-sm" (click)="printInvoice()">
-        <i class="bi bi-printer me-1"></i>{{ 'INVOICES.FORM.PRINT' | translate }}
-      </button>
-      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="goBack()">
-        <i class="bi bi-arrow-right me-1"></i>{{ 'COMMON.BACK' | translate }}
-      </button>
-    </div>
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="goBack()">
+      <i class="bi bi-arrow-right me-1"></i>{{ 'COMMON.BACK' | translate }}
+    </button>
   </div>
 
   <!-- Loading spinner -->
@@ -55,7 +46,7 @@
           </div>
           <div class="col-md-3">
             <label class="form-label text-muted small mb-0">{{ 'INVOICES.FORM.DUE_DATE' | translate }}</label>
-            <div class="fw-semibold">{{ invoice.dueDate ? (invoice.dueDate | date:'yyyy-MM-dd') : '—' }}</div>
+            <div class="fw-semibold">{{ invoice.dueDate ? (invoice.dueDate | date:'dd/MM/yyyy') : '—' }}</div>
           </div>
         </div>
         <div *ngIf="invoice.notes" class="mt-2">
@@ -67,10 +58,13 @@
 
     <!-- Items table -->
     <div class="card border-0 shadow-sm mb-3">
-      <div class="card-header bg-white py-2">
-        <h6 class="mb-0 fw-semibold">{{ 'INVOICES.ITEMS.TITLE' | translate }}</h6>
+      <div class="card-header bg-white d-flex justify-content-between align-items-center py-2 section-toggle" (click)="itemsCollapsed = !itemsCollapsed">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-chevron-down toggle-icon" [class.rotated]="itemsCollapsed"></i>
+          <h6 class="mb-0 fw-semibold">{{ 'INVOICES.ITEMS.TITLE' | translate }}</h6>
+        </div>
       </div>
-      <div class="card-body p-0">
+      <div class="card-body p-0" [hidden]="itemsCollapsed">
         <div class="table-responsive">
           <table class="table table-sm table-bordered mb-0 align-middle">
             <thead class="table-light">
@@ -83,18 +77,86 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of invoice.items; let i = index">
+              <tr *ngFor="let item of displayItems; let i = index">
                 <td class="text-center text-muted">{{ i + 1 }}</td>
                 <td>{{ item.serviceNameAr || item.description }}</td>
                 <td class="text-center">{{ item.quantity }}</td>
                 <td>{{ item.unitPrice | number:'1.2-2' }} {{ item.currency }}</td>
                 <td class="fw-semibold">{{ item.totalPrice | number:'1.2-2' }} {{ item.currency }}</td>
               </tr>
-              <tr *ngIf="invoice.items.length === 0">
+              <tr *ngIf="displayItems.length === 0">
                 <td colspan="5" class="text-center text-muted py-3">{{ 'INVOICES.ITEMS.NO_ITEMS' | translate }}</td>
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Financial Summary -->
+    <div class="card border-0 shadow-sm mb-3">
+      <div class="card-header bg-white d-flex justify-content-between align-items-center py-2 section-toggle" (click)="summaryCollapsed = !summaryCollapsed">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-chevron-down toggle-icon" [class.rotated]="summaryCollapsed"></i>
+          <h6 class="mb-0 fw-semibold">{{ 'INVOICES.SUMMARY.TITLE' | translate }}</h6>
+        </div>
+      </div>
+      <div class="card-body p-0" [hidden]="summaryCollapsed">
+        <div class="row g-2 p-3">
+          <div class="col-3">
+            <div class="border rounded p-2 text-center">
+              <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.SUB_TOTAL' | translate }}</small>
+              <strong>{{ invoice.subTotal | number:'1.2-2' }} {{ invoice.currency }}</strong>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="border rounded p-2 text-center">
+              <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.DISCOUNT' | translate }}</small>
+              <strong class="text-danger">{{ invoice.discountAmount | number:'1.2-2' }} {{ invoice.currency }}</strong>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="border rounded p-2 text-center">
+              <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.TAX_AMOUNT' | translate }} ({{ invoice.taxRate * 100 | number:'1.0-0' }}%)</small>
+              <strong>{{ invoice.taxAmount | number:'1.2-2' }} {{ invoice.currency }}</strong>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="border rounded p-2 text-center bg-light">
+              <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.TOTAL_WITH_TAX' | translate }}</small>
+              <strong class="fs-6">{{ invoice.totalWithTax | number:'1.2-2' }} {{ invoice.currency }}</strong>
+            </div>
+          </div>
+          <div *ngIf="refundInvoicesTotal > 0" class="col-3">
+            <div class="border rounded p-2 text-center">
+              <small class="text-muted d-block">{{ 'INVOICES.SUMMARY.REFUND_TOTAL' | translate }}</small>
+              <strong class="text-danger">{{ refundInvoicesTotal | number:'1.2-2' }}- {{ invoice.currency }}</strong>
+            </div>
+          </div>
+          <div *ngIf="refundInvoicesTotal > 0" class="col-3">
+            <div class="border rounded p-2 text-center bg-light">
+              <small class="text-muted d-block">{{ 'INVOICES.SUMMARY.NET_TOTAL' | translate }}</small>
+              <strong class="fs-6">{{ netTotalWithTax | number:'1.2-2' }} {{ invoice.currency }}</strong>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="border rounded p-2 text-center">
+              <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.TOTAL_PAID' | translate }}</small>
+              <strong class="text-success">{{ invoice.totalPaid | number:'1.2-2' }} {{ invoice.currency }}</strong>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="border rounded p-2 text-center">
+              <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.TOTAL_REFUNDED' | translate }}</small>
+              <strong class="text-danger">{{ invoice.totalRefunded | number:'1.2-2' }} {{ invoice.currency }}</strong>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="border rounded p-2 text-center">
+              <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.BALANCE' | translate }}</small>
+              <strong [class.text-danger]="netBalance > 0" [class.text-success]="netBalance <= 0">{{ netBalance | number:'1.2-2' }} {{ invoice.currency }}</strong>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -108,10 +170,13 @@
 
     <!-- Related Invoices (Refund / Adjustment) -->
     <div *ngIf="invoice.relatedInvoices && invoice.relatedInvoices.length > 0" class="card border-0 shadow-sm mb-3">
-      <div class="card-header bg-white py-2">
-        <h6 class="mb-0 fw-semibold">{{ 'INVOICES.RELATED.TITLE' | translate }}</h6>
+      <div class="card-header bg-white d-flex justify-content-between align-items-center py-2 section-toggle" (click)="relatedCollapsed = !relatedCollapsed">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-chevron-down toggle-icon" [class.rotated]="relatedCollapsed"></i>
+          <h6 class="mb-0 fw-semibold">{{ 'INVOICES.RELATED.TITLE' | translate }}</h6>
+        </div>
       </div>
-      <div class="card-body p-0">
+      <div class="card-body p-0" [hidden]="relatedCollapsed">
         <div class="table-responsive">
           <table class="table table-sm table-bordered mb-0 align-middle">
             <thead class="table-light">
@@ -126,26 +191,28 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let rel of invoice.relatedInvoices; let i = index">
+              <tr *ngFor="let rel of invoice.relatedInvoices; let i = index"
+                  [class.table-active]="rel.id === invoice.id">
                 <td class="text-center text-muted">{{ i + 1 }}</td>
                 <td>{{ rel.invoiceNumber || '—' }}</td>
                 <td>
-                  <span class="badge" [class.bg-danger]="rel.type === 'Refund'" [class.bg-warning]="rel.type === 'Adjustment'" [class.text-dark]="rel.type === 'Adjustment'">
+                  <span class="badge"
+                    [class.bg-primary]="rel.type === 'Invoice'"
+                    [class.bg-danger]="rel.type === 'Refund'"
+                    [class.bg-warning]="rel.type === 'Adjustment'"
+                    [class.text-dark]="rel.type === 'Adjustment'">
                     {{ 'INVOICES.LIST.TYPES.' + rel.type | translate }}
                   </span>
                 </td>
                 <td>
-                  <span class="badge"
-                    [class.bg-primary]="rel.status === 'Issued'"
-                    [class.bg-success]="rel.status === 'Paid'"
-                    [class.bg-danger]="rel.status === 'Cancelled'">
+                  <span class="badge" [ngClass]="rel.status | statusBadge:'invoice'">
                     {{ 'INVOICES.LIST.STATUSES.' + rel.status | translate }}
                   </span>
                 </td>
                 <td class="fw-semibold">{{ rel.totalWithTax | number:'1.2-2' }} {{ rel.currency }}</td>
-                <td>{{ rel.createdAtUtc | date:'yyyy-MM-dd' }}</td>
+                <td>{{ rel.createdAtUtc | date:'dd/MM/yyyy' }}</td>
                 <td class="text-center">
-                  <a class="btn btn-sm btn-outline-primary" [routerLink]="['/features/invoices', rel.id]">
+                  <a class="btn btn-sm btn-outline-primary" [routerLink]="['/features/invoices', rel.id, 'view']">
                     <i class="bi bi-eye"></i>
                   </a>
                 </td>
@@ -156,20 +223,15 @@
       </div>
     </div>
 
-    <!-- Payments section -->
-    <app-invoice-payments-section
-      [invoice]="invoice"
-      (paymentAdded)="loadInvoice()">
-    </app-invoice-payments-section>
-
     <!-- History -->
-    <div class="detail-card">
-      <div class="detail-card-header" (click)="historyCollapsed = !historyCollapsed">
-        <i class="bi bi-clock-history"></i>
-        <h6>{{ 'INVOICES.HISTORY.TITLE' | translate }}</h6>
-        <i class="bi bi-chevron-down toggle-icon ms-auto" [class.rotated]="historyCollapsed"></i>
+    <div class="card border-0 shadow-sm mb-3">
+      <div class="card-header bg-white d-flex justify-content-between align-items-center py-2 section-toggle" (click)="historyCollapsed = !historyCollapsed">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-chevron-down toggle-icon" [class.rotated]="historyCollapsed"></i>
+          <h6 class="mb-0 fw-semibold">{{ 'INVOICES.HISTORY.TITLE' | translate }}</h6>
+        </div>
       </div>
-      <div [hidden]="historyCollapsed">
+      <div class="card-body p-0" [hidden]="historyCollapsed">
         <div *ngIf="historyLoading" class="history-loading">
           <div class="spinner-border spinner-border-sm" role="status"></div>
         </div>
@@ -190,7 +252,7 @@
                   <i class="bi bi-person-fill"></i>{{ getPerformerName(h) }}
                 </span>
                 <span class="history-time">
-                  <i class="bi bi-clock"></i>{{ h.createdAtUtc | date:'yyyy-MM-dd hh:mm a' }}
+                  <i class="bi bi-clock"></i>{{ h.createdAtUtc | date:'dd/MM/yyyy hh:mm a' }}
                 </span>
               </div>
             </div>

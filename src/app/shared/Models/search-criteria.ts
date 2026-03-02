@@ -5,4 +5,7 @@ export interface SearchCriteria {
     textSearch?: string;
     sort?: string;
     desc: boolean;
+    dateFrom?: string;
+    dateTo?: string;
+    branchId?: string | null;
 }

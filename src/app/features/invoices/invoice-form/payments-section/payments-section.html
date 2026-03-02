@@ -4,65 +4,16 @@
       <i class="bi bi-chevron-down toggle-icon" [class.rotated]="collapsed"></i>
       <h6 class="mb-0 fw-semibold">{{ 'INVOICES.PAYMENTS.TITLE' | translate }}</h6>
     </div>
-    <div *ngIf="invoice?.type !== 'Refund' && invoice?.status !== 'Cancelled'" class="d-flex gap-1" (click)="$event.stopPropagation()">
-      <button *ngIf="balance > 0" type="button" class="btn btn-sm btn-success" (click)="openForm('Payment')">
+    <div *ngIf="invoice?.type !== 'Refund' && invoice?.status !== 'Cancelled' && balance > 0" (click)="$event.stopPropagation()">
+      <button type="button" class="btn btn-sm btn-success" (click)="openForm('Payment')">
         <i class="bi bi-plus-lg me-1"></i>{{ 'INVOICES.PAYMENTS.ADD_PAYMENT' | translate }}
-      </button>
-      <button *ngIf="canRefund" type="button" class="btn btn-sm btn-outline-danger" (click)="openForm('Refund')">
-        <i class="bi bi-arrow-return-left me-1"></i>{{ 'INVOICES.PAYMENTS.ADD_REFUND' | translate }}
       </button>
     </div>
   </div>
 
   <div class="card-body p-0" [hidden]="collapsed">
 
-    <!-- Summary cards -->
-    <div class="row g-2 p-3">
-      <div class="col-3">
-        <div class="border rounded p-2 text-center">
-          <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.SUB_TOTAL' | translate }}</small>
-          <strong>{{ subTotal | number:'1.2-2' }}</strong>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="border rounded p-2 text-center">
-          <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.DISCOUNT' | translate }}</small>
-          <strong class="text-danger">{{ discountAmount | number:'1.2-2' }}</strong>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="border rounded p-2 text-center">
-          <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.TAX_AMOUNT' | translate }} ({{ taxRate * 100 | number:'1.0-0' }}%)</small>
-          <strong>{{ taxAmount | number:'1.2-2' }}</strong>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="border rounded p-2 text-center bg-light">
-          <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.TOTAL_WITH_TAX' | translate }}</small>
-          <strong class="fs-6">{{ totalWithTax | number:'1.2-2' }}</strong>
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="border rounded p-2 text-center">
-          <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.TOTAL_PAID' | translate }}</small>
-          <strong class="text-success">{{ totalPaid | number:'1.2-2' }}</strong>
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="border rounded p-2 text-center">
-          <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.TOTAL_REFUNDED' | translate }}</small>
-          <strong class="text-danger">{{ totalRefunded | number:'1.2-2' }}</strong>
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="border rounded p-2 text-center">
-          <small class="text-muted d-block">{{ 'INVOICES.PAYMENTS.BALANCE' | translate }}</small>
-          <strong [class.text-danger]="balance > 0" [class.text-success]="balance <= 0">{{ balance | number:'1.2-2' }}</strong>
-        </div>
-      </div>
-    </div>
-
-    <!-- Add Payment/Refund form -->
+    <!-- Add Payment form -->
     <div *ngIf="showForm" class="border-top p-3 bg-light">
       <h6 class="fw-semibold mb-2">
         {{ (formMode === 'Refund' ? 'INVOICES.PAYMENTS.ADD_REFUND' : 'INVOICES.PAYMENTS.ADD_PAYMENT') | translate }}
@@ -70,7 +21,7 @@
       <div [formGroup]="form" class="row g-2 align-items-end">
         <div class="col-md-3">
           <label class="form-label small">{{ 'INVOICES.PAYMENTS.AMOUNT' | translate }}</label>
-          <input type="number" class="form-control form-control-sm" formControlName="amount" min="0.01" step="0.01" />
+          <input type="number" class="form-control form-control-sm" formControlName="amount" min="0.01" [max]="balance" step="0.01" />
         </div>
         <div class="col-md-3">
           <label class="form-label small">{{ 'INVOICES.PAYMENTS.METHOD' | translate }}</label>
@@ -112,7 +63,7 @@
         <tbody>
           <tr *ngFor="let p of payments; let i = index">
             <td class="text-center text-muted">{{ i + 1 }}</td>
-            <td>{{ p.createdAtUtc | date:'yyyy-MM-dd HH:mm' }}</td>
+            <td>{{ p.createdAtUtc | date:'dd/MM/yyyy HH:mm' }}</td>
             <td>
               <span class="badge" [class.bg-success]="p.type === 'Payment'" [class.bg-danger]="p.type === 'Refund'">
                 {{ 'INVOICES.PAYMENTS.TYPES.' + p.type | translate }}

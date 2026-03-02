@@ -1,8 +1,46 @@
+<div class="filter-bar mb-3">
+  <div class="row g-2 align-items-end">
+    <div class="col-sm-6 col-md-3">
+      <label class="filter-label">{{ 'FILTER.TEXT_SEARCH' | translate }}</label>
+      <input type="text" class="form-control form-control-sm filter-input"
+             [(ngModel)]="pagingConfig.textSearch"
+             (keyup.enter)="search()"
+             [placeholder]="'FILTER.SEARCH_CLIENT' | translate" />
+    </div>
+    <div class="col-sm-6 col-md-2">
+      <label class="filter-label">{{ 'FILTER.DATE_FROM' | translate }}</label>
+      <input type="date" class="form-control form-control-sm filter-input"
+             [(ngModel)]="pagingConfig.dateFrom" (change)="search()" />
+    </div>
+    <div class="col-sm-6 col-md-2">
+      <label class="filter-label">{{ 'FILTER.DATE_TO' | translate }}</label>
+      <input type="date" class="form-control form-control-sm filter-input"
+             [(ngModel)]="pagingConfig.dateTo" (change)="search()" />
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <label class="filter-label">{{ 'FILTER.BRANCH' | translate }}</label>
+      <select class="form-select form-select-sm filter-input"
+              [(ngModel)]="pagingConfig.branchId" (change)="search()">
+        <option [ngValue]="null">{{ 'FILTER.ALL_BRANCHES' | translate }}</option>
+        <option *ngFor="let b of branches" [value]="b.id">
+          {{ isAr ? b.nameAr : b.nameEn }}
+        </option>
+      </select>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-sm btn-outline-secondary" (click)="search()">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
 <app-shared-list
   [titleKey]="'INVOICES.LIST.TITLE'"
   [canAdd]="false"
   [pagingConfig]="pagingConfig"
   [showSearch]="false"
+  [showPageSize]="true"
   (pageSizeSearch)="search()"
   [items]="invoices"
   [emptyText]="'INVOICES.LIST.EMPTY' | translate"
@@ -25,7 +63,7 @@
 
   <!-- body -->
   <ng-container table-body>
-    <tr *ngFor="let inv of invoices; let i = index">
+    <tr *ngFor="let inv of invoices | paginate: pagingConfig; let i = index">
       <td>{{ (pagingConfig.currentPage - 1) * pagingConfig.itemsPerPage + i + 1 }}</td>
       <td>{{ inv.invoiceNumber || '—' }}</td>
       <td>
@@ -47,7 +85,7 @@
           {{ 'INVOICES.LIST.STATUSES.' + inv.status | translate }}
         </span>
       </td>
-      <td>{{ inv.createdAtUtc ? (inv.createdAtUtc | date:'yyyy-MM-dd') : '—' }}</td>
+      <td>{{ inv.createdAtUtc ? (inv.createdAtUtc | date:'dd/MM/yyyy') : '—' }}</td>
       <td class="text-end">
         <button
           *ngIf="authService.hasPermission('invoice.read')"

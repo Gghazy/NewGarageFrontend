@@ -1,12 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { forkJoin, of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from 'src/app/core/services/custom.service';
-import { InvoiceDto, InvoiceHistoryDto } from 'src/app/shared/Models/invoices/invoice-dto';
-import { InvoicePrintService } from './invoice-print.service';
+import { InvoiceDto, InvoiceHistoryDto, InvoiceItemDto } from 'src/app/shared/Models/invoices/invoice-dto';
 
 @Component({
   selector: 'app-invoice-form',
@@ -18,9 +17,13 @@ export class InvoiceForm implements OnInit, OnDestroy {
   loading = false;
   invoiceId?: string;
   invoice?: InvoiceDto;
+  itemsCollapsed = false;
+  summaryCollapsed = false;
+  relatedCollapsed = false;
+  historyCollapsed = true;
   historyItems: InvoiceHistoryDto[] = [];
   historyLoading = false;
-  historyCollapsed = true;
+  displayItems: InvoiceItemDto[] = [];
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -29,7 +32,6 @@ export class InvoiceForm implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private translate: TranslateService,
-    private printService: InvoicePrintService,
   ) {}
 
   ngOnInit(): void {
@@ -56,8 +58,14 @@ export class InvoiceForm implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          this.invoice = res.data;
+          const invoice = res.data as InvoiceDto;
+          if (!invoice.relatedInvoices || invoice.relatedInvoices.length <= 1) {
+            this.router.navigate(['/features/invoices', this.invoiceId, 'view'], { replaceUrl: true });
+            return;
+          }
+          this.invoice = invoice;
           this.loading = false;
+          this.loadNetItems();
           this.loadHistory();
         },
         error: () => {
@@ -67,10 +75,42 @@ export class InvoiceForm implements OnInit, OnDestroy {
       });
   }
 
-  async printInvoice(): Promise<void> {
-    if (this.invoice) {
-      await this.printService.print(this.invoice);
+  private loadNetItems(): void {
+    if (!this.invoice) return;
+
+    const refunds = (this.invoice.relatedInvoices ?? [])
+      .filter(r => r.type === 'Refund' && r.status !== 'Cancelled' && r.id !== this.invoice!.id);
+
+    if (refunds.length === 0) {
+      this.displayItems = this.invoice.items;
+      return;
     }
+
+    const requests = refunds.map(r => this.api.get<any>(`Invoices/${r.id}`));
+    forkJoin(requests)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (responses) => {
+          const refundMap = new Map<string, number>();
+          for (const res of responses) {
+            for (const item of (res.data as InvoiceDto).items) {
+              const key = item.serviceId || item.description;
+              refundMap.set(key, (refundMap.get(key) || 0) + item.totalPrice);
+            }
+          }
+          this.displayItems = this.invoice!.items.map(item => {
+            const key = item.serviceId || item.description;
+            const refunded = refundMap.get(key) || 0;
+            if (refunded > 0) {
+              return { ...item, totalPrice: item.totalPrice - refunded };
+            }
+            return item;
+          });
+        },
+        error: () => {
+          this.displayItems = this.invoice?.items ?? [];
+        },
+      });
   }
 
   loadHistory(): void {
@@ -129,6 +169,23 @@ export class InvoiceForm implements OnInit, OnDestroy {
       return item.performedByNameAr || item.performedByNameEn || '';
     }
     return item.performedByNameEn || item.performedByNameAr || '';
+  }
+
+  get refundInvoicesTotal(): number {
+    if (!this.invoice?.relatedInvoices) return 0;
+    return this.invoice.relatedInvoices
+      .filter(r => r.type === 'Refund' && r.status !== 'Cancelled')
+      .reduce((sum, r) => sum + r.totalWithTax, 0);
+  }
+
+  get netTotalWithTax(): number {
+    if (!this.invoice) return 0;
+    return this.invoice.totalWithTax - this.refundInvoicesTotal;
+  }
+
+  get netBalance(): number {
+    if (!this.invoice) return 0;
+    return this.netTotalWithTax - this.invoice.totalPaid;
   }
 
   get isAr(): boolean {

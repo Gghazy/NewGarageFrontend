@@ -105,6 +105,12 @@ export class InvoicePaymentsSection implements OnInit, OnDestroy {
     this.formMode = mode;
     const defaultMethodId = this.paymentMethods.length > 0 ? this.paymentMethods[0].id : '';
     this.form.reset({ amount: null, methodId: defaultMethodId, notes: null });
+    this.form.get('amount')!.setValidators([
+      Validators.required,
+      Validators.min(0.01),
+      Validators.max(this.balance),
+    ]);
+    this.form.get('amount')!.updateValueAndValidity();
     this.showForm = true;
   }
 

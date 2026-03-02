@@ -17,11 +17,10 @@ const EXAMINATION_ITEM_BADGE: Record<string, string> = {
 };
 
 const INVOICE_BADGE: Record<string, string> = {
-  Issued:            'bg-primary',
-  Paid:              'bg-success',
-  Cancelled:         'bg-danger',
-  PartiallyRefunded: 'bg-info',
-  Refunded:          'bg-dark',
+  Issued:       'bg-primary',
+  Paid:         'bg-success',
+  Cancelled:    'bg-danger',
+  Refunded:     'bg-dark',
 };
 
 const INVOICE_TYPE_BADGE: Record<string, string> = {

@@ -4,6 +4,10 @@ import { CONFIG_KEYS } from '../constants/app.constants';
 // local
 export const baseUrl = `https://localhost:44375/`;
 
+
+//Test 
+//export const baseUrl = `http://bsnspace-001-site12.mtempurl.com/`;
+
 @Injectable({
   providedIn: 'root'
 })

@@ -16,17 +16,21 @@
     <th>{{ 'CLIENTS.TABLE.TYPE' | translate }}</th>
     <th>{{ 'CLIENTS.TABLE.EMAIL' | translate }}</th>
     <th>{{ 'CLIENTS.TABLE.PHONE' | translate }}</th>
+    <th class="text-center">{{ 'CLIENTS.TABLE.EXAMINATION_COUNT' | translate }}</th>
+    <th class="text-center">{{ 'CLIENTS.TABLE.TOTAL_REVENUE' | translate }}</th>
     <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
   </ng-container>
 
   <!-- body -->
   <ng-container table-body>
-    <tr *ngFor="let client of clients; let i = index">
+    <tr *ngFor="let client of clients | paginate: pagingConfig; let i = index">
       <td>{{ i + 1 }}</td>
       <td>{{ client.nameEn }}</td>
       <td>{{ client.typeEn }}</td>
       <td>{{ client.email }}</td>
       <td>{{ client.phoneNumber }}</td>
+      <td class="text-center">{{ client.examinationCount }}</td>
+      <td class="text-center">{{ client.totalRevenue | number:'1.2-2' }}</td>
       <td class="text-end">
         <button
           *ngIf="authService.hasPermission('clients.update')"

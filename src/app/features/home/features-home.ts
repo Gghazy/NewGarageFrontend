@@ -64,12 +64,13 @@ export class FeaturesHome implements OnInit, OnDestroy {
 
     if (!this.showWelcome) {
       const employeeBranches = this.auth.getBranches();
+      const isUnrestricted = this.auth.hasRole('Admin') || this.auth.hasRole('Manager');
       this.api.get<ApiResponse<any[]>>('Branches')
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (res) => {
             const all = res.data ?? [];
-            this.branches = employeeBranches.length > 0
+            this.branches = (!isUnrestricted && employeeBranches.length > 0)
               ? all.filter((b: any) => employeeBranches.includes(b.id))
               : all;
           },

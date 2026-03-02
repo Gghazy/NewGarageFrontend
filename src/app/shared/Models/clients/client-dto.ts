@@ -22,4 +22,7 @@ export interface ClientDto {
   countryCode?: string;
   buildingNumber?: string;
   citySubdivisionName?: string;
+  // Stats
+  examinationCount: number;
+  totalRevenue: number;
 }
