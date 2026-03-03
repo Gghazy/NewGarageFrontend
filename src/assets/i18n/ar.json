@@ -136,7 +136,8 @@
     "EDIT_INVOICE": "تعديل فاتورة",
     "INVOICE_DETAILS": "تفاصيل الفاتورة",
     "PAYMENT_METHODS": "طرق الدفع",
-    "EXAM_REPORT": "تقرير الفحص"
+    "EXAM_REPORT": "تقرير الفحص",
+    "INVOICE_CONSOLIDATION": "تجميع الفواتير"
   },
   "REPORT": {
     "TITLE": "تقرير الفحص",
@@ -819,6 +820,7 @@
       "DESCRIPTION": "الوصف",
       "QUANTITY": "الكمية",
       "UNIT_PRICE": "سعر الوحدة",
+      "ADJUSTMENT_AMOUNT": "قيمة التعديل",
       "TOTAL": "الإجمالي",
       "SUB_TOTAL": "المجموع قبل الضريبة",
       "NO_ITEMS": "لا توجد بنود"
@@ -868,6 +870,22 @@
     },
     "RELATED": {
       "TITLE": "الفواتير المرتبطة"
+    },
+    "CONSOLIDATION": {
+      "TITLE": "تجميع الفواتير",
+      "CONSOLIDATE": "تجميع",
+      "CLIENT_INFO": "بيانات العميل",
+      "VEHICLE_INFO": "بيانات المركبة",
+      "INVOICE_COUNT": "عدد الفواتير",
+      "MANUFACTURER": "الشركة المصنعة",
+      "MODEL": "الموديل",
+      "YEAR": "السنة",
+      "COLOR": "اللون",
+      "VIN": "رقم الهيكل",
+      "PLATE": "اللوحة",
+      "NO_VEHICLE_INFO": "لا تتوفر معلومات المركبة للفواتير المحددة.",
+      "SELECT_ALL": "تحديد الكل",
+      "SAME_EXAM_REQUIRED": "يجب أن تكون جميع الفواتير المحددة لنفس الفحص"
     },
     "HISTORY": {
       "TITLE": "السجل",

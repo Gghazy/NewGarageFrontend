@@ -136,7 +136,8 @@
     "EDIT_INVOICE": "Edit Invoice",
     "INVOICE_DETAILS": "Invoice Details",
     "PAYMENT_METHODS": "Payment Methods",
-    "EXAM_REPORT": "Examination Report"
+    "EXAM_REPORT": "Examination Report",
+    "INVOICE_CONSOLIDATION": "Consolidation"
   },
   "REPORT": {
     "TITLE": "Examination Report",
@@ -791,6 +792,7 @@
       "DESCRIPTION": "Description",
       "QUANTITY": "Quantity",
       "UNIT_PRICE": "Unit Price",
+      "ADJUSTMENT_AMOUNT": "Adjustment",
       "TOTAL": "Total",
       "SUB_TOTAL": "Subtotal",
       "NO_ITEMS": "No items added"
@@ -840,6 +842,22 @@
     },
     "RELATED": {
       "TITLE": "Related Invoices"
+    },
+    "CONSOLIDATION": {
+      "TITLE": "Invoice Consolidation",
+      "CONSOLIDATE": "Consolidate",
+      "CLIENT_INFO": "Client Information",
+      "VEHICLE_INFO": "Vehicle Information",
+      "INVOICE_COUNT": "Number of Invoices",
+      "MANUFACTURER": "Manufacturer",
+      "MODEL": "Model",
+      "YEAR": "Year",
+      "COLOR": "Color",
+      "VIN": "VIN",
+      "PLATE": "Plate",
+      "NO_VEHICLE_INFO": "No vehicle information available for the selected invoices.",
+      "SELECT_ALL": "Select All",
+      "SAME_EXAM_REQUIRED": "All selected invoices must belong to the same examination"
     },
     "HISTORY": {
       "TITLE": "History",

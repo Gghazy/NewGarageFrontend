@@ -59,7 +59,9 @@
       "Bash(npx ng build --configuration=development --verbose)",
       "Bash(xargs grep -l \"Interior\")",
       "Bash(grep -l \"InteriorIssue\" \"f:/projects/suidProjects/NewGarage/BackEnd/BackEnd/src/Garage.Infrastructure/Migrations\"/*.cs)",
-      "Bash(xargs grep -l \"namespace.*InteriorIssue\")"
+      "Bash(xargs grep -l \"namespace.*InteriorIssue\")",
+      "Bash(dotnet build src/Garage.Domain/Garage.Domain.csproj --no-restore -v q)",
+      "Bash(npx ng build --configuration production)"
     ],
     "additionalDirectories": [
       "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\shared\\Models\\vehicle-orders",
@@ -101,7 +103,8 @@
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Api",
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\Employees\\Entities",
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\InteriorIssues",
-      "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\features\\invoices\\examination-invoice-summary"
+      "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\features\\invoices\\examination-invoice-summary",
+      "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\features\\invoices\\invoice-view"
     ]
   }
 }

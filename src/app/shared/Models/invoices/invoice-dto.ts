@@ -41,6 +41,39 @@ export interface RelatedInvoiceDto {
   createdAtUtc: string;
 }
 
+export interface ConsolidatedItemDto {
+  description: string;
+  serviceNameAr?: string;
+  serviceNameEn?: string;
+  unitPrice: number;
+  totalPrice: number;
+  currency: string;
+}
+
+export interface ConsolidatedInvoiceData {
+  clientNameAr: string;
+  clientNameEn: string;
+  clientPhone: string;
+  manufacturerNameAr?: string;
+  manufacturerNameEn?: string;
+  carMarkNameAr?: string;
+  carMarkNameEn?: string;
+  year?: number;
+  color?: string;
+  vin?: string;
+  plateLetters?: string;
+  plateNumbers?: string;
+  items: ConsolidatedItemDto[];
+  subTotal: number;
+  discountAmount: number;
+  taxAmount: number;
+  totalWithTax: number;
+  totalPaid: number;
+  balance: number;
+  currency: string;
+  invoiceCount: number;
+}
+
 export interface InvoiceDto {
   id: string;
   invoiceNumber?: string;

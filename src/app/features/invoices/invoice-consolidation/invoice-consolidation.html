@@ -1,0 +1,164 @@
+<div class="consolidation-page">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">{{ 'INVOICES.CONSOLIDATION.TITLE' | translate }}</h5>
+    <div>
+      <button class="btn btn-sm btn-outline-secondary me-2" (click)="goBack()">
+        <i class="bi bi-arrow-left me-1"></i>{{ 'COMMON.BACK' | translate }}
+      </button>
+      <button class="btn btn-sm btn-primary" (click)="print()" *ngIf="consolidated">
+        <i class="bi bi-printer me-1"></i>{{ 'INVOICES.FORM.PRINT' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2 text-muted">{{ 'COMMON.LOADING' | translate }}</p>
+  </div>
+
+  <div *ngIf="!loading && consolidated">
+    <!-- Client Info -->
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="bi bi-person me-1"></i>{{ 'INVOICES.CONSOLIDATION.CLIENT_INFO' | translate }}
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="info-label">{{ 'INVOICES.LIST.CLIENT' | translate }}</div>
+            <div class="info-value">{{ isAr ? consolidated.clientNameAr : consolidated.clientNameEn }}</div>
+          </div>
+          <div class="col-md-4">
+            <div class="info-label">{{ 'INVOICES.LIST.PHONE' | translate }}</div>
+            <div class="info-value">{{ consolidated.clientPhone || '—' }}</div>
+          </div>
+          <div class="col-md-4">
+            <div class="info-label">{{ 'INVOICES.CONSOLIDATION.INVOICE_COUNT' | translate }}</div>
+            <div class="info-value">{{ consolidated.invoiceCount }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vehicle Info -->
+    <div class="card mb-3" *ngIf="examination">
+      <div class="card-header">
+        <i class="bi bi-car-front me-1"></i>{{ 'INVOICES.CONSOLIDATION.VEHICLE_INFO' | translate }}
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="info-label">{{ 'INVOICES.CONSOLIDATION.MANUFACTURER' | translate }}</div>
+            <div class="info-value">{{ isAr ? examination.manufacturerNameAr : examination.manufacturerNameEn }}</div>
+          </div>
+          <div class="col-md-3">
+            <div class="info-label">{{ 'INVOICES.CONSOLIDATION.MODEL' | translate }}</div>
+            <div class="info-value">{{ isAr ? examination.carMarkNameAr : examination.carMarkNameEn }}</div>
+          </div>
+          <div class="col-md-2">
+            <div class="info-label">{{ 'INVOICES.CONSOLIDATION.YEAR' | translate }}</div>
+            <div class="info-value">{{ examination.year || '—' }}</div>
+          </div>
+          <div class="col-md-2">
+            <div class="info-label">{{ 'INVOICES.CONSOLIDATION.COLOR' | translate }}</div>
+            <div class="info-value">{{ examination.color || '—' }}</div>
+          </div>
+          <div class="col-md-2">
+            <div class="info-label">{{ 'INVOICES.CONSOLIDATION.PLATE' | translate }}</div>
+            <div class="info-value">{{ examination.plateLetters }} {{ examination.plateNumbers }}</div>
+          </div>
+        </div>
+        <div class="row mt-2" *ngIf="examination.vin">
+          <div class="col-md-4">
+            <div class="info-label">{{ 'INVOICES.CONSOLIDATION.VIN' | translate }}</div>
+            <div class="info-value">{{ examination.vin }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-info" *ngIf="!examination">
+      <i class="bi bi-info-circle me-1"></i>{{ 'INVOICES.CONSOLIDATION.NO_VEHICLE_INFO' | translate }}
+    </div>
+
+    <!-- Items -->
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="bi bi-list-ul me-1"></i>{{ 'INVOICES.ITEMS.TITLE' | translate }}
+      </div>
+      <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+          <thead>
+            <tr>
+              <th style="width:40px">#</th>
+              <th>{{ 'INVOICES.ITEMS.DESCRIPTION' | translate }}</th>
+              <th>{{ 'INVOICES.ITEMS.UNIT_PRICE' | translate }}</th>
+              <th>{{ 'INVOICES.ITEMS.TOTAL' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of consolidated.items; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ isAr ? (item.serviceNameAr || item.description) : (item.serviceNameEn || item.description) }}</td>
+              <td>{{ item.unitPrice | number:'1.2-2' }}</td>
+              <td>{{ item.totalPrice | number:'1.2-2' }}</td>
+            </tr>
+            <tr *ngIf="consolidated.items.length === 0">
+              <td colspan="4" class="text-center text-muted">{{ 'INVOICES.ITEMS.NO_ITEMS' | translate }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Financial Summary -->
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="bi bi-calculator me-1"></i>{{ 'INVOICES.SUMMARY.TITLE' | translate }}
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-4 col-6">
+            <div class="summary-box">
+              <span class="summary-label">{{ 'INVOICES.PAYMENTS.SUB_TOTAL' | translate }}</span>
+              <span class="summary-value">{{ consolidated.subTotal | number:'1.2-2' }}</span>
+            </div>
+          </div>
+          <div class="col-md-4 col-6">
+            <div class="summary-box">
+              <span class="summary-label">{{ 'INVOICES.PAYMENTS.DISCOUNT' | translate }}</span>
+              <span class="summary-value text-danger">{{ consolidated.discountAmount | number:'1.2-2' }}</span>
+            </div>
+          </div>
+          <div class="col-md-4 col-6">
+            <div class="summary-box">
+              <span class="summary-label">{{ 'INVOICES.PAYMENTS.TAX_AMOUNT' | translate }}</span>
+              <span class="summary-value">{{ consolidated.taxAmount | number:'1.2-2' }}</span>
+            </div>
+          </div>
+          <div class="col-md-4 col-6">
+            <div class="summary-box highlight">
+              <span class="summary-label">{{ 'INVOICES.PAYMENTS.TOTAL_WITH_TAX' | translate }}</span>
+              <span class="summary-value">{{ consolidated.totalWithTax | number:'1.2-2' }} {{ consolidated.currency }}</span>
+            </div>
+          </div>
+          <div class="col-md-4 col-6">
+            <div class="summary-box">
+              <span class="summary-label">{{ 'INVOICES.PAYMENTS.TOTAL_PAID' | translate }}</span>
+              <span class="summary-value text-success">{{ consolidated.totalPaid | number:'1.2-2' }}</span>
+            </div>
+          </div>
+          <div class="col-md-4 col-6">
+            <div class="summary-box">
+              <span class="summary-label">{{ 'INVOICES.PAYMENTS.BALANCE' | translate }}</span>
+              <span class="summary-value" [class.text-danger]="consolidated.balance > 0" [class.text-success]="consolidated.balance <= 0">
+                {{ consolidated.balance | number:'1.2-2' }} {{ consolidated.currency }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

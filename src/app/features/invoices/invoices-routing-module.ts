@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { InvoiceForm } from './invoice-form/invoice-form';
-import { InvoiceView } from './invoice-view/invoice-view';
 import { InvoiceList } from './invoice-list/invoice-list';
+import { InvoiceConsolidation } from './invoice-consolidation/invoice-consolidation';
 import { InvoicesLayout } from './invoices-layout';
 
 const routes: Routes = [
@@ -17,14 +16,9 @@ const routes: Routes = [
         data: { breadcrumb: '' }
       },
       {
-        path: ':id/view',
-        component: InvoiceView,
-        data: { breadcrumb: 'BREADCRUMB.INVOICE_DETAILS' }
-      },
-      {
-        path: ':id',
-        component: InvoiceForm,
-        data: { breadcrumb: 'BREADCRUMB.INVOICE_DETAILS' }
+        path: 'consolidate',
+        component: InvoiceConsolidation,
+        data: { breadcrumb: 'BREADCRUMB.INVOICE_CONSOLIDATION' }
       }
     ]
   }

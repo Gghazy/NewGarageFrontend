@@ -5,21 +5,15 @@ import { SharedModule } from 'src/app/shared/shared-module';
 import { InvoicesRoutingModule } from './invoices-routing-module';
 import { InvoiceService } from './invoice.service';
 import { InvoicePrintService } from './invoice-print.service';
-import { InvoiceForm } from './invoice-form/invoice-form';
-import { InvoicePaymentsSection } from './invoice-form/payments-section/payments-section';
-import { InvoiceDiscountSection } from './invoice-form/discount-section/discount-section';
-import { InvoiceView } from './invoice-view/invoice-view';
 import { InvoiceList } from './invoice-list/invoice-list';
+import { InvoiceConsolidation } from './invoice-consolidation/invoice-consolidation';
 import { InvoicesLayout } from './invoices-layout';
 
 @NgModule({
   declarations: [
     InvoicesLayout,
     InvoiceList,
-    InvoiceForm,
-    InvoiceView,
-    InvoicePaymentsSection,
-    InvoiceDiscountSection,
+    InvoiceConsolidation,
   ],
   imports: [
     CommonModule,

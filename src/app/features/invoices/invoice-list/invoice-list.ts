@@ -22,6 +22,7 @@ import { ConfirmDeleteModal } from 'src/app/shared/components/confirm-delete-mod
 export class InvoiceList implements OnInit, OnDestroy {
   invoices: InvoiceDto[] = [];
   branches: { id: string; nameAr: string; nameEn: string }[] = [];
+  selectedIds = new Set<string>();
   private destroy$ = new Subject<void>();
 
   pagingConfig: SearchCriteria = {
@@ -92,6 +93,50 @@ export class InvoiceList implements OnInit, OnDestroy {
 
   openDetails(invoice: InvoiceDto): void {
     this.router.navigate(['/features/invoices', invoice.id]);
+  }
+
+  toggleSelect(id: string): void {
+    if (this.selectedIds.has(id)) {
+      this.selectedIds.delete(id);
+    } else {
+      this.selectedIds.add(id);
+    }
+  }
+
+  get isAllSelected(): boolean {
+    return this.invoices.length > 0 && this.invoices.every(inv => this.selectedIds.has(inv.id));
+  }
+
+  toggleAll(): void {
+    if (this.isAllSelected) {
+      this.invoices.forEach(inv => this.selectedIds.delete(inv.id));
+    } else {
+      this.invoices.forEach(inv => this.selectedIds.add(inv.id));
+    }
+  }
+
+  openConsolidation(): void {
+    const selected = this.invoices.filter(inv => this.selectedIds.has(inv.id));
+    const examIds = new Set(selected.map(inv => inv.examinationId).filter(Boolean));
+
+    if (examIds.size > 1) {
+      this.toastr.warning(this.translate.instant('INVOICES.CONSOLIDATION.SAME_EXAM_REQUIRED'));
+      return;
+    }
+
+    if (examIds.size === 1) {
+      const examinationId = examIds.values().next().value;
+      this.router.navigate(['/features/invoices/consolidate'], { queryParams: { examinationId } });
+    } else {
+      const ids = Array.from(this.selectedIds).join(',');
+      this.router.navigate(['/features/invoices/consolidate'], { queryParams: { ids } });
+    }
+  }
+
+  consolidateByExamination(inv: InvoiceDto): void {
+    this.router.navigate(['/features/invoices/consolidate'], {
+      queryParams: { examinationId: inv.examinationId },
+    });
   }
 
   search(): void {

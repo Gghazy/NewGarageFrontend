@@ -1,0 +1,45 @@
+.consolidation-page {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.card-header {
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: #f8f9fa;
+}
+
+.info-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 2px;
+}
+
+.info-value {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.summary-box {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+
+.summary-box.highlight {
+  background: #f8f9fa;
+  border-color: #cbd5e1;
+}
+
+.summary-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.summary-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
