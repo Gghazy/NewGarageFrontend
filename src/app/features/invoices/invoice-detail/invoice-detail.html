@@ -1,0 +1,325 @@
+<div class="detail-page">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex align-items-center gap-2">
+      <h5 class="mb-0">{{ 'INVOICES.FORM.TITLE_DETAILS' | translate }}</h5>
+      <span *ngIf="invoice" class="badge bg-secondary">{{ invoice.invoiceNumber || '—' }}</span>
+      <span *ngIf="invoice" class="badge" [ngClass]="invoice.type | statusBadge:'invoiceType'">
+        {{ 'INVOICES.LIST.TYPES.' + invoice.type | translate }}
+      </span>
+      <span *ngIf="invoice" class="badge" [ngClass]="invoice.status | statusBadge:'invoice'">
+        {{ 'INVOICES.LIST.STATUSES.' + invoice.status | translate }}
+      </span>
+    </div>
+    <div>
+      <button class="btn btn-sm btn-outline-secondary me-2" (click)="goBack()">
+        <i class="bi bi-arrow-left me-1"></i>{{ 'COMMON.BACK' | translate }}
+      </button>
+      <button class="btn btn-sm btn-primary" (click)="print()" *ngIf="invoice">
+        <i class="bi bi-printer me-1"></i>{{ 'INVOICES.FORM.PRINT' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status"></div>
+  </div>
+
+  <div *ngIf="!loading && invoice">
+    <!-- Client & Branch Info -->
+    <div class="card mb-3">
+      <div class="card-header"><i class="bi bi-person me-1"></i>{{ 'INVOICES.FORM.CLIENT_BRANCH' | translate }}</div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="info-label">{{ 'INVOICES.FORM.CLIENT' | translate }}</div>
+            <div class="info-value">{{ isAr ? invoice.clientNameAr : invoice.clientNameEn }}</div>
+          </div>
+          <div class="col-md-3">
+            <div class="info-label">{{ 'INVOICES.LIST.PHONE' | translate }}</div>
+            <div class="info-value">{{ invoice.clientPhone || '—' }}</div>
+          </div>
+          <div class="col-md-3">
+            <div class="info-label">{{ 'INVOICES.FORM.BRANCH' | translate }}</div>
+            <div class="info-value">{{ isAr ? invoice.branchNameAr : invoice.branchNameEn }}</div>
+          </div>
+          <div class="col-md-3">
+            <div class="info-label">{{ 'INVOICES.LIST.DATE' | translate }}</div>
+            <div class="info-value">{{ invoice.createdAtUtc | date:'dd/MM/yyyy HH:mm' }}</div>
+          </div>
+        </div>
+        <div class="row mt-2" *ngIf="invoice.notes || invoice.dueDate">
+          <div class="col-md-6" *ngIf="invoice.notes">
+            <div class="info-label">{{ 'INVOICES.FORM.NOTES' | translate }}</div>
+            <div class="info-value">{{ invoice.notes }}</div>
+          </div>
+          <div class="col-md-3" *ngIf="invoice.dueDate">
+            <div class="info-label">{{ 'INVOICES.FORM.DUE_DATE' | translate }}</div>
+            <div class="info-value">{{ invoice.dueDate | date:'dd/MM/yyyy' }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Items -->
+    <div class="card mb-3">
+      <div class="card-header"><i class="bi bi-list-ul me-1"></i>{{ 'INVOICES.ITEMS.TITLE' | translate }}</div>
+      <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+          <thead>
+            <tr>
+              <th style="width:40px">#</th>
+              <th>{{ 'INVOICES.ITEMS.DESCRIPTION' | translate }}</th>
+              <th>{{ 'INVOICES.ITEMS.UNIT_PRICE' | translate }}</th>
+              <th>{{ 'INVOICES.ITEMS.TOTAL' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of invoice.items; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ isAr ? (item.serviceNameAr || item.description) : (item.serviceNameEn || item.description) }}</td>
+              <td>{{ item.unitPrice | number:'1.2-2' }}</td>
+              <td>{{ item.totalPrice | number:'1.2-2' }}</td>
+            </tr>
+            <tr *ngIf="invoice.items.length === 0">
+              <td colspan="4" class="text-center text-muted">{{ 'INVOICES.ITEMS.NO_ITEMS' | translate }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Financial Summary -->
+    <div class="card mb-3">
+      <div class="card-header"><i class="bi bi-calculator me-1"></i>{{ 'INVOICES.SUMMARY.TITLE' | translate }}</div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-4 col-6">
+            <div class="summary-box">
+              <span class="summary-label">{{ 'INVOICES.PAYMENTS.SUB_TOTAL' | translate }}</span>
+              <span class="summary-value">{{ invoice.subTotal | number:'1.2-2' }}</span>
+            </div>
+          </div>
+          <div class="col-md-4 col-6">
+            <div class="summary-box">
+              <span class="summary-label">{{ 'INVOICES.PAYMENTS.DISCOUNT' | translate }}</span>
+              <span class="summary-value text-danger">{{ invoice.discountAmount | number:'1.2-2' }}</span>
+            </div>
+          </div>
+          <div class="col-md-4 col-6">
+            <div class="summary-box">
+              <span class="summary-label">{{ 'INVOICES.PAYMENTS.TAX_AMOUNT' | translate }} ({{ invoice.taxRate * 100 | number:'1.0-0' }}%)</span>
+              <span class="summary-value">{{ invoice.taxAmount | number:'1.2-2' }}</span>
+            </div>
+          </div>
+          <div class="col-md-4 col-6">
+            <div class="summary-box highlight">
+              <span class="summary-label">{{ 'INVOICES.PAYMENTS.TOTAL_WITH_TAX' | translate }}</span>
+              <span class="summary-value">{{ invoice.totalWithTax | number:'1.2-2' }} {{ invoice.currency }}</span>
+            </div>
+          </div>
+          <div class="col-md-4 col-6">
+            <div class="summary-box">
+              <span class="summary-label">{{ 'INVOICES.PAYMENTS.TOTAL_PAID' | translate }}</span>
+              <span class="summary-value text-success">{{ invoice.totalPaid | number:'1.2-2' }}</span>
+            </div>
+          </div>
+          <div class="col-md-4 col-6">
+            <div class="summary-box">
+              <span class="summary-label">{{ 'INVOICES.PAYMENTS.BALANCE' | translate }}</span>
+              <span class="summary-value" [class.text-danger]="invoice.balance > 0" [class.text-success]="invoice.balance <= 0">
+                {{ invoice.balance | number:'1.2-2' }} {{ invoice.currency }}
+              </span>
+            </div>
+          </div>
+          <div class="col-md-4 col-6" *ngIf="invoice.totalRefunded > 0">
+            <div class="summary-box">
+              <span class="summary-label">{{ 'INVOICES.PAYMENTS.TOTAL_REFUNDED' | translate }}</span>
+              <span class="summary-value text-warning">{{ invoice.totalRefunded | number:'1.2-2' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Discount (inline) -->
+    <div class="card mb-3" *ngIf="canSetDiscount">
+      <div class="card-header"><i class="bi bi-tag me-1"></i>{{ 'INVOICES.DISCOUNT.TITLE' | translate }}</div>
+      <div class="card-body">
+        <div class="row align-items-end g-2">
+          <div class="col-auto">
+            <label class="form-label small mb-1">{{ 'INVOICES.DISCOUNT.AMOUNT' | translate }}</label>
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="discountAmount"
+                   [min]="0" [max]="invoice.subTotal" style="width:160px" />
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-sm btn-primary" (click)="saveDiscount()" [disabled]="savingDiscount">
+              <i class="bi bi-check-lg me-1"></i>{{ 'COMMON.SAVE' | translate }}
+            </button>
+          </div>
+          <div class="col-auto" *ngIf="invoice.discountAmount > 0">
+            <span class="text-danger small">
+              {{ 'INVOICES.DISCOUNT.CURRENT' | translate }}: {{ invoice.discountAmount | number:'1.2-2' }} {{ invoice.currency }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payments -->
+    <div class="card mb-3" *ngIf="invoice.type !== 'Refund'">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span><i class="bi bi-cash-stack me-1"></i>{{ 'INVOICES.PAYMENTS.TITLE' | translate }}</span>
+        <div>
+          <button class="btn btn-sm btn-outline-success me-1" *ngIf="canAddPayment && !showPaymentForm"
+                  (click)="openPaymentForm('Payment')">
+            <i class="bi bi-plus me-1"></i>{{ 'INVOICES.PAYMENTS.ADD_PAYMENT' | translate }}
+          </button>
+          <button class="btn btn-sm btn-outline-warning" *ngIf="canAddRefund && !showPaymentForm"
+                  (click)="openPaymentForm('Refund')">
+            <i class="bi bi-arrow-return-left me-1"></i>{{ 'INVOICES.PAYMENTS.ADD_REFUND' | translate }}
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <!-- Payment form -->
+        <div class="payment-form mb-3 p-3" *ngIf="showPaymentForm"
+             [class.border-success]="paymentType === 'Payment'"
+             [class.border-danger]="paymentType === 'Refund'">
+          <div class="row g-2 align-items-end">
+            <div class="col-md-3">
+              <label class="form-label small mb-1">{{ 'INVOICES.PAYMENTS.AMOUNT' | translate }}</label>
+              <input type="number" class="form-control form-control-sm"
+                     [(ngModel)]="paymentAmount" [min]="0.01" [max]="maxPaymentAmount"
+                     [placeholder]="'0.00'" />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small mb-1">{{ 'INVOICES.PAYMENTS.METHOD' | translate }}</label>
+              <select class="form-select form-select-sm" [(ngModel)]="paymentMethodId">
+                <option value="">--</option>
+                <option *ngFor="let m of paymentMethods" [value]="m.id">
+                  {{ isAr ? m.nameAr : m.nameEn }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small mb-1">{{ 'INVOICES.PAYMENTS.NOTES' | translate }}</label>
+              <input type="text" class="form-control form-control-sm" [(ngModel)]="paymentNotes" />
+            </div>
+            <div class="col-md-3 d-flex gap-1">
+              <button class="btn btn-sm" (click)="submitPayment()"
+                      [disabled]="submittingPayment || !paymentAmount || !paymentMethodId"
+                      [ngClass]="paymentType === 'Payment' ? 'btn-success' : 'btn-danger'">
+                <i class="bi bi-check-lg me-1"></i>
+                {{ (paymentType === 'Payment' ? 'INVOICES.PAYMENTS.ADD_PAYMENT' : 'INVOICES.PAYMENTS.ADD_REFUND') | translate }}
+              </button>
+              <button class="btn btn-sm btn-outline-secondary" (click)="cancelPaymentForm()">
+                <i class="bi bi-x"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payments table -->
+        <table class="table table-sm mb-0" *ngIf="invoice.payments.length > 0">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>{{ 'INVOICES.PAYMENTS.DATE' | translate }}</th>
+              <th>{{ 'INVOICES.PAYMENTS.TYPE' | translate }}</th>
+              <th>{{ 'INVOICES.PAYMENTS.AMOUNT' | translate }}</th>
+              <th>{{ 'INVOICES.PAYMENTS.METHOD' | translate }}</th>
+              <th>{{ 'INVOICES.PAYMENTS.NOTES' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of invoice.payments; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ p.createdAtUtc | date:'dd/MM/yyyy' }}</td>
+              <td>
+                <span class="badge" [class.bg-success]="p.type === 'Payment'" [class.bg-warning]="p.type === 'Refund'">
+                  {{ 'INVOICES.PAYMENTS.TYPES.' + p.type | translate }}
+                </span>
+              </td>
+              <td>{{ p.amount | number:'1.2-2' }} {{ p.currency }}</td>
+              <td>{{ isAr ? p.methodNameAr : p.methodNameEn }}</td>
+              <td>{{ p.notes || '—' }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="text-muted text-center mb-0" *ngIf="invoice.payments.length === 0">
+          {{ 'INVOICES.PAYMENTS.NO_PAYMENTS' | translate }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Related Invoices -->
+    <div class="card mb-3" *ngIf="invoice.relatedInvoices.length > 0">
+      <div class="card-header"><i class="bi bi-link-45deg me-1"></i>{{ 'INVOICES.RELATED.TITLE' | translate }}</div>
+      <div class="card-body p-0">
+        <table class="table table-hover table-sm mb-0">
+          <thead>
+            <tr>
+              <th>{{ 'INVOICES.LIST.INVOICE_NUMBER' | translate }}</th>
+              <th>{{ 'INVOICES.LIST.TYPE' | translate }}</th>
+              <th>{{ 'INVOICES.LIST.STATUS' | translate }}</th>
+              <th>{{ 'INVOICES.LIST.TOTAL' | translate }}</th>
+              <th>{{ 'INVOICES.LIST.DATE' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of invoice.relatedInvoices" class="cursor-pointer" (click)="openRelated(r.id)">
+              <td>{{ r.invoiceNumber || '—' }}</td>
+              <td>
+                <span class="badge" [ngClass]="r.type | statusBadge:'invoiceType'">
+                  {{ 'INVOICES.LIST.TYPES.' + r.type | translate }}
+                </span>
+              </td>
+              <td>
+                <span class="badge" [ngClass]="r.status | statusBadge:'invoice'">
+                  {{ 'INVOICES.LIST.STATUSES.' + r.status | translate }}
+                </span>
+              </td>
+              <td>{{ r.totalWithTax | number:'1.2-2' }} {{ r.currency }}</td>
+              <td>{{ r.createdAtUtc | date:'dd/MM/yyyy' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="card mb-3">
+      <div class="card-header section-toggle" (click)="toggleHistory()">
+        <i class="bi bi-clock-history me-1"></i>{{ 'INVOICES.HISTORY.TITLE' | translate }}
+        <i class="bi bi-chevron-down toggle-icon float-end" [class.rotated]="historyCollapsed"></i>
+      </div>
+      <div class="card-body" [hidden]="historyCollapsed">
+        <div class="history-timeline" *ngIf="historyItems.length > 0">
+          <div class="history-item" *ngFor="let h of historyItems">
+            <div class="history-icon" [style.color]="getActionColor(h.action)">
+              <i class="bi" [ngClass]="getActionIcon(h.action)"></i>
+            </div>
+            <div class="history-content">
+              <div class="fw-semibold small">{{ 'INVOICES.HISTORY.ACTIONS.' + h.action | translate }}</div>
+              <div class="text-muted small" *ngIf="h.details">{{ h.details }}</div>
+              <div class="text-muted small">
+                <span *ngIf="h.performedByNameAr || h.performedByNameEn">
+                  {{ isAr ? h.performedByNameAr : h.performedByNameEn }} &middot;
+                </span>
+                {{ h.createdAtUtc | date:'dd/MM/yyyy HH:mm' }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="text-muted text-center mb-0" *ngIf="historyLoaded && historyItems.length === 0">
+          {{ 'INVOICES.HISTORY.NO_HISTORY' | translate }}
+        </p>
+        <div class="text-center py-2" *ngIf="!historyLoaded">
+          <div class="spinner-border spinner-border-sm text-primary"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

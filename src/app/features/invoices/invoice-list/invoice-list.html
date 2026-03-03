@@ -50,7 +50,7 @@
   (pageSizeSearch)="search()"
   [items]="invoices"
   [emptyText]="'INVOICES.LIST.EMPTY' | translate"
-  (pageChanged)="pagingConfig.currentPage = $event; loadInvoices();">
+  (pageChanged)="pagingConfig.currentPage = $event; selectedIds.clear(); loadInvoices();">
 
   <!-- header -->
   <ng-container table-header>

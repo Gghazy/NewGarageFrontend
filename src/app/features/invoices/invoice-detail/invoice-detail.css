@@ -1,0 +1,102 @@
+.detail-page {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.card-header {
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: #f8f9fa;
+}
+
+.info-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 2px;
+}
+
+.info-value {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.summary-box {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+
+.summary-box.highlight {
+  background: #f8f9fa;
+  border-color: #cbd5e1;
+}
+
+.summary-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.summary-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+/* Payment form */
+.payment-form {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  background: #fafbfc;
+}
+
+/* Related invoices */
+.cursor-pointer {
+  cursor: pointer;
+}
+.cursor-pointer:hover {
+  background: #f0f4ff;
+}
+
+/* History */
+.section-toggle {
+  cursor: pointer;
+  user-select: none;
+}
+.section-toggle:hover {
+  background: #e9ecef;
+}
+
+.toggle-icon {
+  transition: transform 0.2s;
+}
+.toggle-icon.rotated {
+  transform: rotate(-90deg);
+}
+
+.history-timeline {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.history-item {
+  display: flex;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-icon {
+  font-size: 1.1rem;
+  min-width: 24px;
+  text-align: center;
+  padding-top: 2px;
+}
+
+.history-content {
+  flex: 1;
+}

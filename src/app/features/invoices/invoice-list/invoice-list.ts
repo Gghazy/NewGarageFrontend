@@ -141,6 +141,7 @@ export class InvoiceList implements OnInit, OnDestroy {
 
   search(): void {
     this.pagingConfig.currentPage = 1;
+    this.selectedIds.clear();
     this.loadInvoices();
   }
 

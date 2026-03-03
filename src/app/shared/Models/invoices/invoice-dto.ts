@@ -29,6 +29,7 @@ export interface InvoiceItemDto {
   serviceId?: string;
   serviceNameAr?: string;
   serviceNameEn?: string;
+  adjustmentAmount: number;
 }
 
 export interface RelatedInvoiceDto {

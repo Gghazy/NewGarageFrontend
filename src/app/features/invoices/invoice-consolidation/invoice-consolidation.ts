@@ -59,17 +59,31 @@ export class InvoiceConsolidation implements OnInit, OnDestroy {
   }
 
   private loadByExamination(examinationId: string): void {
-    this.invoiceService.getByExamination(examinationId)
-      .pipe(takeUntil(this.destroy$))
+    forkJoin([
+      this.invoiceService.getByExamination(examinationId),
+      this.api.get<ApiResponse<ExaminationDto>>(`Examinations/${examinationId}`),
+    ]).pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res) => {
-          this.invoices = res.data ?? [];
+        next: ([invoiceRes, examRes]) => {
+          this.invoices = invoiceRes.data ?? [];
+          this.examination = examRes.data;
           if (this.invoices.length === 0) {
             this.loading = false;
             return;
           }
           this.consolidateData();
-          this.loadExamination();
+          if (this.consolidated && this.examination) {
+            this.consolidated.manufacturerNameAr = this.examination.manufacturerNameAr;
+            this.consolidated.manufacturerNameEn = this.examination.manufacturerNameEn;
+            this.consolidated.carMarkNameAr = this.examination.carMarkNameAr;
+            this.consolidated.carMarkNameEn = this.examination.carMarkNameEn;
+            this.consolidated.year = this.examination.year;
+            this.consolidated.color = this.examination.color;
+            this.consolidated.vin = this.examination.vin;
+            this.consolidated.plateLetters = this.examination.plateLetters;
+            this.consolidated.plateNumbers = this.examination.plateNumbers;
+          }
+          this.loading = false;
         },
         error: () => {
           this.toastr.error(this.translate.instant('COMMON.ERROR'));
@@ -128,12 +142,17 @@ export class InvoiceConsolidation implements OnInit, OnDestroy {
   private consolidateData(): void {
     if (this.invoices.length === 0) return;
 
-    // Accumulate items by serviceId, accounting for invoice type:
-    // Invoice/Adjustment = add, Refund = subtract
+    // Single pass: accumulate items + financial totals, accounting for invoice type
     const itemMap = new Map<string, ConsolidatedItemDto>();
+    let discountAmount = 0, taxAmount = 0, totalWithTax = 0, totalPaid = 0;
+
     for (const inv of this.invoices) {
-      debugger
       const sign = inv.type === 'Refund' ? -1 : 1;
+      discountAmount += sign * inv.discountAmount;
+      taxAmount      += sign * inv.taxAmount;
+      totalWithTax   += sign * inv.totalWithTax;
+      totalPaid      += inv.totalPaid;
+
       for (const item of inv.items) {
         const key = item.serviceId || item.description;
         const existing = itemMap.get(key);
@@ -153,26 +172,9 @@ export class InvoiceConsolidation implements OnInit, OnDestroy {
       }
     }
 
-    // Filter out fully refunded items (net zero)
     const items = Array.from(itemMap.values()).filter(it => Math.abs(it.totalPrice) > 0.001);
     const first = this.invoices[0];
-
     const subTotal = items.reduce((sum, it) => sum + it.totalPrice, 0);
-    const discountAmount = this.invoices.reduce((sum, inv) => {
-      const s = inv.type === 'Refund' ? -1 : 1;
-      return sum + s * inv.discountAmount;
-    }, 0);
-    const taxAmount = this.invoices.reduce((sum, inv) => {
-      const s = inv.type === 'Refund' ? -1 : 1;
-      return sum + s * inv.taxAmount;
-    }, 0);
-    const totalWithTax = this.invoices.reduce((sum, inv) => {
-      const s = inv.type === 'Refund' ? -1 : 1;
-      return sum + s * inv.totalWithTax;
-    }, 0);
-    const totalPaid = this.invoices.reduce((sum, inv) => sum + inv.totalPaid, 0);
-    const totalRefunded = this.invoices.reduce((sum, inv) => sum + inv.totalRefunded, 0);
-    const balance = totalWithTax - totalPaid + totalRefunded;
 
     this.consolidated = {
       clientNameAr: first.clientNameAr,
@@ -184,7 +186,7 @@ export class InvoiceConsolidation implements OnInit, OnDestroy {
       taxAmount,
       totalWithTax,
       totalPaid,
-      balance,
+      balance: totalWithTax - totalPaid,
       currency: first.currency,
       invoiceCount: this.invoices.length,
     };
