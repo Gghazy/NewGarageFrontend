@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { SharedModule } from 'src/app/shared/shared-module';
 import { InvoicesRoutingModule } from './invoices-routing-module';
+import { InvoiceService } from './invoice.service';
+import { InvoicePrintService } from './invoice-print.service';
 import { InvoiceForm } from './invoice-form/invoice-form';
 import { InvoicePaymentsSection } from './invoice-form/payments-section/payments-section';
 import { InvoiceDiscountSection } from './invoice-form/discount-section/discount-section';
@@ -23,6 +25,10 @@ import { InvoicesLayout } from './invoices-layout';
     CommonModule,
     SharedModule,
     InvoicesRoutingModule,
+  ],
+  providers: [
+    InvoiceService,
+    InvoicePrintService,
   ],
 })
 export class InvoicesModule {}

@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from 'src/app/core/services/custom.service';
+import { InvoiceService } from '../../invoice.service';
 import { InvoiceDto, InvoicePaymentDto } from 'src/app/shared/Models/invoices/invoice-dto';
 import { ApiResponse } from 'src/app/shared/Models/api-response';
 
@@ -30,6 +31,7 @@ export class InvoicePaymentsSection implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private api: ApiService,
+    private invoiceService: InvoiceService,
     private toastr: ToastrService,
     private translate: TranslateService,
   ) {
@@ -123,15 +125,15 @@ export class InvoicePaymentsSection implements OnInit, OnDestroy {
     this.saving = true;
 
     const payload = this.form.value;
-    const endpoint = this.formMode === 'Refund'
-      ? `Invoices/${this.invoice.id}/refunds`
-      : `Invoices/${this.invoice.id}/payments`;
-
     const successKey = this.formMode === 'Refund'
       ? 'INVOICES.PAYMENTS.REFUND_ADDED'
       : 'INVOICES.PAYMENTS.PAYMENT_ADDED';
 
-    this.api.post<any>(endpoint, payload)
+    const request$ = this.formMode === 'Refund'
+      ? this.invoiceService.addRefund(this.invoice.id, payload)
+      : this.invoiceService.addPayment(this.invoice.id, payload);
+
+    request$
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {

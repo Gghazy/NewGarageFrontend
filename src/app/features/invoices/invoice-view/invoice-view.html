@@ -69,7 +69,6 @@
               <tr>
                 <th style="width:36px">#</th>
                 <th>{{ 'INVOICES.ITEMS.DESCRIPTION' | translate }}</th>
-                <th style="width:100px">{{ 'INVOICES.ITEMS.QUANTITY' | translate }}</th>
                 <th style="width:140px">{{ 'INVOICES.ITEMS.UNIT_PRICE' | translate }}</th>
                 <th>{{ 'INVOICES.ITEMS.TOTAL' | translate }}</th>
               </tr>
@@ -78,12 +77,11 @@
               <tr *ngFor="let item of invoice.items; let i = index">
                 <td class="text-center text-muted">{{ i + 1 }}</td>
                 <td>{{ item.serviceNameAr || item.description }}</td>
-                <td class="text-center">{{ item.quantity }}</td>
                 <td>{{ item.unitPrice | number:'1.2-2' }} {{ item.currency }}</td>
                 <td class="fw-semibold">{{ item.totalPrice | number:'1.2-2' }} {{ item.currency }}</td>
               </tr>
               <tr *ngIf="invoice.items.length === 0">
-                <td colspan="5" class="text-center text-muted py-3">{{ 'INVOICES.ITEMS.NO_ITEMS' | translate }}</td>
+                <td colspan="4" class="text-center text-muted py-3">{{ 'INVOICES.ITEMS.NO_ITEMS' | translate }}</td>
               </tr>
             </tbody>
           </table>
@@ -101,7 +99,7 @@
               <td class="text-end fw-semibold">{{ invoice.subTotal | number:'1.2-2' }} {{ invoice.currency }}</td>
             </tr>
             <tr>
-              <td class="text-muted">{{ 'INVOICES.SUMMARY.TAX_AMOUNT' | translate }} ({{ invoice.taxRate }}%)</td>
+              <td class="text-muted">{{ 'INVOICES.SUMMARY.TAX_AMOUNT' | translate }} ({{ invoice.taxRate * 100 | number:'1.0-0' }}%)</td>
               <td class="text-end fw-semibold">{{ invoice.taxAmount | number:'1.2-2' }} {{ invoice.currency }}</td>
             </tr>
             <tr class="border-top">

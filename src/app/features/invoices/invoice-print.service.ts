@@ -5,12 +5,19 @@ import { AppConfig } from 'src/app/core/config/config';
 import { CONFIG_KEYS } from 'src/app/core/constants/app.constants';
 import * as QRCode from 'qrcode';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class InvoicePrintService {
   constructor(
     private translate: TranslateService,
     private appConfig: AppConfig,
   ) {}
+
+  private escapeHtml(str: string | null | undefined): string {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
 
   async print(inv: InvoiceDto): Promise<void> {
     const lang = this.translate.currentLang || 'ar';
@@ -20,18 +27,18 @@ export class InvoicePrintService {
 
     // Generate QR code
     const baseUrl = this.appConfig.get(CONFIG_KEYS.PATH_API);
-    const publicUrl = `${baseUrl}api/Invoices/${inv.id}/view`;
+    const publicUrl = `${baseUrl}api/Invoices/${inv.id}/view?lang=${lang}`;
     const qrDataUrl = await QRCode.toDataURL(publicUrl, { width: 120, margin: 1 });
 
     const createdDate = inv.createdAtUtc ? new Date(inv.createdAtUtc) : null;
-    const dateStr = createdDate ? createdDate.toLocaleDateString('ar-SA') : '—';
-    const timeStr = createdDate ? createdDate.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }) : '';
+    const locale = isAr ? 'ar-SA' : 'en-US';
+    const dateStr = createdDate ? createdDate.toLocaleDateString(locale) : '—';
+    const timeStr = createdDate ? createdDate.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }) : '';
 
     const itemsRows = inv.items.map((item, i) => `
       <tr>
         <td style="text-align:center">${i + 1}</td>
-        <td>${isAr ? (item.serviceNameAr || item.description) : (item.serviceNameEn || item.description)}</td>
-        <td style="text-align:center">${item.quantity}</td>
+        <td>${this.escapeHtml(isAr ? (item.serviceNameAr || item.description) : (item.serviceNameEn || item.description))}</td>
         <td style="text-align:center">${item.unitPrice.toFixed(2)}</td>
         <td style="text-align:center">${item.totalPrice.toFixed(2)}</td>
       </tr>
@@ -43,7 +50,7 @@ export class InvoicePrintService {
         <td>${p.createdAtUtc ? new Date(p.createdAtUtc).toLocaleDateString() : '—'}</td>
         <td style="text-align:center"><span style="color:${p.type === 'Refund' ? '#dc3545' : '#198754'}">${t('INVOICES.PAYMENTS.TYPES.' + p.type)}</span></td>
         <td style="text-align:center">${p.amount.toFixed(2)} ${p.currency}</td>
-        <td>${isAr ? p.methodNameAr : p.methodNameEn}</td>
+        <td>${this.escapeHtml(isAr ? p.methodNameAr : p.methodNameEn)}</td>
       </tr>
     `).join('');
 
@@ -112,15 +119,15 @@ export class InvoicePrintService {
       <!-- Info rows -->
       <div class="info-row">
         <span class="label">${t('INVOICES.FORM.CLIENT')}</span>
-        <span class="value">${isAr ? inv.clientNameAr : inv.clientNameEn}</span>
+        <span class="value">${this.escapeHtml(isAr ? inv.clientNameAr : inv.clientNameEn)}</span>
       </div>
       <div class="info-row">
         <span class="label">${t('INVOICES.PRINT.CLIENT_PHONE')}</span>
-        <span class="value">${inv.clientPhone}</span>
+        <span class="value">${this.escapeHtml(inv.clientPhone)}</span>
       </div>
       <div class="info-row">
         <span class="label">${t('INVOICES.FORM.BRANCH')}</span>
-        <span class="value">${isAr ? inv.branchNameAr : inv.branchNameEn}</span>
+        <span class="value">${this.escapeHtml(isAr ? inv.branchNameAr : inv.branchNameEn)}</span>
       </div>
       ${inv.dueDate ? `
       <div class="info-row">
@@ -130,7 +137,7 @@ export class InvoicePrintService {
       ${inv.notes ? `
       <div class="info-row">
         <span class="label">${t('INVOICES.FORM.NOTES')}</span>
-        <span class="value">${inv.notes}</span>
+        <span class="value">${this.escapeHtml(inv.notes)}</span>
       </div>` : ''}
 
       <!-- Items -->
@@ -139,7 +146,6 @@ export class InvoicePrintService {
         <thead><tr>
           <th style="width:36px">#</th>
           <th>${t('INVOICES.ITEMS.DESCRIPTION')}</th>
-          <th>${t('INVOICES.ITEMS.QUANTITY')}</th>
           <th>${t('INVOICES.ITEMS.UNIT_PRICE')}</th>
           <th>${t('INVOICES.ITEMS.TOTAL')}</th>
         </tr></thead>

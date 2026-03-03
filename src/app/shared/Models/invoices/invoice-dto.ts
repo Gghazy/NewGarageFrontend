@@ -23,7 +23,6 @@ export interface InvoicePaymentDto {
 export interface InvoiceItemDto {
   id: string;
   description: string;
-  quantity: number;
   unitPrice: number;
   totalPrice: number;
   currency: string;

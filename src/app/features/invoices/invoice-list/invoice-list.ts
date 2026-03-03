@@ -3,12 +3,13 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ApiService } from 'src/app/core/services/custom.service';
+import { InvoiceService } from '../invoice.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { SearchCriteria } from 'src/app/shared/Models/search-criteria';
-import { PaginatedResponse, ApiResponse } from 'src/app/shared/Models/api-response';
+import { ApiResponse } from 'src/app/shared/Models/api-response';
 import { InvoiceDto } from 'src/app/shared/Models/invoices/invoice-dto';
 import { ConfirmDeleteModal } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal';
 
@@ -37,6 +38,7 @@ export class InvoiceList implements OnInit, OnDestroy {
 
   constructor(
     private api: ApiService,
+    private invoiceService: InvoiceService,
     private router: Router,
     private modal: NgbModal,
     private toastr: ToastrService,
@@ -77,8 +79,7 @@ export class InvoiceList implements OnInit, OnDestroy {
   }
 
   loadInvoices(): void {
-    this.api
-      .post<PaginatedResponse<InvoiceDto>>('Invoices/pagination', this.pagingConfig)
+    this.invoiceService.paginate(this.pagingConfig)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
@@ -102,7 +103,7 @@ export class InvoiceList implements OnInit, OnDestroy {
     const ref = this.modal.open(ConfirmDeleteModal, { centered: true, backdrop: 'static' });
     ref.result
       .then(() => {
-        this.api.delete(`Invoices/${invoice.id}`)
+        this.invoiceService.delete(invoice.id)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: () => {

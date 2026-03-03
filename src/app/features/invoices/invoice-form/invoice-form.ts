@@ -4,7 +4,7 @@ import { forkJoin, of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiService } from 'src/app/core/services/custom.service';
+import { InvoiceService } from '../invoice.service';
 import { InvoiceDto, InvoiceHistoryDto, InvoiceItemDto } from 'src/app/shared/Models/invoices/invoice-dto';
 
 @Component({
@@ -27,7 +27,7 @@ export class InvoiceForm implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    private api: ApiService,
+    private invoiceService: InvoiceService,
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
@@ -54,7 +54,7 @@ export class InvoiceForm implements OnInit, OnDestroy {
 
   loadInvoice(): void {
     this.loading = true;
-    this.api.get<any>(`Invoices/${this.invoiceId}`)
+    this.invoiceService.getById(this.invoiceId!)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
@@ -86,7 +86,7 @@ export class InvoiceForm implements OnInit, OnDestroy {
       return;
     }
 
-    const requests = refunds.map(r => this.api.get<any>(`Invoices/${r.id}`));
+    const requests = refunds.map(r => this.invoiceService.getById(r.id));
     forkJoin(requests)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -115,7 +115,7 @@ export class InvoiceForm implements OnInit, OnDestroy {
 
   loadHistory(): void {
     this.historyLoading = true;
-    this.api.get<any>(`Invoices/${this.invoiceId}/history`)
+    this.invoiceService.getHistory(this.invoiceId!)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {

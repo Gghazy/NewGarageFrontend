@@ -4,9 +4,10 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiService } from 'src/app/core/services/custom.service';
+import { InvoiceService } from '../invoice.service';
+
 import { InvoiceDto } from 'src/app/shared/Models/invoices/invoice-dto';
-import { InvoicePrintService } from '../invoice-form/invoice-print.service';
+import { InvoicePrintService } from '../invoice-print.service';
 
 @Component({
   selector: 'app-invoice-view',
@@ -20,7 +21,7 @@ export class InvoiceView implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    private api: ApiService,
+    private invoiceService: InvoiceService,
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
@@ -48,7 +49,7 @@ export class InvoiceView implements OnInit, OnDestroy {
 
   private loadInvoice(id: string): void {
     this.loading = true;
-    this.api.get<any>(`Invoices/${id}`)
+    this.invoiceService.getById(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {

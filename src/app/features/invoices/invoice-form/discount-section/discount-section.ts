@@ -3,7 +3,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiService } from 'src/app/core/services/custom.service';
+import { InvoiceService } from '../../invoice.service';
+
 import { InvoiceDto } from 'src/app/shared/Models/invoices/invoice-dto';
 
 @Component({
@@ -22,7 +23,7 @@ export class InvoiceDiscountSection implements OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    private api: ApiService,
+    private invoiceService: InvoiceService,
     private toastr: ToastrService,
     private translate: TranslateService,
   ) {}
@@ -36,7 +37,7 @@ export class InvoiceDiscountSection implements OnDestroy {
   save(): void {
     if (this.saving) return;
     this.saving = true;
-    this.api.put<any>(`Invoices/${this.invoice.id}/discount`, this.discountInput)
+    this.invoiceService.setDiscount(this.invoice.id, this.discountInput)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
