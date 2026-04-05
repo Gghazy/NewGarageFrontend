@@ -14,7 +14,12 @@ const routes: Routes = [
       {
         path: '',
         component: InvoiceList,
-        data: { breadcrumb: '' }
+        data: { breadcrumb: '', listMode: 'all' }
+      },
+      {
+        path: 'refunds',
+        component: InvoiceList,
+        data: { breadcrumb: 'BREADCRUMB.INVOICE_REFUNDS', listMode: 'refunds' }
       },
       {
         path: 'consolidate',

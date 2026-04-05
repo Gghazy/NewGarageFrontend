@@ -313,6 +313,46 @@
       </div>
     </div>
 
+    <!-- Booking History (if converted from booking) -->
+    <div class="detail-card" *ngIf="sourceBooking">
+      <div class="detail-card-header" (click)="bookingHistoryCollapsed = !bookingHistoryCollapsed">
+        <i class="bi bi-calendar-check"></i>
+        <h6>{{ 'BOOKINGS.HISTORY.TITLE' | translate }}</h6>
+        <button type="button" class="btn btn-sm btn-outline-primary ms-2" (click)="goToBooking(); $event.stopPropagation()">
+          <i class="bi bi-eye me-1"></i>{{ 'BOOKINGS.DETAIL.VIEW_BOOKING' | translate }}
+        </button>
+        <i class="bi bi-chevron-down toggle-icon ms-auto" [class.rotated]="bookingHistoryCollapsed"></i>
+      </div>
+      <div [hidden]="bookingHistoryCollapsed">
+        <div *ngIf="bookingHistoryLoading" class="detail-loading" style="padding: 30px 20px;">
+          <div class="spinner-border spinner-border-sm" role="status"></div>
+        </div>
+        <div *ngIf="!bookingHistoryLoading && bookingHistoryItems.length === 0" class="history-empty">
+          <i class="bi bi-clock"></i>
+          {{ 'BOOKINGS.HISTORY.NO_HISTORY' | translate }}
+        </div>
+        <div *ngIf="!bookingHistoryLoading && bookingHistoryItems.length > 0" class="history-timeline">
+          <div class="history-item" *ngFor="let h of bookingHistoryItems">
+            <div class="history-icon" [style.background]="getBookingActionColor(h.action) + '18'" [style.color]="getBookingActionColor(h.action)">
+              <i class="bi" [ngClass]="getBookingActionIcon(h.action)"></i>
+            </div>
+            <div class="history-content">
+              <div class="history-action">{{ 'BOOKINGS.HISTORY.ACTIONS.' + h.action | translate }}</div>
+              <div *ngIf="h.details" class="history-details">{{ h.details }}</div>
+              <div class="history-meta">
+                <span *ngIf="getBookingPerformerName(h)" class="history-user">
+                  <i class="bi bi-person-fill"></i>{{ getBookingPerformerName(h) }}
+                </span>
+                <span class="history-time">
+                  <i class="bi bi-clock"></i>{{ h.createdAtUtc | date:'yyyy-MM-dd hh:mm a' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </ng-container>
 
   </ng-container>

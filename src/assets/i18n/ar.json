@@ -5,7 +5,9 @@
     "DATE_FROM": "من",
     "DATE_TO": "إلى",
     "BRANCH": "الفرع",
-    "ALL_BRANCHES": "كل الفروع"
+    "ALL_BRANCHES": "كل الفروع",
+    "STATUS": "الحالة",
+    "ALL": "الكل"
   },
   "APP": {
     "TITLE": "Garage",
@@ -91,7 +93,10 @@
     "CLIENT_RESOURCES": "مصادر العملاء",
     "VEHICLE_ORDERS": "طلبات الفحص",
     "INVOICES": "الفواتير",
-    "PAYMENT_METHODS": "طرق الدفع"
+    "INVOICE_REFUNDS": "الفواتير المرتجعة",
+    "INVOICE_CANCELLED": "الفواتير الملغية",
+    "PAYMENT_METHODS": "طرق الدفع",
+    "BOOKINGS": "الحجوزات"
   },
   "BREADCRUMB": {
     "HOME": "الرئيسية",
@@ -137,7 +142,13 @@
     "INVOICE_DETAILS": "تفاصيل الفاتورة",
     "PAYMENT_METHODS": "طرق الدفع",
     "EXAM_REPORT": "تقرير الفحص",
-    "INVOICE_CONSOLIDATION": "تجميع الفواتير"
+    "INVOICE_CONSOLIDATION": "تجميع الفواتير",
+    "INVOICE_REFUNDS": "الفواتير المرتجعة",
+    "INVOICE_CANCELLED": "الفواتير الملغية",
+    "BOOKINGS": "الحجوزات",
+    "BOOKING_NEW": "حجز جديد",
+    "BOOKING_EDIT": "تعديل الحجز",
+    "BOOKING_DETAIL": "تفاصيل الحجز"
   },
   "REPORT": {
     "TITLE": "تقرير الفحص",
@@ -167,6 +178,7 @@
     "INACTIVE": "غير نشط",
     "ADD": "إضافة",
     "EDIT": "تعديل",
+    "VIEW": "عرض",
     "DELETE": "حذف",
     "SAVE": "حفظ",
     "SAVING": "جاري الحفظ...",
@@ -607,6 +619,8 @@
       "SAVED": "تم حفظ الطلب بنجاح.",
       "SAVE_DRAFT": "حفظ كمسودة",
       "GENERATE_INVOICE": "إنشاء فاتورة",
+      "VIEW_INVOICE": "الفاتورة",
+      "VIEW_INVOICES": "الفواتير",
       "INVOICE_GENERATED": "تم إنشاء الفاتورة بنجاح.",
       "NOT_EDITABLE": "لا يمكن تعديل هذا الفحص في حالته الحالية."
     },
@@ -758,6 +772,8 @@
   "INVOICES": {
     "LIST": {
       "TITLE": "الفواتير",
+      "TITLE_REFUNDS": "الفواتير المرتجعة",
+      "TITLE_CANCELLED": "الفواتير الملغية",
       "ADD": "فاتورة جديدة",
       "EMPTY": "لا توجد فواتير",
       "INVOICE_NUMBER": "رقم الفاتورة",
@@ -780,7 +796,8 @@
         "Paid": "مدفوعة",
         "Cancelled": "ملغاة",
         "Refunded": "مسترد"
-      }
+      },
+      "VIEW_EXAM_INVOICES": "فواتير الفحص"
     },
     "FORM": {
       "TITLE": "فاتورة جديدة",
@@ -872,7 +889,7 @@
       "TITLE": "الفواتير المرتبطة"
     },
     "CONSOLIDATION": {
-      "TITLE": "تجميع الفواتير",
+      "TITLE": "تفاصيل الفاتورة",
       "CONSOLIDATE": "تجميع",
       "CLIENT_INFO": "بيانات العميل",
       "VEHICLE_INFO": "بيانات المركبة",
@@ -885,7 +902,11 @@
       "PLATE": "اللوحة",
       "NO_VEHICLE_INFO": "لا تتوفر معلومات المركبة للفواتير المحددة.",
       "SELECT_ALL": "تحديد الكل",
-      "SAME_EXAM_REQUIRED": "يجب أن تكون جميع الفواتير المحددة لنفس الفحص"
+      "SAME_EXAM_REQUIRED": "يجب أن تكون جميع الفواتير المحددة لنفس الفحص",
+      "CLIENT_VEHICLE_TITLE": "بيانات العميل والمركبة",
+      "INVOICES_LIST_TITLE": "قائمة الفواتير",
+      "ITEMS_TITLE": "البنود",
+      "FINANCIAL_SUMMARY_TITLE": "الملخص المالي"
     },
     "HISTORY": {
       "TITLE": "السجل",
@@ -981,5 +1002,76 @@
     "CURRENT_PASSWORD": "كلمة المرور الحالية",
     "NEW_PASSWORD": "كلمة المرور الجديدة",
     "CONFIRM_PASSWORD": "تأكيد كلمة المرور"
+  },
+  "BOOKINGS": {
+    "LIST": {
+      "TITLE": "الحجوزات",
+      "CLIENT": "العميل",
+      "PHONE": "الهاتف",
+      "VEHICLE": "المركبة",
+      "BRANCH": "الفرع",
+      "EXAM_DATE": "تاريخ الفحص",
+      "EXAM_TIME": "وقت الفحص",
+      "STATUS": "الحالة",
+      "CREATED": "تاريخ الإنشاء",
+      "EMPTY": "لا توجد حجوزات"
+    },
+    "FORM": {
+      "TITLE": "حجز جديد",
+      "TITLE_EDIT": "تعديل الحجز",
+      "CLIENT": "العميل",
+      "DETAILS": "تفاصيل الحجز",
+      "BRANCH": "الفرع",
+      "MANUFACTURER": "الشركة المصنعة",
+      "CAR_MARK": "الماركة",
+      "YEAR": "السنة",
+      "TRANSMISSION": "ناقل الحركة",
+      "EXAM_DATE": "تاريخ الفحص",
+      "EXAM_TIME": "وقت الفحص",
+      "NOTES": "ملاحظات"
+    },
+    "STATUSES": {
+      "Pending": "قيد الانتظار",
+      "Confirmed": "مؤكد",
+      "Converted": "تم التحويل",
+      "Cancelled": "ملغي"
+    },
+    "VALIDATION": {
+      "CLIENT_REQUIRED": "العميل مطلوب",
+      "BRANCH_REQUIRED": "الفرع مطلوب",
+      "MANUFACTURER_REQUIRED": "الشركة المصنعة مطلوبة",
+      "CAR_MARK_REQUIRED": "الماركة مطلوبة",
+      "DATE_REQUIRED": "تاريخ الفحص مطلوب",
+      "TIME_REQUIRED": "وقت الفحص مطلوب"
+    },
+    "DETAIL": {
+      "TITLE": "تفاصيل الحجز",
+      "VIEW_EXAM": "عرض الفحص",
+      "VIEW_BOOKING": "عرض الحجز"
+    },
+    "HISTORY": {
+      "TITLE": "سجل الحجز",
+      "NO_HISTORY": "لا يوجد سجل",
+      "ACTIONS": {
+        "Created": "تم إنشاء الحجز",
+        "Updated": "تم تحديث الحجز",
+        "Confirmed": "تم تأكيد الحجز",
+        "Cancelled": "تم إلغاء الحجز",
+        "Converted": "تم تحويل الحجز إلى فحص",
+        "Deleted": "تم حذف الحجز"
+      }
+    },
+    "CONFIRM": "تأكيد",
+    "CONVERT": "تحويل لفحص",
+    "CONFIRM_CONFIRM": "هل أنت متأكد من تأكيد هذا الحجز؟",
+    "CONFIRM_CANCEL": "هل أنت متأكد من إلغاء هذا الحجز؟",
+    "CONFIRM_DELETE": "هل أنت متأكد من حذف هذا الحجز؟",
+    "CONFIRM_CONVERT": "هل أنت متأكد من تحويل هذا الحجز إلى فحص؟",
+    "CONFIRM_SUCCESS": "تم تأكيد الحجز بنجاح",
+    "CANCEL_SUCCESS": "تم إلغاء الحجز بنجاح",
+    "DELETE_SUCCESS": "تم حذف الحجز بنجاح",
+    "CONVERT_SUCCESS": "تم تحويل الحجز إلى فحص بنجاح",
+    "CREATED_SUCCESS": "تم إنشاء الحجز بنجاح",
+    "UPDATED_SUCCESS": "تم تحديث الحجز بنجاح"
   }
 }

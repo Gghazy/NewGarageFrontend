@@ -5,7 +5,9 @@
     "DATE_FROM": "From",
     "DATE_TO": "To",
     "BRANCH": "Branch",
-    "ALL_BRANCHES": "All Branches"
+    "ALL_BRANCHES": "All Branches",
+    "STATUS": "Status",
+    "ALL": "All"
   },
   "APP": {
     "TITLE": "Garage",
@@ -91,7 +93,10 @@
     "CLIENT_RESOURCES": "Client Resources",
     "VEHICLE_ORDERS": "Inspection Orders",
     "INVOICES": "Invoices",
-    "PAYMENT_METHODS": "Payment Methods"
+    "INVOICE_REFUNDS": "Refund Invoices",
+    "INVOICE_CANCELLED": "Cancelled Invoices",
+    "PAYMENT_METHODS": "Payment Methods",
+    "BOOKINGS": "Bookings"
   },
   "BREADCRUMB": {
     "HOME": "Home",
@@ -137,7 +142,13 @@
     "INVOICE_DETAILS": "Invoice Details",
     "PAYMENT_METHODS": "Payment Methods",
     "EXAM_REPORT": "Examination Report",
-    "INVOICE_CONSOLIDATION": "Consolidation"
+    "INVOICE_CONSOLIDATION": "Consolidation",
+    "INVOICE_REFUNDS": "Refund Invoices",
+    "INVOICE_CANCELLED": "Cancelled Invoices",
+    "BOOKINGS": "Bookings",
+    "BOOKING_NEW": "New Booking",
+    "BOOKING_EDIT": "Edit Booking",
+    "BOOKING_DETAIL": "Booking Details"
   },
   "REPORT": {
     "TITLE": "Examination Report",
@@ -167,6 +178,7 @@
     "INACTIVE": "Inactive",
     "ADD": "Add",
     "EDIT": "Edit",
+    "VIEW": "View",
     "DELETE": "Delete",
     "SAVE": "Save",
     "SAVING": "Saving...",
@@ -579,6 +591,8 @@
       "SAVED": "Order saved successfully.",
       "SAVE_DRAFT": "Save Draft",
       "GENERATE_INVOICE": "Generate Invoice",
+      "VIEW_INVOICE": "Invoice",
+      "VIEW_INVOICES": "Invoices",
       "INVOICE_GENERATED": "Invoice generated successfully.",
       "NOT_EDITABLE": "This examination cannot be edited in its current status."
     },
@@ -730,6 +744,8 @@
   "INVOICES": {
     "LIST": {
       "TITLE": "Invoices",
+      "TITLE_REFUNDS": "Refund Invoices",
+      "TITLE_CANCELLED": "Cancelled Invoices",
       "ADD": "New Invoice",
       "EMPTY": "No invoices found",
       "INVOICE_NUMBER": "Invoice #",
@@ -752,7 +768,8 @@
         "Paid": "Paid",
         "Cancelled": "Cancelled",
         "Refunded": "Refunded"
-      }
+      },
+      "VIEW_EXAM_INVOICES": "Exam Invoices"
     },
     "FORM": {
       "TITLE": "New Invoice",
@@ -844,7 +861,7 @@
       "TITLE": "Related Invoices"
     },
     "CONSOLIDATION": {
-      "TITLE": "Invoice Consolidation",
+      "TITLE": "Invoice Details",
       "CONSOLIDATE": "Consolidate",
       "CLIENT_INFO": "Client Information",
       "VEHICLE_INFO": "Vehicle Information",
@@ -857,7 +874,11 @@
       "PLATE": "Plate",
       "NO_VEHICLE_INFO": "No vehicle information available for the selected invoices.",
       "SELECT_ALL": "Select All",
-      "SAME_EXAM_REQUIRED": "All selected invoices must belong to the same examination"
+      "SAME_EXAM_REQUIRED": "All selected invoices must belong to the same examination",
+      "CLIENT_VEHICLE_TITLE": "Client & Vehicle Information",
+      "INVOICES_LIST_TITLE": "Invoices List",
+      "ITEMS_TITLE": "Items",
+      "FINANCIAL_SUMMARY_TITLE": "Financial Summary"
     },
     "HISTORY": {
       "TITLE": "History",
@@ -953,5 +974,76 @@
     "CURRENT_PASSWORD": "Current Password",
     "NEW_PASSWORD": "New Password",
     "CONFIRM_PASSWORD": "Confirm Password"
+  },
+  "BOOKINGS": {
+    "LIST": {
+      "TITLE": "Bookings",
+      "CLIENT": "Client",
+      "PHONE": "Phone",
+      "VEHICLE": "Vehicle",
+      "BRANCH": "Branch",
+      "EXAM_DATE": "Exam Date",
+      "EXAM_TIME": "Exam Time",
+      "STATUS": "Status",
+      "CREATED": "Created",
+      "EMPTY": "No bookings found"
+    },
+    "FORM": {
+      "TITLE": "New Booking",
+      "TITLE_EDIT": "Edit Booking",
+      "CLIENT": "Client",
+      "DETAILS": "Booking Details",
+      "BRANCH": "Branch",
+      "MANUFACTURER": "Manufacturer",
+      "CAR_MARK": "Car Mark",
+      "YEAR": "Year",
+      "TRANSMISSION": "Transmission",
+      "EXAM_DATE": "Examination Date",
+      "EXAM_TIME": "Examination Time",
+      "NOTES": "Notes"
+    },
+    "STATUSES": {
+      "Pending": "Pending",
+      "Confirmed": "Confirmed",
+      "Converted": "Converted",
+      "Cancelled": "Cancelled"
+    },
+    "VALIDATION": {
+      "CLIENT_REQUIRED": "Client is required",
+      "BRANCH_REQUIRED": "Branch is required",
+      "MANUFACTURER_REQUIRED": "Manufacturer is required",
+      "CAR_MARK_REQUIRED": "Car mark is required",
+      "DATE_REQUIRED": "Examination date is required",
+      "TIME_REQUIRED": "Examination time is required"
+    },
+    "DETAIL": {
+      "TITLE": "Booking Details",
+      "VIEW_EXAM": "View Examination",
+      "VIEW_BOOKING": "View Booking"
+    },
+    "HISTORY": {
+      "TITLE": "Booking History",
+      "NO_HISTORY": "No history",
+      "ACTIONS": {
+        "Created": "Booking created",
+        "Updated": "Booking updated",
+        "Confirmed": "Booking confirmed",
+        "Cancelled": "Booking cancelled",
+        "Converted": "Booking converted to examination",
+        "Deleted": "Booking deleted"
+      }
+    },
+    "CONFIRM": "Confirm",
+    "CONVERT": "Convert to Exam",
+    "CONFIRM_CONFIRM": "Are you sure you want to confirm this booking?",
+    "CONFIRM_CANCEL": "Are you sure you want to cancel this booking?",
+    "CONFIRM_DELETE": "Are you sure you want to delete this booking?",
+    "CONFIRM_CONVERT": "Are you sure you want to convert this booking to an examination?",
+    "CONFIRM_SUCCESS": "Booking confirmed successfully",
+    "CANCEL_SUCCESS": "Booking cancelled successfully",
+    "DELETE_SUCCESS": "Booking deleted successfully",
+    "CONVERT_SUCCESS": "Booking converted to examination successfully",
+    "CREATED_SUCCESS": "Booking created successfully",
+    "UPDATED_SUCCESS": "Booking updated successfully"
   }
 }

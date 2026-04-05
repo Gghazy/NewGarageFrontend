@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>توثيق مشروع NewGarage - نظام إدارة مراكز فحص السيارات</title>
+  <style>
+    @page { size: A4; margin: 20mm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      direction: rtl;
+      line-height: 1.8;
+      color: #1e293b;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 30px;
+      background: #fff;
+    }
+    h1 { color: #1e40af; font-size: 2rem; border-bottom: 3px solid #3b82f6; padding-bottom: 12px; margin-top: 40px; }
+    h2 { color: #1e3a5f; font-size: 1.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-top: 35px; }
+    h3 { color: #334155; font-size: 1.2rem; margin-top: 25px; }
+    h4 { color: #475569; font-size: 1.05rem; margin-top: 18px; }
+
+    .cover {
+      text-align: center;
+      padding: 80px 20px;
+      page-break-after: always;
+    }
+    .cover h1 {
+      font-size: 2.8rem;
+      border: none;
+      color: #1e40af;
+      margin-bottom: 10px;
+    }
+    .cover .subtitle {
+      font-size: 1.4rem;
+      color: #64748b;
+      margin-bottom: 40px;
+    }
+    .cover .date {
+      font-size: 1rem;
+      color: #94a3b8;
+      margin-top: 60px;
+    }
+    .cover .logo-icon {
+      font-size: 5rem;
+      color: #3b82f6;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 0.9rem;
+    }
+    th, td {
+      border: 1px solid #e2e8f0;
+      padding: 10px 14px;
+      text-align: right;
+    }
+    th {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: #334155;
+    }
+    tr:nth-child(even) { background: #f8fafc; }
+
+    code {
+      background: #f1f5f9;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.88rem;
+      direction: ltr;
+      display: inline-block;
+    }
+
+    .tech-badge {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1e40af;
+      padding: 3px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      margin: 3px;
+      font-weight: 600;
+    }
+
+    .section-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 18px 22px;
+      margin: 15px 0;
+    }
+
+    .highlight-box {
+      background: #eff6ff;
+      border-right: 4px solid #3b82f6;
+      padding: 14px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 15px 0;
+    }
+
+    ul { padding-right: 25px; }
+    li { margin-bottom: 6px; }
+
+    .page-break { page-break-before: always; }
+
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 8px 0;
+    }
+    .flow-step .step-num {
+      width: 32px;
+      height: 32px;
+      background: #3b82f6;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .arch-layer {
+      border: 2px solid;
+      border-radius: 10px;
+      padding: 15px 20px;
+      margin: 10px 0;
+      position: relative;
+    }
+    .arch-layer .layer-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+    .layer-api { border-color: #22c55e; background: #f0fdf4; }
+    .layer-app { border-color: #3b82f6; background: #eff6ff; }
+    .layer-domain { border-color: #a855f7; background: #faf5ff; }
+    .layer-infra { border-color: #f59e0b; background: #fffbeb; }
+
+    @media print {
+      body { padding: 0; }
+      .page-break { page-break-before: always; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== صفحة الغلاف ===== -->
+<div class="cover">
+  <div class="logo-icon">🔧</div>
+  <h1>نظام NewGarage</h1>
+  <div class="subtitle">نظام متكامل لإدارة مراكز فحص وصيانة السيارات</div>
+  <p style="font-size:1.1rem; color:#475569; max-width:600px; margin:0 auto;">
+    توثيق شامل للمشروع يتضمن الهندسة المعمارية، طبقات النظام، الكيانات، الشاشات، وسير العمل
+  </p>
+  <div class="date">تاريخ التوثيق: مارس 2026</div>
+</div>
+
+<!-- ===== الفهرس ===== -->
+<h1>فهرس المحتويات</h1>
+<ol style="font-size:1.05rem; line-height:2.2;">
+  <li>نظرة عامة على المشروع</li>
+  <li>التقنيات المستخدمة</li>
+  <li>الهندسة المعمارية (Architecture)</li>
+  <li>طبقة الـ Domain (النطاق)</li>
+  <li>طبقة الـ Application (التطبيق)</li>
+  <li>طبقة الـ API (الواجهة البرمجية)</li>
+  <li>طبقة الـ Infrastructure (البنية التحتية)</li>
+  <li>الواجهة الأمامية (Frontend)</li>
+  <li>نظام الصلاحيات والمستخدمين</li>
+  <li>سير العمل الأساسي (Workflow)</li>
+  <li>نظام الفواتير والمدفوعات</li>
+  <li>الإعدادات والبيانات الأساسية</li>
+</ol>
+
+<!-- ===== 1. نظرة عامة ===== -->
+<div class="page-break"></div>
+<h1>1. نظرة عامة على المشروع</h1>
+
+<p>
+  <strong>NewGarage</strong> هو نظام متكامل لإدارة مراكز فحص وصيانة السيارات. يوفر النظام إدارة كاملة لدورة حياة الفحص
+  من لحظة استلام السيارة حتى تسليمها، مع نظام فوترة ومدفوعات متكامل.
+</p>
+
+<h3>الوظائف الرئيسية</h3>
+<ul>
+  <li><strong>إدارة الفحوصات:</strong> إنشاء أوامر فحص للسيارات وتتبعها عبر مراحل متعددة</li>
+  <li><strong>مراحل الفحص المتعددة:</strong> 9 مراحل تشمل الحساسات، الطبلون، الهيكل الداخلي والخارجي، الديكور، الإكسسوارات، الميكانيكا، الإطارات، والتجربة الميدانية</li>
+  <li><strong>نظام الفواتير:</strong> إنشاء فواتير تلقائية من الفحص، مع دعم الخصومات والضرائب والمدفوعات والاسترداد</li>
+  <li><strong>إدارة العملاء:</strong> تسجيل بيانات العملاء وسياراتهم</li>
+  <li><strong>إدارة الموظفين:</strong> تعيين الفنيين والمفتشين</li>
+  <li><strong>إدارة الفروع:</strong> دعم الفروع المتعددة</li>
+  <li><strong>نظام صلاحيات متقدم:</strong> أدوار وصلاحيات مفصلة لكل عملية</li>
+  <li><strong>تقارير:</strong> تقارير الفحص، الإيرادات، ولوحة المعلومات</li>
+  <li><strong>دعم اللغتين:</strong> عربي وإنجليزي مع دعم RTL</li>
+</ul>
+
+<!-- ===== 2. التقنيات ===== -->
+<h1>2. التقنيات المستخدمة</h1>
+
+<h3>الواجهة الخلفية (Backend)</h3>
+<div>
+  <span class="tech-badge">.NET 8 / ASP.NET Core</span>
+  <span class="tech-badge">Entity Framework Core</span>
+  <span class="tech-badge">MediatR (CQRS)</span>
+  <span class="tech-badge">SQL Server</span>
+  <span class="tech-badge">JWT Authentication</span>
+  <span class="tech-badge">Clean Architecture</span>
+  <span class="tech-badge">DDD</span>
+</div>
+
+<h3>الواجهة الأمامية (Frontend)</h3>
+<div>
+  <span class="tech-badge">Angular</span>
+  <span class="tech-badge">TypeScript</span>
+  <span class="tech-badge">Bootstrap 5</span>
+  <span class="tech-badge">ngx-translate (i18n)</span>
+  <span class="tech-badge">ngx-toastr</span>
+  <span class="tech-badge">ng-select</span>
+  <span class="tech-badge">Bootstrap Icons</span>
+</div>
+
+<!-- ===== 3. الهندسة المعمارية ===== -->
+<div class="page-break"></div>
+<h1>3. الهندسة المعمارية (Architecture)</h1>
+
+<p>
+  يتبع المشروع نمط <strong>Clean Architecture</strong> مع مبادئ <strong>Domain-Driven Design (DDD)</strong>
+  و<strong>CQRS</strong> (فصل القراءة عن الكتابة) عبر مكتبة MediatR.
+</p>
+
+<h3>طبقات النظام</h3>
+
+<div class="arch-layer layer-api">
+  <div class="layer-title">🌐 Garage.Api — طبقة العرض (Presentation)</div>
+  <p>الـ Controllers، المصادقة، التوطين، نقاط النهاية REST API</p>
+</div>
+
+<div class="arch-layer layer-app">
+  <div class="layer-title">⚙️ Garage.Application — طبقة التطبيق (Application)</div>
+  <p>الأوامر (Commands)، الاستعلامات (Queries)، المعالجات (Handlers)، خدمات التطبيق</p>
+</div>
+
+<div class="arch-layer layer-domain">
+  <div class="layer-title">💎 Garage.Domain — طبقة النطاق (Domain)</div>
+  <p>الكيانات، القيم، القواعد التجارية، الأحداث — قلب النظام</p>
+</div>
+
+<div class="arch-layer layer-infra">
+  <div class="layer-title">🔧 Garage.Infrastructure — البنية التحتية</div>
+  <p>قاعدة البيانات (EF Core)، المستودعات، المصادقة، الخدمات الخارجية</p>
+</div>
+
+<div class="arch-layer" style="border-color:#6b7280; background:#f9fafb;">
+  <div class="layer-title">📋 Garage.Contracts — العقود</div>
+  <p>كائنات نقل البيانات (DTOs)، الطلبات (Requests)، الاستجابات (Responses) — مشتركة بين الطبقات</p>
+</div>
+
+<div class="highlight-box">
+  <strong>قاعدة أساسية:</strong> التبعيات تتجه للداخل فقط — الـ Domain لا يعتمد على أي طبقة أخرى.
+  الطفرات (Mutations) تتم فقط عبر الـ AggregateRoot، والقراءة يمكن أن تتم عبر Projection مباشرة.
+</div>
+
+<h3>أنماط التصميم المستخدمة</h3>
+<table>
+  <tr><th>النمط</th><th>الاستخدام</th></tr>
+  <tr><td>CQRS</td><td>فصل الأوامر عن الاستعلامات — كل عملية لها Command أو Query مستقل</td></tr>
+  <tr><td>Mediator (MediatR)</td><td>توجيه الطلبات من الـ Controller للـ Handler المناسب</td></tr>
+  <tr><td>Repository Pattern</td><td>تجريد الوصول لقاعدة البيانات عبر <code>IRepository&lt;T&gt;</code> و <code>IReadRepository&lt;T&gt;</code></td></tr>
+  <tr><td>Unit of Work</td><td>ضمان ذرية العمليات عبر <code>IUnitOfWork</code></td></tr>
+  <tr><td>Aggregate Root</td><td>كل التغييرات تمر عبر جذر التجميع (مثل <code>Examination</code>، <code>Invoice</code>)</td></tr>
+  <tr><td>Smart Enum</td><td>تعداد ذكي مع خصائص إضافية (مثل <code>Stage</code>)</td></tr>
+  <tr><td>Value Object</td><td>كائنات القيمة مثل <code>Money</code> للمبالغ والعملات</td></tr>
+  <tr><td>Projection</td><td>تحويل الكيانات لـ DTOs عبر Expression Trees في EF Core</td></tr>
+</table>
+
+<!-- ===== 4. طبقة الـ Domain ===== -->
+<div class="page-break"></div>
+<h1>4. طبقة الـ Domain (النطاق)</h1>
+
+<p>هذه هي الطبقة الأهم — تحتوي على كل قواعد العمل والمنطق التجاري. مقسمة لعدة سياقات:</p>
+
+<h2>4.1 إدارة الفحوصات (ExaminationManagement)</h2>
+<p>هذا هو السياق الرئيسي ويحتوي على الـ Aggregate Root <code>Examination</code>.</p>
+
+<h3>الكيان الرئيسي: Examination (الفحص)</h3>
+<div class="section-box">
+  <p>هو جذر التجميع (AggregateRoot) الذي يدير كل عمليات الفحص. يحتوي على:</p>
+  <ul>
+    <li><strong>بيانات المركبة:</strong> لقطة من بيانات السيارة (VehicleSnapshot)</li>
+    <li><strong>بيانات العميل:</strong> مرجع للعميل (ClientReference)</li>
+    <li><strong>بيانات الفرع:</strong> مرجع للفرع (BranchReference)</li>
+    <li><strong>عناصر الفحص:</strong> قائمة الخدمات المطلوبة (ExaminationItems)</li>
+    <li><strong>نتائج المراحل:</strong> نتيجة كل مرحلة فحص (StageResults)</li>
+    <li><strong>المدفوعات:</strong> قائمة المدفوعات (Payments)</li>
+    <li><strong>السجل:</strong> تاريخ العمليات (History)</li>
+  </ul>
+</div>
+
+<h4>حالات الفحص (ExaminationStatus)</h4>
+<table>
+  <tr><th>الحالة</th><th>القيمة</th><th>الوصف</th></tr>
+  <tr><td>Draft</td><td>مسودة</td><td>تم إنشاء الطلب ولم يبدأ بعد</td></tr>
+  <tr><td>Pending</td><td>قيد الانتظار</td><td>الطلب جاهز للبدء</td></tr>
+  <tr><td>InProgress</td><td>جاري</td><td>الفحص قيد التنفيذ</td></tr>
+  <tr><td>Completed</td><td>مكتمل</td><td>تم الانتهاء من جميع المراحل</td></tr>
+  <tr><td>Delivered</td><td>تم التسليم</td><td>تم تسليم السيارة للعميل</td></tr>
+  <tr><td>Cancelled</td><td>ملغي</td><td>تم إلغاء الطلب</td></tr>
+</table>
+
+<h4>أنواع الفحص (ExaminationType)</h4>
+<table>
+  <tr><th>النوع</th><th>الوصف</th></tr>
+  <tr><td>Regular</td><td>فحص عادي / دوري</td></tr>
+  <tr><td>Warranty</td><td>فحص ضمان</td></tr>
+  <tr><td>PrePurchase</td><td>فحص ما قبل الشراء</td></tr>
+</table>
+
+<h3>مراحل الفحص (Stages)</h3>
+<p>كل فحص يمر بـ 9 مراحل، كل مرحلة لها نتيجة (StageResult) تحتوي على عناصر فردية:</p>
+
+<table>
+  <tr><th>#</th><th>المرحلة</th><th>الاسم بالعربي</th><th>كيان النتيجة</th></tr>
+  <tr><td>1</td><td>Sensors</td><td>الحساسات</td><td>SensorStageResult</td></tr>
+  <tr><td>2</td><td>DashboardIndicators</td><td>مؤشرات الطبلون</td><td>DashboardIndicatorsStageResult</td></tr>
+  <tr><td>3</td><td>InteriorBody</td><td>هيكل السيارة الداخلي</td><td>InteriorBodyStageResult</td></tr>
+  <tr><td>4</td><td>ExteriorBody</td><td>هيكل السيارة الخارجي</td><td>ExteriorBodyStageResult</td></tr>
+  <tr><td>5</td><td>InteriorAndTrim</td><td>الداخلية والديكور</td><td>InteriorDecorStageResult</td></tr>
+  <tr><td>6</td><td>ExteriorAccessories</td><td>الإكسسوارات الخارجية</td><td>AccessoryStageResult</td></tr>
+  <tr><td>7</td><td>MechanicalIssues</td><td>الأعطال الميكانيكية</td><td>MechanicalStageResult</td></tr>
+  <tr><td>8</td><td>Tires</td><td>الإطارات</td><td>TireStageResult</td></tr>
+  <tr><td>9</td><td>RoadTest</td><td>التجربة الميدانية</td><td>RoadTestStageResult</td></tr>
+</table>
+
+<h3>كيانات القيمة (Value Objects)</h3>
+<table>
+  <tr><th>الكيان</th><th>الوصف</th></tr>
+  <tr><td>VehicleSnapshot</td><td>لقطة بيانات السيارة (الشركة، الموديل، السنة، اللون، رقم اللوحة، VIN، المسافة)</td></tr>
+  <tr><td>ClientReference</td><td>مرجع العميل (الاسم بالعربي والإنجليزي، رقم الهاتف)</td></tr>
+  <tr><td>BranchReference</td><td>مرجع الفرع</td></tr>
+  <tr><td>ServiceSnapshot</td><td>لقطة الخدمة (الاسم، السعر)</td></tr>
+  <tr><td>Money</td><td>كائن المبلغ والعملة</td></tr>
+</table>
+
+<h2>4.2 إدارة الفواتير (InvoiceManagement)</h2>
+
+<h3>الكيان الرئيسي: Invoice (الفاتورة)</h3>
+<div class="section-box">
+  <p>جذر تجميع (AggregateRoot) يدير الفاتورة وعناصرها ومدفوعاتها. يحتوي على:</p>
+  <ul>
+    <li><strong>عناصر الفاتورة (InvoiceItem):</strong> الخدمات وأسعارها</li>
+    <li><strong>المدفوعات (InvoicePayment):</strong> عمليات الدفع والاسترداد</li>
+    <li><strong>السجل (InvoiceHistory):</strong> تتبع كل العمليات</li>
+    <li><strong>الحسابات:</strong> الإجمالي، الخصم، الضريبة، الإجمالي شامل الضريبة</li>
+  </ul>
+</div>
+
+<h4>أنواع الفواتير (InvoiceType)</h4>
+<table>
+  <tr><th>النوع</th><th>الوصف</th></tr>
+  <tr><td>Invoice</td><td>فاتورة أساسية</td></tr>
+  <tr><td>Refund</td><td>فاتورة استرداد (عند تخفيض سعر خدمة)</td></tr>
+  <tr><td>Adjustment</td><td>فاتورة تعديل (عند زيادة سعر خدمة)</td></tr>
+</table>
+
+<h4>حالات الفاتورة (InvoiceStatus)</h4>
+<table>
+  <tr><th>الحالة</th><th>الوصف</th></tr>
+  <tr><td>Draft</td><td>مسودة</td></tr>
+  <tr><td>Issued</td><td>صادرة — يمكن الدفع عليها</td></tr>
+  <tr><td>Paid</td><td>مدفوعة بالكامل</td></tr>
+  <tr><td>Cancelled</td><td>ملغاة</td></tr>
+  <tr><td>Refunded</td><td>مستردة</td></tr>
+</table>
+
+<h2>4.3 البيانات الأساسية (Lookup Entities)</h2>
+
+<p>كيانات البيانات الأساسية التي تستخدم كمراجع في باقي النظام:</p>
+
+<table>
+  <tr><th>الكيان</th><th>الوصف</th><th>المجلد</th></tr>
+  <tr><td>Manufacturer</td><td>شركات تصنيع السيارات (تويوتا، هيونداي...)</td><td>Manufacturers</td></tr>
+  <tr><td>CarMark</td><td>موديلات السيارات (كامري، سوناتا...)</td><td>CarMarkes</td></tr>
+  <tr><td>Branch</td><td>فروع مركز الفحص</td><td>Branches</td></tr>
+  <tr><td>Client</td><td>العملاء</td><td>Clients</td></tr>
+  <tr><td>Employee</td><td>الموظفون والفنيون</td><td>Employees</td></tr>
+  <tr><td>Service</td><td>الخدمات المقدمة</td><td>Services</td></tr>
+  <tr><td>ServicePrice</td><td>أسعار الخدمات (مرتبطة بنوع الفحص)</td><td>ServicePrices</td></tr>
+  <tr><td>PaymentMethod</td><td>طرق الدفع (نقدي، بطاقة...)</td><td>PaymentMethods</td></tr>
+  <tr><td>Crane</td><td>الرافعات</td><td>Cranes</td></tr>
+  <tr><td>Term</td><td>الشروط والأحكام</td><td>Terms</td></tr>
+  <tr><td>ClientResource</td><td>موارد العملاء</td><td>ClientResources</td></tr>
+</table>
+
+<h3>بيانات مشاكل الفحص (Issue Lookups)</h3>
+<table>
+  <tr><th>الكيان</th><th>الوصف</th></tr>
+  <tr><td>SensorIssue</td><td>مشاكل الحساسات</td></tr>
+  <tr><td>MechIssue</td><td>مشاكل ميكانيكية</td></tr>
+  <tr><td>InteriorBodyIssue</td><td>مشاكل الهيكل الداخلي</td></tr>
+  <tr><td>ExteriorBodyIssue</td><td>مشاكل الهيكل الخارجي</td></tr>
+  <tr><td>InsideAndDecorPartIssue</td><td>مشاكل الداخلية والديكور</td></tr>
+  <tr><td>AccessoryIssue</td><td>مشاكل الإكسسوارات</td></tr>
+  <tr><td>RoadTestIssue</td><td>مشاكل التجربة الميدانية</td></tr>
+</table>
+
+<h3>بيانات أجزاء الفحص (Part Lookups)</h3>
+<table>
+  <tr><th>الكيان</th><th>الوصف</th></tr>
+  <tr><td>InteriorBodyPart</td><td>أجزاء الهيكل الداخلي</td></tr>
+  <tr><td>ExteriorBodyPart</td><td>أجزاء الهيكل الخارجي</td></tr>
+  <tr><td>InsideAndDecorPart</td><td>أجزاء الداخلية والديكور</td></tr>
+  <tr><td>AccessoryPart</td><td>أجزاء الإكسسوارات</td></tr>
+  <tr><td>MechPart</td><td>أجزاء ميكانيكية</td></tr>
+  <tr><td>MechPartType</td><td>أنواع الأجزاء الميكانيكية</td></tr>
+  <tr><td>RoadTestIssueType</td><td>أنواع مشاكل التجربة الميدانية</td></tr>
+</table>
+
+<!-- ===== 5. طبقة الـ Application ===== -->
+<div class="page-break"></div>
+<h1>5. طبقة الـ Application (التطبيق)</h1>
+
+<p>تحتوي على منطق التطبيق مقسم لأوامر (Commands) واستعلامات (Queries) حسب نمط CQRS.</p>
+
+<h2>5.1 أوامر واستعلامات الفحوصات (Examinations)</h2>
+
+<h3>الأوامر (Commands)</h3>
+<table>
+  <tr><th>الأمر</th><th>الوصف</th></tr>
+  <tr><td>Create</td><td>إنشاء طلب فحص جديد</td></tr>
+  <tr><td>Update</td><td>تعديل بيانات الفحص</td></tr>
+  <tr><td>Delete</td><td>حذف طلب فحص</td></tr>
+  <tr><td>ChangeStatus</td><td>تغيير حالة الفحص (بدء، إكمال، تسليم، إلغاء)</td></tr>
+  <tr><td>SaveSensorStage</td><td>حفظ نتائج مرحلة الحساسات</td></tr>
+  <tr><td>SaveDashboardIndicatorsStage</td><td>حفظ نتائج مرحلة مؤشرات الطبلون</td></tr>
+  <tr><td>SaveInteriorBodyStage</td><td>حفظ نتائج مرحلة الهيكل الداخلي</td></tr>
+  <tr><td>SaveExteriorBodyStage</td><td>حفظ نتائج مرحلة الهيكل الخارجي</td></tr>
+  <tr><td>SaveInteriorDecorStage</td><td>حفظ نتائج مرحلة الداخلية والديكور</td></tr>
+  <tr><td>SaveAccessoryStage</td><td>حفظ نتائج مرحلة الإكسسوارات</td></tr>
+  <tr><td>SaveMechanicalStage</td><td>حفظ نتائج مرحلة الميكانيكا</td></tr>
+  <tr><td>SaveTireStage</td><td>حفظ نتائج مرحلة الإطارات</td></tr>
+  <tr><td>SaveRoadTestStage</td><td>حفظ نتائج مرحلة التجربة الميدانية</td></tr>
+</table>
+
+<h3>الاستعلامات (Queries)</h3>
+<table>
+  <tr><th>الاستعلام</th><th>الوصف</th></tr>
+  <tr><td>GetAll</td><td>جلب جميع الفحوصات مع البحث والترقيم</td></tr>
+  <tr><td>GetById</td><td>جلب تفاصيل فحص واحد</td></tr>
+  <tr><td>GetCount</td><td>عدد الفحوصات (للوحة المعلومات)</td></tr>
+  <tr><td>GetHistory</td><td>سجل العمليات على الفحص</td></tr>
+  <tr><td>GetReport</td><td>تقرير الفحص الكامل</td></tr>
+  <tr><td>GetWorkflow</td><td>حالة مراحل الفحص</td></tr>
+  <tr><td>CanComplete</td><td>التحقق من إمكانية إكمال الفحص</td></tr>
+  <tr><td>GetSensorStage</td><td>جلب نتائج مرحلة الحساسات</td></tr>
+  <tr><td>GetServiceUsage</td><td>استخدام الخدمات</td></tr>
+  <tr><td>... (مرحلة لكل Stage)</td><td>جلب نتائج كل مرحلة</td></tr>
+</table>
+
+<h2>5.2 أوامر واستعلامات الفواتير (Invoices)</h2>
+
+<h3>الأوامر (Commands)</h3>
+<table>
+  <tr><th>الأمر</th><th>الوصف</th></tr>
+  <tr><td>Create</td><td>إنشاء فاتورة جديدة</td></tr>
+  <tr><td>CreateFromExamination</td><td>إنشاء فاتورة تلقائياً من الفحص</td></tr>
+  <tr><td>Update</td><td>تعديل الفاتورة</td></tr>
+  <tr><td>Delete</td><td>حذف الفاتورة</td></tr>
+  <tr><td>AddPayment</td><td>إضافة دفعة على الفاتورة</td></tr>
+  <tr><td>RefundPayment</td><td>إضافة استرداد (على الفاتورة الأصلية)</td></tr>
+  <tr><td>CreateRefund</td><td>إنشاء فاتورة استرداد</td></tr>
+  <tr><td>SetDiscount</td><td>تعيين خصم على الفاتورة</td></tr>
+  <tr><td>ChangeStatus</td><td>تغيير حالة الفاتورة</td></tr>
+</table>
+
+<h3>الاستعلامات (Queries)</h3>
+<table>
+  <tr><th>الاستعلام</th><th>الوصف</th></tr>
+  <tr><td>GetAll</td><td>جلب جميع الفواتير مع البحث والترقيم</td></tr>
+  <tr><td>GetById</td><td>جلب تفاصيل فاتورة واحدة</td></tr>
+  <tr><td>GetByExamination</td><td>جلب فواتير فحص معين</td></tr>
+  <tr><td>GetConsolidated</td><td>جلب البيانات المجمعة لكل فواتير فحص</td></tr>
+  <tr><td>GetHistory</td><td>سجل العمليات على الفاتورة</td></tr>
+  <tr><td>GetRevenue</td><td>تقرير الإيرادات</td></tr>
+</table>
+
+<h2>5.3 الأنماط الأساسية (Base Patterns)</h2>
+
+<div class="section-box">
+  <h4>BaseCommandHandler&lt;TCommand, T&gt;</h4>
+  <p>الكلاس الأساسي لجميع معالجات الأوامر — يوفر دوال مساعدة <code>Ok()</code> و <code>Fail()</code> لإرجاع النتائج.</p>
+
+  <h4>BaseQueryHandler&lt;TQuery, T&gt;</h4>
+  <p>الكلاس الأساسي لمعالجات الاستعلامات.</p>
+
+  <h4>IRepository&lt;T&gt;</h4>
+  <p>واجهة المستودع للكتابة: <code>AddAsync</code>، <code>UpdateAsync</code>، <code>SoftDeleteAsync</code></p>
+
+  <h4>IReadRepository&lt;T&gt;</h4>
+  <p>واجهة المستودع للقراءة: <code>Query()</code>، <code>QueryTracking()</code>، <code>AnyAsync()</code></p>
+
+  <h4>IUnitOfWork</h4>
+  <p>وحدة العمل: <code>SaveChangesAsync()</code>، <code>BeginTransactionAsync()</code></p>
+</div>
+
+<!-- ===== 6. طبقة الـ API ===== -->
+<div class="page-break"></div>
+<h1>6. طبقة الـ API (الواجهة البرمجية)</h1>
+
+<p>تحتوي على الـ Controllers التي تستقبل الطلبات HTTP وتوجهها للـ Application Layer عبر MediatR.</p>
+
+<h3>جميع الـ Controllers</h3>
+<table>
+  <tr><th>Controller</th><th>المسار</th><th>الوصف</th></tr>
+  <tr><td>AuthController</td><td>/api/Auth</td><td>تسجيل الدخول، تحديث التوكن</td></tr>
+  <tr><td>UsersController</td><td>/api/Users</td><td>إدارة المستخدمين</td></tr>
+  <tr><td>RolesController</td><td>/api/Roles</td><td>إدارة الأدوار</td></tr>
+  <tr><td>PermissionsController</td><td>/api/Permissions</td><td>جلب الصلاحيات المتاحة</td></tr>
+  <tr><td>ProfileController</td><td>/api/Profile</td><td>الملف الشخصي للمستخدم</td></tr>
+  <tr><td>ExaminationsController</td><td>/api/Examinations</td><td>إدارة الفحوصات</td></tr>
+  <tr><td>InvoicesController</td><td>/api/Invoices</td><td>إدارة الفواتير والمدفوعات</td></tr>
+  <tr><td>ClientsController</td><td>/api/Clients</td><td>إدارة العملاء</td></tr>
+  <tr><td>EmployeesController</td><td>/api/Employees</td><td>إدارة الموظفين</td></tr>
+  <tr><td>BranchesController</td><td>/api/Branches</td><td>إدارة الفروع</td></tr>
+  <tr><td>ManufacturersController</td><td>/api/Manufacturers</td><td>شركات التصنيع</td></tr>
+  <tr><td>CarMarkesController</td><td>/api/CarMarkes</td><td>موديلات السيارات</td></tr>
+  <tr><td>ServicesController</td><td>/api/Services</td><td>الخدمات</td></tr>
+  <tr><td>ServicePricesController</td><td>/api/ServicePrices</td><td>أسعار الخدمات</td></tr>
+  <tr><td>PaymentMethodsController</td><td>/api/PaymentMethods</td><td>طرق الدفع</td></tr>
+  <tr><td>CranesController</td><td>/api/Cranes</td><td>الرافعات</td></tr>
+  <tr><td>TermsController</td><td>/api/Terms</td><td>الشروط والأحكام</td></tr>
+  <tr><td>ClientResourcesController</td><td>/api/ClientResources</td><td>موارد العملاء</td></tr>
+  <tr><td>SensorIssuesController</td><td>/api/SensorIssues</td><td>مشاكل الحساسات</td></tr>
+  <tr><td>MechIssuesController</td><td>/api/MechIssues</td><td>مشاكل ميكانيكية</td></tr>
+  <tr><td>MechPartsController</td><td>/api/MechParts</td><td>أجزاء ميكانيكية</td></tr>
+  <tr><td>MechPartTypesController</td><td>/api/MechPartTypes</td><td>أنواع الأجزاء الميكانيكية</td></tr>
+  <tr><td>InteriorBodyPartsController</td><td>/api/InteriorBodyParts</td><td>أجزاء الهيكل الداخلي</td></tr>
+  <tr><td>InteriorBodyIssuesController</td><td>/api/InteriorBodyIssues</td><td>مشاكل الهيكل الداخلي</td></tr>
+  <tr><td>ExteriorBodyPartsController</td><td>/api/ExteriorBodyParts</td><td>أجزاء الهيكل الخارجي</td></tr>
+  <tr><td>ExteriorBodyIssuesController</td><td>/api/ExteriorBodyIssues</td><td>مشاكل الهيكل الخارجي</td></tr>
+  <tr><td>InsideAndDecorPartsController</td><td>/api/InsideAndDecorParts</td><td>أجزاء الداخلية والديكور</td></tr>
+  <tr><td>InsideAndDecorPartIssuesController</td><td>/api/InsideAndDecorPartIssues</td><td>مشاكل الداخلية والديكور</td></tr>
+  <tr><td>AccessoryPartsController</td><td>/api/AccessoryParts</td><td>أجزاء الإكسسوارات</td></tr>
+  <tr><td>AccessoryIssuesController</td><td>/api/AccessoryIssues</td><td>مشاكل الإكسسوارات</td></tr>
+  <tr><td>RoadTestIssuesController</td><td>/api/RoadTestIssues</td><td>مشاكل التجربة الميدانية</td></tr>
+  <tr><td>RoadTestIssueTypesController</td><td>/api/RoadTestIssueTypes</td><td>أنواع مشاكل التجربة الميدانية</td></tr>
+</table>
+
+<h3>نقاط النهاية الرئيسية للفحوصات</h3>
+<table>
+  <tr><th>HTTP</th><th>المسار</th><th>الوصف</th></tr>
+  <tr><td>POST</td><td>/api/Examinations/pagination</td><td>جلب الفحوصات مع ترقيم</td></tr>
+  <tr><td>GET</td><td>/api/Examinations/{id}</td><td>تفاصيل فحص</td></tr>
+  <tr><td>POST</td><td>/api/Examinations</td><td>إنشاء فحص جديد</td></tr>
+  <tr><td>PUT</td><td>/api/Examinations/{id}</td><td>تعديل فحص</td></tr>
+  <tr><td>PUT</td><td>/api/Examinations/{id}/status</td><td>تغيير حالة الفحص</td></tr>
+  <tr><td>PUT</td><td>/api/Examinations/{id}/stages/sensors</td><td>حفظ مرحلة الحساسات</td></tr>
+  <tr><td>GET</td><td>/api/Examinations/{id}/stages/sensors</td><td>جلب نتائج مرحلة الحساسات</td></tr>
+</table>
+
+<h3>نقاط النهاية الرئيسية للفواتير</h3>
+<table>
+  <tr><th>HTTP</th><th>المسار</th><th>الوصف</th></tr>
+  <tr><td>POST</td><td>/api/Invoices/pagination</td><td>جلب الفواتير مع ترقيم</td></tr>
+  <tr><td>GET</td><td>/api/Invoices/{id}</td><td>تفاصيل فاتورة</td></tr>
+  <tr><td>POST</td><td>/api/Invoices/{id}/payments</td><td>إضافة دفعة</td></tr>
+  <tr><td>POST</td><td>/api/Invoices/{id}/refunds</td><td>إضافة استرداد</td></tr>
+  <tr><td>PUT</td><td>/api/Invoices/{id}/discount</td><td>تعيين خصم</td></tr>
+  <tr><td>GET</td><td>/api/Invoices/consolidated/{examId}</td><td>بيانات مجمعة للفحص</td></tr>
+</table>
+
+<!-- ===== 7. Infrastructure ===== -->
+<div class="page-break"></div>
+<h1>7. طبقة الـ Infrastructure (البنية التحتية)</h1>
+
+<div class="section-box">
+  <h3>قاعدة البيانات</h3>
+  <ul>
+    <li><strong>Entity Framework Core</strong> مع SQL Server</li>
+    <li>تكوين الجداول عبر <code>IEntityTypeConfiguration&lt;T&gt;</code></li>
+    <li>تطبيق التكوينات تلقائياً عبر <code>ApplyConfigurationsFromAssembly</code></li>
+    <li>دعم Soft Delete (حذف ناعم)</li>
+    <li>حقول تدقيق تلقائية (CreatedAt, UpdatedAt)</li>
+  </ul>
+
+  <h3>المستودعات (Repositories)</h3>
+  <ul>
+    <li><code>IRepository&lt;T&gt;</code> — للكتابة (Add, Update, SoftDelete)</li>
+    <li><code>IReadRepository&lt;T&gt;</code> — للقراءة (Query, AnyAsync)</li>
+    <li><code>ILookupRepository&lt;T&gt;</code> — للبيانات الأساسية</li>
+  </ul>
+
+  <h3>المصادقة والتفويض</h3>
+  <ul>
+    <li>JWT Bearer Token للمصادقة</li>
+    <li><code>[HasPermission]</code> attribute للتحقق من الصلاحيات</li>
+    <li><code>[HasAnyPermission]</code> للتحقق من أي صلاحية من مجموعة</li>
+  </ul>
+
+  <h3>الخدمات الإضافية</h3>
+  <ul>
+    <li><code>InvoiceHtmlRenderer</code> — عرض HTML للفاتورة (للطباعة/المشاركة)</li>
+    <li><code>InvoiceNumberGenerator</code> — توليد أرقام الفواتير</li>
+    <li><code>InvoiceSyncService</code> — مزامنة الفواتير</li>
+    <li><code>ExaminationService</code> — خدمات مساعدة للفحوصات</li>
+    <li>Localization عبر Resource Files (عربي/إنجليزي)</li>
+  </ul>
+</div>
+
+<!-- ===== 8. الواجهة الأمامية ===== -->
+<div class="page-break"></div>
+<h1>8. الواجهة الأمامية (Frontend)</h1>
+
+<p>تطبيق Angular يعتمد على NgModule مع Lazy Loading للوحدات.</p>
+
+<h2>8.1 هيكل المشروع</h2>
+
+<div class="section-box" style="direction:ltr; text-align:left; font-family:monospace; font-size:0.85rem; line-height:2;">
+src/app/<br>
+├── core/<br>
+│ &nbsp;&nbsp;└── services/<br>
+│ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── auth.service.ts &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# المصادقة وإدارة التوكن<br>
+│ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── custom.service.ts &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# ApiService — HTTP wrapper<br>
+│ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── form.service.ts &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# مساعد النماذج<br>
+│ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── language.service.ts &nbsp;&nbsp;&nbsp;&nbsp;# إدارة اللغة (AR/EN)<br>
+│ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── theme.service.ts &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# إدارة المظهر<br>
+├── shared/<br>
+│ &nbsp;&nbsp;├── components/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# مكونات مشتركة<br>
+│ &nbsp;&nbsp;│ &nbsp;&nbsp;├── topbar/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# شريط التنقل العلوي<br>
+│ &nbsp;&nbsp;│ &nbsp;&nbsp;├── breadcrumb/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# مسار التنقل<br>
+│ &nbsp;&nbsp;│ &nbsp;&nbsp;├── footer/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# التذييل<br>
+│ &nbsp;&nbsp;│ &nbsp;&nbsp;├── confirm-delete-modal/ &nbsp;# نافذة تأكيد الحذف<br>
+│ &nbsp;&nbsp;│ &nbsp;&nbsp;├── lookup-list/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# قائمة بيانات أساسية عامة<br>
+│ &nbsp;&nbsp;│ &nbsp;&nbsp;├── lookup-form/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# نموذج بيانات أساسية عام<br>
+│ &nbsp;&nbsp;│ &nbsp;&nbsp;├── shared-list/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# قائمة مشتركة<br>
+│ &nbsp;&nbsp;│ &nbsp;&nbsp;└── page-size/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# مكون تحديد حجم الصفحة<br>
+│ &nbsp;&nbsp;└── Models/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# DTOs والنماذج<br>
+└── features/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# وحدات الميزات<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── home/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# الصفحة الرئيسية/لوحة المعلومات<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── vehicle-orders/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# طلبات فحص السيارات<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── examination-management/ # إدارة بيانات الفحص الأساسية<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── invoices/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# الفواتير<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── management-clients/ &nbsp;&nbsp;&nbsp;&nbsp;# إدارة العملاء<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── users/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# إدارة المستخدمين والأدوار<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── settings/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# الإعدادات<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── profile/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# الملف الشخصي<br>
+&nbsp;&nbsp;&nbsp;&nbsp;└── unauthorized/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# صفحة عدم الصلاحية<br>
+</div>
+
+<h2>8.2 وحدات الميزات (Feature Modules)</h2>
+
+<h3>وحدة طلبات الفحص (Vehicle Orders)</h3>
+<table>
+  <tr><th>المكون</th><th>الوصف</th></tr>
+  <tr><td>vehicle-order-list</td><td>قائمة طلبات الفحص مع البحث والفلترة</td></tr>
+  <tr><td>vehicle-order-form</td><td>نموذج إنشاء/تعديل طلب فحص</td></tr>
+  <tr><td>examination-detail</td><td>تفاصيل الفحص الكاملة</td></tr>
+  <tr><td>examination-report</td><td>تقرير الفحص للطباعة</td></tr>
+  <tr><td>examination-workflow</td><td>واجهة مراحل الفحص</td></tr>
+</table>
+
+<h4>مراحل سير العمل (Workflow Stages)</h4>
+<p>كل مرحلة لها مكون خاص يرث من <code>BaseStageComponent</code>:</p>
+<table>
+  <tr><th>المكون</th><th>المرحلة</th></tr>
+  <tr><td>sensors-stage</td><td>مرحلة الحساسات</td></tr>
+  <tr><td>dashboard-indicators-stage</td><td>مرحلة مؤشرات الطبلون</td></tr>
+  <tr><td>interior-body-stage</td><td>مرحلة الهيكل الداخلي</td></tr>
+  <tr><td>exterior-body-stage</td><td>مرحلة الهيكل الخارجي</td></tr>
+  <tr><td>interior-trim-stage</td><td>مرحلة الداخلية والديكور</td></tr>
+  <tr><td>exterior-accessories-stage</td><td>مرحلة الإكسسوارات</td></tr>
+  <tr><td>mechanical-stage</td><td>مرحلة الميكانيكا</td></tr>
+  <tr><td>tires-stage</td><td>مرحلة الإطارات</td></tr>
+  <tr><td>road-test-stage</td><td>مرحلة التجربة الميدانية</td></tr>
+</table>
+
+<div class="highlight-box">
+  <strong>WorkflowDataService:</strong> خدمة على مستوى الوحدة تحمل بيانات الفحص المشتركة بين المراحل
+  (بيانات الفحص، حالة المراحل) لتجنب تحميلها في كل مرحلة.
+</div>
+
+<h3>وحدة الفواتير (Invoices)</h3>
+<table>
+  <tr><th>المكون</th><th>الوصف</th></tr>
+  <tr><td>invoice-list</td><td>قائمة الفواتير مع البحث</td></tr>
+  <tr><td>invoice-detail</td><td>تفاصيل الفاتورة مع إمكانية إضافة دفعة/استرداد وخصم</td></tr>
+  <tr><td>invoice-consolidation</td><td>ملخص مجمع لكل فواتير فحص معين</td></tr>
+  <tr><td>invoice-print.service</td><td>خدمة طباعة الفاتورة</td></tr>
+  <tr><td>invoice.service</td><td>خدمة API للفواتير</td></tr>
+</table>
+
+<h3>وحدة إدارة بيانات الفحص (Examination Management)</h3>
+<p>شاشات لإدارة البيانات الأساسية المستخدمة في الفحوصات:</p>
+<table>
+  <tr><th>المكون</th><th>الوصف</th></tr>
+  <tr><td>sensor-issues</td><td>مشاكل الحساسات</td></tr>
+  <tr><td>mech-parts / mech-part-type / mech-issue</td><td>الأجزاء والأعطال الميكانيكية</td></tr>
+  <tr><td>interior-body-part / interior-body-issue</td><td>أجزاء ومشاكل الهيكل الداخلي</td></tr>
+  <tr><td>exterior-body-part / exterior-body-issue</td><td>أجزاء ومشاكل الهيكل الخارجي</td></tr>
+  <tr><td>inside-and-decor-part / inside-and-decor-part-issue</td><td>أجزاء ومشاكل الداخلية والديكور</td></tr>
+  <tr><td>accessory-part / accessory-issue</td><td>أجزاء ومشاكل الإكسسوارات</td></tr>
+  <tr><td>road-test-issue / road-test-issue-type</td><td>مشاكل وأنواع التجربة الميدانية</td></tr>
+</table>
+
+<h3>وحدة الإعدادات (Settings)</h3>
+<table>
+  <tr><th>المكون</th><th>الوصف</th></tr>
+  <tr><td>branches</td><td>إدارة الفروع</td></tr>
+  <tr><td>manufacturer</td><td>شركات التصنيع</td></tr>
+  <tr><td>car-mark</td><td>موديلات السيارات</td></tr>
+  <tr><td>service</td><td>الخدمات</td></tr>
+  <tr><td>service-price</td><td>أسعار الخدمات</td></tr>
+  <tr><td>payment-method</td><td>طرق الدفع</td></tr>
+  <tr><td>crane</td><td>الرافعات</td></tr>
+  <tr><td>terms</td><td>الشروط والأحكام</td></tr>
+</table>
+
+<h3>وحدة المستخدمين (Users)</h3>
+<table>
+  <tr><th>المكون</th><th>الوصف</th></tr>
+  <tr><td>user-list / user-form</td><td>إدارة المستخدمين</td></tr>
+  <tr><td>role-list / role-form</td><td>إدارة الأدوار والصلاحيات</td></tr>
+</table>
+
+<h2>8.3 الخدمات الأساسية (Core Services)</h2>
+
+<table>
+  <tr><th>الخدمة</th><th>الملف</th><th>الوظيفة</th></tr>
+  <tr><td>ApiService</td><td>custom.service.ts</td><td>غلاف HTTP يضيف Base URL والتوكن تلقائياً — يستخدم في كل الطلبات</td></tr>
+  <tr><td>AuthService</td><td>auth.service.ts</td><td>تسجيل الدخول/الخروج، إدارة JWT Token، فحص الصلاحيات</td></tr>
+  <tr><td>LanguageService</td><td>language.service.ts</td><td>تبديل اللغة (عربي/إنجليزي) واتجاه الصفحة (RTL/LTR)</td></tr>
+  <tr><td>ThemeService</td><td>theme.service.ts</td><td>إدارة المظهر (فاتح/داكن)</td></tr>
+  <tr><td>FormService</td><td>form.service.ts</td><td>خدمات مساعدة للنماذج</td></tr>
+</table>
+
+<h2>8.4 المكونات المشتركة (Shared Components)</h2>
+
+<table>
+  <tr><th>المكون</th><th>الوظيفة</th></tr>
+  <tr><td>Topbar</td><td>شريط التنقل العلوي مع القائمة الجانبية وتبديل اللغة والمستخدم</td></tr>
+  <tr><td>Breadcrumb</td><td>مسار التنقل الهرمي</td></tr>
+  <tr><td>Footer</td><td>تذييل الصفحة</td></tr>
+  <tr><td>ConfirmDeleteModal</td><td>نافذة تأكيد الحذف (قابلة لإعادة الاستخدام)</td></tr>
+  <tr><td>LookupList</td><td>قائمة عامة للبيانات الأساسية (CRUD كامل)</td></tr>
+  <tr><td>LookupForm</td><td>نموذج عام للبيانات الأساسية (إضافة/تعديل)</td></tr>
+  <tr><td>SharedList</td><td>قائمة مشتركة مع بحث وترقيم</td></tr>
+  <tr><td>PageSize</td><td>مكون اختيار عدد العناصر في الصفحة</td></tr>
+</table>
+
+<!-- ===== 9. نظام الصلاحيات ===== -->
+<div class="page-break"></div>
+<h1>9. نظام الصلاحيات والمستخدمين</h1>
+
+<p>النظام يستخدم نموذج <strong>Role-Based Access Control (RBAC)</strong> مع صلاحيات مفصلة على مستوى كل عملية.</p>
+
+<h3>كيف يعمل النظام</h3>
+<div class="flow-step"><div class="step-num">1</div><span>المستخدم ينتمي لـ <strong>دور (Role)</strong> واحد أو أكثر</span></div>
+<div class="flow-step"><div class="step-num">2</div><span>كل دور يحتوي على مجموعة <strong>صلاحيات (Permissions)</strong></span></div>
+<div class="flow-step"><div class="step-num">3</div><span>الصلاحيات تُخزن كـ Claims في الـ JWT Token</span></div>
+<div class="flow-step"><div class="step-num">4</div><span>الـ <code>[HasPermission]</code> يتحقق من وجود الصلاحية قبل تنفيذ الطلب</span></div>
+
+<h3>جميع الصلاحيات</h3>
+<table>
+  <tr><th>المجموعة</th><th>الصلاحيات</th></tr>
+  <tr><td>المستخدمين</td><td>users.read, users.create, users.update, users.delete</td></tr>
+  <tr><td>الأدوار</td><td>roles.read, roles.create, roles.update</td></tr>
+  <tr><td>الفروع</td><td>branches.read, branches.create, branches.update, branches.delete</td></tr>
+  <tr><td>الموظفين</td><td>employees.read, employees.create, employees.update, employees.delete</td></tr>
+  <tr><td>العملاء</td><td>clients.read, clients.create, clients.update, clients.delete</td></tr>
+  <tr><td>الفحوصات</td><td>examination.read, examination.create, examination.update, examination.delete, examination.start, examination.cancel, examination.deliver, examination.report, examination.reopen</td></tr>
+  <tr><td>الفواتير</td><td>invoice.read, invoice.create, invoice.update, invoice.delete</td></tr>
+  <tr><td>لوحة المعلومات</td><td>dashboard.examinations, dashboard.revenue</td></tr>
+  <tr><td>الخدمات</td><td>service.read/create/update/delete, servicePrice.read/create/update/delete</td></tr>
+  <tr><td>طرق الدفع</td><td>paymentMethod.read/create/update/delete</td></tr>
+  <tr><td>الشركات والموديلات</td><td>manufacturer.*, carMark.*</td></tr>
+  <tr><td>بيانات الفحص</td><td>sensorIssue.*, mechPart.*, mechPartType.*, mechIssue.*, interiorBodyPart.*, interiorBodyIssue.*, exteriorBodyPart.*, exteriorBodyIssue.*, accessoryPart.*, accessoryIssue.*, roadTestIssue.*, insideAndDecorPart.*, insideAndDecorPartIssue.*</td></tr>
+</table>
+
+<!-- ===== 10. سير العمل ===== -->
+<div class="page-break"></div>
+<h1>10. سير العمل الأساسي (Workflow)</h1>
+
+<h2>10.1 دورة حياة الفحص</h2>
+
+<div class="flow-step"><div class="step-num">1</div><span><strong>إنشاء الطلب:</strong> يتم إدخال بيانات العميل والسيارة واختيار الخدمات المطلوبة ← حالة <code>Draft</code></span></div>
+<div class="flow-step"><div class="step-num">2</div><span><strong>بدء الفحص:</strong> يبدأ الفني العمل على المراحل ← حالة <code>InProgress</code></span></div>
+<div class="flow-step"><div class="step-num">3</div><span><strong>تنفيذ المراحل:</strong> يمر الفحص على 9 مراحل (حسب الخدمات المختارة):</span></div>
+
+<div style="margin-right:50px;">
+  <p>كل مرحلة تتضمن:</p>
+  <ul>
+    <li>فحص أجزاء محددة وتسجيل حالتها (سليم، يحتاج صيانة، تالف...)</li>
+    <li>تسجيل المشاكل/الملاحظات لكل جزء</li>
+    <li>حفظ النتائج — يتم عبر الـ AggregateRoot (Examination)</li>
+  </ul>
+</div>
+
+<div class="flow-step"><div class="step-num">4</div><span><strong>إكمال الفحص:</strong> بعد الانتهاء من كل المراحل المطلوبة ← حالة <code>Completed</code></span></div>
+<div class="flow-step"><div class="step-num">5</div><span><strong>إنشاء الفاتورة:</strong> يتم إنشاء فاتورة تلقائياً من الخدمات المسجلة</span></div>
+<div class="flow-step"><div class="step-num">6</div><span><strong>الدفع:</strong> يتم تسجيل المدفوعات على الفاتورة</span></div>
+<div class="flow-step"><div class="step-num">7</div><span><strong>التسليم:</strong> تسليم السيارة للعميل ← حالة <code>Delivered</code></span></div>
+
+<h2>10.2 دورة حياة الفاتورة</h2>
+
+<div class="flow-step"><div class="step-num">1</div><span><strong>إنشاء:</strong> تُنشأ من الفحص تلقائياً أو يدوياً ← حالة <code>Issued</code></span></div>
+<div class="flow-step"><div class="step-num">2</div><span><strong>إضافة دفعة:</strong> يتم تسجيل دفعة بمبلغ وطريقة دفع</span></div>
+<div class="flow-step"><div class="step-num">3</div><span><strong>اكتمال الدفع:</strong> عند دفع كامل المبلغ ← حالة <code>Paid</code></span></div>
+
+<h3>سيناريو تعديل سعر الخدمة</h3>
+<div class="highlight-box">
+  <p><strong>زيادة السعر:</strong> يتم إنشاء فاتورة <code>Adjustment</code> بالفرق ← يدفع العميل الفرق</p>
+  <p><strong>تخفيض السعر:</strong> يتم إنشاء فاتورة <code>Refund</code> بالفرق ← يُسجل استرداد (Payment) على فاتورة الـ Refund لتسجيل رد المبلغ للعميل</p>
+</div>
+
+<!-- ===== 11. نظام الفواتير ===== -->
+<h1>11. نظام الفواتير والمدفوعات</h1>
+
+<h3>هيكل الفاتورة</h3>
+<div class="section-box">
+  <ul>
+    <li><strong>العميل:</strong> اسم ورقم هاتف</li>
+    <li><strong>الفرع:</strong> الفرع المسؤول</li>
+    <li><strong>العناصر (Items):</strong> الخدمات مع السعر لكل وحدة والإجمالي</li>
+    <li><strong>الحسابات:</strong>
+      <ul>
+        <li>الإجمالي الفرعي (SubTotal)</li>
+        <li>الخصم (DiscountAmount)</li>
+        <li>نسبة الضريبة (TaxRate) ومبلغ الضريبة (TaxAmount)</li>
+        <li>الإجمالي شامل الضريبة (TotalWithTax)</li>
+      </ul>
+    </li>
+    <li><strong>المدفوعات (Payments):</strong> كل دفعة بمبلغ وطريقة دفع وتاريخ</li>
+  </ul>
+</div>
+
+<h3>الصفحة المجمعة (Consolidated)</h3>
+<p>
+  تعرض ملخص لكل فواتير فحص معين مع الإجمالي المدفوع والمتبقي، حيث يتم حساب
+  <code>TotalPaid</code> و<code>Balance</code> مباشرة من بيانات المدفوعات في الـ Domain.
+</p>
+
+<!-- ===== 12. الإعدادات ===== -->
+<div class="page-break"></div>
+<h1>12. الإعدادات والبيانات الأساسية</h1>
+
+<p>يوفر النظام شاشات إدارة كاملة (CRUD) لكل البيانات الأساسية:</p>
+
+<table>
+  <tr><th>البيان</th><th>الشاشة</th><th>الوصف</th></tr>
+  <tr><td>الفروع</td><td>Settings > Branches</td><td>إضافة/تعديل/حذف فروع المركز</td></tr>
+  <tr><td>شركات التصنيع</td><td>Settings > Manufacturers</td><td>شركات تصنيع السيارات</td></tr>
+  <tr><td>الموديلات</td><td>Settings > Car Marks</td><td>موديلات السيارات (مرتبطة بالشركة)</td></tr>
+  <tr><td>الخدمات</td><td>Settings > Services</td><td>الخدمات المقدمة مع نوعها ومرحلتها</td></tr>
+  <tr><td>أسعار الخدمات</td><td>Settings > Service Prices</td><td>ربط الأسعار بنوع الفحص والخدمة</td></tr>
+  <tr><td>طرق الدفع</td><td>Settings > Payment Methods</td><td>نقدي، بطاقة ائتمان، تحويل...</td></tr>
+  <tr><td>الرافعات</td><td>Settings > Cranes</td><td>رافعات المركز</td></tr>
+  <tr><td>الشروط</td><td>Settings > Terms</td><td>الشروط والأحكام على التقارير</td></tr>
+</table>
+
+<h3>بيانات الفحص الأساسية</h3>
+<table>
+  <tr><th>القسم</th><th>البيانات</th></tr>
+  <tr><td>الحساسات</td><td>مشاكل الحساسات</td></tr>
+  <tr><td>الميكانيكا</td><td>أجزاء ميكانيكية، أنواع الأجزاء، مشاكل ميكانيكية</td></tr>
+  <tr><td>الهيكل الداخلي</td><td>أجزاء الهيكل الداخلي، مشاكل الهيكل الداخلي</td></tr>
+  <tr><td>الهيكل الخارجي</td><td>أجزاء الهيكل الخارجي، مشاكل الهيكل الخارجي</td></tr>
+  <tr><td>الداخلية والديكور</td><td>أجزاء الداخلية، مشاكل الداخلية</td></tr>
+  <tr><td>الإكسسوارات</td><td>أجزاء الإكسسوارات، مشاكل الإكسسوارات</td></tr>
+  <tr><td>التجربة الميدانية</td><td>مشاكل التجربة، أنواع المشاكل</td></tr>
+</table>
+
+<br><br>
+<div style="text-align:center; color:#94a3b8; padding:40px; border-top:2px solid #e2e8f0; margin-top:40px;">
+  <p style="font-size:1.2rem; font-weight:700; color:#64748b;">نهاية التوثيق</p>
+  <p>نظام NewGarage — توثيق شامل للمشروع</p>
+  <p>تم إنشاؤه في مارس 2026</p>
+</div>
+
+</body>
+</html>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { ApiResponse, PaginatedResponse } from 'src/app/shared/Models/api-response';
-import { InvoiceDto, InvoiceHistoryDto } from 'src/app/shared/Models/invoices/invoice-dto';
+import { ConsolidatedInvoiceData, InvoiceDto, InvoiceHistoryDto } from 'src/app/shared/Models/invoices/invoice-dto';
 import { SearchCriteria } from 'src/app/shared/Models/search-criteria';
 
 @Injectable()
@@ -19,6 +19,10 @@ export class InvoiceService {
 
   getByExamination(examinationId: string): Observable<ApiResponse<InvoiceDto[]>> {
     return this.api.get<ApiResponse<InvoiceDto[]>>(`Invoices/by-examination/${examinationId}`);
+  }
+
+  getConsolidated(examinationId: string): Observable<ApiResponse<ConsolidatedInvoiceData>> {
+    return this.api.get<ApiResponse<ConsolidatedInvoiceData>>(`Invoices/consolidated/${examinationId}`);
   }
 
   paginate(criteria: SearchCriteria): Observable<PaginatedResponse<InvoiceDto>> {

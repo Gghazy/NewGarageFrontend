@@ -8,4 +8,6 @@ export interface SearchCriteria {
     dateFrom?: string;
     dateTo?: string;
     branchId?: string | null;
+    status?: string | null;
+    invoiceType?: string | null;
 }

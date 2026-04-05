@@ -32,16 +32,6 @@ export interface InvoiceItemDto {
   adjustmentAmount: number;
 }
 
-export interface RelatedInvoiceDto {
-  id: string;
-  invoiceNumber?: string;
-  type: string;
-  status: string;
-  totalWithTax: number;
-  currency: string;
-  createdAtUtc: string;
-}
-
 export interface ConsolidatedItemDto {
   description: string;
   serviceNameAr?: string;
@@ -55,6 +45,8 @@ export interface ConsolidatedInvoiceData {
   clientNameAr: string;
   clientNameEn: string;
   clientPhone: string;
+  branchNameAr?: string;
+  branchNameEn?: string;
   manufacturerNameAr?: string;
   manufacturerNameEn?: string;
   carMarkNameAr?: string;
@@ -64,6 +56,8 @@ export interface ConsolidatedInvoiceData {
   vin?: string;
   plateLetters?: string;
   plateNumbers?: string;
+  mileage?: number;
+  mileageUnit?: string;
   items: ConsolidatedItemDto[];
   subTotal: number;
   discountAmount: number;
@@ -105,18 +99,12 @@ export interface InvoiceDto {
   taxAmount: number;
   totalWithTax: number;
   currency: string;
-  totalPaid: number;
-  totalRefunded: number;
-  balance: number;
 
   // Items
   items: InvoiceItemDto[];
 
   // Payments
   payments: InvoicePaymentDto[];
-
-  // Related invoices (Refund / Adjustment)
-  relatedInvoices: RelatedInvoiceDto[];
 
   createdAtUtc: string;
 }

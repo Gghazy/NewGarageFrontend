@@ -9,6 +9,8 @@ import { ExaminationItemRequest } from 'src/app/shared/Models/vehicle-orders/veh
 import { buildCreatePayload, buildUpdatePayload, ExaminationPayloadInput } from './examination-payload-builder';
 import { ExaminationDto } from 'src/app/shared/Models/vehicle-orders/vehicle-order-dto';
 import { ClientFormData, ClientFormOutput, VehicleFormData } from 'src/app/shared/constants/vehicle-constants';
+import { ApiResponse } from 'src/app/shared/Models/api-response';
+import { InvoiceDto } from 'src/app/shared/Models/invoices/invoice-dto';
 
 @Component({
   selector: 'app-vehicle-order-form',
@@ -20,8 +22,8 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
   saving = false;
   loading = false;
   isEdit = false;
-  generatingInvoice = false;
   startAfterSave = false;
+  examInvoices: InvoiceDto[] = [];
   submitted = false;
   draftSubmitted = false;
   examinationId?: string;
@@ -69,11 +71,22 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
             this.router.navigate(['/features/vehicle-orders', this.examinationId, 'details']);
             return;
           }
+          this.loadInvoices();
           this.loading = false;
         },
         error: () => {
           this.toastr.error(this.translate.instant('COMMON.ERROR'));
           this.router.navigate(['/features/vehicle-orders']);
+        },
+      });
+  }
+
+  private loadInvoices(): void {
+    this.api.get<ApiResponse<InvoiceDto[]>>(`Invoices/by-examination/${this.examinationId}`)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.examInvoices = res.data ?? [];
         },
       });
   }
@@ -200,26 +213,14 @@ export class VehicleOrderForm implements OnInit, OnDestroy {
     });
   }
 
-  generateInvoice(): void {
-    if (this.generatingInvoice || !this.examinationId) return;
-    this.generatingInvoice = true;
-
-    this.api.post<any>(`Invoices/from-examination/${this.examinationId}`, {})
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res) => {
-          this.generatingInvoice = false;
-          this.toastr.success(this.translate.instant('VEHICLE_ORDERS.FORM.INVOICE_GENERATED'));
-          const invoiceId = res?.data;
-          if (invoiceId) {
-            this.router.navigate(['/features/invoices', invoiceId]);
-          }
-        },
-        error: (err) => {
-          this.generatingInvoice = false;
-          this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.ERROR'));
-        },
+  goToInvoice(): void {
+    if (this.examInvoices.length === 1) {
+      this.router.navigate(['/features/invoices', this.examInvoices[0].id]);
+    } else if (this.examInvoices.length > 1) {
+      this.router.navigate(['/features/invoices/consolidate'], {
+        queryParams: { examinationId: this.examinationId },
       });
+    }
   }
 
   cancel(): void {

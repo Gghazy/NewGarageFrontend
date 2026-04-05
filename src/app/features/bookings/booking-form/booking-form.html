@@ -1,0 +1,172 @@
+<div class="container-fluid py-3">
+
+  <!-- Page header -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0 fw-bold">
+      {{ (isEdit ? 'BOOKINGS.FORM.TITLE_EDIT' : 'BOOKINGS.FORM.TITLE') | translate }}
+    </h5>
+    <div class="d-flex gap-2">
+      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="goBack()">
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="save()" [disabled]="saving">
+        <span *ngIf="saving" class="spinner-border spinner-border-sm me-1"></span>
+        {{ 'COMMON.SAVE' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Client section -->
+  <div class="card border-0 shadow-sm mb-3">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center py-2 section-toggle" (click)="clientCollapsed = !clientCollapsed">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-chevron-down toggle-icon" [class.rotated]="clientCollapsed"></i>
+        <h6 class="mb-0 fw-semibold">{{ 'BOOKINGS.FORM.CLIENT' | translate }}</h6>
+      </div>
+    </div>
+
+    <div class="card-body" [hidden]="clientCollapsed">
+      <div class="mb-3">
+        <label class="form-label form-label-sm">{{ 'BOOKINGS.FORM.CLIENT' | translate }} <span class="text-danger">*</span></label>
+        <div class="d-flex gap-2 align-items-center">
+          <div class="flex-grow-1">
+            <ng-select
+              [items]="clients"
+              [typeahead]="clientSearch$"
+              [loading]="clientsLoading"
+              bindValue="id"
+              [bindLabel]="isAr ? 'nameAr' : 'nameEn'"
+              [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+              [(ngModel)]="selectedClientId"
+              (change)="onClientSelected($event)"
+              [clearable]="true"
+              [class.is-invalid]="submitted && !selectedClientId">
+              <ng-template ng-label-tmp let-item="item">{{ isAr ? item.nameAr : item.nameEn }}</ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                <div>{{ isAr ? item.nameAr : item.nameEn }}</div>
+                <small class="text-muted">{{ item.phoneNumber }}</small>
+              </ng-template>
+            </ng-select>
+            <div *ngIf="submitted && !selectedClientId" class="text-danger small mt-1">
+              {{ 'BOOKINGS.VALIDATION.CLIENT_REQUIRED' | translate }}
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-primary text-nowrap" (click)="openAddClientModal()">
+            <i class="bi bi-person-plus me-1"></i>
+            {{ 'CLIENTS.ADD' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vehicle & Booking details section -->
+  <div class="card border-0 shadow-sm mb-3">
+    <div class="card-header bg-white py-2 section-toggle d-flex align-items-center gap-2" (click)="detailsCollapsed = !detailsCollapsed">
+      <i class="bi bi-chevron-down toggle-icon" [class.rotated]="detailsCollapsed"></i>
+      <h6 class="mb-0 fw-semibold">{{ 'BOOKINGS.FORM.DETAILS' | translate }}</h6>
+    </div>
+
+    <div class="card-body" [hidden]="detailsCollapsed">
+      <form [formGroup]="form">
+        <div class="row g-2">
+
+          <!-- الفرع -->
+          <div class="col-md-4">
+            <label class="form-label form-label-sm">{{ 'BOOKINGS.FORM.BRANCH' | translate }} <span class="text-danger">*</span></label>
+            <ng-select formControlName="branchId"
+              [items]="branches"
+              bindValue="id"
+              bindLabel="nameAr"
+              [clearable]="true"
+              [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+              [class.is-invalid]="submitted && !form.get('branchId')?.value">
+            </ng-select>
+            <div *ngIf="submitted && !form.get('branchId')?.value" class="text-danger small mt-1">
+              {{ 'BOOKINGS.VALIDATION.BRANCH_REQUIRED' | translate }}
+            </div>
+          </div>
+
+          <!-- الشركة المصنعة -->
+          <div class="col-md-4">
+            <label class="form-label form-label-sm">{{ 'BOOKINGS.FORM.MANUFACTURER' | translate }} <span class="text-danger">*</span></label>
+            <ng-select formControlName="manufacturerId"
+              [items]="manufacturers"
+              bindValue="id"
+              bindLabel="nameAr"
+              [clearable]="true"
+              [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+              [class.is-invalid]="submitted && !form.get('manufacturerId')?.value">
+            </ng-select>
+            <div *ngIf="submitted && !form.get('manufacturerId')?.value" class="text-danger small mt-1">
+              {{ 'BOOKINGS.VALIDATION.MANUFACTURER_REQUIRED' | translate }}
+            </div>
+          </div>
+
+          <!-- الماركة -->
+          <div class="col-md-4">
+            <label class="form-label form-label-sm">{{ 'BOOKINGS.FORM.CAR_MARK' | translate }} <span class="text-danger">*</span></label>
+            <ng-select formControlName="carMarkId"
+              [items]="carMarks"
+              bindValue="id"
+              bindLabel="nameAr"
+              [clearable]="true"
+              [disabled]="!form.get('manufacturerId')?.value"
+              [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+              [class.is-invalid]="submitted && !form.get('carMarkId')?.value">
+            </ng-select>
+            <div *ngIf="submitted && !form.get('carMarkId')?.value" class="text-danger small mt-1">
+              {{ 'BOOKINGS.VALIDATION.CAR_MARK_REQUIRED' | translate }}
+            </div>
+          </div>
+
+          <!-- السنة -->
+          <div class="col-md-2">
+            <label class="form-label form-label-sm">{{ 'BOOKINGS.FORM.YEAR' | translate }}</label>
+            <input class="form-control form-control-sm" type="number" formControlName="year" min="1990" max="2100" />
+          </div>
+
+          <!-- ناقل الحركة -->
+          <div class="col-md-4">
+            <label class="form-label form-label-sm">{{ 'BOOKINGS.FORM.TRANSMISSION' | translate }}</label>
+            <ng-select formControlName="transmission"
+              [items]="transmissionTypes"
+              bindValue="value"
+              bindLabel="labelAr"
+              [clearable]="true"
+              [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate">
+            </ng-select>
+          </div>
+
+          <!-- تاريخ الفحص -->
+          <div class="col-md-3">
+            <label class="form-label form-label-sm">{{ 'BOOKINGS.FORM.EXAM_DATE' | translate }} <span class="text-danger">*</span></label>
+            <input class="form-control form-control-sm" type="date" formControlName="examinationDate"
+                   [class.is-invalid]="submitted && form.get('examinationDate')?.invalid" />
+            <div *ngIf="submitted && form.get('examinationDate')?.invalid" class="text-danger small mt-1">
+              {{ 'BOOKINGS.VALIDATION.DATE_REQUIRED' | translate }}
+            </div>
+          </div>
+
+          <!-- وقت الفحص -->
+          <div class="col-md-3">
+            <label class="form-label form-label-sm">{{ 'BOOKINGS.FORM.EXAM_TIME' | translate }} <span class="text-danger">*</span></label>
+            <input class="form-control form-control-sm" type="time" formControlName="examinationTime"
+                   [class.is-invalid]="submitted && form.get('examinationTime')?.invalid" />
+            <div *ngIf="submitted && form.get('examinationTime')?.invalid" class="text-danger small mt-1">
+              {{ 'BOOKINGS.VALIDATION.TIME_REQUIRED' | translate }}
+            </div>
+          </div>
+
+          <!-- ملاحظات -->
+          <div class="col-12">
+            <label class="form-label form-label-sm">{{ 'BOOKINGS.FORM.NOTES' | translate }}</label>
+            <textarea class="form-control form-control-sm" formControlName="notes" rows="2"></textarea>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,166 @@
+<div class="container-fluid py-3">
+
+  <!-- Page Header -->
+  <div class="detail-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div class="d-flex align-items-center gap-3">
+      <h5 class="detail-title">{{ 'BOOKINGS.DETAIL.TITLE' | translate }}</h5>
+      <div class="header-badges">
+        <span *ngIf="booking?.status" class="badge status-pill" [ngClass]="getStatusClass(booking!.status)">
+          {{ 'BOOKINGS.STATUSES.' + booking?.status | translate }}
+        </span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <!-- Confirm -->
+      <button *ngIf="canConfirm && authService.hasPermission('booking.update')"
+        type="button" class="btn btn-success" (click)="confirmAction('confirm')" [disabled]="actionLoading">
+        <i class="bi bi-check-circle"></i>{{ 'BOOKINGS.CONFIRM' | translate }}
+      </button>
+      <!-- Convert -->
+      <button *ngIf="canConvert && authService.hasPermission('booking.convert')"
+        type="button" class="btn btn-primary" (click)="confirmAction('convert')" [disabled]="actionLoading">
+        <i class="bi bi-arrow-repeat"></i>{{ 'BOOKINGS.CONVERT' | translate }}
+      </button>
+      <!-- View Examination -->
+      <button *ngIf="booking?.convertedExaminationId"
+        type="button" class="btn btn-outline-success" (click)="goToExamination()">
+        <i class="bi bi-eye"></i>{{ 'BOOKINGS.DETAIL.VIEW_EXAM' | translate }}
+      </button>
+      <!-- Edit -->
+      <button *ngIf="canEdit && authService.hasPermission('booking.update')"
+        type="button" class="btn btn-outline-primary" (click)="openEdit()">
+        <i class="bi bi-pencil"></i>{{ 'COMMON.EDIT' | translate }}
+      </button>
+      <!-- Cancel -->
+      <button *ngIf="canCancel && authService.hasPermission('booking.update')"
+        type="button" class="btn btn-outline-danger" (click)="confirmAction('cancel')" [disabled]="actionLoading">
+        <i class="bi bi-x-circle"></i>{{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <!-- Back -->
+      <button type="button" class="btn btn-outline-secondary" (click)="goBack()">
+        <i class="bi bi-arrow-right"></i>{{ 'COMMON.BACK' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="detail-loading">
+    <div class="spinner-border" role="status"></div>
+  </div>
+
+  <ng-container *ngIf="!loading && booking">
+
+    <!-- Summary Cards -->
+    <div class="summary-row">
+      <div class="summary-card card-client">
+        <div class="summary-icon client">
+          <i class="bi bi-person-fill"></i>
+        </div>
+        <div class="summary-info">
+          <div class="summary-label">{{ 'BOOKINGS.LIST.CLIENT' | translate }}</div>
+          <div class="summary-value">{{ isAr ? booking.clientNameAr : (booking.clientNameEn || booking.clientNameAr) }}</div>
+          <div *ngIf="booking.clientPhone" class="summary-sub">{{ booking.clientPhone }}</div>
+        </div>
+      </div>
+
+      <div class="summary-card card-vehicle">
+        <div class="summary-icon vehicle">
+          <i class="bi bi-car-front-fill"></i>
+        </div>
+        <div class="summary-info">
+          <div class="summary-label">{{ 'BOOKINGS.FORM.CAR_MARK' | translate }}</div>
+          <div class="summary-value">{{ (isAr ? booking.manufacturerNameAr : (booking.manufacturerNameEn || booking.manufacturerNameAr)) + ' - ' + (isAr ? booking.carMarkNameAr : (booking.carMarkNameEn || booking.carMarkNameAr)) }}</div>
+        </div>
+      </div>
+
+      <div class="summary-card card-branch">
+        <div class="summary-icon branch">
+          <i class="bi bi-building"></i>
+        </div>
+        <div class="summary-info">
+          <div class="summary-label">{{ 'BOOKINGS.LIST.BRANCH' | translate }}</div>
+          <div class="summary-value">{{ isAr ? booking.branchNameAr : (booking.branchNameEn || booking.branchNameAr) }}</div>
+        </div>
+      </div>
+
+      <div class="summary-card card-date">
+        <div class="summary-icon date">
+          <i class="bi bi-calendar3"></i>
+        </div>
+        <div class="summary-info">
+          <div class="summary-label">{{ 'BOOKINGS.LIST.EXAM_DATE' | translate }}</div>
+          <div class="summary-value">{{ booking.examinationDate }}</div>
+          <div class="summary-sub">{{ booking.examinationTime }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking Details -->
+    <div class="detail-card">
+      <div class="detail-card-header" (click)="detailsCollapsed = !detailsCollapsed">
+        <i class="bi bi-info-circle"></i>
+        <h6>{{ 'BOOKINGS.FORM.DETAILS' | translate }}</h6>
+        <i class="bi bi-chevron-down toggle-icon ms-auto" [class.rotated]="detailsCollapsed"></i>
+      </div>
+      <div class="detail-card-body" [hidden]="detailsCollapsed">
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">{{ 'BOOKINGS.FORM.YEAR' | translate }}</span>
+            <span class="info-value" [class.empty]="!booking.year">{{ booking.year || '—' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">{{ 'BOOKINGS.FORM.TRANSMISSION' | translate }}</span>
+            <span class="info-value" [class.empty]="!booking.transmission">{{ booking.transmission || '—' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">{{ 'BOOKINGS.LIST.CREATED' | translate }}</span>
+            <span class="info-value">{{ booking.createdAtUtc | date:'dd/MM/yyyy hh:mm a' }}</span>
+          </div>
+          <div *ngIf="booking.notes" class="info-item info-full">
+            <span class="info-label">{{ 'BOOKINGS.FORM.NOTES' | translate }}</span>
+            <div class="notes-box">{{ booking.notes }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="detail-card">
+      <div class="detail-card-header" (click)="historyCollapsed = !historyCollapsed">
+        <i class="bi bi-clock-history"></i>
+        <h6>{{ 'BOOKINGS.HISTORY.TITLE' | translate }}</h6>
+        <i class="bi bi-chevron-down toggle-icon ms-auto" [class.rotated]="historyCollapsed"></i>
+      </div>
+      <div [hidden]="historyCollapsed">
+        <div *ngIf="historyLoading" class="detail-loading" style="padding: 30px 20px;">
+          <div class="spinner-border spinner-border-sm" role="status"></div>
+        </div>
+        <div *ngIf="!historyLoading && historyItems.length === 0" class="history-empty">
+          <i class="bi bi-clock"></i>
+          {{ 'BOOKINGS.HISTORY.NO_HISTORY' | translate }}
+        </div>
+        <div *ngIf="!historyLoading && historyItems.length > 0" class="history-timeline">
+          <div class="history-item" *ngFor="let h of historyItems">
+            <div class="history-icon" [style.background]="getActionColor(h.action) + '18'" [style.color]="getActionColor(h.action)">
+              <i class="bi" [ngClass]="getActionIcon(h.action)"></i>
+            </div>
+            <div class="history-content">
+              <div class="history-action">{{ 'BOOKINGS.HISTORY.ACTIONS.' + h.action | translate }}</div>
+              <div *ngIf="h.details" class="history-details">{{ h.details }}</div>
+              <div class="history-meta">
+                <span *ngIf="getPerformerName(h)" class="history-user">
+                  <i class="bi bi-person-fill"></i>{{ getPerformerName(h) }}
+                </span>
+                <span class="history-time">
+                  <i class="bi bi-clock"></i>{{ h.createdAtUtc | date:'yyyy-MM-dd hh:mm a' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </ng-container>
+
+</div>

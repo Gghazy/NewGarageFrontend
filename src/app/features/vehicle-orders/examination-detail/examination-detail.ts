@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from 'src/app/core/services/custom.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ExaminationDto, ExaminationHistoryDto } from 'src/app/shared/Models/vehicle-orders/vehicle-order-dto';
+import { BookingDto, BookingHistoryDto } from 'src/app/shared/Models/bookings/booking-dto';
 import { InvoiceDto } from 'src/app/shared/Models/invoices/invoice-dto';
 import { ConfirmDeleteModal } from 'src/app/shared/components/confirm-delete-modal/confirm-delete-modal';
 
@@ -21,9 +22,12 @@ export class ExaminationDetail implements OnInit, OnDestroy {
   examination?: ExaminationDto;
   invoices: InvoiceDto[] = [];
   historyItems: ExaminationHistoryDto[] = [];
+  sourceBooking?: BookingDto;
+  bookingHistoryItems: BookingHistoryDto[] = [];
   loading = false;
   invoicesLoading = false;
   historyLoading = false;
+  bookingHistoryLoading = false;
   actionLoading = false;
   allStagesCompleted = false;
 
@@ -31,6 +35,7 @@ export class ExaminationDetail implements OnInit, OnDestroy {
   servicesCollapsed = true;
   invoicesCollapsed = true;
   historyCollapsed = true;
+  bookingHistoryCollapsed = true;
   private examinationId!: string;
   private destroy$ = new Subject<void>();
 
@@ -69,6 +74,7 @@ export class ExaminationDetail implements OnInit, OnDestroy {
           this.loading = false;
           this.loadInvoices();
           this.loadHistory();
+          this.loadBookingHistory();
           if (this.examination?.status === 'InProgress') {
             this.checkCanComplete();
           }
@@ -117,6 +123,70 @@ export class ExaminationDetail implements OnInit, OnDestroy {
           this.historyLoading = false;
         },
       });
+  }
+
+  loadBookingHistory(): void {
+    this.bookingHistoryLoading = true;
+    this.api.get<any>(`Bookings/by-examination/${this.examinationId}`)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.sourceBooking = res.data;
+          if (this.sourceBooking) {
+            this.api.get<any>(`Bookings/${this.sourceBooking.id}/history`)
+              .pipe(takeUntil(this.destroy$))
+              .subscribe({
+                next: (histRes) => {
+                  this.bookingHistoryItems = histRes.data ?? [];
+                  this.bookingHistoryLoading = false;
+                },
+                error: () => { this.bookingHistoryLoading = false; },
+              });
+          } else {
+            this.bookingHistoryLoading = false;
+          }
+        },
+        error: () => {
+          this.bookingHistoryLoading = false;
+        },
+      });
+  }
+
+  getBookingActionIcon(action: string): string {
+    const icons: Record<string, string> = {
+      Created: 'bi-plus-circle-fill',
+      Updated: 'bi-pencil-fill',
+      Confirmed: 'bi-check-circle-fill',
+      Cancelled: 'bi-x-circle-fill',
+      Converted: 'bi-arrow-repeat',
+      Deleted: 'bi-trash-fill',
+    };
+    return icons[action] ?? 'bi-clock-history';
+  }
+
+  getBookingActionColor(action: string): string {
+    const colors: Record<string, string> = {
+      Created: '#22c55e',
+      Updated: '#3b82f6',
+      Confirmed: '#8b5cf6',
+      Cancelled: '#ef4444',
+      Converted: '#10b981',
+      Deleted: '#ef4444',
+    };
+    return colors[action] ?? '#64748b';
+  }
+
+  getBookingPerformerName(item: BookingHistoryDto): string {
+    if (this.isAr) {
+      return item.performedByNameAr || item.performedByNameEn || '';
+    }
+    return item.performedByNameEn || item.performedByNameAr || '';
+  }
+
+  goToBooking(): void {
+    if (this.sourceBooking) {
+      this.router.navigate(['/features/bookings', this.sourceBooking.id, 'detail']);
+    }
   }
 
   getActionIcon(action: string): string {

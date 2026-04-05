@@ -1,160 +1,272 @@
-<div class="consolidation-page">
-  <!-- Header -->
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="mb-0">{{ 'INVOICES.CONSOLIDATION.TITLE' | translate }}</h5>
-    <div>
-      <button class="btn btn-sm btn-outline-secondary me-2" (click)="goBack()">
-        <i class="bi bi-arrow-left me-1"></i>{{ 'COMMON.BACK' | translate }}
+<div class="container-fluid py-3">
+
+  <!-- Page Header -->
+  <div class="detail-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div class="d-flex align-items-center gap-3">
+      <h5 class="detail-title">{{ 'INVOICES.CONSOLIDATION.TITLE' | translate }}</h5>
+      <div class="header-badges" *ngIf="consolidated">
+        <span class="count-pill">
+          {{ consolidated.invoiceCount }} {{ 'INVOICES.CONSOLIDATION.INVOICE_COUNT' | translate }}
+        </span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-primary" (click)="print()" *ngIf="consolidated">
+        <i class="bi bi-printer"></i>{{ 'INVOICES.FORM.PRINT' | translate }}
       </button>
-      <button class="btn btn-sm btn-primary" (click)="print()" *ngIf="consolidated">
-        <i class="bi bi-printer me-1"></i>{{ 'INVOICES.FORM.PRINT' | translate }}
+      <button class="btn btn-outline-secondary" (click)="goBack()">
+        <i class="bi bi-arrow-right"></i>{{ 'COMMON.BACK' | translate }}
       </button>
     </div>
   </div>
 
-  <div *ngIf="loading" class="text-center py-5">
-    <div class="spinner-border text-primary" role="status"></div>
-    <p class="mt-2 text-muted">{{ 'COMMON.LOADING' | translate }}</p>
+  <!-- Loading -->
+  <div *ngIf="loading" class="detail-loading">
+    <div class="spinner-border" role="status"></div>
   </div>
 
   <div *ngIf="!loading && consolidated">
-    <!-- Client Info -->
-    <div class="card mb-3">
-      <div class="card-header">
-        <i class="bi bi-person me-1"></i>{{ 'INVOICES.CONSOLIDATION.CLIENT_INFO' | translate }}
+
+    <!-- Summary Cards -->
+    <div class="summary-row">
+      <div class="summary-card card-client">
+        <div class="sc-icon client">
+          <i class="bi bi-person-fill"></i>
+        </div>
+        <div class="sc-info">
+          <div class="sc-label">{{ 'INVOICES.FORM.CLIENT' | translate }}</div>
+          <div class="sc-value">{{ isAr ? consolidated.clientNameAr : consolidated.clientNameEn }}</div>
+          <div *ngIf="consolidated.clientPhone" class="sc-sub">{{ consolidated.clientPhone }}</div>
+        </div>
       </div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="info-label">{{ 'INVOICES.LIST.CLIENT' | translate }}</div>
-            <div class="info-value">{{ isAr ? consolidated.clientNameAr : consolidated.clientNameEn }}</div>
-          </div>
-          <div class="col-md-4">
-            <div class="info-label">{{ 'INVOICES.LIST.PHONE' | translate }}</div>
-            <div class="info-value">{{ consolidated.clientPhone || '—' }}</div>
-          </div>
-          <div class="col-md-4">
-            <div class="info-label">{{ 'INVOICES.CONSOLIDATION.INVOICE_COUNT' | translate }}</div>
-            <div class="info-value">{{ consolidated.invoiceCount }}</div>
-          </div>
+
+      <div class="summary-card card-vehicle" *ngIf="consolidated.manufacturerNameAr || consolidated.manufacturerNameEn">
+        <div class="sc-icon vehicle">
+          <i class="bi bi-car-front-fill"></i>
+        </div>
+        <div class="sc-info">
+          <div class="sc-label">{{ 'VEHICLE_ORDERS.VEHICLE.CAR_MARK' | translate }}</div>
+          <div class="sc-value">{{ (isAr ? consolidated.manufacturerNameAr : consolidated.manufacturerNameEn) + ' - ' + (isAr ? consolidated.carMarkNameAr : consolidated.carMarkNameEn) }}</div>
+        </div>
+      </div>
+
+      <div class="summary-card card-plate" *ngIf="consolidated.plateLetters || consolidated.plateNumbers">
+        <div class="sc-icon plate">
+          <i class="bi bi-credit-card-2-front-fill"></i>
+        </div>
+        <div class="sc-info">
+          <div class="sc-label">{{ 'INVOICES.CONSOLIDATION.PLATE' | translate }}</div>
+          <div class="sc-value">{{ consolidated.plateLetters }} {{ consolidated.plateNumbers }}</div>
+        </div>
+      </div>
+
+      <div class="summary-card card-mileage" *ngIf="consolidated.mileage != null">
+        <div class="sc-icon mileage">
+          <i class="bi bi-speedometer2"></i>
+        </div>
+        <div class="sc-info">
+          <div class="sc-label">{{ 'VEHICLE_ORDERS.VEHICLE.MILEAGE' | translate }}</div>
+          <div class="sc-value">{{ consolidated.mileageUnit }} {{ consolidated.mileage | number }}</div>
+        </div>
+      </div>
+
+      <div class="summary-card card-branch" *ngIf="consolidated.branchNameAr || consolidated.branchNameEn">
+        <div class="sc-icon branch">
+          <i class="bi bi-building"></i>
+        </div>
+        <div class="sc-info">
+          <div class="sc-label">{{ 'INVOICES.FORM.BRANCH' | translate }}</div>
+          <div class="sc-value">{{ isAr ? consolidated.branchNameAr : consolidated.branchNameEn }}</div>
+        </div>
+      </div>
+
+      <div class="summary-card card-date">
+        <div class="sc-icon date">
+          <i class="bi bi-calendar3"></i>
+        </div>
+        <div class="sc-info">
+          <div class="sc-label">{{ 'INVOICES.LIST.DATE' | translate }}</div>
+          <div class="sc-value">{{ invoices.length > 0 ? (invoices[0].createdAtUtc | date:'dd/MM/yyyy') : '—' }}</div>
         </div>
       </div>
     </div>
 
-    <!-- Vehicle Info -->
-    <div class="card mb-3" *ngIf="examination">
-      <div class="card-header">
-        <i class="bi bi-car-front me-1"></i>{{ 'INVOICES.CONSOLIDATION.VEHICLE_INFO' | translate }}
+    <!-- Invoices List -->
+    <div class="detail-card" *ngIf="invoices.length > 0">
+      <div class="detail-card-header" (click)="invoicesCollapsed = !invoicesCollapsed">
+        <i class="bi bi-receipt-cutoff"></i>
+        <h6>{{ 'INVOICES.CONSOLIDATION.INVOICES_LIST_TITLE' | translate }}</h6>
+        <span class="badge bg-primary rounded-pill ms-2">{{ invoices.length }}</span>
+        <i class="bi bi-chevron-down toggle-icon ms-auto" [class.rotated]="invoicesCollapsed"></i>
       </div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-3">
-            <div class="info-label">{{ 'INVOICES.CONSOLIDATION.MANUFACTURER' | translate }}</div>
-            <div class="info-value">{{ isAr ? examination.manufacturerNameAr : examination.manufacturerNameEn }}</div>
-          </div>
-          <div class="col-md-3">
-            <div class="info-label">{{ 'INVOICES.CONSOLIDATION.MODEL' | translate }}</div>
-            <div class="info-value">{{ isAr ? examination.carMarkNameAr : examination.carMarkNameEn }}</div>
-          </div>
-          <div class="col-md-2">
-            <div class="info-label">{{ 'INVOICES.CONSOLIDATION.YEAR' | translate }}</div>
-            <div class="info-value">{{ examination.year || '—' }}</div>
-          </div>
-          <div class="col-md-2">
-            <div class="info-label">{{ 'INVOICES.CONSOLIDATION.COLOR' | translate }}</div>
-            <div class="info-value">{{ examination.color || '—' }}</div>
-          </div>
-          <div class="col-md-2">
-            <div class="info-label">{{ 'INVOICES.CONSOLIDATION.PLATE' | translate }}</div>
-            <div class="info-value">{{ examination.plateLetters }} {{ examination.plateNumbers }}</div>
-          </div>
-        </div>
-        <div class="row mt-2" *ngIf="examination.vin">
-          <div class="col-md-4">
-            <div class="info-label">{{ 'INVOICES.CONSOLIDATION.VIN' | translate }}</div>
-            <div class="info-value">{{ examination.vin }}</div>
-          </div>
+      <div [hidden]="invoicesCollapsed">
+        <div class="table-responsive">
+          <table class="detail-table">
+            <thead>
+              <tr>
+                <th class="row-num">#</th>
+                <th>{{ 'INVOICES.LIST.INVOICE_NUMBER' | translate }}</th>
+                <th>{{ 'INVOICES.LIST.TYPE' | translate }}</th>
+                <th>{{ 'INVOICES.LIST.STATUS' | translate }}</th>
+                <th class="text-end">{{ 'INVOICES.LIST.TOTAL' | translate }}</th>
+                <th>{{ 'INVOICES.LIST.DATE' | translate }}</th>
+                <th style="width:50px"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let inv of invoices; let i = index">
+                <td class="row-num">{{ i + 1 }}</td>
+                <td class="fw-semibold">{{ inv.invoiceNumber || '—' }}</td>
+                <td>
+                  <span class="badge" [ngClass]="inv.type | statusBadge:'invoiceType'">
+                    {{ 'INVOICES.LIST.TYPES.' + inv.type | translate }}
+                  </span>
+                </td>
+                <td>
+                  <span class="badge" [ngClass]="inv.status | statusBadge:'invoice'">
+                    {{ 'INVOICES.LIST.STATUSES.' + inv.status | translate }}
+                  </span>
+                </td>
+                <td class="text-end fw-semibold">{{ inv.totalWithTax | number:'1.2-2' }} {{ inv.currency }}</td>
+                <td>{{ inv.createdAtUtc | date:'dd/MM/yyyy' }}</td>
+                <td class="text-center">
+                  <button class="btn-view" (click)="openInvoice(inv.id)">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-    </div>
-
-    <div class="alert alert-info" *ngIf="!examination">
-      <i class="bi bi-info-circle me-1"></i>{{ 'INVOICES.CONSOLIDATION.NO_VEHICLE_INFO' | translate }}
     </div>
 
     <!-- Items -->
-    <div class="card mb-3">
-      <div class="card-header">
-        <i class="bi bi-list-ul me-1"></i>{{ 'INVOICES.ITEMS.TITLE' | translate }}
+    <div class="detail-card">
+      <div class="detail-card-header" (click)="itemsCollapsed = !itemsCollapsed">
+        <i class="bi bi-list-ul"></i>
+        <h6>{{ 'INVOICES.CONSOLIDATION.ITEMS_TITLE' | translate }}</h6>
+        <span class="badge bg-primary rounded-pill ms-2">{{ consolidated.items.length }}</span>
+        <i class="bi bi-chevron-down toggle-icon ms-auto" [class.rotated]="itemsCollapsed"></i>
       </div>
-      <div class="card-body p-0">
-        <table class="table table-hover mb-0">
-          <thead>
-            <tr>
-              <th style="width:40px">#</th>
-              <th>{{ 'INVOICES.ITEMS.DESCRIPTION' | translate }}</th>
-              <th>{{ 'INVOICES.ITEMS.UNIT_PRICE' | translate }}</th>
-              <th>{{ 'INVOICES.ITEMS.TOTAL' | translate }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of consolidated.items; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ isAr ? (item.serviceNameAr || item.description) : (item.serviceNameEn || item.description) }}</td>
-              <td>{{ item.unitPrice | number:'1.2-2' }}</td>
-              <td>{{ item.totalPrice | number:'1.2-2' }}</td>
-            </tr>
-            <tr *ngIf="consolidated.items.length === 0">
-              <td colspan="4" class="text-center text-muted">{{ 'INVOICES.ITEMS.NO_ITEMS' | translate }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div [hidden]="itemsCollapsed">
+        <div class="table-responsive">
+          <table class="detail-table">
+            <thead>
+              <tr>
+                <th class="row-num">#</th>
+                <th>{{ 'INVOICES.ITEMS.DESCRIPTION' | translate }}</th>
+                <th class="text-end" style="width:130px">{{ 'INVOICES.ITEMS.UNIT_PRICE' | translate }}</th>
+                <th class="text-end" style="width:130px">{{ 'INVOICES.ITEMS.TOTAL' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of consolidated.items; let i = index">
+                <td class="row-num">{{ i + 1 }}</td>
+                <td class="fw-semibold">{{ isAr ? (item.serviceNameAr || item.description) : (item.serviceNameEn || item.description) }}</td>
+                <td class="text-end">{{ item.unitPrice | number:'1.2-2' }}</td>
+                <td class="text-end fw-semibold">{{ item.totalPrice | number:'1.2-2' }}</td>
+              </tr>
+              <tr *ngIf="consolidated.items.length === 0" class="empty-row">
+                <td colspan="4">
+                  <i class="bi bi-inbox"></i>
+                  {{ 'INVOICES.ITEMS.NO_ITEMS' | translate }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
     <!-- Financial Summary -->
-    <div class="card mb-3">
-      <div class="card-header">
-        <i class="bi bi-calculator me-1"></i>{{ 'INVOICES.SUMMARY.TITLE' | translate }}
+    <div class="detail-card">
+      <div class="detail-card-header" (click)="summaryCollapsed = !summaryCollapsed">
+        <i class="bi bi-calculator"></i>
+        <h6>{{ 'INVOICES.CONSOLIDATION.FINANCIAL_SUMMARY_TITLE' | translate }}</h6>
+        <i class="bi bi-chevron-down toggle-icon ms-auto" [class.rotated]="summaryCollapsed"></i>
       </div>
-      <div class="card-body">
+      <div class="detail-card-body" [hidden]="summaryCollapsed">
         <div class="row g-3">
           <div class="col-md-4 col-6">
-            <div class="summary-box">
-              <span class="summary-label">{{ 'INVOICES.PAYMENTS.SUB_TOTAL' | translate }}</span>
-              <span class="summary-value">{{ consolidated.subTotal | number:'1.2-2' }}</span>
+            <div class="fin-box">
+              <div class="fin-icon"><i class="bi bi-receipt"></i></div>
+              <span class="fin-label">{{ 'INVOICES.PAYMENTS.SUB_TOTAL' | translate }}</span>
+              <span class="fin-value">{{ consolidated.subTotal | number:'1.2-2' }}</span>
             </div>
           </div>
           <div class="col-md-4 col-6">
-            <div class="summary-box">
-              <span class="summary-label">{{ 'INVOICES.PAYMENTS.DISCOUNT' | translate }}</span>
-              <span class="summary-value text-danger">{{ consolidated.discountAmount | number:'1.2-2' }}</span>
+            <div class="fin-box discount">
+              <div class="fin-icon"><i class="bi bi-tag"></i></div>
+              <span class="fin-label">{{ 'INVOICES.PAYMENTS.DISCOUNT' | translate }}</span>
+              <span class="fin-value text-danger">{{ consolidated.discountAmount | number:'1.2-2' }}</span>
             </div>
           </div>
           <div class="col-md-4 col-6">
-            <div class="summary-box">
-              <span class="summary-label">{{ 'INVOICES.PAYMENTS.TAX_AMOUNT' | translate }}</span>
-              <span class="summary-value">{{ consolidated.taxAmount | number:'1.2-2' }}</span>
+            <div class="fin-box">
+              <div class="fin-icon"><i class="bi bi-percent"></i></div>
+              <span class="fin-label">{{ 'INVOICES.PAYMENTS.TAX_AMOUNT' | translate }}</span>
+              <span class="fin-value">{{ consolidated.taxAmount | number:'1.2-2' }}</span>
             </div>
           </div>
           <div class="col-md-4 col-6">
-            <div class="summary-box highlight">
-              <span class="summary-label">{{ 'INVOICES.PAYMENTS.TOTAL_WITH_TAX' | translate }}</span>
-              <span class="summary-value">{{ consolidated.totalWithTax | number:'1.2-2' }} {{ consolidated.currency }}</span>
+            <div class="fin-box total">
+              <div class="fin-icon"><i class="bi bi-wallet2"></i></div>
+              <span class="fin-label">{{ 'INVOICES.PAYMENTS.TOTAL_WITH_TAX' | translate }}</span>
+              <span class="fin-value">{{ consolidated.totalWithTax | number:'1.2-2' }} {{ consolidated.currency }}</span>
             </div>
           </div>
           <div class="col-md-4 col-6">
-            <div class="summary-box">
-              <span class="summary-label">{{ 'INVOICES.PAYMENTS.TOTAL_PAID' | translate }}</span>
-              <span class="summary-value text-success">{{ consolidated.totalPaid | number:'1.2-2' }}</span>
+            <div class="fin-box paid">
+              <div class="fin-icon"><i class="bi bi-check-circle"></i></div>
+              <span class="fin-label">{{ 'INVOICES.PAYMENTS.TOTAL_PAID' | translate }}</span>
+              <span class="fin-value text-success">{{ consolidated.totalPaid | number:'1.2-2' }}</span>
             </div>
           </div>
           <div class="col-md-4 col-6">
-            <div class="summary-box">
-              <span class="summary-label">{{ 'INVOICES.PAYMENTS.BALANCE' | translate }}</span>
-              <span class="summary-value" [class.text-danger]="consolidated.balance > 0" [class.text-success]="consolidated.balance <= 0">
+            <div class="fin-box" [class.balance-due]="consolidated.balance > 0" [class.balance-clear]="consolidated.balance <= 0">
+              <div class="fin-icon"><i class="bi bi-cash-coin"></i></div>
+              <span class="fin-label">{{ 'INVOICES.PAYMENTS.BALANCE' | translate }}</span>
+              <span class="fin-value" [class.text-danger]="consolidated.balance > 0" [class.text-success]="consolidated.balance <= 0">
                 {{ consolidated.balance | number:'1.2-2' }} {{ consolidated.currency }}
               </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="detail-card">
+      <div class="detail-card-header" (click)="historyCollapsed = !historyCollapsed">
+        <i class="bi bi-clock-history"></i>
+        <h6>{{ 'INVOICES.HISTORY.TITLE' | translate }}</h6>
+        <i class="bi bi-chevron-down toggle-icon ms-auto" [class.rotated]="historyCollapsed"></i>
+      </div>
+      <div [hidden]="historyCollapsed">
+        <div *ngIf="history.length === 0" class="history-empty">
+          <i class="bi bi-clock"></i>
+          {{ 'INVOICES.HISTORY.NO_HISTORY' | translate }}
+        </div>
+        <div *ngIf="history.length > 0" class="history-timeline">
+          <div class="history-item" *ngFor="let h of history">
+            <div class="history-icon" [style.background]="getActionColor(h.action) + '18'" [style.color]="getActionColor(h.action)">
+              <i class="bi" [ngClass]="getActionIcon(h.action)"></i>
+            </div>
+            <div class="history-content">
+              <div class="history-action">
+                {{ 'INVOICES.HISTORY.ACTIONS.' + h.action | translate }}
+                <span class="history-invoice-number" *ngIf="h.invoiceNumber">{{ h.invoiceNumber }}</span>
+              </div>
+              <div *ngIf="h.details" class="history-details">{{ h.details }}</div>
+              <div class="history-meta">
+                <span *ngIf="getPerformerName(h)" class="history-user">
+                  <i class="bi bi-person-fill"></i>{{ getPerformerName(h) }}
+                </span>
+                <span class="history-time">
+                  <i class="bi bi-clock"></i>{{ h.createdAtUtc | date:'yyyy-MM-dd hh:mm a' }}
+                </span>
+              </div>
             </div>
           </div>
         </div>

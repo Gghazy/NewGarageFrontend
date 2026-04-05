@@ -44,16 +44,6 @@ export class InvoicePrintService {
       </tr>
     `).join('');
 
-    const paymentsRows = inv.payments.map((p, i) => `
-      <tr>
-        <td style="text-align:center">${i + 1}</td>
-        <td>${p.createdAtUtc ? new Date(p.createdAtUtc).toLocaleDateString() : '—'}</td>
-        <td style="text-align:center"><span style="color:${p.type === 'Refund' ? '#dc3545' : '#198754'}">${t('INVOICES.PAYMENTS.TYPES.' + p.type)}</span></td>
-        <td style="text-align:center">${p.amount.toFixed(2)} ${p.currency}</td>
-        <td>${this.escapeHtml(isAr ? p.methodNameAr : p.methodNameEn)}</td>
-      </tr>
-    `).join('');
-
     const html = `
     <!DOCTYPE html>
     <html dir="${dir}" lang="${lang}">
@@ -158,25 +148,9 @@ export class InvoicePrintService {
         <div class="box"><span class="lbl">${t('INVOICES.PAYMENTS.DISCOUNT')}</span><div class="val text-danger">${inv.discountAmount.toFixed(2)}</div></div>
         <div class="box"><span class="lbl">${t('INVOICES.PAYMENTS.TAX_AMOUNT')} (${(inv.taxRate * 100).toFixed(0)}%)</span><div class="val">${inv.taxAmount.toFixed(2)}</div></div>
         <div class="box" style="background:#f5f5f5"><span class="lbl">${t('INVOICES.PAYMENTS.TOTAL_WITH_TAX')}</span><div class="val">${inv.totalWithTax.toFixed(2)} ${inv.currency}</div></div>
-        <div class="box"><span class="lbl">${t('INVOICES.PAYMENTS.TOTAL_PAID')}</span><div class="val text-success">${inv.totalPaid.toFixed(2)}</div></div>
-        <div class="box"><span class="lbl">${t('INVOICES.PAYMENTS.BALANCE')}</span><div class="val ${inv.balance > 0 ? 'text-danger' : 'text-success'}">${inv.balance.toFixed(2)} ${inv.currency}</div></div>
       </div>
 
       <div class="vat-note">${t('INVOICES.PRINT.VAT_INCLUDED')}</div>
-
-      ${inv.payments.length > 0 ? `
-        <div class="section-title">${t('INVOICES.PAYMENTS.TITLE')}</div>
-        <table>
-          <thead><tr>
-            <th style="width:36px">#</th>
-            <th>${t('INVOICES.PAYMENTS.DATE')}</th>
-            <th>${t('INVOICES.PAYMENTS.TYPE')}</th>
-            <th>${t('INVOICES.PAYMENTS.AMOUNT')}</th>
-            <th>${t('INVOICES.PAYMENTS.METHOD')}</th>
-          </tr></thead>
-          <tbody>${paymentsRows}</tbody>
-        </table>
-      ` : ''}
 
     </body>
     </html>`;

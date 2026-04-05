@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>NewGarage — شرح الأعمال (Business Documentation)</title>
+  <style>
+    @page { size: A4; margin: 20mm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      direction: rtl;
+      line-height: 1.9;
+      color: #1e293b;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 30px;
+      background: #fff;
+    }
+    h1 { color: #1e40af; font-size: 1.9rem; border-bottom: 3px solid #3b82f6; padding-bottom: 10px; margin-top: 45px; }
+    h2 { color: #1e3a5f; font-size: 1.4rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-top: 35px; }
+    h3 { color: #334155; font-size: 1.15rem; margin-top: 22px; }
+
+    .cover {
+      text-align: center;
+      padding: 80px 20px;
+      page-break-after: always;
+    }
+    .cover h1 { font-size: 2.8rem; border: none; color: #1e40af; margin-bottom: 10px; }
+    .cover .subtitle { font-size: 1.4rem; color: #64748b; margin-bottom: 30px; }
+    .cover .desc { font-size: 1.05rem; color: #475569; max-width: 600px; margin: 0 auto 50px; }
+    .cover .date { font-size: 1rem; color: #94a3b8; }
+    .cover .logo { font-size: 5rem; color: #3b82f6; margin-bottom: 20px; }
+
+    table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+    th, td { border: 1px solid #e2e8f0; padding: 10px 14px; text-align: right; }
+    th { background: #f1f5f9; font-weight: 700; color: #334155; }
+    tr:nth-child(even) { background: #f8fafc; }
+
+    .box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 18px 22px;
+      margin: 15px 0;
+    }
+
+    .highlight {
+      background: #eff6ff;
+      border-right: 4px solid #3b82f6;
+      padding: 14px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 15px 0;
+    }
+
+    .warn {
+      background: #fef3c7;
+      border-right: 4px solid #f59e0b;
+      padding: 14px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 15px 0;
+    }
+
+    .success {
+      background: #f0fdf4;
+      border-right: 4px solid #22c55e;
+      padding: 14px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 15px 0;
+    }
+
+    .danger {
+      background: #fef2f2;
+      border-right: 4px solid #ef4444;
+      padding: 14px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 15px 0;
+    }
+
+    ul { padding-right: 25px; }
+    li { margin-bottom: 6px; }
+    .page-break { page-break-before: always; }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 12px 0;
+      padding: 10px 0;
+    }
+    .step .num {
+      width: 36px;
+      height: 36px;
+      background: #3b82f6;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+      font-size: 0.95rem;
+    }
+    .step .content { flex: 1; padding-top: 5px; }
+    .step .content strong { color: #1e40af; }
+
+    .status-flow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+    .status-box {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: #fff;
+    }
+    .arrow { color: #94a3b8; font-size: 1.2rem; font-weight: 700; }
+
+    .scenario {
+      background: #fff;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 20px 0;
+    }
+    .scenario-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e40af;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .actor-box {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1e40af;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin: 3px;
+    }
+
+    .calc-box {
+      background: #f9fafb;
+      border: 1px dashed #cbd5e1;
+      border-radius: 8px;
+      padding: 15px 20px;
+      margin: 10px 0;
+      font-size: 0.95rem;
+    }
+    .calc-box .formula {
+      direction: ltr;
+      text-align: left;
+      font-family: 'Consolas', monospace;
+      color: #1e40af;
+      font-weight: 600;
+      margin: 5px 0;
+    }
+
+    @media print {
+      body { padding: 0; }
+      .page-break { page-break-before: always; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== الغلاف ===== -->
+<div class="cover">
+  <div class="logo">🚗</div>
+  <h1>نظام NewGarage</h1>
+  <div class="subtitle">شرح الأعمال (Business Documentation)</div>
+  <div class="desc">
+    دليل شامل للعمليات التجارية، سير العمل، الأطراف المعنية، السيناريوهات المالية، وقواعد العمل في نظام إدارة مراكز فحص السيارات
+  </div>
+  <div class="date">مارس 2026</div>
+</div>
+
+<!-- ===== الفهرس ===== -->
+<h1>الفهرس</h1>
+<ol style="font-size:1.05rem; line-height:2.4;">
+  <li>ما هو النظام ولمن؟</li>
+  <li>الأطراف المعنية (Actors)</li>
+  <li>البيانات الأساسية (Master Data)</li>
+  <li>تسعير الخدمات</li>
+  <li>دورة حياة الفحص (Examination Lifecycle)</li>
+  <li>مراحل الفحص التسع</li>
+  <li>نظام الفواتير</li>
+  <li>نظام المدفوعات</li>
+  <li>سيناريوهات تغيير الأسعار</li>
+  <li>الخصومات والضرائب</li>
+  <li>التقارير والطباعة</li>
+  <li>إدارة العملاء</li>
+  <li>نظام الصلاحيات والأمان</li>
+  <li>قواعد العمل الأساسية (Business Rules)</li>
+</ol>
+
+<!-- ===== 1 ===== -->
+<div class="page-break"></div>
+<h1>1. ما هو النظام ولمن؟</h1>
+
+<div class="box">
+  <p><strong>NewGarage</strong> هو نظام لإدارة <strong>مراكز فحص السيارات</strong>. يُستخدم في المراكز المتخصصة التي تقدم خدمات فحص شامل للمركبات قبل البيع أو كفحص دوري أو ضمان.</p>
+</div>
+
+<h3>المشكلة التي يحلها النظام</h3>
+<ul>
+  <li>تتبع حالة كل فحص من استلام السيارة حتى تسليمها</li>
+  <li>توحيد وتوثيق نتائج الفحص عبر 9 مراحل متخصصة</li>
+  <li>أتمتة إنشاء الفواتير من الخدمات المقدمة</li>
+  <li>تتبع المدفوعات والأرصدة لكل فاتورة</li>
+  <li>إدارة تعديلات الأسعار والاستردادات</li>
+  <li>إنتاج تقارير فحص احترافية للعملاء</li>
+  <li>إدارة الفروع والموظفين والصلاحيات</li>
+</ul>
+
+<h3>أنواع الفحوصات المدعومة</h3>
+<table>
+  <tr><th>النوع</th><th>الاسم</th><th>الوصف</th><th>الاستخدام</th></tr>
+  <tr><td>Regular</td><td>فحص عادي</td><td>فحص شامل للمركبة</td><td>العميل يريد معرفة حالة سيارته</td></tr>
+  <tr><td>PrePurchase</td><td>فحص قبل الشراء</td><td>فحص لمشتري محتمل</td><td>العميل يريد شراء سيارة مستعملة ويريد تقرير عنها</td></tr>
+  <tr><td>Warranty</td><td>فحص ضمان</td><td>فحص مشمول بالضمان</td><td>السيارة تحت الضمان</td></tr>
+</table>
+
+<!-- ===== 2 ===== -->
+<h1>2. الأطراف المعنية (Actors)</h1>
+
+<div style="margin: 15px 0;">
+  <span class="actor-box">مدير النظام</span>
+  <span class="actor-box">مدير الفرع</span>
+  <span class="actor-box">موظف الاستقبال</span>
+  <span class="actor-box">فني الفحص</span>
+  <span class="actor-box">المحاسب</span>
+  <span class="actor-box">العميل</span>
+</div>
+
+<table>
+  <tr><th>الطرف</th><th>المهام الرئيسية</th></tr>
+  <tr>
+    <td><strong>مدير النظام</strong></td>
+    <td>إدارة المستخدمين والأدوار والصلاحيات، إعداد البيانات الأساسية (خدمات، أسعار، فروع)</td>
+  </tr>
+  <tr>
+    <td><strong>مدير الفرع</strong></td>
+    <td>مراقبة الفحوصات، تتبع الإيرادات، إدارة موظفي الفرع</td>
+  </tr>
+  <tr>
+    <td><strong>موظف الاستقبال</strong></td>
+    <td>إنشاء طلب الفحص، تسجيل بيانات العميل والسيارة، اختيار الخدمات</td>
+  </tr>
+  <tr>
+    <td><strong>فني الفحص</strong></td>
+    <td>تنفيذ مراحل الفحص، تسجيل النتائج والمشاكل المكتشفة</td>
+  </tr>
+  <tr>
+    <td><strong>المحاسب</strong></td>
+    <td>إدارة الفواتير، تسجيل المدفوعات، إضافة الخصومات، معالجة الاستردادات</td>
+  </tr>
+  <tr>
+    <td><strong>العميل</strong></td>
+    <td>يستلم تقرير الفحص والفاتورة (لا يدخل النظام)</td>
+  </tr>
+</table>
+
+<!-- ===== 3 ===== -->
+<div class="page-break"></div>
+<h1>3. البيانات الأساسية (Master Data)</h1>
+
+<p>قبل بدء تشغيل النظام، يجب إعداد البيانات التالية:</p>
+
+<h2>3.1 هيكل المركز</h2>
+<table>
+  <tr><th>البيان</th><th>الوصف</th><th>مثال</th></tr>
+  <tr><td>الفروع</td><td>فروع مركز الفحص</td><td>فرع الرياض، فرع جدة</td></tr>
+  <tr><td>الموظفين</td><td>العاملين بالمركز مع تعيين الفرع</td><td>أحمد — فني — فرع الرياض</td></tr>
+  <tr><td>طرق الدفع</td><td>وسائل الدفع المقبولة</td><td>نقدي، بطاقة ائتمان، تحويل بنكي، مدى</td></tr>
+  <tr><td>الرافعات</td><td>معدات الرفع في المركز</td><td>رافعة 1، رافعة 2</td></tr>
+  <tr><td>الشروط</td><td>شروط وأحكام تظهر في التقارير</td><td>إخلاء مسؤولية، شروط الخدمة</td></tr>
+</table>
+
+<h2>3.2 بيانات المركبات</h2>
+<table>
+  <tr><th>البيان</th><th>الوصف</th><th>مثال</th></tr>
+  <tr><td>الشركات المصنعة</td><td>شركات تصنيع السيارات</td><td>تويوتا، هيونداي، فورد، بي ام دبليو</td></tr>
+  <tr><td>الموديلات</td><td>موديلات السيارات (مرتبطة بالشركة)</td><td>كامري (تويوتا)، سوناتا (هيونداي)</td></tr>
+</table>
+
+<h2>3.3 الخدمات</h2>
+<div class="box">
+  <p>كل <strong>خدمة</strong> تمثل نوع فحص محدد وتكون مرتبطة بمرحلة أو أكثر من مراحل الفحص التسع.</p>
+  <p>مثال: خدمة "فحص الحساسات" مرتبطة بمرحلة <strong>Sensors</strong></p>
+  <p>مثال: خدمة "فحص شامل" مرتبطة بكل المراحل التسع</p>
+</div>
+
+<h2>3.4 بيانات المشاكل والأجزاء</h2>
+<p>كل مرحلة فحص لها قوائم أجزاء ومشاكل محددة مسبقاً:</p>
+<table>
+  <tr><th>المرحلة</th><th>الأجزاء (Parts)</th><th>المشاكل (Issues)</th></tr>
+  <tr><td>الحساسات</td><td>—</td><td>مشاكل الحساسات (OBD codes)</td></tr>
+  <tr><td>مؤشرات الطبلون</td><td>—</td><td>قراءات العدادات والمؤشرات</td></tr>
+  <tr><td>الهيكل الداخلي</td><td>أجزاء الهيكل الداخلي</td><td>مشاكل الهيكل الداخلي</td></tr>
+  <tr><td>الهيكل الخارجي</td><td>أجزاء الهيكل الخارجي</td><td>مشاكل الهيكل الخارجي</td></tr>
+  <tr><td>الداخلية والديكور</td><td>أجزاء الداخلية</td><td>مشاكل الداخلية</td></tr>
+  <tr><td>الإكسسوارات</td><td>أجزاء الإكسسوارات</td><td>مشاكل الإكسسوارات</td></tr>
+  <tr><td>الميكانيكا</td><td>أجزاء ميكانيكية + أنواعها</td><td>مشاكل ميكانيكية</td></tr>
+  <tr><td>الإطارات</td><td>—</td><td>حالة كل إطار (موقع، سنة، حالة)</td></tr>
+  <tr><td>التجربة الميدانية</td><td>—</td><td>مشاكل التجربة + أنواعها</td></tr>
+</table>
+
+<!-- ===== 4 ===== -->
+<h1>4. تسعير الخدمات</h1>
+
+<div class="highlight">
+  <p><strong>التسعير ديناميكي</strong> — سعر الخدمة يعتمد على 3 عوامل:</p>
+  <ol>
+    <li><strong>الخدمة نفسها</strong> — ما نوع الفحص؟</li>
+    <li><strong>موديل السيارة (Car Mark)</strong> — كامري أم لكزس؟</li>
+    <li><strong>سنة الصنع</strong> — يحدد النطاق الزمني (مثلاً 2020-2025)</li>
+  </ol>
+</div>
+
+<div class="scenario">
+  <div class="scenario-title">مثال على التسعير</div>
+  <table>
+    <tr><th>الخدمة</th><th>الموديل</th><th>نطاق السنوات</th><th>السعر</th></tr>
+    <tr><td>فحص شامل</td><td>كامري</td><td>2015 - 2020</td><td>500 ر.س</td></tr>
+    <tr><td>فحص شامل</td><td>كامري</td><td>2021 - 2025</td><td>650 ر.س</td></tr>
+    <tr><td>فحص شامل</td><td>لكزس ES</td><td>2020 - 2025</td><td>900 ر.س</td></tr>
+    <tr><td>فحص الحساسات فقط</td><td>كامري</td><td>2015 - 2025</td><td>150 ر.س</td></tr>
+  </table>
+  <p>عندما يأتي عميل بسيارة <strong>كامري 2022</strong> ويطلب <strong>فحص شامل</strong>، السعر = <strong>650 ر.س</strong></p>
+</div>
+
+<div class="warn">
+  <strong>ملاحظة مهمة:</strong> إذا تغير سعر الخدمة بعد إنشاء الفاتورة الأصلية (زيادة أو تخفيض)، النظام يتعامل مع ذلك عبر فواتير التعديل والاسترداد (راجع القسم 9).
+</div>
+
+<!-- ===== 5 ===== -->
+<div class="page-break"></div>
+<h1>5. دورة حياة الفحص (Examination Lifecycle)</h1>
+
+<h2>5.1 مراحل الحالة</h2>
+
+<div class="status-flow">
+  <span class="status-box" style="background:#94a3b8;">مسودة Draft</span>
+  <span class="arrow">←</span>
+  <span class="status-box" style="background:#f59e0b;">قيد الانتظار Pending</span>
+  <span class="arrow">←</span>
+  <span class="status-box" style="background:#3b82f6;">جاري InProgress</span>
+  <span class="arrow">←</span>
+  <span class="status-box" style="background:#22c55e;">مكتمل Completed</span>
+  <span class="arrow">←</span>
+  <span class="status-box" style="background:#059669;">تم التسليم Delivered</span>
+</div>
+
+<div class="status-flow" style="margin-top:10px;">
+  <span class="status-box" style="background:#ef4444;">ملغي Cancelled</span>
+  <span style="color:#94a3b8; font-size:0.85rem;">← يمكن الإلغاء من أي حالة ما عدا "تم التسليم"</span>
+</div>
+
+<h2>5.2 سير العمل خطوة بخطوة</h2>
+
+<div class="step">
+  <div class="num">1</div>
+  <div class="content">
+    <strong>إنشاء طلب الفحص (Draft)</strong><br>
+    موظف الاستقبال يسجل:
+    <ul>
+      <li>بيانات العميل (الاسم، الهاتف، النوع: فرد/شركة/جهة حكومية)</li>
+      <li>بيانات المركبة (الشركة، الموديل، السنة، اللون، رقم اللوحة، رقم الهيكل VIN، المسافة المقطوعة، نوع القير)</li>
+      <li>نوع الفحص (عادي / ضمان / قبل الشراء)</li>
+      <li>الخدمات المطلوبة مع أسعارها (تُحسب تلقائياً من جدول الأسعار)</li>
+      <li>هل يشمل ضمان؟ هل يشمل صور؟</li>
+    </ul>
+    <div class="highlight" style="margin-top:10px;">
+      <strong>قواعد:</strong> لا يمكن إضافة نفس الخدمة مرتين. يمكن تعديل السعر يدوياً (override).
+    </div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="num">2</div>
+  <div class="content">
+    <strong>بدء الفحص (Draft → Pending → InProgress)</strong><br>
+    <ul>
+      <li>يجب أن يحتوي الطلب على خدمة واحدة على الأقل</li>
+      <li>عند الضغط على "بدء" الحالة تتحول لـ Pending ثم InProgress</li>
+      <li>تظهر مراحل الفحص المطلوبة حسب الخدمات المختارة</li>
+    </ul>
+  </div>
+</div>
+
+<div class="step">
+  <div class="num">3</div>
+  <div class="content">
+    <strong>تنفيذ مراحل الفحص</strong><br>
+    الفني يدخل نتائج كل مرحلة (التفاصيل في القسم 6)
+  </div>
+</div>
+
+<div class="step">
+  <div class="num">4</div>
+  <div class="content">
+    <strong>إكمال الفحص (InProgress → Completed)</strong><br>
+    <ul>
+      <li>يتم بعد الانتهاء من جميع المراحل المطلوبة</li>
+      <li>يمكن إعادة فتح الفحص (Reopen) للتعديل</li>
+      <li>عند الإكمال يمكن إنشاء الفاتورة تلقائياً</li>
+    </ul>
+  </div>
+</div>
+
+<div class="step">
+  <div class="num">5</div>
+  <div class="content">
+    <strong>التسليم (Completed → Delivered)</strong><br>
+    <ul>
+      <li>بعد إتمام الدفع يتم تسليم السيارة والتقرير للعميل</li>
+      <li>لا يمكن إلغاء الطلب بعد التسليم</li>
+      <li>يمكن إعادة فتحه إذا لزم الأمر</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== 6 ===== -->
+<div class="page-break"></div>
+<h1>6. مراحل الفحص التسع</h1>
+
+<p>كل مرحلة يمكن أن تُحفظ بحالة <strong>"لا توجد مشاكل" (No Issues Found)</strong> أو بتسجيل المشاكل المكتشفة تفصيلياً.</p>
+
+<div class="scenario">
+  <div class="scenario-title">🔌 المرحلة 1: الحساسات (Sensors)</div>
+  <p><strong>الهدف:</strong> فحص حساسات المحرك عبر جهاز OBD</p>
+  <ul>
+    <li>تسجيل عدد الأسطوانات (Cylinder Count)</li>
+    <li>اختيار المشاكل المكتشفة من قائمة المشاكل المحددة مسبقاً</li>
+    <li>تسجيل تقييم لكل مشكلة (Evaluation)</li>
+    <li>إضافة ملاحظات</li>
+  </ul>
+  <div class="warn">
+    <strong>قاعدة:</strong> لا يمكن تحديد "لا توجد مشاكل" وإضافة مشاكل في نفس الوقت
+  </div>
+</div>
+
+<div class="scenario">
+  <div class="scenario-title">📊 المرحلة 2: مؤشرات الطبلون (Dashboard Indicators)</div>
+  <p><strong>الهدف:</strong> تسجيل قراءات عدادات ومؤشرات لوحة القيادة</p>
+  <ul>
+    <li>تسجيل قراءة كل مؤشر (Key → Value)</li>
+    <li>إمكانية تحديد "غير قابل للتطبيق" (Not Applicable) لكل مؤشر</li>
+    <li>إضافة ملاحظات</li>
+  </ul>
+</div>
+
+<div class="scenario">
+  <div class="scenario-title">🚪 المراحل 3-6: الهيكل والتجهيزات</div>
+  <p>أربع مراحل بنفس النمط:</p>
+  <table>
+    <tr><th>#</th><th>المرحلة</th><th>ما يتم فحصه</th></tr>
+    <tr><td>3</td><td>الهيكل الداخلي</td><td>الأعمدة الداخلية، الأرضيات، السقف من الداخل</td></tr>
+    <tr><td>4</td><td>الهيكل الخارجي</td><td>الأبواب، المصدات، الأجنحة، السقف، الغطاء</td></tr>
+    <tr><td>5</td><td>الداخلية والديكور</td><td>المقاعد، الكونسول، الشاشة، التكييف</td></tr>
+    <tr><td>6</td><td>الإكسسوارات الخارجية</td><td>المرايا، المساحات، الإضاءة، الزجاج</td></tr>
+  </table>
+  <p><strong>نمط التسجيل:</strong> لكل جزء (Part) يتم اختيار المشكلة (Issue) المكتشفة من القائمة</p>
+</div>
+
+<div class="scenario">
+  <div class="scenario-title">🔧 المرحلة 7: الميكانيكا (Mechanical)</div>
+  <p><strong>الهدف:</strong> فحص الأجزاء الميكانيكية والأعطال</p>
+  <ul>
+    <li><strong>الأجزاء:</strong> تسجيل كل جزء ميكانيكي مع نوعه (Part Type → Part)</li>
+    <li><strong>المشاكل:</strong> لكل جزء يمكن تسجيل مشكلة أو أكثر (Part → Issue)</li>
+    <li>نظام ثنائي: أجزاء + مشاكل على الأجزاء</li>
+  </ul>
+</div>
+
+<div class="scenario">
+  <div class="scenario-title">🛞 المرحلة 8: الإطارات (Tires)</div>
+  <p><strong>الهدف:</strong> فحص حالة كل إطار</p>
+  <ul>
+    <li><strong>الموقع:</strong> أمامي يمين، أمامي يسار، خلفي يمين، خلفي يسار</li>
+    <li><strong>البيانات:</strong> سنة التصنيع، أسبوع التصنيع، الحالة (جيد/متوسط/سيء)</li>
+  </ul>
+</div>
+
+<div class="scenario">
+  <div class="scenario-title">🛣️ المرحلة 9: التجربة الميدانية (Road Test)</div>
+  <p><strong>الهدف:</strong> فحص أداء السيارة أثناء القيادة</p>
+  <ul>
+    <li>تسجيل المشاكل المكتشفة حسب النوع (Issue Type → Issue)</li>
+    <li>مثال: "المحرك" → "صوت غير طبيعي عند التسارع"</li>
+  </ul>
+</div>
+
+<!-- ===== 7 ===== -->
+<div class="page-break"></div>
+<h1>7. نظام الفواتير</h1>
+
+<h2>7.1 إنشاء الفاتورة</h2>
+
+<div class="step">
+  <div class="num">A</div>
+  <div class="content">
+    <strong>تلقائياً من الفحص:</strong> عند إكمال الفحص، يمكن إنشاء فاتورة تحتوي على كل الخدمات المسجلة في الطلب بأسعارها. تربط بالفحص عبر ExaminationId.
+  </div>
+</div>
+
+<div class="step">
+  <div class="num">B</div>
+  <div class="content">
+    <strong>يدوياً:</strong> يمكن إنشاء فاتورة مستقلة وإضافة عناصر عليها.
+  </div>
+</div>
+
+<h2>7.2 أنواع الفواتير</h2>
+<table>
+  <tr><th>النوع</th><th>الوصف</th><th>متى يُنشأ؟</th></tr>
+  <tr>
+    <td style="background:#dbeafe; font-weight:700;">Invoice (فاتورة أساسية)</td>
+    <td>الفاتورة الرئيسية للخدمات المقدمة</td>
+    <td>عند إكمال الفحص أو يدوياً</td>
+  </tr>
+  <tr>
+    <td style="background:#fef3c7; font-weight:700;">Adjustment (فاتورة تعديل)</td>
+    <td>فاتورة بفرق الزيادة عند ارتفاع سعر خدمة</td>
+    <td>عند زيادة سعر خدمة بعد إصدار الفاتورة الأصلية</td>
+  </tr>
+  <tr>
+    <td style="background:#fef2f2; font-weight:700;">Refund (فاتورة استرداد)</td>
+    <td>فاتورة بفرق التخفيض عند انخفاض سعر خدمة</td>
+    <td>عند تخفيض سعر خدمة بعد إصدار الفاتورة الأصلية</td>
+  </tr>
+</table>
+
+<h2>7.3 حالات الفاتورة</h2>
+<div class="status-flow">
+  <span class="status-box" style="background:#3b82f6;">صادرة Issued</span>
+  <span class="arrow">←</span>
+  <span class="status-box" style="background:#22c55e;">مدفوعة Paid</span>
+</div>
+<div class="status-flow" style="margin-top:8px;">
+  <span class="status-box" style="background:#ef4444;">ملغاة Cancelled</span>
+  &nbsp;&nbsp;
+  <span class="status-box" style="background:#6b7280;">مستردة Refunded</span>
+</div>
+
+<div class="box">
+  <h3>انتقالات الحالة التلقائية</h3>
+  <ul>
+    <li><strong>Issued → Paid:</strong> تلقائياً عندما المبلغ المدفوع ≥ إجمالي الفاتورة</li>
+    <li><strong>Paid → Issued:</strong> تلقائياً عند إضافة استرداد يقلل المدفوع عن الإجمالي</li>
+    <li><strong>→ Refunded:</strong> تلقائياً عندما إجمالي الاستردادات ≥ إجمالي المدفوعات</li>
+    <li><strong>→ Cancelled:</strong> يدوياً — لا يمكن إلغاء فاتورة مدفوعة</li>
+  </ul>
+</div>
+
+<h2>7.4 مكونات الفاتورة</h2>
+
+<div class="calc-box">
+  <strong>حساب الفاتورة:</strong>
+  <div class="formula">SubTotal = مجموع (سعر الوحدة × الكمية) لكل عنصر</div>
+  <div class="formula">AfterDiscount = SubTotal - DiscountAmount</div>
+  <div class="formula">TaxAmount = AfterDiscount × TaxRate (15%)</div>
+  <div class="formula">TotalWithTax = AfterDiscount + TaxAmount</div>
+  <div class="formula">Balance = TotalWithTax - TotalPaid</div>
+</div>
+
+<!-- ===== 8 ===== -->
+<div class="page-break"></div>
+<h1>8. نظام المدفوعات</h1>
+
+<h2>8.1 إضافة دفعة</h2>
+<div class="box">
+  <p>على أي فاتورة بحالة <strong>Issued</strong>، يمكن إضافة دفعة:</p>
+  <ul>
+    <li><strong>المبلغ:</strong> لا يتجاوز الرصيد المتبقي</li>
+    <li><strong>طريقة الدفع:</strong> نقدي، بطاقة، تحويل... (من البيانات الأساسية)</li>
+    <li><strong>ملاحظات:</strong> اختياري</li>
+  </ul>
+  <p>عند دفع كامل المبلغ، الفاتورة تتحول تلقائياً لـ <strong>Paid</strong>.</p>
+</div>
+
+<h2>8.2 الدفع الجزئي</h2>
+<div class="highlight">
+  <p>النظام يدعم <strong>الدفع على دفعات</strong>. مثال:</p>
+  <ul>
+    <li>إجمالي الفاتورة: 1,000 ر.س</li>
+    <li>دفعة 1: 500 ر.س نقدي ← الرصيد: 500 ر.س (حالة: Issued)</li>
+    <li>دفعة 2: 500 ر.س بطاقة ← الرصيد: 0 ر.س (حالة: <strong>Paid</strong>)</li>
+  </ul>
+</div>
+
+<h2>8.3 الدفع على فاتورة Refund</h2>
+<div class="success">
+  <p>عندما يتم تخفيض سعر خدمة وإنشاء فاتورة <strong>Refund</strong>، يتم تسجيل <strong>Payment</strong> عليها لتوثيق أن المبلغ تم رده فعلاً للعميل.</p>
+  <p>مثال: فاتورة Refund بمبلغ 100 ر.س ← يضغط "إضافة استرداد" ← يسجل دفع 100 ر.س نقدي ← الفاتورة تصبح <strong>Paid</strong></p>
+</div>
+
+<!-- ===== 9 ===== -->
+<h1>9. سيناريوهات تغيير الأسعار</h1>
+
+<div class="scenario">
+  <div class="scenario-title">📈 سيناريو 1: زيادة سعر الخدمة</div>
+  <div class="step">
+    <div class="num">1</div>
+    <div class="content">الفاتورة الأصلية: فحص شامل كامري = <strong>500 ر.س</strong></div>
+  </div>
+  <div class="step">
+    <div class="num">2</div>
+    <div class="content">يتم تعديل سعر الخدمة لـ <strong>650 ر.س</strong></div>
+  </div>
+  <div class="step">
+    <div class="num">3</div>
+    <div class="content">النظام ينشئ فاتورة <strong>Adjustment</strong> بالفرق = <strong>150 ر.س</strong></div>
+  </div>
+  <div class="step">
+    <div class="num">4</div>
+    <div class="content">العميل يدفع 150 ر.س على فاتورة التعديل</div>
+  </div>
+</div>
+
+<div class="scenario">
+  <div class="scenario-title">📉 سيناريو 2: تخفيض سعر الخدمة</div>
+  <div class="step">
+    <div class="num">1</div>
+    <div class="content">الفاتورة الأصلية: فحص شامل كامري = <strong>650 ر.س</strong> (مدفوعة)</div>
+  </div>
+  <div class="step">
+    <div class="num">2</div>
+    <div class="content">يتم تعديل سعر الخدمة لـ <strong>500 ر.س</strong></div>
+  </div>
+  <div class="step">
+    <div class="num">3</div>
+    <div class="content">النظام ينشئ فاتورة <strong>Refund</strong> بالفرق = <strong>150 ر.س</strong></div>
+  </div>
+  <div class="step">
+    <div class="num">4</div>
+    <div class="content">المحاسب يضيف <strong>Payment</strong> على فاتورة الـ Refund بمبلغ 150 ر.س لتوثيق رد المبلغ للعميل</div>
+  </div>
+</div>
+
+<div class="danger">
+  <strong>ملاحظة:</strong> الاسترداد (Refund) لا يُضاف على الفاتورة الأصلية — يُنشأ فاتورة Refund مستقلة ويُسجل عليها الدفع.
+</div>
+
+<!-- ===== 10 ===== -->
+<div class="page-break"></div>
+<h1>10. الخصومات والضرائب</h1>
+
+<h2>10.1 الخصم (Discount)</h2>
+<div class="box">
+  <ul>
+    <li>يمكن إضافة خصم على الفاتورة الأساسية (Invoice) فقط — لا يُطبق على Refund أو Adjustment</li>
+    <li>الخصم لا يتجاوز الإجمالي الفرعي (SubTotal)</li>
+    <li>يتم إعادة حساب الضريبة والإجمالي تلقائياً بعد الخصم</li>
+    <li>يمكن تعديل الخصم عدة مرات طالما الفاتورة بحالة Issued</li>
+  </ul>
+</div>
+
+<div class="scenario">
+  <div class="scenario-title">مثال على الخصم</div>
+  <div class="calc-box">
+    <div class="formula">SubTotal = 1,000 ر.س</div>
+    <div class="formula">Discount = 200 ر.س</div>
+    <div class="formula">AfterDiscount = 800 ر.س</div>
+    <div class="formula">Tax (15%) = 120 ر.س</div>
+    <div class="formula">Total = 920 ر.س</div>
+  </div>
+</div>
+
+<h2>10.2 الضريبة (VAT)</h2>
+<div class="box">
+  <ul>
+    <li>نسبة الضريبة الافتراضية: <strong>15%</strong> (ضريبة القيمة المضافة)</li>
+    <li>تُحسب على المبلغ <strong>بعد الخصم</strong></li>
+    <li>تُطبق تلقائياً على كل الفواتير</li>
+    <li>العملة الافتراضية: <strong>SAR</strong> (ريال سعودي)</li>
+  </ul>
+</div>
+
+<!-- ===== 11 ===== -->
+<h1>11. التقارير والطباعة</h1>
+
+<h3>تقرير الفحص</h3>
+<div class="box">
+  <ul>
+    <li>تقرير شامل بنتائج كل مرحلة</li>
+    <li>يتضمن بيانات العميل والمركبة</li>
+    <li>يُنشأ كملف PDF</li>
+    <li>يُقدم للعميل مع تسليم السيارة</li>
+    <li>يتضمن الشروط والأحكام</li>
+  </ul>
+</div>
+
+<h3>طباعة الفاتورة</h3>
+<div class="box">
+  <ul>
+    <li>فاتورة قابلة للطباعة بتنسيق احترافي</li>
+    <li>تتضمن QR Code</li>
+    <li>تعرض بيانات العميل، العناصر، الحسابات</li>
+    <li>تدعم العربية والإنجليزية</li>
+  </ul>
+</div>
+
+<h3>الصفحة المجمعة (Consolidated View)</h3>
+<div class="box">
+  <p>تعرض ملخص مالي لكل الفواتير المرتبطة بفحص واحد:</p>
+  <ul>
+    <li>إجمالي كل الفواتير (أساسية + تعديل - استرداد)</li>
+    <li>إجمالي المدفوعات</li>
+    <li>الرصيد المتبقي</li>
+    <li>عدد الفواتير</li>
+  </ul>
+</div>
+
+<!-- ===== 12 ===== -->
+<div class="page-break"></div>
+<h1>12. إدارة العملاء</h1>
+
+<h2>12.1 أنواع العملاء</h2>
+<table>
+  <tr><th>النوع</th><th>الوصف</th><th>بيانات إضافية</th></tr>
+  <tr><td>فرد (Individual)</td><td>عميل فردي</td><td>الاسم، الهاتف، العنوان</td></tr>
+  <tr><td>شركة (Company)</td><td>شركة أو مؤسسة</td><td>+ رقم السجل التجاري، الرقم الضريبي</td></tr>
+  <tr><td>جهة حكومية (Government)</td><td>جهة حكومية</td><td>بيانات الجهة</td></tr>
+</table>
+
+<h2>12.2 موارد العملاء (Client Resources)</h2>
+<p>تصنيفات إضافية للعملاء — مصدر معرفة العميل بالمركز (إعلان، توصية، إنترنت...).</p>
+
+<!-- ===== 13 ===== -->
+<h1>13. نظام الصلاحيات والأمان</h1>
+
+<div class="box">
+  <h3>كيف يعمل</h3>
+  <ul>
+    <li>كل مستخدم ينتمي لـ <strong>دور (Role)</strong> واحد أو أكثر</li>
+    <li>كل دور يحتوي على مجموعة <strong>صلاحيات (Permissions)</strong> محددة</li>
+    <li>كل شاشة وكل زر في النظام محمي بصلاحية معينة</li>
+    <li>المستخدم يرى فقط ما لديه صلاحية عليه</li>
+  </ul>
+</div>
+
+<h3>أمثلة على الأدوار</h3>
+<table>
+  <tr><th>الدور</th><th>الصلاحيات</th></tr>
+  <tr><td>مدير النظام</td><td>كل الصلاحيات</td></tr>
+  <tr><td>موظف استقبال</td><td>إنشاء فحوصات، قراءة عملاء، إنشاء عملاء</td></tr>
+  <tr><td>فني فحص</td><td>قراءة فحوصات، تعديل فحوصات (تسجيل المراحل)</td></tr>
+  <tr><td>محاسب</td><td>قراءة/إنشاء فواتير، إضافة مدفوعات، إدارة خصومات</td></tr>
+</table>
+
+<h3>أمثلة على الصلاحيات</h3>
+<table>
+  <tr><th>المجموعة</th><th>أمثلة</th></tr>
+  <tr><td>الفحوصات</td><td>إنشاء، قراءة، تعديل، حذف، بدء، إكمال، تسليم، إلغاء، إعادة فتح، طباعة تقرير</td></tr>
+  <tr><td>الفواتير</td><td>إنشاء، قراءة، تعديل، حذف</td></tr>
+  <tr><td>لوحة المعلومات</td><td>عرض إحصائيات الفحوصات، عرض الإيرادات</td></tr>
+  <tr><td>الإعدادات</td><td>لكل بيان أساسي: إنشاء، قراءة، تعديل، حذف</td></tr>
+</table>
+
+<!-- ===== 14 ===== -->
+<div class="page-break"></div>
+<h1>14. قواعد العمل الأساسية (Business Rules)</h1>
+
+<h2>14.1 قواعد الفحص</h2>
+<table>
+  <tr><th>#</th><th>القاعدة</th></tr>
+  <tr><td>1</td><td>لا يمكن بدء فحص بدون خدمة واحدة على الأقل</td></tr>
+  <tr><td>2</td><td>لا يمكن إضافة نفس الخدمة مرتين لنفس الفحص</td></tr>
+  <tr><td>3</td><td>لا يمكن تعديل الفحص بعد حالة InProgress (إلا بإعادة فتحه)</td></tr>
+  <tr><td>4</td><td>لا يمكن إلغاء فحص تم تسليمه</td></tr>
+  <tr><td>5</td><td>يمكن إعادة فتح فحص مكتمل أو مُسلّم</td></tr>
+  <tr><td>6</td><td>في مرحلة الحساسات: لا يمكن تحديد "لا مشاكل" مع وجود مشاكل</td></tr>
+  <tr><td>7</td><td>مراحل الفحص تُحفظ ذرياً (كل البيانات + المشاكل في عملية واحدة)</td></tr>
+</table>
+
+<h2>14.2 قواعد الفاتورة</h2>
+<table>
+  <tr><th>#</th><th>القاعدة</th></tr>
+  <tr><td>1</td><td>لا يمكن إضافة دفعة على فاتورة ملغاة</td></tr>
+  <tr><td>2</td><td>لا يمكن إلغاء فاتورة مدفوعة بالكامل</td></tr>
+  <tr><td>3</td><td>لا يمكن حذف فاتورة مدفوعة أو ملغاة</td></tr>
+  <tr><td>4</td><td>الخصم لا يتجاوز الإجمالي الفرعي</td></tr>
+  <tr><td>5</td><td>الخصم لا يمكن أن يكون سالباً</td></tr>
+  <tr><td>6</td><td>تعديل العناصر ممكن فقط في حالة Issued</td></tr>
+  <tr><td>7</td><td>رقم الفاتورة يُعيّن مرة واحدة ولا يمكن تغييره</td></tr>
+  <tr><td>8</td><td>فاتورة Refund لا يمكن إنشاء refund منها</td></tr>
+  <tr><td>9</td><td>فاتورة Adjustment تُنشأ فقط من فاتورة أساسية (Invoice)</td></tr>
+</table>
+
+<h2>14.3 قواعد المدفوعات</h2>
+<table>
+  <tr><th>#</th><th>القاعدة</th></tr>
+  <tr><td>1</td><td>الدفع ممكن فقط على فاتورة بحالة Issued</td></tr>
+  <tr><td>2</td><td>مبلغ الدفعة لا يتجاوز الرصيد المتبقي</td></tr>
+  <tr><td>3</td><td>الاسترداد (على الفاتورة الأصلية) لا يتجاوز المبلغ المدفوع - المسترد سابقاً</td></tr>
+  <tr><td>4</td><td>حالة الفاتورة تتحدث تلقائياً حسب المدفوعات</td></tr>
+  <tr><td>5</td><td>يجب تحديد طريقة الدفع لكل دفعة</td></tr>
+</table>
+
+<h2>14.4 قواعد التسعير</h2>
+<table>
+  <tr><th>#</th><th>القاعدة</th></tr>
+  <tr><td>1</td><td>السعر يجب أن يكون أكبر من صفر</td></tr>
+  <tr><td>2</td><td>السعر لا يتجاوز 1,000,000</td></tr>
+  <tr><td>3</td><td>سنة البداية لا تتجاوز سنة النهاية</td></tr>
+  <tr><td>4</td><td>نطاق السنوات: 1950 حتى السنة الحالية + 1</td></tr>
+  <tr><td>5</td><td>يجب تحديد الخدمة والموديل</td></tr>
+</table>
+
+<br><br>
+<div style="text-align:center; color:#94a3b8; padding:40px; border-top:2px solid #e2e8f0; margin-top:40px;">
+  <p style="font-size:1.2rem; font-weight:700; color:#64748b;">نهاية شرح الأعمال</p>
+  <p>نظام NewGarage — Business Documentation</p>
+  <p>مارس 2026</p>
+</div>
+
+</body>
+</html>
