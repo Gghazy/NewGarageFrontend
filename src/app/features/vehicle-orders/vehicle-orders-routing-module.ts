@@ -62,7 +62,7 @@ const routes: Routes = [
         canActivate: [permissionGuard],
         data: {
           breadcrumb: 'BREADCRUMB.EXAM_REPORT',
-          permissions: ['examination.report'],
+          permissions: ['examination.read', 'examination.report'],
           permissionMode: 'any'
         }
       },

@@ -96,4 +96,13 @@ export const APP_MENU: AppMenuItem[] = [
       { labelKey: 'MENU.BOOKINGS', route: '/features/bookings', icon: 'bi bi-calendar-check', permissions: ['booking.read'] },
     ],
   },
+  {
+    labelKey: 'MENU.REPORTS',
+    icon: 'bi bi-bar-chart-line',
+    permissions: ['invoice.read', 'examination.report'],
+    children: [
+      { labelKey: 'MENU.INVOICE_REPORT', route: '/features/reports/invoices', icon: 'bi bi-receipt-cutoff', permissions: ['invoice.read'] },
+      { labelKey: 'MENU.EMPLOYEE_REPORT', route: '/features/reports/employees', icon: 'bi bi-person-lines-fill', permissions: ['examination.read'] },
+    ],
+  },
 ];

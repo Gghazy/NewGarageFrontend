@@ -33,7 +33,7 @@ export class ClientIndividualForm implements OnInit, OnDestroy {
   ngOnInit(): void {
      this.loadResources();
     this.initForm();
-    debugger
+    
     if (this.initialData) {
       this.formGroup.patchValue({
         email: this.initialData.email,

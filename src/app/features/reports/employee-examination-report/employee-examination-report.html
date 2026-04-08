@@ -1,0 +1,112 @@
+<!-- Report Description -->
+<div class="report-description mb-3">
+  <h5 class="mb-1">{{ 'EMPLOYEE_REPORT.TITLE' | translate }}</h5>
+  <p class="text-muted mb-0">{{ 'EMPLOYEE_REPORT.DESCRIPTION' | translate }}</p>
+</div>
+
+<!-- Filters -->
+<div class="filter-bar mb-3">
+  <div class="row g-2 align-items-end">
+    <!-- Date From -->
+    <div class="col-sm-6 col-md-2">
+      <label class="filter-label">{{ 'FILTER.DATE_FROM' | translate }}</label>
+      <input type="date" class="form-control form-control-sm filter-input"
+             [(ngModel)]="dateFrom" (change)="search()" />
+    </div>
+
+    <!-- Date To -->
+    <div class="col-sm-6 col-md-2">
+      <label class="filter-label">{{ 'FILTER.DATE_TO' | translate }}</label>
+      <input type="date" class="form-control form-control-sm filter-input"
+             [(ngModel)]="dateTo" (change)="search()" />
+    </div>
+
+    <!-- Branch -->
+    <div class="col-sm-6 col-md-2">
+      <label class="filter-label">{{ 'FILTER.BRANCH' | translate }}</label>
+      <select class="form-select form-select-sm filter-input"
+              [(ngModel)]="branchId" (change)="search()">
+        <option [ngValue]="null">{{ 'FILTER.ALL_BRANCHES' | translate }}</option>
+        <option *ngFor="let b of branches" [value]="b.id">
+          {{ isAr ? b.nameAr : b.nameEn }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Employee Filter -->
+    <div class="col-sm-6 col-md-3">
+      <label class="filter-label">{{ 'EMPLOYEE_REPORT.EMPLOYEE_NAME' | translate }}</label>
+      <select class="form-select form-select-sm filter-input"
+              [(ngModel)]="selectedEmployeeId" (change)="onEmployeeFilterChange()">
+        <option [ngValue]="null">{{ 'FILTER.ALL' | translate }}</option>
+        <option *ngFor="let emp of allEmployees" [value]="emp.employeeId">
+          {{ isAr ? emp.nameAr : emp.nameEn }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Search Button -->
+    <div class="col-auto">
+      <button class="btn btn-sm btn-outline-secondary" (click)="search()">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Report Header -->
+<div class="d-flex justify-content-between align-items-center mb-2">
+  <span class="text-muted small">
+    {{ 'EMPLOYEE_REPORT.TOTAL_EMPLOYEES' | translate }}: {{ employees.length }}
+  </span>
+  <button class="btn btn-sm btn-outline-success" (click)="exportToExcel()">
+    <i class="bi bi-file-earmark-spreadsheet me-1"></i>
+    {{ 'INVOICE_REPORT.EXPORT_EXCEL' | translate }}
+  </button>
+</div>
+
+<!-- Comparison Table -->
+<div class="card border-0 shadow-sm">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered mb-0 comparison-table">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>{{ 'EMPLOYEE_REPORT.EMPLOYEE_NAME' | translate }}</th>
+            <th class="text-center">{{ 'EMPLOYEE_REPORT.EXAMINATION_COUNT' | translate }}</th>
+            <th class="text-center">{{ 'EMPLOYEE_REPORT.TOTAL_ACTIONS' | translate }}</th>
+            <th class="text-center stage-header" *ngFor="let stage of allStages">
+              {{ getStageName(stage) }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let emp of employees; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td class="fw-semibold">{{ isAr ? emp.nameAr : emp.nameEn }}</td>
+            <td class="text-center">
+              <span class="badge bg-primary rounded-pill">{{ emp.examinationCount }}</span>
+            </td>
+            <td class="text-center">
+              <span class="badge bg-info rounded-pill">{{ emp.totalStageActions }}</span>
+            </td>
+            <td class="text-center" *ngFor="let stage of allStages">
+              <span *ngIf="getStageCount(emp, stage) > 0"
+                    class="badge bg-success rounded-pill">
+                {{ getStageCount(emp, stage) }}
+              </span>
+              <span *ngIf="getStageCount(emp, stage) === 0"
+                    class="text-muted">—</span>
+            </td>
+          </tr>
+          <tr *ngIf="employees.length === 0">
+            <td [attr.colspan]="4 + allStages.length" class="text-center text-muted py-4">
+              {{ 'COMMON.NO_DATA' | translate }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

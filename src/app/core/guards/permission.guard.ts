@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { APP_ROUTES, PERMISSION_MODE, PermissionMode } from '../constants/app.constants';
 
 export const permissionGuard: CanActivateFn = (route) => {
+  
   const auth = inject(AuthService);
   const router = inject(Router);
 

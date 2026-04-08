@@ -96,7 +96,10 @@
     "INVOICE_REFUNDS": "Refund Invoices",
     "INVOICE_CANCELLED": "Cancelled Invoices",
     "PAYMENT_METHODS": "Payment Methods",
-    "BOOKINGS": "Bookings"
+    "BOOKINGS": "Bookings",
+    "REPORTS": "Reports",
+    "INVOICE_REPORT": "Invoice Report",
+    "EMPLOYEE_REPORT": "Employee Report"
   },
   "BREADCRUMB": {
     "HOME": "Home",
@@ -148,7 +151,10 @@
     "BOOKINGS": "Bookings",
     "BOOKING_NEW": "New Booking",
     "BOOKING_EDIT": "Edit Booking",
-    "BOOKING_DETAIL": "Booking Details"
+    "BOOKING_DETAIL": "Booking Details",
+    "REPORTS": "Reports",
+    "INVOICE_REPORT": "Invoice Report",
+    "EMPLOYEE_REPORT": "Employee Report"
   },
   "REPORT": {
     "TITLE": "Examination Report",
@@ -1045,5 +1051,47 @@
     "CONVERT_SUCCESS": "Booking converted to examination successfully",
     "CREATED_SUCCESS": "Booking created successfully",
     "UPDATED_SUCCESS": "Booking updated successfully"
+  },
+  "INVOICE_REPORT": {
+    "TITLE": "Invoice Report",
+    "DESCRIPTION": "Display invoice data by client type (Individual/Company/All), specific time period (date from and to), specific branch (or all branches), specific customer (or all customers), or invoice type (or all types).",
+    "INVOICE_NUMBER": "Invoice #",
+    "INVOICE_DATE": "Invoice Date",
+    "INVOICE_TYPE": "Invoice Type",
+    "CLIENT_TYPE": "Client Type",
+    "CLIENT_TYPES": {
+      "Individual": "Individual",
+      "Company": "Company",
+      "Government": "Government"
+    },
+    "CLIENT_NAME": "Client Name",
+    "PHONE": "Phone",
+    "BRANCH": "Branch",
+    "PAYMENT_METHOD": "Payment Method",
+    "PAID_AMOUNT": "Paid Amount",
+    "TOTAL": "Total",
+    "STATUS": "Status",
+    "TOTAL_RESULTS": "Total Results",
+    "EXPORT_EXCEL": "Export to Excel"
+  },
+  "EMPLOYEE_REPORT": {
+    "TITLE": "Employee Examination Report",
+    "DESCRIPTION": "View employees who contributed to examinations, the number of examinations they participated in, and the stages they worked on.",
+    "EMPLOYEE_NAME": "Employee Name",
+    "EXAMINATION_COUNT": "Examination Count",
+    "STAGES_CONTRIBUTED": "Stages",
+    "TOTAL_ACTIONS": "Total Actions",
+    "TOTAL_EMPLOYEES": "Total Employees",
+    "STAGES": {
+      "SensorStageSaved": "Sensors",
+      "DashboardIndicatorsStageSaved": "Dashboard Indicators",
+      "InteriorDecorStageSaved": "Interior & Decor",
+      "InteriorBodyStageSaved": "Interior Body",
+      "ExteriorBodyStageSaved": "Exterior Body",
+      "TireStageSaved": "Tires",
+      "AccessoryStageSaved": "Accessories",
+      "MechanicalStageSaved": "Mechanical",
+      "RoadTestStageSaved": "Road Test"
+    }
   }
 }

@@ -96,7 +96,10 @@
     "INVOICE_REFUNDS": "الفواتير المرتجعة",
     "INVOICE_CANCELLED": "الفواتير الملغية",
     "PAYMENT_METHODS": "طرق الدفع",
-    "BOOKINGS": "الحجوزات"
+    "BOOKINGS": "الحجوزات",
+    "REPORTS": "التقارير",
+    "INVOICE_REPORT": "تقرير الفواتير",
+    "EMPLOYEE_REPORT": "تقرير الموظفين"
   },
   "BREADCRUMB": {
     "HOME": "الرئيسية",
@@ -148,7 +151,10 @@
     "BOOKINGS": "الحجوزات",
     "BOOKING_NEW": "حجز جديد",
     "BOOKING_EDIT": "تعديل الحجز",
-    "BOOKING_DETAIL": "تفاصيل الحجز"
+    "BOOKING_DETAIL": "تفاصيل الحجز",
+    "REPORTS": "التقارير",
+    "INVOICE_REPORT": "تقرير الفواتير",
+    "EMPLOYEE_REPORT": "تقرير الموظفين"
   },
   "REPORT": {
     "TITLE": "تقرير الفحص",
@@ -1073,5 +1079,47 @@
     "CONVERT_SUCCESS": "تم تحويل الحجز إلى فحص بنجاح",
     "CREATED_SUCCESS": "تم إنشاء الحجز بنجاح",
     "UPDATED_SUCCESS": "تم تحديث الحجز بنجاح"
+  },
+  "INVOICE_REPORT": {
+    "TITLE": "تقرير الفواتير",
+    "DESCRIPTION": "إظهار بيانات الفواتير بحسب نوع العميل (افراد/مؤسسات/الكل) او بحسب فترة زمنية محددة (تواريخ من و إلى) او حسب فرع معين (او كل الفروع) او حسب عميل معين (او كل العملاء) او حسب نوع فاتورة (او كل الانواع).",
+    "INVOICE_NUMBER": "رقم الفاتورة",
+    "INVOICE_DATE": "تاريخ الاصدار",
+    "INVOICE_TYPE": "نوع الفاتورة",
+    "CLIENT_TYPE": "نوع العميل",
+    "CLIENT_TYPES": {
+      "Individual": "فرد",
+      "Company": "شركة",
+      "Government": "جهة حكومية"
+    },
+    "CLIENT_NAME": "إسم العميل",
+    "PHONE": "رقم الجوال",
+    "BRANCH": "الفرع",
+    "PAYMENT_METHOD": "جهة الدفع",
+    "PAID_AMOUNT": "المبلغ المدفوع",
+    "TOTAL": "الإجمالي",
+    "STATUS": "الحالة",
+    "TOTAL_RESULTS": "عدد العناصر في الصفحة",
+    "EXPORT_EXCEL": "تحويل لملف إكسل"
+  },
+  "EMPLOYEE_REPORT": {
+    "TITLE": "تقرير الموظفين",
+    "DESCRIPTION": "عرض بيانات الموظفين الذين ساهموا في الفحوصات وعدد الفحوصات والمراحل التي شاركوا فيها.",
+    "EMPLOYEE_NAME": "إسم الموظف",
+    "EXAMINATION_COUNT": "عدد الفحوصات",
+    "STAGES_CONTRIBUTED": "المراحل",
+    "TOTAL_ACTIONS": "إجمالي المساهمات",
+    "TOTAL_EMPLOYEES": "إجمالي الموظفين",
+    "STAGES": {
+      "SensorStageSaved": "الحساسات",
+      "DashboardIndicatorsStageSaved": "مؤشرات الطبلون",
+      "InteriorDecorStageSaved": "الداخلية والديكور",
+      "InteriorBodyStageSaved": "الهيكل الداخلي",
+      "ExteriorBodyStageSaved": "الهيكل الخارجي",
+      "TireStageSaved": "الإطارات",
+      "AccessoryStageSaved": "الإكسسوارات",
+      "MechanicalStageSaved": "الميكانيكا",
+      "RoadTestStageSaved": "تجربة الطريق"
+    }
   }
 }

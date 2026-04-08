@@ -10,4 +10,5 @@ export interface SearchCriteria {
     branchId?: string | null;
     status?: string | null;
     invoiceType?: string | null;
+    clientType?: string | null;
 }

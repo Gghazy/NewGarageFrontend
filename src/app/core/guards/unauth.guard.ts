@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { APP_ROUTES } from '../constants/app.constants';
 
 export const unauthGuard: CanActivateFn = () => {
+  
   if (!isPlatformBrowser(inject(PLATFORM_ID))) return true;
 
   const auth = inject(AuthService);

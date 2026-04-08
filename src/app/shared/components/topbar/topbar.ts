@@ -56,7 +56,7 @@ export class Topbar {
 
   private canSee(perms?: string[]): boolean {
     if (!perms || perms.length === 0) return true;
-    return this.auth.hasAnyPermission(perms); // هنضيفها تحت
+    return this.auth.hasAnyPermission(perms);
   }
 
   isParentActive(parent: AppMenuItem): boolean {
