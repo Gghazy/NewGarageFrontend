@@ -108,7 +108,6 @@
     <th>{{ 'INVOICE_REPORT.PHONE' | translate }}</th>
     <th>{{ 'INVOICE_REPORT.BRANCH' | translate }}</th>
     <th>{{ 'INVOICE_REPORT.PAYMENT_METHOD' | translate }}</th>
-    <th>{{ 'INVOICE_REPORT.PAID_AMOUNT' | translate }}</th>
     <th>{{ 'INVOICE_REPORT.TOTAL' | translate }}</th>
     <th>{{ 'INVOICE_REPORT.STATUS' | translate }}</th>
   </ng-container>
@@ -128,8 +127,7 @@
       <td>{{ inv.clientPhone || '—' }}</td>
       <td>{{ (isAr ? inv.branchNameAr : inv.branchNameEn) || '—' }}</td>
       <td>{{ getPaymentMethods(inv) }}</td>
-      <td>{{ getTotalPaid(inv) | number:'1.2-2' }} {{ inv.currency }}</td>
-      <td>{{ inv.totalWithTax | number:'1.2-2' }} {{ inv.currency }}</td>
+      <td>{{ inv.netTotal | number:'1.2-2' }} {{ inv.currency }}</td>
       <td>
         <span class="badge" [ngClass]="inv.status | statusBadge:'invoice'">
           {{ 'INVOICES.LIST.STATUSES.' + inv.status | translate }}

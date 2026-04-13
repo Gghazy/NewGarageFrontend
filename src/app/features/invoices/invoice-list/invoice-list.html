@@ -73,7 +73,7 @@
       <td>{{ (isAr ? inv.clientNameAr : inv.clientNameEn) || '—' }}</td>
       <td>{{ inv.clientPhone || '—' }}</td>
       <td>{{ (isAr ? inv.branchNameAr : inv.branchNameEn) || '—' }}</td>
-      <td>{{ inv.totalWithTax | number:'1.2-2' }} {{ inv.currency }}</td>
+      <td>{{ inv.netTotal | number:'1.2-2' }} {{ inv.currency }}</td>
       <td>
         <span class="badge" [ngClass]="inv.status | statusBadge:'invoice'">
           {{ 'INVOICES.LIST.STATUSES.' + inv.status | translate }}

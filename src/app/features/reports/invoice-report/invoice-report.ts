@@ -116,7 +116,6 @@ export class InvoiceReport implements OnInit, OnDestroy {
       t('INVOICE_REPORT.PHONE'),
       t('INVOICE_REPORT.BRANCH'),
       t('INVOICE_REPORT.PAYMENT_METHOD'),
-      t('INVOICE_REPORT.PAID_AMOUNT'),
       t('INVOICE_REPORT.TOTAL'),
       t('INVOICE_REPORT.STATUS'),
     ];
@@ -129,8 +128,7 @@ export class InvoiceReport implements OnInit, OnDestroy {
       inv.clientPhone || '',
       (this.isAr ? inv.branchNameAr : inv.branchNameEn) || '',
       this.getPaymentMethods(inv),
-      this.getTotalPaid(inv).toFixed(2),
-      inv.totalWithTax.toFixed(2),
+      inv.netTotal.toFixed(2),
       t('INVOICES.LIST.STATUSES.' + inv.status),
     ]);
 

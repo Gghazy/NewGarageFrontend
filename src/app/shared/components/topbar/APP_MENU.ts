@@ -99,10 +99,12 @@ export const APP_MENU: AppMenuItem[] = [
   {
     labelKey: 'MENU.REPORTS',
     icon: 'bi bi-bar-chart-line',
-    permissions: ['invoice.read', 'examination.report'],
+    permissions: ['invoice.read', 'examination.report', 'dashboard.revenue'],
     children: [
       { labelKey: 'MENU.INVOICE_REPORT', route: '/features/reports/invoices', icon: 'bi bi-receipt-cutoff', permissions: ['invoice.read'] },
       { labelKey: 'MENU.EMPLOYEE_REPORT', route: '/features/reports/employees', icon: 'bi bi-person-lines-fill', permissions: ['examination.read'] },
+      { labelKey: 'MENU.REVENUE_COMPARISON', route: '/features/reports/revenue-comparison', icon: 'bi bi-graph-up-arrow', permissions: ['dashboard.revenue'] },
+      { labelKey: 'MENU.EMPLOYEE_COMPARISON', route: '/features/reports/employee-comparison', icon: 'bi bi-people', permissions: ['examination.read'] },
     ],
   },
 ];

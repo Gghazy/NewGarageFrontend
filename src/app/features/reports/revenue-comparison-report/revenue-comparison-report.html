@@ -1,0 +1,240 @@
+<!-- Report Description -->
+<div class="report-description mb-3">
+  <h5 class="mb-1">{{ 'REVENUE_COMPARISON.TITLE' | translate }}</h5>
+  <p class="text-muted mb-0">{{ 'REVENUE_COMPARISON.DESCRIPTION' | translate }}</p>
+</div>
+
+<!-- Filters -->
+<div class="filter-bar mb-3">
+  <div class="row g-3">
+    <!-- Period 1 -->
+    <div class="col-md-5">
+      <div class="period-filter period-filter--1">
+        <div class="period-filter-label">
+          <i class="bi bi-1-circle-fill me-1"></i>{{ 'REVENUE_COMPARISON.PERIOD1' | translate }}
+        </div>
+        <div class="row g-2">
+          <div class="col-6">
+            <label class="filter-label">{{ 'FILTER.DATE_FROM' | translate }}</label>
+            <input type="date" class="form-control form-control-sm filter-input"
+                   [(ngModel)]="from1" />
+          </div>
+          <div class="col-6">
+            <label class="filter-label">{{ 'FILTER.DATE_TO' | translate }}</label>
+            <input type="date" class="form-control form-control-sm filter-input"
+                   [(ngModel)]="to1" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Period 2 -->
+    <div class="col-md-5">
+      <div class="period-filter period-filter--2">
+        <div class="period-filter-label period-filter-label--2">
+          <i class="bi bi-2-circle-fill me-1"></i>{{ 'REVENUE_COMPARISON.PERIOD2' | translate }}
+        </div>
+        <div class="row g-2">
+          <div class="col-6">
+            <label class="filter-label">{{ 'FILTER.DATE_FROM' | translate }}</label>
+            <input type="date" class="form-control form-control-sm filter-input"
+                   [(ngModel)]="from2" />
+          </div>
+          <div class="col-6">
+            <label class="filter-label">{{ 'FILTER.DATE_TO' | translate }}</label>
+            <input type="date" class="form-control form-control-sm filter-input"
+                   [(ngModel)]="to2" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Branch + Compare -->
+    <div class="col-md-2 d-flex flex-column justify-content-end">
+      <label class="filter-label">{{ 'FILTER.BRANCH' | translate }}</label>
+      <select class="form-select form-select-sm filter-input mb-2"
+              [(ngModel)]="branchId">
+        <option [ngValue]="null">{{ 'FILTER.ALL_BRANCHES' | translate }}</option>
+        <option *ngFor="let b of branches" [value]="b.id">
+          {{ isAr ? b.nameAr : b.nameEn }}
+        </option>
+      </select>
+      <button class="btn btn-sm btn-primary w-100" (click)="search()" [disabled]="!canSearch">
+        <i class="bi bi-arrow-left-right me-1"></i>{{ 'REVENUE_COMPARISON.COMPARE' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="data">
+  <!-- Summary Cards -->
+  <div class="row g-3 mb-4">
+    <!-- Period 1 -->
+    <div class="col-lg-5 col-md-12">
+      <div class="period-card">
+        <div class="period-card-header period-card-header--1">
+          <span>
+            <i class="bi bi-1-circle me-1"></i>
+            {{ 'REVENUE_COMPARISON.PERIOD1' | translate }}
+          </span>
+          <span class="period-dates">{{ from1 }} &rarr; {{ to1 }}</span>
+        </div>
+        <div class="period-card-body">
+          <div class="row g-0">
+            <div class="col-4 metric-col">
+              <div class="metric-label">{{ 'REVENUE_COMPARISON.INVOICE_TOTAL' | translate }}</div>
+              <div class="metric-value">{{ data.period1.grandInvoiceTotal | number:'1.2-2' }}</div>
+              <div class="metric-sub">{{ data.period1.grandInvoiceCount }} {{ 'REVENUE_COMPARISON.INVOICES' | translate }}</div>
+            </div>
+            <div class="col-4 metric-col metric-col--border">
+              <div class="metric-label">{{ 'REVENUE_COMPARISON.REFUND_TOTAL' | translate }}</div>
+              <div class="metric-value text-danger">{{ data.period1.grandRefundTotal | number:'1.2-2' }}</div>
+              <div class="metric-sub">{{ data.period1.grandRefundCount }} {{ 'REVENUE_COMPARISON.REFUNDS' | translate }}</div>
+            </div>
+            <div class="col-4 metric-col metric-col--border">
+              <div class="metric-label">{{ 'REVENUE_COMPARISON.NET_REVENUE' | translate }}</div>
+              <div class="metric-value metric-value--net">{{ data.period1.grandNetRevenue | number:'1.2-2' }}</div>
+              <div class="metric-sub">{{ data.period1.currency }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diff -->
+    <div class="col-lg-2 col-md-12 d-flex align-items-stretch">
+      <div class="diff-card"
+           [ngClass]="{ 'diff-positive': grandDiff > 0, 'diff-negative': grandDiff < 0, 'diff-zero': grandDiff === 0 }">
+        <i class="bi diff-icon"
+           [ngClass]="grandDiff > 0 ? 'bi-graph-up-arrow' : grandDiff < 0 ? 'bi-graph-down-arrow' : 'bi-dash-lg'"></i>
+        <div class="diff-value">{{ grandDiff | number:'1.2-2' }}</div>
+        <div class="diff-percent" *ngIf="grandChangePercent !== null">
+          {{ grandChangePercent > 0 ? '+' : '' }}{{ grandChangePercent | number:'1.1-1' }}%
+        </div>
+        <div class="diff-label">{{ 'REVENUE_COMPARISON.DIFFERENCE' | translate }}</div>
+      </div>
+    </div>
+
+    <!-- Period 2 -->
+    <div class="col-lg-5 col-md-12">
+      <div class="period-card">
+        <div class="period-card-header period-card-header--2">
+          <span>
+            <i class="bi bi-2-circle me-1"></i>
+            {{ 'REVENUE_COMPARISON.PERIOD2' | translate }}
+          </span>
+          <span class="period-dates">{{ from2 }} &rarr; {{ to2 }}</span>
+        </div>
+        <div class="period-card-body">
+          <div class="row g-0">
+            <div class="col-4 metric-col">
+              <div class="metric-label">{{ 'REVENUE_COMPARISON.INVOICE_TOTAL' | translate }}</div>
+              <div class="metric-value">{{ data.period2.grandInvoiceTotal | number:'1.2-2' }}</div>
+              <div class="metric-sub">{{ data.period2.grandInvoiceCount }} {{ 'REVENUE_COMPARISON.INVOICES' | translate }}</div>
+            </div>
+            <div class="col-4 metric-col metric-col--border">
+              <div class="metric-label">{{ 'REVENUE_COMPARISON.REFUND_TOTAL' | translate }}</div>
+              <div class="metric-value text-danger">{{ data.period2.grandRefundTotal | number:'1.2-2' }}</div>
+              <div class="metric-sub">{{ data.period2.grandRefundCount }} {{ 'REVENUE_COMPARISON.REFUNDS' | translate }}</div>
+            </div>
+            <div class="col-4 metric-col metric-col--border">
+              <div class="metric-label">{{ 'REVENUE_COMPARISON.NET_REVENUE' | translate }}</div>
+              <div class="metric-value metric-value--net">{{ data.period2.grandNetRevenue | number:'1.2-2' }}</div>
+              <div class="metric-sub">{{ data.period2.currency }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export Bar -->
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <span class="text-muted small">
+      {{ 'REVENUE_COMPARISON.BRANCH_COUNT' | translate }}: {{ mergedRows.length }}
+    </span>
+    <button class="btn btn-sm btn-outline-success" (click)="exportToExcel()">
+      <i class="bi bi-file-earmark-spreadsheet me-1"></i>
+      {{ 'INVOICE_REPORT.EXPORT_EXCEL' | translate }}
+    </button>
+  </div>
+
+  <!-- Comparison Table -->
+  <div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover table-bordered mb-0 comparison-table">
+          <thead class="table-light">
+            <tr>
+              <th rowspan="2" class="align-middle">#</th>
+              <th rowspan="2" class="align-middle">{{ 'REVENUE_COMPARISON.BRANCH' | translate }}</th>
+              <th colspan="3" class="text-center th-period1">{{ 'REVENUE_COMPARISON.PERIOD1' | translate }}</th>
+              <th colspan="3" class="text-center th-period2">{{ 'REVENUE_COMPARISON.PERIOD2' | translate }}</th>
+              <th rowspan="2" class="text-center align-middle th-diff">{{ 'REVENUE_COMPARISON.DIFFERENCE' | translate }}</th>
+              <th rowspan="2" class="text-center align-middle th-diff">%</th>
+            </tr>
+            <tr>
+              <th class="text-center th-period1 sub-th">{{ 'REVENUE_COMPARISON.INVOICE_COUNT' | translate }}</th>
+              <th class="text-center th-period1 sub-th">{{ 'REVENUE_COMPARISON.INVOICE_TOTAL' | translate }}</th>
+              <th class="text-center th-period1 sub-th">{{ 'REVENUE_COMPARISON.NET_REVENUE' | translate }}</th>
+              <th class="text-center th-period2 sub-th">{{ 'REVENUE_COMPARISON.INVOICE_COUNT' | translate }}</th>
+              <th class="text-center th-period2 sub-th">{{ 'REVENUE_COMPARISON.INVOICE_TOTAL' | translate }}</th>
+              <th class="text-center th-period2 sub-th">{{ 'REVENUE_COMPARISON.NET_REVENUE' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of mergedRows; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td class="fw-semibold text-nowrap">{{ getBranchName(r) }}</td>
+              <!-- Period 1 -->
+              <td class="text-center cell-p1">{{ r.p1InvoiceCount }}</td>
+              <td class="text-end cell-p1">{{ r.p1InvoiceTotal | number:'1.2-2' }}</td>
+              <td class="text-end cell-p1 fw-semibold">{{ r.p1NetRevenue | number:'1.2-2' }}</td>
+              <!-- Period 2 -->
+              <td class="text-center cell-p2">{{ r.p2InvoiceCount }}</td>
+              <td class="text-end cell-p2">{{ r.p2InvoiceTotal | number:'1.2-2' }}</td>
+              <td class="text-end cell-p2 fw-semibold">{{ r.p2NetRevenue | number:'1.2-2' }}</td>
+              <!-- Diff -->
+              <td class="text-end fw-bold"
+                  [ngClass]="{ 'text-success': r.diff > 0, 'text-danger': r.diff < 0 }">
+                <i class="bi me-1"
+                   [ngClass]="r.diff > 0 ? 'bi-caret-up-fill' : r.diff < 0 ? 'bi-caret-down-fill' : ''"></i>{{ r.diff | number:'1.2-2' }}
+              </td>
+              <td class="text-center fw-semibold"
+                  [ngClass]="{ 'text-success': r.changePercent !== null && r.changePercent > 0, 'text-danger': r.changePercent !== null && r.changePercent < 0 }">
+                <ng-container *ngIf="r.changePercent !== null">{{ r.changePercent > 0 ? '+' : '' }}{{ r.changePercent | number:'1.1-1' }}%</ng-container>
+                <span *ngIf="r.changePercent === null" class="text-muted">—</span>
+              </td>
+            </tr>
+            <tr *ngIf="mergedRows.length === 0">
+              <td colspan="10" class="text-center text-muted py-4">
+                <i class="bi bi-inbox d-block mb-1 fs-4"></i>
+                {{ 'REVENUE_COMPARISON.NO_DATA' | translate }}
+              </td>
+            </tr>
+          </tbody>
+          <tfoot *ngIf="mergedRows.length > 0">
+            <tr class="table-light fw-bold">
+              <td colspan="2">{{ 'REVENUE_COMPARISON.GRAND_TOTAL' | translate }}</td>
+              <td class="text-center">{{ data.period1.grandInvoiceCount }}</td>
+              <td class="text-end">{{ data.period1.grandInvoiceTotal | number:'1.2-2' }}</td>
+              <td class="text-end">{{ data.period1.grandNetRevenue | number:'1.2-2' }}</td>
+              <td class="text-center">{{ data.period2.grandInvoiceCount }}</td>
+              <td class="text-end">{{ data.period2.grandInvoiceTotal | number:'1.2-2' }}</td>
+              <td class="text-end">{{ data.period2.grandNetRevenue | number:'1.2-2' }}</td>
+              <td class="text-end"
+                  [ngClass]="{ 'text-success': grandDiff > 0, 'text-danger': grandDiff < 0 }">
+                {{ grandDiff | number:'1.2-2' }}
+              </td>
+              <td class="text-center"
+                  [ngClass]="{ 'text-success': grandChangePercent !== null && grandChangePercent > 0, 'text-danger': grandChangePercent !== null && grandChangePercent < 0 }">
+                <ng-container *ngIf="grandChangePercent !== null">{{ grandChangePercent > 0 ? '+' : '' }}{{ grandChangePercent | number:'1.1-1' }}%</ng-container>
+                <span *ngIf="grandChangePercent === null">—</span>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

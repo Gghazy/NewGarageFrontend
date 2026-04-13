@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { InvoiceReport } from './invoice-report/invoice-report';
 import { EmployeeExaminationReport } from './employee-examination-report/employee-examination-report';
+import { RevenueComparisonReport } from './revenue-comparison-report/revenue-comparison-report';
+import { EmployeeComparisonReport } from './employee-comparison-report/employee-comparison-report';
 import { permissionGuard } from 'src/app/core/guards/permission.guard';
 
 const routes: Routes = [
@@ -26,6 +28,26 @@ const routes: Routes = [
         canActivate: [permissionGuard],
         data: {
           breadcrumb: 'BREADCRUMB.EMPLOYEE_REPORT',
+          permissions: ['examination.read'],
+          permissionMode: 'any',
+        },
+      },
+      {
+        path: 'revenue-comparison',
+        component: RevenueComparisonReport,
+        canActivate: [permissionGuard],
+        data: {
+          breadcrumb: 'BREADCRUMB.REVENUE_COMPARISON',
+          permissions: ['dashboard.revenue'],
+          permissionMode: 'any',
+        },
+      },
+      {
+        path: 'employee-comparison',
+        component: EmployeeComparisonReport,
+        canActivate: [permissionGuard],
+        data: {
+          breadcrumb: 'BREADCRUMB.EMPLOYEE_COMPARISON',
           permissions: ['examination.read'],
           permissionMode: 'any',
         },

@@ -99,7 +99,9 @@
     "BOOKINGS": "الحجوزات",
     "REPORTS": "التقارير",
     "INVOICE_REPORT": "تقرير الفواتير",
-    "EMPLOYEE_REPORT": "تقرير الموظفين"
+    "EMPLOYEE_REPORT": "تقرير الموظفين",
+    "REVENUE_COMPARISON": "مقارنة الإيرادات",
+    "EMPLOYEE_COMPARISON": "مقارنة موظفين الفحص"
   },
   "BREADCRUMB": {
     "HOME": "الرئيسية",
@@ -154,7 +156,9 @@
     "BOOKING_DETAIL": "تفاصيل الحجز",
     "REPORTS": "التقارير",
     "INVOICE_REPORT": "تقرير الفواتير",
-    "EMPLOYEE_REPORT": "تقرير الموظفين"
+    "EMPLOYEE_REPORT": "تقرير الموظفين",
+    "REVENUE_COMPARISON": "مقارنة الإيرادات",
+    "EMPLOYEE_COMPARISON": "مقارنة موظفين الفحص"
   },
   "REPORT": {
     "TITLE": "تقرير الفحص",
@@ -1121,5 +1125,45 @@
       "MechanicalStageSaved": "الميكانيكا",
       "RoadTestStageSaved": "تجربة الطريق"
     }
+  },
+  "REVENUE_COMPARISON": {
+    "TITLE": "مقارنة الإيرادات",
+    "DESCRIPTION": "قارن إيرادات الفروع بين فترتين زمنيتين مختلفتين، مع عرض الفرق ونسبة التغيير لكل فرع.",
+    "BRANCH": "الفرع",
+    "INVOICE_COUNT": "عدد الفواتير",
+    "INVOICE_TOTAL": "إجمالي الفواتير",
+    "REFUND_COUNT": "عدد المرتجعات",
+    "REFUND_TOTAL": "إجمالي المرتجعات",
+    "DISCOUNT_TOTAL": "إجمالي الخصومات",
+    "NET_REVENUE": "صافي الإيرادات",
+    "GRAND_TOTAL": "الإجمالي",
+    "INVOICES": "فاتورة",
+    "REFUNDS": "مرتجع",
+    "BRANCH_COUNT": "عدد الفروع",
+    "NO_DATA": "لا توجد بيانات للفترة المحددة",
+    "PERIOD1": "الفترة الأولى",
+    "PERIOD2": "الفترة الثانية",
+    "DIFFERENCE": "الفرق",
+    "CHANGE_PERCENT": "نسبة التغيير",
+    "COMPARE": "مقارنة",
+    "SELECT_PERIODS": "يرجى تحديد الفترتين للمقارنة"
+  },
+  "EMPLOYEE_COMPARISON": {
+    "TITLE": "مقارنة موظفين الفحص",
+    "DESCRIPTION": "قارن أداء موظفين الفحص بين فترتين زمنيتين مختلفتين، مع عرض عدد الفحوصات والمساهمات والفرق ونسبة التغيير لكل موظف.",
+    "EMPLOYEE": "الموظف",
+    "EMPLOYEES": "موظفين",
+    "EXAMS": "الفحوصات",
+    "ACTIONS": "المساهمات",
+    "EXAM_DIFF": "فرق الفحوصات",
+    "ACTION_DIFF": "فرق المساهمات",
+    "PERIOD1": "الفترة الأولى",
+    "PERIOD2": "الفترة الثانية",
+    "DIFFERENCE": "الفرق",
+    "GRAND_TOTAL": "الإجمالي",
+    "EMPLOYEE_COUNT": "عدد الموظفين",
+    "NO_DATA": "لا توجد بيانات للفترة المحددة",
+    "COMPARE": "مقارنة",
+    "SELECT_PERIODS": "يرجى تحديد الفترتين للمقارنة"
   }
 }

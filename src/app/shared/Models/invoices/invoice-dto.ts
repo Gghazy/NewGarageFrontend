@@ -98,6 +98,7 @@ export interface InvoiceDto {
   taxRate: number;
   taxAmount: number;
   totalWithTax: number;
+  netTotal: number;
   currency: string;
 
   // Items

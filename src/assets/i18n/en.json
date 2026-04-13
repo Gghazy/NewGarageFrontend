@@ -99,7 +99,9 @@
     "BOOKINGS": "Bookings",
     "REPORTS": "Reports",
     "INVOICE_REPORT": "Invoice Report",
-    "EMPLOYEE_REPORT": "Employee Report"
+    "EMPLOYEE_REPORT": "Employee Report",
+    "REVENUE_COMPARISON": "Revenue Comparison",
+    "EMPLOYEE_COMPARISON": "Employee Comparison"
   },
   "BREADCRUMB": {
     "HOME": "Home",
@@ -154,7 +156,9 @@
     "BOOKING_DETAIL": "Booking Details",
     "REPORTS": "Reports",
     "INVOICE_REPORT": "Invoice Report",
-    "EMPLOYEE_REPORT": "Employee Report"
+    "EMPLOYEE_REPORT": "Employee Report",
+    "REVENUE_COMPARISON": "Revenue Comparison",
+    "EMPLOYEE_COMPARISON": "Employee Comparison"
   },
   "REPORT": {
     "TITLE": "Examination Report",
@@ -1093,5 +1097,45 @@
       "MechanicalStageSaved": "Mechanical",
       "RoadTestStageSaved": "Road Test"
     }
+  },
+  "REVENUE_COMPARISON": {
+    "TITLE": "Revenue Comparison",
+    "DESCRIPTION": "Compare branch revenues between two different time periods, showing the difference and percentage change per branch.",
+    "BRANCH": "Branch",
+    "INVOICE_COUNT": "Invoices",
+    "INVOICE_TOTAL": "Invoice Total",
+    "REFUND_COUNT": "Refunds",
+    "REFUND_TOTAL": "Refund Total",
+    "DISCOUNT_TOTAL": "Discounts",
+    "NET_REVENUE": "Net Revenue",
+    "GRAND_TOTAL": "Grand Total",
+    "INVOICES": "invoices",
+    "REFUNDS": "refunds",
+    "BRANCH_COUNT": "Branches",
+    "NO_DATA": "No data for the selected periods",
+    "PERIOD1": "Period 1",
+    "PERIOD2": "Period 2",
+    "DIFFERENCE": "Difference",
+    "CHANGE_PERCENT": "Change %",
+    "COMPARE": "Compare",
+    "SELECT_PERIODS": "Please select both periods to compare"
+  },
+  "EMPLOYEE_COMPARISON": {
+    "TITLE": "Employee Comparison",
+    "DESCRIPTION": "Compare examination employee performance between two different time periods, showing examination counts, stage actions, and percentage change per employee.",
+    "EMPLOYEE": "Employee",
+    "EMPLOYEES": "Employees",
+    "EXAMS": "Examinations",
+    "ACTIONS": "Actions",
+    "EXAM_DIFF": "Exam Diff",
+    "ACTION_DIFF": "Action Diff",
+    "PERIOD1": "Period 1",
+    "PERIOD2": "Period 2",
+    "DIFFERENCE": "Difference",
+    "GRAND_TOTAL": "Grand Total",
+    "EMPLOYEE_COUNT": "Employees",
+    "NO_DATA": "No data for the selected periods",
+    "COMPARE": "Compare",
+    "SELECT_PERIODS": "Please select both periods to compare"
   }
 }
