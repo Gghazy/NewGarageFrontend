@@ -162,10 +162,23 @@ export class MechanicalStageComponent extends BaseStageComponent implements OnIn
           } else {
             this.workflowData.markStageIncomplete(this.stageValue);
           }
+          this.captureSaved();
           this.toastr.success(this.translate.instant('WORKFLOW.SAVED'));
         },
         error: (err) => this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.ERROR')),
       });
+  }
+
+  protected getFormSnapshot(): unknown {
+    return {
+      noIssuesFound: this.noIssuesFound,
+      comments: this.comments,
+      rows: this.rows.map(r => ({
+        partTypeId: r.partTypeId,
+        partId: r.partId,
+        issueIds: [...r.issueIds].sort(),
+      })),
+    };
   }
 
   private loadData(): void {
@@ -188,7 +201,10 @@ export class MechanicalStageComponent extends BaseStageComponent implements OnIn
       }),
       tap(res => this.applyExistingData(res.data)),
       takeUntil(this.destroy$),
-      finalize(() => this.loading = false),
+      finalize(() => {
+        this.loading = false;
+        this.captureSaved();
+      }),
     ).subscribe();
   }
 

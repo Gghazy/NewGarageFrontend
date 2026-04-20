@@ -126,9 +126,6 @@ export class EmployeeComparisonReport implements OnInit, OnDestroy {
       return;
     }
 
-    this.employeeId1 = null;
-    this.employeeId2 = null;
-
     const params: Record<string, string> = {
       from1: this.from1, to1: this.to1,
       from2: this.from2, to2: this.to2,

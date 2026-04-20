@@ -10,6 +10,7 @@ import { ExteriorAccessoriesStageComponent } from './workflow-stage/exterior-acc
 import { MechanicalStageComponent } from './workflow-stage/mechanical-stage/mechanical-stage';
 import { TiresStageComponent } from './workflow-stage/tires-stage/tires-stage';
 import { RoadTestStageComponent } from './workflow-stage/road-test-stage/road-test-stage';
+import { stageCanDeactivateGuard } from './workflow-stage/stage-can-deactivate.guard';
 
 const routes: Routes = [
   {
@@ -20,46 +21,55 @@ const routes: Routes = [
       {
         path: 'Sensors',
         component: SensorsStageComponent,
+        canDeactivate: [stageCanDeactivateGuard],
         data: { breadcrumb: '' }
       },
       {
         path: 'DashboardIndicators',
         component: DashboardIndicatorsStageComponent,
+        canDeactivate: [stageCanDeactivateGuard],
         data: { breadcrumb: '' }
       },
       {
         path: 'InteriorBody',
         component: InteriorBodyStageComponent,
+        canDeactivate: [stageCanDeactivateGuard],
         data: { breadcrumb: '' }
       },
       {
         path: 'ExteriorBody',
         component: ExteriorBodyStageComponent,
+        canDeactivate: [stageCanDeactivateGuard],
         data: { breadcrumb: '' }
       },
       {
         path: 'InteriorAndTrim',
         component: InteriorTrimStageComponent,
+        canDeactivate: [stageCanDeactivateGuard],
         data: { breadcrumb: '' }
       },
       {
         path: 'ExteriorAccessories',
         component: ExteriorAccessoriesStageComponent,
+        canDeactivate: [stageCanDeactivateGuard],
         data: { breadcrumb: '' }
       },
       {
         path: 'MechanicalIssues',
         component: MechanicalStageComponent,
+        canDeactivate: [stageCanDeactivateGuard],
         data: { breadcrumb: '' }
       },
       {
         path: 'Tires',
         component: TiresStageComponent,
+        canDeactivate: [stageCanDeactivateGuard],
         data: { breadcrumb: '' }
       },
       {
         path: 'RoadTest',
         component: RoadTestStageComponent,
+        canDeactivate: [stageCanDeactivateGuard],
         data: { breadcrumb: '' }
       },
     ],

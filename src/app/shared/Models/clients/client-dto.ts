@@ -25,4 +25,5 @@ export interface ClientDto {
   // Stats
   examinationCount: number;
   totalRevenue: number;
+  points: number;
 }

@@ -1,0 +1,61 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ title }}</h5>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body" [formGroup]="form">
+  <div class="mb-3">
+    <label class="form-label">{{ 'SERVICE_DISCOUNT.FORM.SERVICE' | translate }}</label>
+    <ng-select [items]="services" [bindLabel]="'nameAr'" bindValue="id" formControlName="serviceId" [searchable]="true"
+      [multiple]="false" [clearable]="true" [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate">
+    </ng-select>
+    <div class="text-danger small" *ngIf="form.get('serviceId')?.touched && form.get('serviceId')?.invalid">
+      {{ 'COMMON.REQUIRED' | translate }}
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">{{ 'SERVICE_DISCOUNT.FORM.DISCOUNT_PERCENT' | translate }}</label>
+    <div class="input-group">
+      <input type="number" class="form-control" formControlName="discountPercent"
+        placeholder="{{ 'SERVICE_DISCOUNT.FORM.DISCOUNT_PERCENT_PLACEHOLDER' | translate }}"
+        min="0.01" max="100" step="0.01" />
+      <span class="input-group-text">%</span>
+    </div>
+    <div class="text-danger small" *ngIf="form.get('discountPercent')?.touched && form.get('discountPercent')?.invalid">
+      {{ 'COMMON.REQUIRED' | translate }}
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <div class="row">
+      <div class="col-md-6">
+        <label class="form-label">{{ 'SERVICE_DISCOUNT.FORM.START_DATE' | translate }}</label>
+        <input type="date" class="form-control" formControlName="startDate" />
+        <div class="text-danger small" *ngIf="form.get('startDate')?.touched && form.get('startDate')?.invalid">
+          {{ 'COMMON.REQUIRED' | translate }}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{{ 'SERVICE_DISCOUNT.FORM.END_DATE' | translate }}</label>
+        <input type="date" class="form-control" formControlName="endDate" />
+        <div class="text-danger small" *ngIf="form.get('endDate')?.touched && form.get('endDate')?.invalid">
+          {{ 'COMMON.REQUIRED' | translate }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" formControlName="isActive" id="isActiveCheck" />
+    <label class="form-check-label" for="isActiveCheck">{{ 'SERVICE_DISCOUNT.FORM.IS_ACTIVE' | translate }}</label>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-light" [disabled]="loading" (click)="activeModal.dismiss()">{{ 'COMMON.CANCEL' | translate }}</button>
+    <button class="btn btn-primary" [disabled]="loading" (click)="submit()">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+      {{ 'COMMON.SAVE' | translate }}
+    </button>
+  </div>
+</div>

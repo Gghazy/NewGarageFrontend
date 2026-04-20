@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CONFIG_KEYS } from '../constants/app.constants';
+import { environment } from 'src/environments/environment';
 
-// local
-export const baseUrl = `https://localhost:44375/`;
-
-
-//Test 
-//export const baseUrl = `http://bsnspace-001-site12.mtempurl.com/`;
+export const baseUrl = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'

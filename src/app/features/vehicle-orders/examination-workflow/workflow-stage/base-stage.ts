@@ -4,6 +4,8 @@ import { WorkflowDataService, IssueItem } from '../workflow-data.service';
 export abstract class BaseStageComponent {
   abstract readonly stageValue: number;
 
+  private savedSnapshot = '';
+
   constructor(
     protected translate: TranslateService,
     public workflowData: WorkflowDataService,
@@ -23,5 +25,21 @@ export abstract class BaseStageComponent {
 
   get readOnly(): boolean {
     return this.workflowData.readOnly;
+  }
+
+  protected abstract getFormSnapshot(): unknown;
+
+  protected captureSaved(): void {
+    this.savedSnapshot = JSON.stringify(this.getFormSnapshot() ?? {});
+  }
+
+  get isDirty(): boolean {
+    if (this.readOnly) return false;
+    return JSON.stringify(this.getFormSnapshot() ?? {}) !== this.savedSnapshot;
+  }
+
+  canDeactivate(): boolean {
+    if (!this.isDirty) return true;
+    return window.confirm(this.translate.instant('WORKFLOW.UNSAVED_CHANGES_CONFIRM'));
   }
 }

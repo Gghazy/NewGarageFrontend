@@ -18,6 +18,7 @@
     <th>{{ 'CLIENTS.TABLE.PHONE' | translate }}</th>
     <th class="text-center">{{ 'CLIENTS.TABLE.EXAMINATION_COUNT' | translate }}</th>
     <th class="text-center">{{ 'CLIENTS.TABLE.TOTAL_REVENUE' | translate }}</th>
+    <th class="text-center">{{ 'CLIENTS.TABLE.POINTS' | translate }}</th>
     <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
   </ng-container>
 
@@ -31,6 +32,9 @@
       <td>{{ client.phoneNumber }}</td>
       <td class="text-center">{{ client.examinationCount }}</td>
       <td class="text-center">{{ client.totalRevenue | number:'1.2-2' }}</td>
+      <td class="text-center">
+        <span class="badge bg-warning text-dark">{{ client.points }}</span>
+      </td>
       <td class="text-end">
         <button
           *ngIf="authService.hasPermission('clients.update')"

@@ -20,6 +20,8 @@ export const APP_MENU: AppMenuItem[] = [
       // — Services & Pricing —
       { labelKey: 'MENU.SERVICES', route: '/features/settings/services', icon: 'bi bi-tools', permissions: ['service.read'] },
       { labelKey: 'MENU.SERVICE_PRICES', route: '/features/settings/service-prices', icon: 'bi bi-cash-stack', permissions: ['servicePrice.read'] },
+      { labelKey: 'MENU.SERVICE_DISCOUNTS', route: '/features/settings/service-discounts', icon: 'bi bi-percent', permissions: ['serviceDiscount.read'] },
+      { labelKey: 'MENU.SERVICE_POINT_RULES', route: '/features/settings/service-point-rules', icon: 'bi bi-star', permissions: ['servicePointRule.read'] },
       // — Payment & Terms —
       { labelKey: 'MENU.PAYMENT_METHODS', route: '/features/settings/payment-methods', icon: 'bi bi-credit-card', permissions: ['paymentMethod.read'] },
       { labelKey: 'MENU.TERMS', route: '/features/settings/terms', icon: 'bi bi-file-text', permissions: ['term.read'] },

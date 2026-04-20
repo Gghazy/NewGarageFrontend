@@ -127,10 +127,20 @@ export class SensorsStageComponent extends BaseStageComponent implements OnInit,
           } else {
             this.workflowData.markStageIncomplete(this.stageValue);
           }
+          this.captureSaved();
           this.toastr.success(this.translate.instant('WORKFLOW.SAVED'));
         },
         error: (err) => this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.ERROR')),
       });
+  }
+
+  protected getFormSnapshot(): unknown {
+    return {
+      noIssuesFound: this.noIssuesFound,
+      cylinderCount: this.cylinderCount,
+      comments: this.comments,
+      issues: this.addedIssues.map(i => ({ issueId: i.issueId, evaluation: i.evaluation })),
+    };
   }
 
   private refreshAvailable(): void {
@@ -154,7 +164,10 @@ export class SensorsStageComponent extends BaseStageComponent implements OnInit,
         }),
         tap(res => this.applyExistingData(res.data)),
         takeUntil(this.destroy$),
-        finalize(() => this.loading = false),
+        finalize(() => {
+          this.loading = false;
+          this.captureSaved();
+        }),
       )
       .subscribe();
   }

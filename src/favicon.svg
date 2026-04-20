@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a5f"/>
+      <stop offset="100%" style="stop-color:#0d253f"/>
+    </linearGradient>
+  </defs>
+  <!-- Rounded background -->
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <!-- Garage roof -->
+  <path d="M12 30 L32 14 L52 30" fill="none" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Garage body -->
+  <rect x="16" y="30" width="32" height="20" rx="2" fill="none" stroke="#e2e8f0" stroke-width="2.5"/>
+  <!-- Garage door -->
+  <rect x="24" y="34" width="16" height="16" rx="1.5" fill="#f59e0b" opacity="0.2" stroke="#f59e0b" stroke-width="1.5"/>
+  <!-- Door lines -->
+  <line x1="24" y1="38" x2="40" y2="38" stroke="#f59e0b" stroke-width="1" opacity="0.6"/>
+  <line x1="24" y1="42" x2="40" y2="42" stroke="#f59e0b" stroke-width="1" opacity="0.6"/>
+  <line x1="24" y1="46" x2="40" y2="46" stroke="#f59e0b" stroke-width="1" opacity="0.6"/>
+  <!-- Wrench icon (small, top right of roof) -->
+  <circle cx="45" cy="20" r="6" fill="#f59e0b" opacity="0.15"/>
+  <path d="M43 18 L47 22 M47 18 L43 22" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

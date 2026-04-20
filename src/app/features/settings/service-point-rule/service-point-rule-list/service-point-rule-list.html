@@ -1,0 +1,46 @@
+<app-shared-list
+  [titleKey]="'SERVICE_POINT_RULE.TITLE'"
+  [addLabelKey]="'SERVICE_POINT_RULE.ADD'"
+  [canAdd]="authService.hasPermission('servicePointRule.create')"
+  (addClicked)="openAdd()"
+  [pagingConfig]="pagingConfig.search"
+  (pageSizeSearch)="search()"
+  [items]="rules"
+  [emptyText]="'SERVICE_POINT_RULE.EMPTY' | translate"
+  (pageChanged)="pagingConfig.search.currentPage = $event; loadRules();"
+>
+  <ng-container table-header>
+    <th>{{ 'SERVICE_POINT_RULE.TABLE.NO' | translate }}</th>
+    <th>{{ 'SERVICE_POINT_RULE.TABLE.FROM_AMOUNT' | translate }}</th>
+    <th>{{ 'SERVICE_POINT_RULE.TABLE.TO_AMOUNT' | translate }}</th>
+    <th>{{ 'SERVICE_POINT_RULE.TABLE.POINTS' | translate }}</th>
+    <th>{{ 'SERVICE_POINT_RULE.TABLE.STATUS' | translate }}</th>
+    <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
+  </ng-container>
+
+  <ng-container table-body>
+    <tr *ngFor="let rule of rules | paginate: pagingConfig.search; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ rule.fromAmount | number:'1.2-2' }}</td>
+      <td>{{ rule.toAmount | number:'1.2-2' }}</td>
+      <td><span class="badge bg-info text-dark">{{ rule.points }}</span></td>
+      <td>
+        <span class="badge" [ngClass]="rule.isActive ? 'bg-success' : 'bg-secondary'">
+          {{ (rule.isActive ? 'SERVICE_POINT_RULE.ACTIVE' : 'SERVICE_POINT_RULE.INACTIVE') | translate }}
+        </span>
+      </td>
+      <td class="text-end">
+        <button class="btn btn-sm btn-outline-primary me-1"
+          *ngIf="authService.hasPermission('servicePointRule.update')"
+          (click)="openEdit(rule)">
+          {{ 'COMMON.EDIT' | translate }}
+        </button>
+        <button class="btn btn-sm btn-outline-danger"
+          *ngIf="authService.hasPermission('servicePointRule.delete')"
+          (click)="deleteRule(rule)">
+          {{ 'COMMON.DELETE' | translate }}
+        </button>
+      </td>
+    </tr>
+  </ng-container>
+</app-shared-list>

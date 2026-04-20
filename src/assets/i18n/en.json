@@ -86,6 +86,8 @@
     "SERVICES": "Services",
     "CRANES": "Cranes",
     "SERVICE_PRICES": "Service Prices",
+    "SERVICE_DISCOUNTS": "Service Discounts",
+    "SERVICE_POINT_RULES": "Service Point Rules",
     "TERMS": "Terms and Conditions",
     "DASHBOARD": "Dashboard",
     "EMPLOYEES": "Employees",
@@ -125,6 +127,8 @@
     "SERVICE": "Services",
     "CRANES": "Cranes",
     "SERVICE_PRICE": "Service Prices",
+    "SERVICE_DISCOUNT": "Service Discounts",
+    "SERVICE_POINT_RULE": "Service Point Rules",
     "TERMS": "Terms and Conditions",
     "ROLES": "Roles",
     "ADD_ROLE": "Add Role",
@@ -388,6 +392,53 @@
       "PRICE": "Price"
     }
   },
+  "SERVICE_DISCOUNT": {
+    "TITLE": "Service Discounts",
+    "ADD": "Add Service Discount",
+    "EMPTY": "No service discounts found",
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "TABLE": {
+      "NO": "#",
+      "SERVICE_NAME": "Service Name",
+      "DISCOUNT_PERCENT": "Discount %",
+      "START_DATE": "Start Date",
+      "END_DATE": "End Date",
+      "STATUS": "Status"
+    },
+    "FORM": {
+      "SERVICE": "Service",
+      "DISCOUNT_PERCENT": "Discount Percent",
+      "DISCOUNT_PERCENT_PLACEHOLDER": "e.g. 10",
+      "START_DATE": "Start Date",
+      "END_DATE": "End Date",
+      "IS_ACTIVE": "Active"
+    }
+  },
+  "SERVICE_POINT_RULE": {
+    "TITLE": "Point Rules",
+    "ADD": "Add Point Rule",
+    "EMPTY": "No point rules found",
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "TABLE": {
+      "NO": "#",
+      "FROM_AMOUNT": "From Amount",
+      "TO_AMOUNT": "To Amount",
+      "POINTS": "Points",
+      "STATUS": "Status"
+    },
+    "FORM": {
+      "FROM_AMOUNT": "From Amount",
+      "FROM_AMOUNT_PLACEHOLDER": "e.g. 0",
+      "TO_AMOUNT": "To Amount",
+      "TO_AMOUNT_PLACEHOLDER": "e.g. 500",
+      "POINTS": "Points",
+      "POINTS_PLACEHOLDER": "e.g. 10",
+      "SAR": "SAR",
+      "IS_ACTIVE": "Active"
+    }
+  },
   "TERMS": {
     "TITLE": "Terms and Conditions",
     "ADD": "Add New Term",
@@ -533,7 +584,8 @@
       "EMAIL": "Email",
       "PHONE": "Phone",
       "EXAMINATION_COUNT": "Examinations",
-      "TOTAL_REVENUE": "Revenue"
+      "TOTAL_REVENUE": "Revenue",
+      "POINTS": "Points"
     },
     "EMPTY": "No clients found",
     "FORM": {
@@ -819,6 +871,8 @@
       "DESCRIPTION": "Description",
       "QUANTITY": "Quantity",
       "UNIT_PRICE": "Unit Price",
+      "DISCOUNT": "Discount %",
+      "DISCOUNT_AMOUNT": "Discount",
       "ADJUSTMENT_AMOUNT": "Adjustment",
       "TOTAL": "Total",
       "SUB_TOTAL": "Subtotal",
@@ -931,6 +985,7 @@
     "COMMENTS": "Comments",
     "COMMENTS_PLACEHOLDER": "Add any additional notes...",
     "SAVED": "Saved successfully",
+    "UNSAVED_CHANGES_CONFIRM": "You have unsaved changes. Leave without saving?",
     "NOT_APPLICABLE": "N/A",
     "INDICATOR": "Indicator",
     "MEASUREMENT_RANGE": "Measurement Range",

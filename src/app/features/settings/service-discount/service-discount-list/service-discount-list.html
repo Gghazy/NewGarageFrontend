@@ -1,0 +1,52 @@
+<app-shared-list
+  [titleKey]="'SERVICE_DISCOUNT.TITLE'"
+  [addLabelKey]="'SERVICE_DISCOUNT.ADD'"
+  [canAdd]="authService.hasPermission('serviceDiscount.create')"
+  (addClicked)="openAddDiscount()"
+  [pagingConfig]="pagingConfig.search"
+  (pageSizeSearch)="search()"
+  [items]="serviceDiscounts"
+  [emptyText]="'SERVICE_DISCOUNT.EMPTY' | translate"
+  (pageChanged)="pagingConfig.search.currentPage = $event; loadDiscounts();"
+>
+  <!-- header -->
+  <ng-container table-header>
+    <th>{{ 'SERVICE_DISCOUNT.TABLE.NO' | translate }}</th>
+    <th>{{ 'SERVICE_DISCOUNT.TABLE.SERVICE_NAME' | translate }}</th>
+    <th>{{ 'SERVICE_DISCOUNT.TABLE.DISCOUNT_PERCENT' | translate }}</th>
+    <th>{{ 'SERVICE_DISCOUNT.TABLE.START_DATE' | translate }}</th>
+    <th>{{ 'SERVICE_DISCOUNT.TABLE.END_DATE' | translate }}</th>
+    <th>{{ 'SERVICE_DISCOUNT.TABLE.STATUS' | translate }}</th>
+    <th class="text-end">{{ 'COMMON.ACTIONS' | translate }}</th>
+  </ng-container>
+
+  <!-- body -->
+  <ng-container table-body>
+    <tr *ngFor="let discount of serviceDiscounts | paginate: pagingConfig.search; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ isAr() ? discount.serviceNameAr : discount.serviceNameEn }}</td>
+      <td>{{ discount.discountPercent }}%</td>
+      <td>{{ formatDate(discount.startDate) }}</td>
+      <td>{{ formatDate(discount.endDate) }}</td>
+      <td>
+        <span class="badge" [ngClass]="discount.isActive ? 'bg-success' : 'bg-secondary'">
+          {{ (discount.isActive ? 'SERVICE_DISCOUNT.ACTIVE' : 'SERVICE_DISCOUNT.INACTIVE') | translate }}
+        </span>
+      </td>
+      <td class="text-end">
+        <button
+          class="btn btn-sm btn-outline-primary me-1"
+          *ngIf="authService.hasPermission('serviceDiscount.update')"
+          (click)="openEditDiscount(discount)">
+          {{ 'COMMON.EDIT' | translate }}
+        </button>
+        <button
+          class="btn btn-sm btn-outline-danger"
+          *ngIf="authService.hasPermission('serviceDiscount.delete')"
+          (click)="deleteDiscount(discount)">
+          {{ 'COMMON.DELETE' | translate }}
+        </button>
+      </td>
+    </tr>
+  </ng-container>
+</app-shared-list>

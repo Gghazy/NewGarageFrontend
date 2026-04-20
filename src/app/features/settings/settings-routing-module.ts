@@ -29,6 +29,14 @@ const routes: Routes = [
         loadChildren: () => import('./service-price/service-price-module').then(m => m.ServicePriceModule)
       },
       {
+        path: 'service-discounts',
+        loadChildren: () => import('./service-discount/service-discount-module').then(m => m.ServiceDiscountModule)
+      },
+      {
+        path: 'service-point-rules',
+        loadChildren: () => import('./service-point-rule/service-point-rule-module').then(m => m.ServicePointRuleModule)
+      },
+      {
         path: 'cranes',
         loadChildren: () =>
           import('./crane/crane-module').then(m => m.CraneModule),

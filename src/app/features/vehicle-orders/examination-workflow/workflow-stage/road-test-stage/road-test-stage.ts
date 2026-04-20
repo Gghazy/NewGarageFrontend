@@ -148,10 +148,19 @@ export class RoadTestStageComponent extends BaseStageComponent implements OnInit
           } else {
             this.workflowData.markStageIncomplete(this.stageValue);
           }
+          this.captureSaved();
           this.toastr.success(this.translate.instant('WORKFLOW.SAVED'));
         },
         error: (err) => this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.ERROR')),
       });
+  }
+
+  protected getFormSnapshot(): unknown {
+    return {
+      noIssuesFound: this.noIssuesFound,
+      comments: this.comments,
+      rows: this.rows.map(r => ({ issueTypeId: r.issueTypeId, issueId: r.issueId })),
+    };
   }
 
   private loadData(): void {
@@ -172,7 +181,10 @@ export class RoadTestStageComponent extends BaseStageComponent implements OnInit
       }),
       tap(res => this.applyExistingData(res.data)),
       takeUntil(this.destroy$),
-      finalize(() => this.loading = false),
+      finalize(() => {
+        this.loading = false;
+        this.captureSaved();
+      }),
     ).subscribe();
   }
 

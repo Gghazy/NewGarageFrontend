@@ -61,7 +61,8 @@
       "Bash(grep -l \"InteriorIssue\" \"f:/projects/suidProjects/NewGarage/BackEnd/BackEnd/src/Garage.Infrastructure/Migrations\"/*.cs)",
       "Bash(xargs grep -l \"namespace.*InteriorIssue\")",
       "Bash(dotnet build src/Garage.Domain/Garage.Domain.csproj --no-restore -v q)",
-      "Bash(npx ng build --configuration production)"
+      "Bash(npx ng build --configuration production)",
+      "Bash(find \"/f/projects/suidProjects/NewGarage/BackEnd/BackEnd/src/Garage.Domain/ExaminationManagement/Examinations\" -name \"Examination.cs\" -exec wc -l {} \\\\;)"
     ],
     "additionalDirectories": [
       "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\shared\\Models\\vehicle-orders",
@@ -104,7 +105,10 @@
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\Employees\\Entities",
       "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\InteriorIssues",
       "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\features\\invoices\\examination-invoice-summary",
-      "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\features\\invoices\\invoice-view"
+      "f:\\projects\\suidProjects\\NewGarage\\FrontEnd\\NewGarageFrontend\\src\\app\\features\\invoices\\invoice-view",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\ServiceDiscounts",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\Clients\\Entities",
+      "f:\\projects\\suidProjects\\NewGarage\\BackEnd\\BackEnd\\src\\Garage.Domain\\ServicePointRules"
     ]
   }
 }

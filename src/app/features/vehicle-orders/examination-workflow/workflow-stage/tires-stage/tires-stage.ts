@@ -114,10 +114,24 @@ export class TiresStageComponent extends BaseStageComponent implements OnInit, O
       .subscribe({
         next: () => {
           this.workflowData.markStageCompleted(this.stageValue);
+          this.captureSaved();
           this.toastr.success(this.translate.instant('WORKFLOW.SAVED'));
         },
         error: (err) => this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.ERROR')),
       });
+  }
+
+  protected getFormSnapshot(): unknown {
+    return {
+      noIssuesFound: this.noIssuesFound,
+      comments: this.comments,
+      tires: this.tires.map(t => ({
+        position: t.position,
+        year: t.year,
+        week: t.week,
+        condition: t.condition,
+      })),
+    };
   }
 
   private buildYearOptions(): void {
@@ -144,7 +158,10 @@ export class TiresStageComponent extends BaseStageComponent implements OnInit, O
       .pipe(
         tap(res => this.applyExistingData(res.data)),
         takeUntil(this.destroy$),
-        finalize(() => this.loading = false),
+        finalize(() => {
+          this.loading = false;
+          this.captureSaved();
+        }),
       )
       .subscribe();
   }

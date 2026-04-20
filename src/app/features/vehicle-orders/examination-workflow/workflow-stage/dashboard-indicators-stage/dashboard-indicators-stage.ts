@@ -113,10 +113,22 @@ export class DashboardIndicatorsStageComponent extends BaseStageComponent implem
           } else {
             this.workflowData.markStageIncomplete(this.stageValue);
           }
+          this.captureSaved();
           this.toastr.success(this.translate.instant('WORKFLOW.SAVED'));
         },
         error: (err) => this.toastr.error(err?.error?.message ?? this.translate.instant('COMMON.ERROR')),
       });
+  }
+
+  protected getFormSnapshot(): unknown {
+    return {
+      comments: this.comments,
+      indicators: this.indicators.map(ind => ({
+        key: ind.key,
+        value: this.values[ind.key]?.value ?? null,
+        notApplicable: this.values[ind.key]?.notApplicable ?? false,
+      })),
+    };
   }
 
   private hasAnyData(): boolean {
@@ -134,7 +146,10 @@ export class DashboardIndicatorsStageComponent extends BaseStageComponent implem
     this.api.get<ApiResponse<DashboardIndicatorsResultDto>>(`Examinations/${examId}/stages/dashboard-indicators`)
       .pipe(
         takeUntil(this.destroy$),
-        finalize(() => this.loading = false),
+        finalize(() => {
+          this.loading = false;
+          this.captureSaved();
+        }),
       )
       .subscribe({
         next: res => {

@@ -86,6 +86,8 @@
     "SERVICES": "الخدمات",
     "CRANES": "الرافعات",
     "SERVICE_PRICES": "أسعار الخدمات",
+    "SERVICE_DISCOUNTS": "خصومات الخدمات",
+    "SERVICE_POINT_RULES": "نقاط الخدمات",
     "TERMS": "الشروط والاحكام",
     "DASHBOARD": "لوحة التحكم",
     "EMPLOYEES": "الموظفين",
@@ -125,6 +127,8 @@
     "SERVICE": "الخدمات",
     "CRANES": "الرافعات",
     "SERVICE_PRICE": "أسعار الخدمات",
+    "SERVICE_DISCOUNT": "خصومات الخدمات",
+    "SERVICE_POINT_RULE": "نقاط الخدمات",
     "TERMS": "الشروط والاحكام",
     "ROLES": "الصلاحيات",
     "ADD_ROLE": "إضافة صلاحية",
@@ -410,6 +414,53 @@
       "PRICE": "السعر"
     }
   },
+  "SERVICE_DISCOUNT": {
+    "TITLE": "خصومات الخدمات",
+    "ADD": "إضافة خصم خدمة",
+    "EMPTY": "لا توجد خصومات للعرض",
+    "ACTIVE": "مفعّل",
+    "INACTIVE": "غير مفعّل",
+    "TABLE": {
+      "NO": "#",
+      "SERVICE_NAME": "اسم الخدمة",
+      "DISCOUNT_PERCENT": "نسبة الخصم",
+      "START_DATE": "من تاريخ",
+      "END_DATE": "إلى تاريخ",
+      "STATUS": "الحالة"
+    },
+    "FORM": {
+      "SERVICE": "الخدمة",
+      "DISCOUNT_PERCENT": "نسبة الخصم",
+      "DISCOUNT_PERCENT_PLACEHOLDER": "مثال: 10",
+      "START_DATE": "تاريخ البداية",
+      "END_DATE": "تاريخ النهاية",
+      "IS_ACTIVE": "مفعّل"
+    }
+  },
+  "SERVICE_POINT_RULE": {
+    "TITLE": "قواعد النقاط",
+    "ADD": "إضافة قاعدة نقاط",
+    "EMPTY": "لا توجد قواعد نقاط للعرض",
+    "ACTIVE": "مفعّل",
+    "INACTIVE": "غير مفعّل",
+    "TABLE": {
+      "NO": "#",
+      "FROM_AMOUNT": "من مبلغ",
+      "TO_AMOUNT": "إلى مبلغ",
+      "POINTS": "النقاط",
+      "STATUS": "الحالة"
+    },
+    "FORM": {
+      "FROM_AMOUNT": "من مبلغ",
+      "FROM_AMOUNT_PLACEHOLDER": "مثال: 0",
+      "TO_AMOUNT": "إلى مبلغ",
+      "TO_AMOUNT_PLACEHOLDER": "مثال: 500",
+      "POINTS": "عدد النقاط",
+      "POINTS_PLACEHOLDER": "مثال: 10",
+      "SAR": "ريال",
+      "IS_ACTIVE": "مفعّل"
+    }
+  },
   "TERMS": {
     "TITLE": "الشروط والاحكام",
     "NAME": "الشروط والاحكام",
@@ -561,7 +612,8 @@
       "EMAIL": "البريد الإلكتروني",
       "PHONE": "رقم الهاتف",
       "EXAMINATION_COUNT": "عدد الفحوصات",
-      "TOTAL_REVENUE": "الإيرادات"
+      "TOTAL_REVENUE": "الإيرادات",
+      "POINTS": "النقاط"
     },
     "EMPTY": "لم يتم العثور على عملاء",
     "FORM": {
@@ -847,6 +899,8 @@
       "DESCRIPTION": "الوصف",
       "QUANTITY": "الكمية",
       "UNIT_PRICE": "سعر الوحدة",
+      "DISCOUNT": "الخصم %",
+      "DISCOUNT_AMOUNT": "قيمة الخصم",
       "ADJUSTMENT_AMOUNT": "قيمة التعديل",
       "TOTAL": "الإجمالي",
       "SUB_TOTAL": "المجموع قبل الضريبة",
@@ -959,6 +1013,7 @@
     "COMMENTS": "تعليقات",
     "COMMENTS_PLACEHOLDER": "أضف أي ملاحظات إضافية...",
     "SAVED": "تم الحفظ بنجاح",
+    "UNSAVED_CHANGES_CONFIRM": "لديك تعديلات غير محفوظة. هل تريد الخروج بدون الحفظ؟",
     "NOT_APPLICABLE": "لايوجد",
     "INDICATOR": "المؤشر",
     "MEASUREMENT_RANGE": "مدى القياس",

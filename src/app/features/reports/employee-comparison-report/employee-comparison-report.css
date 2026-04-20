@@ -43,24 +43,24 @@
 }
 
 .period-filter--1 {
-  border-color: rgba(13, 110, 253, 0.25);
-  background: rgba(13, 110, 253, 0.015);
+  border-color: rgba(51, 65, 85, 0.25);
+  background: rgba(51, 65, 85, 0.02);
 }
 
 .period-filter--2 {
-  border-color: rgba(13, 202, 240, 0.35);
-  background: rgba(13, 202, 240, 0.02);
+  border-color: rgba(13, 148, 136, 0.3);
+  background: rgba(13, 148, 136, 0.02);
 }
 
 .period-filter-label {
   font-size: 0.78rem;
   font-weight: 600;
-  color: #0d6efd;
+  color: #334155;
   margin-bottom: 8px;
 }
 
 .period-filter-label--2 {
-  color: #0aa2c0;
+  color: #0d9488;
 }
 
 /* ── Period Summary Cards ────────────────────────────────────────── */
@@ -83,12 +83,12 @@
 }
 
 .period-card-header--1 {
-  background: linear-gradient(135deg, #0d6efd, #4d94ff);
+  background: linear-gradient(135deg, #334155, #475569);
   color: #fff;
 }
 
 .period-card-header--2 {
-  background: linear-gradient(135deg, #0aa2c0, #17d1f1);
+  background: linear-gradient(135deg, #0d9488, #14b8a6);
   color: #fff;
 }
 
@@ -206,13 +206,13 @@
 }
 
 .th-period1 {
-  background: rgba(13, 110, 253, 0.05) !important;
-  border-bottom-color: rgba(13, 110, 253, 0.15) !important;
+  background: rgba(51, 65, 85, 0.05) !important;
+  border-bottom-color: rgba(51, 65, 85, 0.2) !important;
 }
 
 .th-period2 {
-  background: rgba(13, 202, 240, 0.06) !important;
-  border-bottom-color: rgba(13, 202, 240, 0.2) !important;
+  background: rgba(13, 148, 136, 0.06) !important;
+  border-bottom-color: rgba(13, 148, 136, 0.25) !important;
 }
 
 .th-diff {
@@ -225,13 +225,34 @@
 }
 
 .cell-p1 {
-  background: rgba(13, 110, 253, 0.015);
+  background: rgba(51, 65, 85, 0.02);
 }
 
 .cell-p2 {
-  background: rgba(13, 202, 240, 0.02);
+  background: rgba(13, 148, 136, 0.02);
 }
 
 .comparison-table tfoot td {
   border-top: 2px solid #dee2e6;
+}
+
+/* ── Period-matched badges ─────────────────────────────────────────── */
+.badge-p1 {
+  background-color: #334155;
+  color: #fff;
+}
+
+.badge-p1-light {
+  background-color: #64748b;
+  color: #fff;
+}
+
+.badge-p2 {
+  background-color: #0d9488;
+  color: #fff;
+}
+
+.badge-p2-light {
+  background-color: #14b8a6;
+  color: #fff;
 }

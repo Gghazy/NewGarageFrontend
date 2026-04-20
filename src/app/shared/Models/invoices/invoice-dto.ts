@@ -30,6 +30,8 @@ export interface InvoiceItemDto {
   serviceNameAr?: string;
   serviceNameEn?: string;
   adjustmentAmount: number;
+  discountPercent: number;
+  discountAmount: number;
 }
 
 export interface ConsolidatedItemDto {
@@ -39,6 +41,8 @@ export interface ConsolidatedItemDto {
   unitPrice: number;
   totalPrice: number;
   currency: string;
+  discountPercent: number;
+  discountAmount: number;
 }
 
 export interface ConsolidatedInvoiceData {
