@@ -1177,20 +1177,20 @@
   },
   "EMPLOYEE_COMPARISON": {
     "TITLE": "Employee Comparison",
-    "DESCRIPTION": "Compare examination employee performance between two different time periods, showing examination counts, stage actions, and percentage change per employee.",
+    "DESCRIPTION": "Compare two examination employees side-by-side within a specific period, showing examination counts, stage actions, and percentage change per metric.",
     "EMPLOYEE": "Employee",
-    "EMPLOYEES": "Employees",
+    "EMPLOYEE_A": "Employee A",
+    "EMPLOYEE_B": "Employee B",
+    "SELECT_EMPLOYEE": "Select employee",
+    "METRIC": "Metric",
     "EXAMS": "Examinations",
-    "ACTIONS": "Actions",
-    "EXAM_DIFF": "Exam Diff",
-    "ACTION_DIFF": "Action Diff",
-    "PERIOD1": "Period 1",
-    "PERIOD2": "Period 2",
+    "ACTIONS": "Total Actions",
     "DIFFERENCE": "Difference",
-    "GRAND_TOTAL": "Grand Total",
-    "EMPLOYEE_COUNT": "Employees",
-    "NO_DATA": "No data for the selected periods",
+    "NO_DATA": "No data for the selected period",
     "COMPARE": "Compare",
-    "SELECT_PERIODS": "Please select both periods to compare"
+    "SELECT_PERIOD": "Please select the date range",
+    "SELECT_PERIODS": "Please select both date ranges",
+    "SELECT_EMPLOYEES": "Please select both employees",
+    "SAME_EMPLOYEE": "Please select two different employees"
   }
 }

@@ -44,24 +44,24 @@
 }
 
 .period-filter--1 {
-  border-color: rgba(13, 110, 253, 0.25);
-  background: rgba(13, 110, 253, 0.015);
+  border-color: rgba(51, 65, 85, 0.25);
+  background: rgba(51, 65, 85, 0.02);
 }
 
 .period-filter--2 {
-  border-color: rgba(13, 202, 240, 0.35);
-  background: rgba(13, 202, 240, 0.02);
+  border-color: rgba(13, 148, 136, 0.3);
+  background: rgba(13, 148, 136, 0.02);
 }
 
 .period-filter-label {
   font-size: 0.78rem;
   font-weight: 600;
-  color: #0d6efd;
+  color: #334155;
   margin-bottom: 8px;
 }
 
 .period-filter-label--2 {
-  color: #0aa2c0;
+  color: #0d9488;
 }
 
 /* ── Period Summary Cards ────────────────────────────────────────── */
@@ -84,12 +84,12 @@
 }
 
 .period-card-header--1 {
-  background: linear-gradient(135deg, #0d6efd, #4d94ff);
+  background: linear-gradient(135deg, #334155, #475569);
   color: #fff;
 }
 
 .period-card-header--2 {
-  background: linear-gradient(135deg, #0aa2c0, #17d1f1);
+  background: linear-gradient(135deg, #0d9488, #14b8a6);
   color: #fff;
 }
 
@@ -210,18 +210,34 @@
   font-weight: 500;
 }
 
-.th-period1 {
-  background: rgba(13, 110, 253, 0.05) !important;
-  border-bottom-color: rgba(13, 110, 253, 0.15) !important;
+.comparison-table thead th.th-period1 {
+  background: #334155 !important;
+  color: #fff !important;
+  border-bottom-color: #1e293b !important;
 }
 
-.th-period2 {
-  background: rgba(13, 202, 240, 0.06) !important;
-  border-bottom-color: rgba(13, 202, 240, 0.2) !important;
+.comparison-table thead th.th-period2 {
+  background: #0d9488 !important;
+  color: #fff !important;
+  border-bottom-color: #0f766e !important;
 }
 
-.th-diff {
-  background: rgba(108, 117, 125, 0.04) !important;
+.comparison-table thead th.th-diff {
+  background: #64748b !important;
+  color: #fff !important;
+  border-bottom-color: #475569 !important;
+}
+
+.comparison-table thead th.th-period1.sub-th {
+  background: #475569 !important;
+}
+
+.comparison-table thead th.th-period2.sub-th {
+  background: #14b8a6 !important;
+}
+
+.comparison-table thead th.th-diff.sub-th {
+  background: #94a3b8 !important;
 }
 
 .comparison-table td {
@@ -230,11 +246,11 @@
 }
 
 .cell-p1 {
-  background: rgba(13, 110, 253, 0.015);
+  background: rgba(51, 65, 85, 0.02);
 }
 
 .cell-p2 {
-  background: rgba(13, 202, 240, 0.02);
+  background: rgba(13, 148, 136, 0.02);
 }
 
 .comparison-table tfoot td {

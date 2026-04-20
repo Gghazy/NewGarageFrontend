@@ -7,59 +7,57 @@
 <!-- Filters -->
 <div class="filter-bar mb-3">
   <div class="row g-3">
-    <!-- Period 1 -->
+    <!-- Employee A block -->
     <div class="col-md-5">
-      <div class="period-filter period-filter--1">
+      <div class="period-filter period-filter--a">
         <div class="period-filter-label">
-          <i class="bi bi-1-circle-fill me-1"></i>{{ 'EMPLOYEE_COMPARISON.PERIOD1' | translate }}
+          <i class="bi bi-person-fill me-1"></i>{{ 'EMPLOYEE_COMPARISON.EMPLOYEE_A' | translate }}
         </div>
         <div class="row g-2">
-          <div class="col-6">
-            <label class="filter-label">{{ 'FILTER.DATE_FROM' | translate }}</label>
-            <input type="date" class="form-control form-control-sm filter-input" [(ngModel)]="from1" />
-          </div>
-          <div class="col-6">
-            <label class="filter-label">{{ 'FILTER.DATE_TO' | translate }}</label>
-            <input type="date" class="form-control form-control-sm filter-input" [(ngModel)]="to1" />
-          </div>
           <div class="col-12">
             <label class="filter-label">{{ 'EMPLOYEE_COMPARISON.EMPLOYEE' | translate }}</label>
-            <select class="form-select form-select-sm filter-input"
-                    [(ngModel)]="employeeId1" (change)="onEmployeeFilterChange()">
-              <option [ngValue]="null">{{ 'FILTER.ALL' | translate }}</option>
+            <select class="form-select form-select-sm filter-input" [(ngModel)]="employeeAId">
+              <option [ngValue]="null">{{ 'EMPLOYEE_COMPARISON.SELECT_EMPLOYEE' | translate }}</option>
               <option *ngFor="let e of allEmployees" [value]="e.id">
                 {{ isAr ? e.nameAr : e.nameEn }}
               </option>
             </select>
+          </div>
+          <div class="col-6">
+            <label class="filter-label">{{ 'FILTER.DATE_FROM' | translate }}</label>
+            <input type="date" class="form-control form-control-sm filter-input" [(ngModel)]="fromA" />
+          </div>
+          <div class="col-6">
+            <label class="filter-label">{{ 'FILTER.DATE_TO' | translate }}</label>
+            <input type="date" class="form-control form-control-sm filter-input" [(ngModel)]="toA" />
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Period 2 -->
+    <!-- Employee B block -->
     <div class="col-md-5">
-      <div class="period-filter period-filter--2">
-        <div class="period-filter-label period-filter-label--2">
-          <i class="bi bi-2-circle-fill me-1"></i>{{ 'EMPLOYEE_COMPARISON.PERIOD2' | translate }}
+      <div class="period-filter period-filter--b">
+        <div class="period-filter-label period-filter-label--b">
+          <i class="bi bi-person-fill me-1"></i>{{ 'EMPLOYEE_COMPARISON.EMPLOYEE_B' | translate }}
         </div>
         <div class="row g-2">
-          <div class="col-6">
-            <label class="filter-label">{{ 'FILTER.DATE_FROM' | translate }}</label>
-            <input type="date" class="form-control form-control-sm filter-input" [(ngModel)]="from2" />
-          </div>
-          <div class="col-6">
-            <label class="filter-label">{{ 'FILTER.DATE_TO' | translate }}</label>
-            <input type="date" class="form-control form-control-sm filter-input" [(ngModel)]="to2" />
-          </div>
           <div class="col-12">
             <label class="filter-label">{{ 'EMPLOYEE_COMPARISON.EMPLOYEE' | translate }}</label>
-            <select class="form-select form-select-sm filter-input"
-                    [(ngModel)]="employeeId2" (change)="onEmployeeFilterChange()">
-              <option [ngValue]="null">{{ 'FILTER.ALL' | translate }}</option>
+            <select class="form-select form-select-sm filter-input" [(ngModel)]="employeeBId">
+              <option [ngValue]="null">{{ 'EMPLOYEE_COMPARISON.SELECT_EMPLOYEE' | translate }}</option>
               <option *ngFor="let e of allEmployees" [value]="e.id">
                 {{ isAr ? e.nameAr : e.nameEn }}
               </option>
             </select>
+          </div>
+          <div class="col-6">
+            <label class="filter-label">{{ 'FILTER.DATE_FROM' | translate }}</label>
+            <input type="date" class="form-control form-control-sm filter-input" [(ngModel)]="fromB" />
+          </div>
+          <div class="col-6">
+            <label class="filter-label">{{ 'FILTER.DATE_TO' | translate }}</label>
+            <input type="date" class="form-control form-control-sm filter-input" [(ngModel)]="toB" />
           </div>
         </div>
       </div>
@@ -81,82 +79,9 @@
   </div>
 </div>
 
-<div *ngIf="data">
-  <!-- Summary Cards -->
-  <div class="row g-3 mb-4">
-    <!-- Period 1 -->
-    <div class="col-lg-5 col-md-12">
-      <div class="period-card">
-        <div class="period-card-header period-card-header--1">
-          <span><i class="bi bi-1-circle me-1"></i>{{ 'EMPLOYEE_COMPARISON.PERIOD1' | translate }}</span>
-          <span class="period-dates">{{ from1 }} &rarr; {{ to1 }}</span>
-        </div>
-        <div class="period-card-body">
-          <div class="row g-0">
-            <div class="col-4 metric-col">
-              <div class="metric-label">{{ 'EMPLOYEE_COMPARISON.EMPLOYEES' | translate }}</div>
-              <div class="metric-value">{{ data.period1.employees.length }}</div>
-            </div>
-            <div class="col-4 metric-col metric-col--border">
-              <div class="metric-label">{{ 'EMPLOYEE_COMPARISON.EXAMS' | translate }}</div>
-              <div class="metric-value text-primary">{{ data.period1.totalExaminations }}</div>
-            </div>
-            <div class="col-4 metric-col metric-col--border">
-              <div class="metric-label">{{ 'EMPLOYEE_COMPARISON.ACTIONS' | translate }}</div>
-              <div class="metric-value text-info">{{ data.period1.totalStageActions }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Diff -->
-    <div class="col-lg-2 col-md-12 d-flex align-items-stretch">
-      <div class="diff-card"
-           [ngClass]="{ 'diff-positive': grandExamDiff > 0, 'diff-negative': grandExamDiff < 0, 'diff-zero': grandExamDiff === 0 }">
-        <i class="bi diff-icon"
-           [ngClass]="grandExamDiff > 0 ? 'bi-graph-up-arrow' : grandExamDiff < 0 ? 'bi-graph-down-arrow' : 'bi-dash-lg'"></i>
-        <div class="diff-value">{{ grandExamDiff > 0 ? '+' : '' }}{{ grandExamDiff }}</div>
-        <div class="diff-sub">{{ 'EMPLOYEE_COMPARISON.EXAMS' | translate }}</div>
-        <div class="diff-percent" *ngIf="grandExamChangePercent !== null">
-          {{ grandExamChangePercent > 0 ? '+' : '' }}{{ grandExamChangePercent | number:'1.1-1' }}%
-        </div>
-        <div class="diff-label">{{ 'EMPLOYEE_COMPARISON.DIFFERENCE' | translate }}</div>
-      </div>
-    </div>
-
-    <!-- Period 2 -->
-    <div class="col-lg-5 col-md-12">
-      <div class="period-card">
-        <div class="period-card-header period-card-header--2">
-          <span><i class="bi bi-2-circle me-1"></i>{{ 'EMPLOYEE_COMPARISON.PERIOD2' | translate }}</span>
-          <span class="period-dates">{{ from2 }} &rarr; {{ to2 }}</span>
-        </div>
-        <div class="period-card-body">
-          <div class="row g-0">
-            <div class="col-4 metric-col">
-              <div class="metric-label">{{ 'EMPLOYEE_COMPARISON.EMPLOYEES' | translate }}</div>
-              <div class="metric-value">{{ data.period2.employees.length }}</div>
-            </div>
-            <div class="col-4 metric-col metric-col--border">
-              <div class="metric-label">{{ 'EMPLOYEE_COMPARISON.EXAMS' | translate }}</div>
-              <div class="metric-value text-primary">{{ data.period2.totalExaminations }}</div>
-            </div>
-            <div class="col-4 metric-col metric-col--border">
-              <div class="metric-label">{{ 'EMPLOYEE_COMPARISON.ACTIONS' | translate }}</div>
-              <div class="metric-value text-info">{{ data.period2.totalStageActions }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
+<div *ngIf="employeeA && employeeB">
   <!-- Export Bar -->
-  <div class="d-flex justify-content-between align-items-center mb-2">
-    <span class="text-muted small">
-      {{ 'EMPLOYEE_COMPARISON.EMPLOYEE_COUNT' | translate }}: {{ mergedRows.length }}
-    </span>
+  <div class="d-flex justify-content-end align-items-center mb-2">
     <button class="btn btn-sm btn-outline-success" (click)="exportToExcel()">
       <i class="bi bi-file-earmark-spreadsheet me-1"></i>
       {{ 'INVOICE_REPORT.EXPORT_EXCEL' | translate }}
@@ -168,86 +93,41 @@
     <div class="card-body p-0">
       <div class="table-responsive">
         <table class="table table-hover table-bordered mb-0 comparison-table">
-          <thead class="table-light">
+          <thead>
             <tr>
-              <th rowspan="2" class="align-middle">#</th>
-              <th rowspan="2" class="align-middle">{{ 'EMPLOYEE_COMPARISON.EMPLOYEE' | translate }}</th>
-              <th colspan="2" class="text-center th-period1">{{ 'EMPLOYEE_COMPARISON.PERIOD1' | translate }}</th>
-              <th colspan="2" class="text-center th-period2">{{ 'EMPLOYEE_COMPARISON.PERIOD2' | translate }}</th>
-              <th colspan="2" class="text-center th-diff">{{ 'EMPLOYEE_COMPARISON.DIFFERENCE' | translate }}</th>
-              <th rowspan="2" class="text-center align-middle th-diff">%</th>
-            </tr>
-            <tr>
-              <th class="text-center th-period1 sub-th">{{ 'EMPLOYEE_COMPARISON.EXAMS' | translate }}</th>
-              <th class="text-center th-period1 sub-th">{{ 'EMPLOYEE_COMPARISON.ACTIONS' | translate }}</th>
-              <th class="text-center th-period2 sub-th">{{ 'EMPLOYEE_COMPARISON.EXAMS' | translate }}</th>
-              <th class="text-center th-period2 sub-th">{{ 'EMPLOYEE_COMPARISON.ACTIONS' | translate }}</th>
-              <th class="text-center th-diff sub-th">{{ 'EMPLOYEE_COMPARISON.EXAMS' | translate }}</th>
-              <th class="text-center th-diff sub-th">{{ 'EMPLOYEE_COMPARISON.ACTIONS' | translate }}</th>
+              <th class="align-middle">{{ 'EMPLOYEE_COMPARISON.METRIC' | translate }}</th>
+              <th class="text-center align-middle th-emp-a">
+                <div><i class="bi bi-person-fill me-1"></i>{{ employeeName(employeeA) }}</div>
+                <div class="period-dates">{{ fromA }} &rarr; {{ toA }}</div>
+              </th>
+              <th class="text-center align-middle th-emp-b">
+                <div><i class="bi bi-person-fill me-1"></i>{{ employeeName(employeeB) }}</div>
+                <div class="period-dates">{{ fromB }} &rarr; {{ toB }}</div>
+              </th>
+              <th class="text-center align-middle th-diff">{{ 'EMPLOYEE_COMPARISON.DIFFERENCE' | translate }}</th>
+              <th class="text-center align-middle th-diff">%</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let r of mergedRows; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td class="fw-semibold text-nowrap">{{ getName(r) }}</td>
-              <!-- Period 1 -->
-              <td class="text-center cell-p1">
-                <span class="badge badge-p1 rounded-pill">{{ r.p1Exams }}</span>
+            <tr *ngFor="let r of metricRows">
+              <td class="fw-semibold">{{ r.labelKey | translate }}</td>
+              <td class="text-center cell-emp-a">
+                <span class="badge badge-emp-a rounded-pill">{{ r.valueA }}</span>
               </td>
-              <td class="text-center cell-p1">
-                <span class="badge badge-p1-light rounded-pill">{{ r.p1Actions }}</span>
-              </td>
-              <!-- Period 2 -->
-              <td class="text-center cell-p2">
-                <span class="badge badge-p2 rounded-pill">{{ r.p2Exams }}</span>
-              </td>
-              <td class="text-center cell-p2">
-                <span class="badge badge-p2-light rounded-pill">{{ r.p2Actions }}</span>
-              </td>
-              <!-- Diff -->
-              <td class="text-center fw-bold"
-                  [ngClass]="{ 'text-success': r.examDiff > 0, 'text-danger': r.examDiff < 0 }">
-                <i class="bi me-1" [ngClass]="r.examDiff > 0 ? 'bi-caret-up-fill' : r.examDiff < 0 ? 'bi-caret-down-fill' : ''"></i>{{ r.examDiff }}
+              <td class="text-center cell-emp-b">
+                <span class="badge badge-emp-b rounded-pill">{{ r.valueB }}</span>
               </td>
               <td class="text-center fw-bold"
-                  [ngClass]="{ 'text-success': r.actionDiff > 0, 'text-danger': r.actionDiff < 0 }">
-                <i class="bi me-1" [ngClass]="r.actionDiff > 0 ? 'bi-caret-up-fill' : r.actionDiff < 0 ? 'bi-caret-down-fill' : ''"></i>{{ r.actionDiff }}
+                  [ngClass]="{ 'text-success': r.diff > 0, 'text-danger': r.diff < 0 }">
+                <i class="bi me-1" [ngClass]="r.diff > 0 ? 'bi-caret-up-fill' : r.diff < 0 ? 'bi-caret-down-fill' : ''"></i>{{ r.diff }}
               </td>
               <td class="text-center fw-semibold"
-                  [ngClass]="{ 'text-success': r.examChangePercent !== null && r.examChangePercent > 0, 'text-danger': r.examChangePercent !== null && r.examChangePercent < 0 }">
-                <ng-container *ngIf="r.examChangePercent !== null">{{ r.examChangePercent > 0 ? '+' : '' }}{{ r.examChangePercent | number:'1.1-1' }}%</ng-container>
-                <span *ngIf="r.examChangePercent === null" class="text-muted">—</span>
-              </td>
-            </tr>
-            <tr *ngIf="mergedRows.length === 0">
-              <td colspan="9" class="text-center text-muted py-4">
-                <i class="bi bi-inbox d-block mb-1 fs-4"></i>
-                {{ 'EMPLOYEE_COMPARISON.NO_DATA' | translate }}
+                  [ngClass]="{ 'text-success': r.changePercent !== null && r.changePercent > 0, 'text-danger': r.changePercent !== null && r.changePercent < 0 }">
+                <ng-container *ngIf="r.changePercent !== null">{{ r.changePercent > 0 ? '+' : '' }}{{ r.changePercent | number:'1.1-1' }}%</ng-container>
+                <span *ngIf="r.changePercent === null" class="text-muted">—</span>
               </td>
             </tr>
           </tbody>
-          <tfoot *ngIf="mergedRows.length > 0">
-            <tr class="table-light fw-bold">
-              <td colspan="2">{{ 'EMPLOYEE_COMPARISON.GRAND_TOTAL' | translate }}</td>
-              <td class="text-center">{{ data.period1.totalExaminations }}</td>
-              <td class="text-center">{{ data.period1.totalStageActions }}</td>
-              <td class="text-center">{{ data.period2.totalExaminations }}</td>
-              <td class="text-center">{{ data.period2.totalStageActions }}</td>
-              <td class="text-center"
-                  [ngClass]="{ 'text-success': grandExamDiff > 0, 'text-danger': grandExamDiff < 0 }">
-                {{ grandExamDiff }}
-              </td>
-              <td class="text-center"
-                  [ngClass]="{ 'text-success': grandActionDiff > 0, 'text-danger': grandActionDiff < 0 }">
-                {{ grandActionDiff }}
-              </td>
-              <td class="text-center"
-                  [ngClass]="{ 'text-success': grandExamChangePercent !== null && grandExamChangePercent > 0, 'text-danger': grandExamChangePercent !== null && grandExamChangePercent < 0 }">
-                <ng-container *ngIf="grandExamChangePercent !== null">{{ grandExamChangePercent > 0 ? '+' : '' }}{{ grandExamChangePercent | number:'1.1-1' }}%</ng-container>
-                <span *ngIf="grandExamChangePercent === null">—</span>
-              </td>
-            </tr>
-          </tfoot>
         </table>
       </div>
     </div>

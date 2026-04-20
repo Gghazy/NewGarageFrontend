@@ -1,3 +1,10 @@
+<div class="d-flex justify-content-end mb-2">
+  <button class="btn btn-sm btn-outline-success" (click)="exportToExcel()" [disabled]="(clients?.length ?? 0) === 0">
+    <i class="bi bi-file-earmark-spreadsheet me-1"></i>
+    {{ 'INVOICE_REPORT.EXPORT_EXCEL' | translate }}
+  </button>
+</div>
+
 <app-shared-list
   [titleKey]="'CLIENTS.TITLE'"
   [addLabelKey]="'CLIENTS.ADD'"

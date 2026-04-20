@@ -100,4 +100,60 @@ export class ClientList implements OnInit, OnDestroy {
     this.pagingConfig.currentPage = 1;
     this.loadClients();
   }
+
+  exportToExcel() {
+    const request = { ...this.pagingConfig, itemsPerPage: 100000, currentPage: 1 };
+    this.apiService.post<PaginatedResponse<ClientDto>>('Clients/pagination', request)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          const items = res.data.items ?? [];
+          if (items.length === 0) {
+            this.toastr.info(this.translate.instant('CLIENTS.EMPTY'));
+            return;
+          }
+          this.downloadCsv(items);
+        },
+        error: () => this.toastr.error(this.translate.instant('COMMON.ERROR')),
+      });
+  }
+
+  private downloadCsv(items: ClientDto[]) {
+    const t = (key: string) => this.translate.instant(key);
+
+    const headers = [
+      '#',
+      t('CLIENTS.TABLE.NAME'),
+      t('CLIENTS.TABLE.TYPE'),
+      t('CLIENTS.TABLE.EMAIL'),
+      t('CLIENTS.TABLE.PHONE'),
+      t('CLIENTS.TABLE.EXAMINATION_COUNT'),
+      t('CLIENTS.TABLE.TOTAL_REVENUE'),
+      t('CLIENTS.TABLE.POINTS'),
+    ];
+
+    const rows = items.map((c, i) => [
+      (i + 1).toString(),
+      this.translate.currentLang === 'ar' ? c.nameAr : c.nameEn,
+      this.translate.currentLang === 'ar' ? c.typeAr : c.typeEn,
+      c.email ?? '',
+      c.phoneNumber ?? '',
+      c.examinationCount?.toString() ?? '0',
+      (c.totalRevenue ?? 0).toFixed(2),
+      (c.points ?? 0).toString(),
+    ]);
+
+    const bom = '\uFEFF';
+    const csv = bom + [headers, ...rows]
+      .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+      .join('\n');
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `clients-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 }
